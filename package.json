@@ -1,0 +1,11 @@
+{
+  "name": "ferdant-site",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "verify:responsive": "node tests/responsive-check.cjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  }
+}

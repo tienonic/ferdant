@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="720" viewBox="0 0 1440 720" role="img" aria-label="FieldWorks by Ferdant primary government logo v2">
+  <rect width="1440" height="720" fill="#F4F1E8"/>
+  <rect x="90" y="180" width="1260" height="260" fill="none" stroke="#111111" stroke-width="22"/>
+  <text x="150" y="340" font-family="Arial Black, Helvetica, sans-serif" font-size="120" font-weight="900" letter-spacing="8" fill="#111111">FIELDWORKS</text>
+  <text x="158" y="402" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="800" letter-spacing="10" fill="#2F6B3F">BY FERDANT</text>
+  <g transform="translate(1130 222)">
+    <rect x="0" y="0" width="138" height="176" fill="#183B2D"/>
+    <path d="M24 55 C48 30 78 84 114 48" fill="none" stroke="#F4F1E8" stroke-width="13" stroke-linecap="round"/>
+    <path d="M24 95 C50 70 78 124 114 88" fill="none" stroke="#F4F1E8" stroke-width="13" stroke-linecap="round"/>
+    <path d="M69 28 V142" stroke="#C8A84E" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="69" cy="28" r="11" fill="#C8A84E"/>
+  </g>
+</svg>
