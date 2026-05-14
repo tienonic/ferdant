@@ -101,14 +101,14 @@ a {
 .brand {
   display: flex;
   align-items: center;
-  max-width: min(380px, 66vw);
-  padding: 0.18rem 0;
+  max-width: min(430px, 68vw);
+  padding: 0.12rem 0;
 }
 
 .brand img {
-  width: 340px;
+  width: 390px;
   height: auto;
-  max-height: 68px;
+  max-height: 72px;
   object-fit: contain;
   background: var(--cream);
 }
