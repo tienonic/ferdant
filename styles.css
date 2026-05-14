@@ -543,7 +543,7 @@ a {
   }
 
   .hero {
-    min-height: 720px;
+    min-height: 600px;
   }
 
   .hero-media::after {
@@ -552,7 +552,8 @@ a {
   }
 
   .hero-content {
-    padding-top: 5.5rem;
+    padding-top: 4.25rem;
+    padding-bottom: 3.5rem;
   }
 
   .hero h1 {
