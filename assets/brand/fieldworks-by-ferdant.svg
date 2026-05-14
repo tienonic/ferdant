@@ -1,13 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="720" viewBox="0 0 1440 720" role="img" aria-label="FieldWorks by Ferdant primary government logo v2">
-  <rect width="1440" height="720" fill="#F4F1E8"/>
-  <rect x="90" y="180" width="1260" height="260" fill="none" stroke="#111111" stroke-width="22"/>
-  <text x="150" y="340" font-family="Arial Black, Helvetica, sans-serif" font-size="120" font-weight="900" letter-spacing="8" fill="#111111">FIELDWORKS</text>
-  <text x="158" y="402" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="800" letter-spacing="10" fill="#2F6B3F">BY FERDANT</text>
-  <g transform="translate(1130 222)">
-    <rect x="0" y="0" width="138" height="176" fill="#183B2D"/>
-    <path d="M24 55 C48 30 78 84 114 48" fill="none" stroke="#F4F1E8" stroke-width="13" stroke-linecap="round"/>
-    <path d="M24 95 C50 70 78 124 114 88" fill="none" stroke="#F4F1E8" stroke-width="13" stroke-linecap="round"/>
-    <path d="M69 28 V142" stroke="#C8A84E" stroke-width="8" stroke-linecap="round"/>
-    <circle cx="69" cy="28" r="11" fill="#C8A84E"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="320" viewBox="0 0 1280 320" role="img" aria-labelledby="title desc">
+  <title id="title">FieldWorks by Ferdant systemized framed wordmark</title>
+  <desc id="desc">A controlled horizontal FieldWorks logo with FIELD in black, WORKS in green, a thick rectangular frame, generous white space, and a field-survey crop marker icon.</desc>
+  <rect width="1280" height="320" fill="#F4F1E8"/>
+  <rect x="42" y="46" width="1196" height="228" fill="#FFFFFF" stroke="#111111" stroke-width="24"/>
+
+  <g aria-hidden="true">
+    <text x="86" y="184" font-family="Arial Black, Impact, Helvetica, sans-serif" font-size="118" font-weight="900" letter-spacing="7" fill="#111111">FIELD</text>
+    <text x="584" y="184" font-family="Arial Black, Impact, Helvetica, sans-serif" font-size="118" font-weight="900" letter-spacing="3" fill="#2F6B3F">WORKS</text>
+    <text x="94" y="232" font-family="Public Sans, Source Sans 3, Helvetica, Arial, sans-serif" font-size="28" font-weight="800" letter-spacing="10" fill="#183B2D">BY FERDANT</text>
+  </g>
+
+  <g transform="translate(1032 82)" aria-hidden="true">
+    <rect x="0" y="0" width="140" height="156" rx="0" fill="#183B2D"/>
+    <path d="M28 104 C48 88 65 88 84 104 C98 116 110 118 124 108" fill="none" stroke="#F4F1E8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M28 72 C49 56 66 56 84 72 C98 84 110 86 124 76" fill="none" stroke="#F4F1E8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M70 24 C92 44 97 73 72 126 C43 74 49 44 70 24 Z" fill="#C8A84E"/>
+    <path d="M70 24 C57 58 58 91 72 126" fill="none" stroke="#F4F1E8" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+    <path d="M47 63 C30 68 21 86 22 113 C44 106 57 92 60 72" fill="#69A85A"/>
+    <path d="M93 63 C110 68 119 86 118 113 C96 106 83 92 80 72" fill="#69A85A"/>
+    <path d="M70 22 V134" stroke="#111111" stroke-width="5" stroke-linecap="round" opacity="0.28"/>
   </g>
 </svg>

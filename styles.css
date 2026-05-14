@@ -1,10 +1,10 @@
 :root {
   --ink: #10202f;
   --muted: #5e6f7c;
-  --navy: #163d63;
-  --navy-dark: #0f2c49;
-  --blue: #2d74a6;
-  --cyan: #4abfec;
+  --navy: #183b2d;
+  --navy-dark: #102d25;
+  --blue: #2f6b3f;
+  --cyan: #c8a84e;
   --cream: #f6f4ed;
   --paper: #fbfaf6;
   --line: #d6dfdf;
@@ -101,14 +101,14 @@ a {
 .brand {
   display: flex;
   align-items: center;
-  max-width: min(320px, 58vw);
-  padding: 0.25rem 0;
+  max-width: min(380px, 66vw);
+  padding: 0.18rem 0;
 }
 
 .brand img {
-  width: 260px;
+  width: 340px;
   height: auto;
-  max-height: 58px;
+  max-height: 68px;
   object-fit: contain;
   background: var(--cream);
 }
