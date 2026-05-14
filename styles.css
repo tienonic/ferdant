@@ -110,7 +110,7 @@ a {
   height: auto;
   max-height: 72px;
   object-fit: contain;
-  background: var(--cream);
+  background: transparent;
 }
 
 .site-nav {
