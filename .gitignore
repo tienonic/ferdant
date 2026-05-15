@@ -3,3 +3,14 @@ screenshots/
 test-results/
 playwright-report/
 dns-backups/
+.env
+.env.*
+credentials.json
+CLAUDE.md
+.claude/
+.cursorrules
+.aiderignore
+*.pem
+*.key
+*.sqlite
+*.db
