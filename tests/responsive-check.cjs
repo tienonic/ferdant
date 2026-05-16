@@ -66,6 +66,30 @@ async function main() {
         await menuButton.click();
         const menuClass = await page.locator("#site-nav").getAttribute("class");
         assert(menuClass && menuClass.includes("is-open"), `${viewport.name}: menu did not open`);
+
+        const serviceCards = await page.evaluate(() =>
+          Array.from(document.querySelectorAll(".service-card")).map((card) => {
+            const img = card.querySelector("img");
+            const body = card.querySelector("div");
+            const imageBox = img.getBoundingClientRect();
+            const bodyBox = body.getBoundingClientRect();
+            const bodyStyle = getComputedStyle(body);
+            const imageStyle = getComputedStyle(img);
+            return {
+              heading: card.querySelector("h3")?.textContent?.trim(),
+              imageBottom: imageBox.bottom,
+              bodyTop: bodyBox.top,
+              bodyBackground: bodyStyle.backgroundColor,
+              bodyColor: bodyStyle.color,
+              objectPosition: imageStyle.objectPosition,
+            };
+          })
+        );
+        serviceCards.forEach((card) => {
+          assert(card.bodyTop >= card.imageBottom - 1, `${viewport.name}: ${card.heading} text overlaps image`);
+          assert(card.bodyBackground !== "rgba(0, 0, 0, 0)", `${viewport.name}: ${card.heading} body background is transparent`);
+          assert(card.objectPosition !== "50% 50%" || card.heading === "Regulatory Assembly", `${viewport.name}: ${card.heading} missing deliberate focal crop`);
+        });
       }
 
       await page.screenshot({

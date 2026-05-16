@@ -338,11 +338,28 @@ a {
   object-fit: cover;
 }
 
+.service-card:nth-child(1) img {
+  object-position: 50% 48%;
+}
+
+.service-card:nth-child(2) img {
+  object-position: 50% 50%;
+}
+
+.service-card:nth-child(3) img {
+  object-position: 56% 62%;
+}
+
 .service-card div {
+  position: relative;
+  z-index: 1;
   display: grid;
   align-content: start;
   gap: 0.55rem;
   padding: 1.35rem;
+  color: var(--ink);
+  background: var(--white);
+  border-top: 1px solid var(--line);
 }
 
 .service-card h3,
@@ -640,11 +657,25 @@ a {
     object-fit: cover;
   }
 
+  .service-card:nth-child(1) img {
+    object-position: 50% 52%;
+  }
+
+  .service-card:nth-child(2) img {
+    object-position: 50% 50%;
+  }
+
+  .service-card:nth-child(3) img {
+    object-position: 58% 64%;
+  }
+
   .service-card div {
     position: relative;
     z-index: 1;
-    padding: 1.25rem;
-    background: var(--white);
+    padding: 1.35rem 1.25rem 1.45rem;
+    color: var(--ink);
+    background: #fffefa;
+    border-top: 1px solid var(--line);
   }
 
   .service-card p:last-child {
