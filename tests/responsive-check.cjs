@@ -66,6 +66,9 @@ async function main() {
         await menuButton.click();
         const menuClass = await page.locator("#site-nav").getAttribute("class");
         assert(menuClass && menuClass.includes("is-open"), `${viewport.name}: menu did not open`);
+        await menuButton.click();
+        const closedMenuClass = await page.locator("#site-nav").getAttribute("class");
+        assert(!closedMenuClass || !closedMenuClass.includes("is-open"), `${viewport.name}: menu did not close`);
 
         const serviceCards = await page.evaluate(() =>
           Array.from(document.querySelectorAll(".service-card")).map((card) => {
