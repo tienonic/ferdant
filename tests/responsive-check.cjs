@@ -1,116 +1,35 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { chromium } = require("playwright");
-
-const sitePath = path.resolve(__dirname, "..", "index.html");
-const siteUrl = `file:///${sitePath.replace(/\\/g, "/")}`;
-const screenshotDir = path.resolve(__dirname, "..", "screenshots");
-
-const viewports = [
-  { name: "mobile", width: 390, height: 844 },
-  { name: "tablet", width: 768, height: 1024 },
-  { name: "laptop", width: 1280, height: 800 },
-  { name: "desktop", width: 1440, height: 960 },
-];
-
-function assert(condition, message) {
-  if (!condition) {
-    throw new Error(message);
-  }
-}
-
-async function main() {
-  fs.mkdirSync(screenshotDir, { recursive: true });
-  const browserPath =
-    [
-      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-      "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
-    ].find((candidate) => fs.existsSync(candidate));
-  const browser = await chromium.launch(browserPath ? { executablePath: browserPath } : {});
-  const results = [];
-
+const fs = require('node:fs');
+const path = require('node:path');
+const { pathToFileURL } = require('node:url');
+const { chromium } = require('playwright');
+const assert = require('node:assert/strict');
+(async () => {
+  fs.mkdirSync('screenshots', { recursive: true });
+  const browser = await chromium.launch();
   try {
-    for (const viewport of viewports) {
-      const page = await browser.newPage({
-        viewport: { width: viewport.width, height: viewport.height },
-      });
-
-      await page.goto(siteUrl);
-      await page.waitForLoadState("networkidle");
-
-      const headingVisible = await page.getByRole("heading", { name: "Ferdant", level: 1 }).isVisible();
-      assert(headingVisible, `${viewport.name}: missing H1`);
-
-      const ctaVisible = await page.getByRole("link", { name: "Explore services" }).isVisible();
-      assert(ctaVisible, `${viewport.name}: missing primary CTA`);
-
-      const overflow = await page.evaluate(() => ({
-        scrollWidth: document.documentElement.scrollWidth,
-        clientWidth: document.documentElement.clientWidth,
-      }));
-      assert(
-        overflow.scrollWidth <= overflow.clientWidth + 1,
-        `${viewport.name}: horizontal overflow ${overflow.scrollWidth} > ${overflow.clientWidth}`
-      );
-
-      const brokenImages = await page.evaluate(() =>
-        Array.from(document.images)
-          .filter((img) => !img.complete || img.naturalWidth === 0)
-          .map((img) => img.getAttribute("src"))
-      );
-      assert(brokenImages.length === 0, `${viewport.name}: broken images ${brokenImages.join(", ")}`);
-
-      if (viewport.name === "mobile" || viewport.name === "tablet") {
-        const menuButton = page.getByRole("button", { name: "Menu" });
-        assert(await menuButton.isVisible(), `${viewport.name}: menu button not visible`);
-        await menuButton.click();
-        const menuClass = await page.locator("#site-nav").getAttribute("class");
-        assert(menuClass && menuClass.includes("is-open"), `${viewport.name}: menu did not open`);
-        await menuButton.click();
-        const closedMenuClass = await page.locator("#site-nav").getAttribute("class");
-        assert(!closedMenuClass || !closedMenuClass.includes("is-open"), `${viewport.name}: menu did not close`);
-
-        const serviceCards = await page.evaluate(() =>
-          Array.from(document.querySelectorAll(".service-card")).map((card) => {
-            const img = card.querySelector("img");
-            const body = card.querySelector("div");
-            const imageBox = img.getBoundingClientRect();
-            const bodyBox = body.getBoundingClientRect();
-            const bodyStyle = getComputedStyle(body);
-            const imageStyle = getComputedStyle(img);
-            return {
-              heading: card.querySelector("h3")?.textContent?.trim(),
-              imageBottom: imageBox.bottom,
-              bodyTop: bodyBox.top,
-              bodyBackground: bodyStyle.backgroundColor,
-              bodyColor: bodyStyle.color,
-              objectPosition: imageStyle.objectPosition,
-            };
-          })
-        );
-        serviceCards.forEach((card) => {
-          assert(card.bodyTop >= card.imageBottom - 1, `${viewport.name}: ${card.heading} text overlaps image`);
-          assert(card.bodyBackground !== "rgba(0, 0, 0, 0)", `${viewport.name}: ${card.heading} body background is transparent`);
-          assert(card.objectPosition !== "50% 50%" || card.heading === "Regulatory Assembly", `${viewport.name}: ${card.heading} missing deliberate focal crop`);
-        });
+    for (const width of [320, 390, 768, 1440]) {
+      const page = await browser.newPage({ viewport: { width, height: 960 } });
+      const errors = [];
+      page.on('pageerror', e => errors.push(e.message));
+      await page.goto(process.env.SITE_URL || pathToFileURL(path.resolve('index.html')).href);
+      assert(await page.getByRole('heading', { name: 'Coming soon.', exact: true }).isVisible());
+      assert(await page.getByText('Our website is undergoing maintenance.', { exact: false }).isVisible());
+      const links = page.getByRole('navigation', { name: 'Our Reddit communities' }).getByRole('link');
+      assert.equal(await links.count(), 5);
+      for (const name of ['KeepUsConnected','WhoCanFixThis','KeepTheBasicsOn','WhatAmIPayingFor','PlanForDisruption']) {
+        assert.equal(await links.filter({hasText:name}).getAttribute('href'), `https://www.reddit.com/r/${name}/`);
       }
-
-      await page.screenshot({
-        path: path.join(screenshotDir, `${viewport.name}.png`),
-        fullPage: true,
-      });
-
-      results.push(`${viewport.name}: pass`);
+      await page.keyboard.press('Tab');
+      assert.equal(await page.locator(':focus').innerText(), 'Skip to content');
+      await page.keyboard.press('Enter');
+      await page.getByRole('link', { name: 'Find our communities' }).click();
+      assert(page.url().endsWith('#communities'));
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      assert.deepEqual(errors, []);
+      await page.goto(process.env.SITE_URL || pathToFileURL(path.resolve('index.html')).href);
+      await page.screenshot({ path: `screenshots/${width}.png`, fullPage: true });
+      console.log(`${width}px: passed`);
       await page.close();
     }
-  } finally {
-    await browser.close();
-  }
-
-  console.log(results.join("\n"));
-}
-
-main().catch((error) => {
-  console.error(error.message);
-  process.exit(1);
-});
+  } finally { await browser.close(); }
+})().catch(e => {console.error(e);process.exit(1)});

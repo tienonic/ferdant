@@ -1,28 +1,18 @@
-# Ferdant Website
+# Ferdant website
 
-Static GitHub Pages-ready website for `ferdant.com`.
+The public maintenance page at https://ferdant.com. It links to the five existing Coast communities while the fuller website is developed.
 
-## Local Preview
+## Edit and preview
 
-```powershell
-python -m http.server 4173
-```
+1. Edit `index.html` for content and community links, and `styles.css` for the appearance.
+2. Run `python -m http.server 4173` and open http://localhost:4173.
+3. Run `npm ci` and `npm run verify:responsive`. The check saves screenshots locally.
+4. Commit and push to `main` to deploy through the existing GitHub Pages setup. Keep `CNAME` and `.nojekyll`.
 
-Open `http://localhost:4173`.
+No framework, runtime JavaScript, external fonts, analytics or build service is required. Previous frontend files remain recoverable in Git history.
 
-## Deployment Notes
+## Visual direction
 
-- Target repo: `https://github.com/tienonic/ferdant`
-- Intended custom domain: `ferdant.com`
-- Current domain state before deployment: GoDaddy Website Builder / DPS
-- DNS and GitHub Pages changes require the exact proposed settings to be reviewed before mutation.
+Porcelain white (`#f8f9f6`), restrained cobalt (`#254b85`), fine blue-grey rules, generous space, serif display type and plain sans-serif supporting text. An original geometric ornament evokes a ceramic roundel without copying a museum object or implying a traditional motif. Keep the actual maintenance notice clear; avoid invented launch dates or subscription forms.
 
-## Sources
-
-Copy and positioning are based on local FieldWorks / Ferdant notes:
-
-- `CURRENT-STATE.md`
-- `projects\grow-ny-competition\Grow NY Competition Brief.md`
-- `C:\Users\nicof\Documents\vault\Projects\FieldWorks\Ferdant\Ferdant - Executive Overview.md`
-- `C:\Users\nicof\Documents\vault\Projects\FieldWorks\Ferdant\02 Strategy\Ferdant - Product Reframe and Usefulness Scope.md`
-- `C:\Users\nicof\Documents\vault\Projects\FieldWorks\Ferdant\02 Strategy\Ferdant - Project Brief.md`
+Design references and the full website plan remain in Coast ticket T36. The public page does not contain private planning notes.
