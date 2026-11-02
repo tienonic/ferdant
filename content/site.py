@@ -23,3 +23,24 @@ GUIDES = [
  ('Ask for a concrete next step','Say what would answer the question: an explanation, a copy of a term or a correction you believe is needed. The FTC’s sample letter recommends a concise account, your requested outcome and supporting copies. Keep the originals. Save the reply alongside the original request.'),
  ('Choose the right destination','Use a verified business support route for private account details. For a formal complaint, check the agency’s scope and prerequisites. The CFPB handles specified consumer financial products, not every utility, telephone or service complaint. Check the status of a previous complaint before submitting again.')],template='I am contacting you about [one issue] relating to [service or transaction]. On [date], I [relevant action]. Your response on [date] said [what was confirmed]. The remaining question is [question]. I am asking for [specific next step]. I have kept [supporting records] and can provide them through your secure channel.',tool='copy',scope='An initial inquiry does not replace a formal dispute, appeal or other required notice. Check official requirements and deadlines. Share account identifiers only through a verified private channel.',sources=[['FTC · Sample customer complaint letter','https://consumer.ftc.gov/articles/sample-customer-complaint-letter','Source date not stated in retrieved excerpt'],['CFPB · Complaint scope and preparation','https://www.consumerfinance.gov/complaint/','Modified October 5, 2026']]),
 ]
+
+
+# Read the answer and use the tool first; detail stays available below.
+GUIDE_BRIEFS = {
+ 'why-did-my-bill-go-up': dict(
+  intro='Match the billing dates, find the changed line and ask your provider which term explains it.',
+  quick=['Compare the same billing period.','Separate service, usage, credits and one-time items.','Check the offer or renewal notice you accepted.','Ask about the exact line you cannot explain.'],
+  briefNote='Suspect an unauthorized charge? Contact your payment provider promptly through its official process.'),
+ 'cancel-a-subscription': dict(
+  intro='Cancel through the business that bills you, save the confirmation and check the next statement.',
+  quick=['Identify the billing business or platform.','Follow its official cancellation instructions.','Save the request date, confirmation and end date.','Check for another charge after cancellation.'],
+  briefNote='Canceling renewal, ending access and asking for a refund are separate questions.'),
+ 'write-a-billing-question': dict(
+  intro='Name one issue, give the important dates and ask for one specific next step.',
+  quick=['Say which charge or account step is unclear.','Give the key dates and any previous reference.','Say what answer or correction you are asking for.','Use verified support for private account details.'],
+  briefNote='A support message does not replace a formal dispute, appeal or required notice.'),
+}
+for guide in GUIDES:
+ guide.update(GUIDE_BRIEFS[guide['slug']])
+ guide['sourceChecked'] = '2026-11-02'
+ guide['reviewAfterDays'] = 90  # Advisory review flag, not a scheduled task or a promised update.

@@ -1,9 +1,11 @@
-﻿# Ferdant website
+# Ferdant website
 
 A porcelain-white and cobalt resource library for the five existing practical-help communities.
 This branch contains an editorial preview: a landing page, five branch hubs, three complete
-money-and-paperwork guides, a searchable library, about/source/privacy pages and a custom 404.
+money-and-paperwork guides, a searchable library, about/source/privacy pages and a custom 404. Guides lead with a short answer,
+four actions and a useful tool or template; longer explanations and sources expand only when needed.
 The three guides are proposed pilot content, not a record of resolved community cases.
+Dormant Shopify infrastructure is included in the source, with no commerce UI or page-load requests.
 
 ## Preview locally
 
@@ -33,7 +35,8 @@ npm.cmd run verify:responsive
 
 Keep the local server running for browser checks. They test all 14 pages at 320, 390, 768 and
 1440 pixels, internal links, unique metadata, canonical URLs, structured data, keyboard/mobile
-navigation, search, calculator cases, clipboard behavior and reading without JavaScript.
+navigation, search, calculator cases, clipboard behavior, native detail expansion without JavaScript,
+and zero Shopify requests or shop UI.
 Screenshots and the check receipt go to the ignored `screenshots/` directory.
 Use `CHROME_PATH` to choose an installed Chromium executable if needed. On Windows the test
 can reuse an existing Playwright headless browser; otherwise install the browser matching Playwright.
@@ -72,3 +75,23 @@ or a claim of an authentic historical motif. No external fonts or decorative ima
 Search, bill comparison and checklists run in the browser without sending or storing input.
 Template copy uses the clipboard only after a click. No analytics, account system, document upload,
 polling process or scheduler is included. Private plans, conversations and credentials stay outside this repository.
+
+## Background infrastructure and low-maintenance updates
+
+- `config/commerce.json` and `integrations/shopify.mjs` prepare product lookup, carts and a hosted-checkout handoff.
+  The integration is disabled and is not imported by the site. It adds no shop menu, product cards, cart, SDK or network request.
+  See [integration setup and activation requirements](integrations/README.md). Tests use mocked responses; no real store or checkout is verified.
+- Edit the shared content once and rebuild; HTML pages, navigation, metadata and the sitemap are generated together.
+- `npm run check:content` validates concise quick answers, source dates and disabled commerce, and writes an advisory source-age report.
+  A 90-day age flag requests review; it never rewrites content or changes dates to appear fresh.
+- The GitHub check workflow runs on source pushes, pull requests or an explicit manual run. It builds the preview, checks generated files,
+  tests the commerce adapter and tests the site at four screen widths, then saves screenshots and reports as an Actions artifact.
+  It has read-only repository permissions, no scheduled trigger and no deployment, payment or content-writing step.
+
+```powershell
+npm.cmd run check:content
+npm.cmd run test:commerce
+```
+
+For future commerce, hosting and merchant-readiness flags require owner review, not just a config edit.
+Keep private/Admin credentials out of browser files and Git. The current GitHub Pages deployment is not approved for e-commerce.

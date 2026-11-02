@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "scripts": {
     "build": "python scripts/build.py",
+    "check:content": "python scripts/check-content.py",
+    "test:commerce": "node --test tests/shopify.test.mjs",
     "verify:responsive": "node tests/site-check.cjs"
   },
   "devDependencies": {

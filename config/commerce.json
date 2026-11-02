@@ -1,0 +1,15 @@
+{
+  "enabled": false,
+  "provider": "shopify",
+  "storeDomain": "",
+  "apiVersion": "2026-10",
+  "publicAccessToken": "",
+  "country": "US",
+  "language": "EN",
+  "checkoutEnabled": false,
+  "hostingProvider": "github-pages",
+  "hostingApproved": false,
+  "merchantReady": false,
+  "allowedProductHandles": [],
+  "allowedVariantIds": []
+}
