@@ -992,8 +992,15 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 .atlas-map-summary[hidden] { display: none; }
 .atlas-map-summary p { margin: 0; font-size: 12px; line-height: 1.5; color: #3f5663; }
 .atlas-map-summary button { flex-shrink: 0; min-height: 44px; padding: 8px 12px; border: 1px solid #9bb5c2; border-radius: 5px; background: #fff; color: #24568d; font: inherit; font-size: 12px; cursor: pointer; }
-#resource-map .atlas-cluster { display: grid; place-items: center; border: 3px solid #fff; border-radius: 50%; background: #24568d; color: #fff; box-shadow: 0 1px 5px #20374870; font: 700 16px/1 sans-serif; }
-.atlas-cluster-places button { display: block; width: 100%; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid #dce2e4; background: #fff; color: #24568d; text-align: left; font: inherit; cursor: pointer; }
+#resource-map .atlas-cluster { display: grid; place-content: center; gap: 5px; border: 2px solid #24568d; border-radius: 9px; background: #fff; color: #203748; box-shadow: 0 1px 5px #20374870; font: 700 12px/1 sans-serif; }
+.atlas-cluster-count { text-align: center; white-space: nowrap; }
+.atlas-cluster-icons { display: flex; justify-content: center; align-items: center; gap: 3px; }
+.atlas-cluster-icons > span { display: inline-flex; }
+.atlas-cluster-icons svg, .atlas-cluster-place-icon svg { width: 16px; height: 16px; }
+#resource-map .atlas-cluster:focus-visible { outline: 3px solid #203748; outline-offset: 3px; }
+.atlas-cluster-places button { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid #dce2e4; background: #fff; color: #24568d; text-align: left; font: inherit; cursor: pointer; }
+.atlas-cluster-place-icon { display: inline-flex; flex-shrink: 0; }
+.atlas-cluster-zoom { width: 100%; min-height: 44px; margin-top: 8px; border: 1px solid #9bb5c2; border-radius: 5px; background: #f2f6f7; color: #24568d; font: inherit; cursor: pointer; }
 @media(max-width: 600px) { .atlas-map-summary { align-items: stretch; flex-direction: column; gap: 6px; } }
 .atlas-route-controls p { margin: 0 0 6px; font-size: 12px; line-height: 1.5; color: #506472; }
 .disaster-steps { list-style: none; margin: 12px 0 4px; padding: 0; }

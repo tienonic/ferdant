@@ -1641,12 +1641,29 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 .atlas-route-controls label { display: flex; align-items: center; gap: 8px; min-height: 44px; font-size: 14px; font-weight: 600; color: #203748; cursor: pointer; }
 .atlas-route-controls input { width: 18px; height: 18px; accent-color: #a52b77; }
 .atlas-route-swatch { width: 32px; border-top: 4px dashed #a52b77; }
+.atlas-layer-loading { position: absolute; inset: 0; z-index: 850; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 24px; background: #f7fafbf0; color: #203748; text-align: center; pointer-events: none; font-size: 13px; }
+.atlas-layer-loading[hidden] { display: none; }
+.atlas-layer-loading strong { font-size: 16px; }
+.atlas-loading-spinner { width: 28px; height: 28px; border: 3px solid #d4e1e8; border-top-color: #24568d; border-radius: 50%; animation: atlas-loading-spin .8s linear infinite; }
+.atlas-layer-loading.has-map-data { inset: auto 10px 10px; flex-direction: row; justify-content: flex-start; gap: 8px; padding: 10px 12px; border: 1px solid #cdd8de; border-radius: 5px; }
+.atlas-layer-loading.has-map-data strong { font-size: 12px; }
+.atlas-layer-loading.has-map-data > span:last-child { display: none; }
+.atlas-layer-loading.has-map-data .atlas-loading-spinner { width: 18px; height: 18px; flex-shrink: 0; }
+@keyframes atlas-loading-spin { to { transform: rotate(360deg); } }
+@media(prefers-reduced-motion: reduce) { .atlas-loading-spinner { animation: none; } }
 .atlas-map-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: #f2f6f7; }
 .atlas-map-summary[hidden] { display: none; }
 .atlas-map-summary p { margin: 0; font-size: 12px; line-height: 1.5; color: #3f5663; }
 .atlas-map-summary button { flex-shrink: 0; min-height: 44px; padding: 8px 12px; border: 1px solid #9bb5c2; border-radius: 5px; background: #fff; color: #24568d; font: inherit; font-size: 12px; cursor: pointer; }
-#resource-map .atlas-cluster { display: grid; place-items: center; border: 3px solid #fff; border-radius: 50%; background: #24568d; color: #fff; box-shadow: 0 1px 5px #20374870; font: 700 16px/1 sans-serif; }
-.atlas-cluster-places button { display: block; width: 100%; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid #dce2e4; background: #fff; color: #24568d; text-align: left; font: inherit; cursor: pointer; }
+#resource-map .atlas-cluster { display: grid; place-content: center; gap: 5px; border: 2px solid #24568d; border-radius: 9px; background: #fff; color: #203748; box-shadow: 0 1px 5px #20374870; font: 700 12px/1 sans-serif; }
+.atlas-cluster-count { text-align: center; white-space: nowrap; }
+.atlas-cluster-icons { display: flex; justify-content: center; align-items: center; gap: 3px; }
+.atlas-cluster-icons > span { display: inline-flex; }
+.atlas-cluster-icons svg, .atlas-cluster-place-icon svg { width: 16px; height: 16px; }
+#resource-map .atlas-cluster:focus-visible { outline: 3px solid #203748; outline-offset: 3px; }
+.atlas-cluster-places button { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid #dce2e4; background: #fff; color: #24568d; text-align: left; font: inherit; cursor: pointer; }
+.atlas-cluster-place-icon { display: inline-flex; flex-shrink: 0; }
+.atlas-cluster-zoom { width: 100%; min-height: 44px; margin-top: 8px; border: 1px solid #9bb5c2; border-radius: 5px; background: #f2f6f7; color: #24568d; font: inherit; cursor: pointer; }
 @media(max-width: 600px) { .atlas-map-summary { align-items: stretch; flex-direction: column; gap: 6px; } }
 .atlas-route-controls p { margin: 0 0 6px; font-size: 12px; line-height: 1.5; color: #506472; }
 .disaster-steps { list-style: none; margin: 12px 0 4px; padding: 0; }
@@ -2968,29 +2985,51 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
   const dataUrl=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(blob);});
   return {id,type:'image',dataUrl,extent,...dates};
  }
- async function load(id,key,bounds,signal){
+ function validPart(p){
+  const s=registry.layers[p.id];if(!s?.live)return true;
+  if(p.retrieved&&Date.now()-Date.parse(p.retrieved)>=300000)return false;
+  if(p.valid)return Date.parse(p.valid)+86400000>Date.now()&&Date.now()-Date.parse(p.issued)<172800000;
+  if(p.forecast){const match=p.forecast.target.match(/^([A-Za-z]{3}) (\d{4})$/),month=match?'JanFebMarAprMayJunJulAugSepOctNovDec'.indexOf(match[1])/3:-1;return match&&month>=0&&Date.UTC(Number(match[2]),month+1,1)>Date.now();}
+  return p.data.features.every(f=>f.properties.expires>Date.now());
+ }
+ async function load(id,key,bounds,signal,onPart=()=>{}){
   const plan=plans.get(id);if(!plan)return {parts:[],issues:[],unavailable:true};
   const cacheKey=key+':'+id,prior=cache.get(cacheKey),live=plan.layers.some(k=>registry.layers[k].live);
   if(offline)return prior||{key,plan:id,parts:[],issues:['This layer was not saved for this city. Open the official source when online.'],unavailable:true};
-  const validCached=prior?.parts.every(p=>{
-   const s=registry.layers[p.id];if(!s?.live)return true;
-   if(p.valid)return Date.parse(p.valid)+86400000>Date.now()&&Date.now()-Date.parse(p.issued)<172800000;
-   if(p.forecast){const match=p.forecast.target.match(/^([A-Za-z]{3}) (\d{4})$/),month=match?'JanFebMarAprMayJunJulAugSepOctNovDec'.indexOf(match[1])/3:-1;return match&&month>=0&&Date.UTC(Number(match[2]),month+1,1)>Date.now();}
-   return p.data.features.every(f=>f.properties.expires>Date.now());
-  });
-  if(prior&&!prior.unavailable&&!prior.issues.length&&validCached&&(!live||Date.now()-Date.parse(prior.retrieved)<300000))return prior;
+  const sameBounds=e=>JSON.stringify(e.bounds)===JSON.stringify(bounds);
+  if(prior&&!prior.unavailable&&!prior.issues.length&&sameBounds(prior)&&prior.parts.every(validPart)&&(!live||Date.now()-Date.parse(prior.retrieved)<300000))return prior;
   const results=await Promise.allSettled(plan.layers.map(async layer=>{
-   const source=registry.layers[layer];return source.kind==='tiles'?{id:layer,type:'tiles'}:source.kind==='heat-image'?heat(layer,source,bounds,signal):source.kind==='map-image'?image(layer,source,bounds,signal):vectors(layer,source,bounds,signal);
+   const source=registry.layers[layer];
+   // Reuse the same reviewed source across plans for this exact area. Live
+   // sources retain their five-minute limit and feature/forecast expiry checks.
+   let reused;
+   for(const entry of cache.values())if(entry.key===key&&sameBounds(entry)&&(!source.live||Date.now()-Date.parse(entry.retrieved)<300000)){
+    const match=entry.parts.find(p=>p.id===layer&&validPart(p));if(match){reused={...match,retrieved:match.retrieved||entry.retrieved};break;}
+   }
+   const part=reused||await (source.kind==='tiles'?{id:layer,type:'tiles'}:source.kind==='heat-image'?heat(layer,source,bounds,signal):source.kind==='map-image'?image(layer,source,bounds,signal):vectors(layer,source,bounds,signal));
+   part.retrieved??=new Date().toISOString();
+   if(signal.aborted)throw new DOMException('Layer changed','AbortError');
+   onPart(part);return part;
   }));
   if(signal.aborted&&signal.reason?.name!=='TimeoutError')throw new DOMException('Layer changed','AbortError');
   const parts=[],issues=[];
   results.forEach((result,i)=>{const source=registry.layers[plan.layers[i]];if(result.status==='fulfilled')parts.push(result.value);else issues.push(source.title+': unavailable.');});
-  const entry={key,plan:id,retrieved:new Date().toISOString(),parts,issues,live,unavailable:Boolean(plan.layers.length&&!parts.length)};
+  const entry={key,plan:id,bounds,retrieved:new Date().toISOString(),parts,issues,live,unavailable:Boolean(plan.layers.length&&!parts.length)};
   if(JSON.stringify(entry).length<=10000000)cache.set(cacheKey,entry);
   while(cache.size>18||[...cache.values()].reduce((n,e)=>n+JSON.stringify(e).length,0)>20000000)cache.delete(cache.keys().next().value);return entry;
  }
- function draw(entry,map,group,onTileStatus=()=>{}){
-  const legend=[];let polygons=0;
+ function draw(entry,map,group,onTileStatus=()=>{},signal){
+  const legend=[],pending=[];let polygons=0;
+  function waitForImage(layer,message){
+   pending.push(new Promise(resolve=>{
+    let done=false;const finish=()=>{if(done)return;done=true;clearTimeout(timer);signal?.removeEventListener('abort',abort);resolve();};
+    const abort=()=>{if(signal.reason?.name==='TimeoutError'&&group.hasLayer(layer))onTileStatus(message);finish();};
+    const timer=setTimeout(()=>{if(group.hasLayer(layer))onTileStatus(message);finish();},12000);
+    layer.once('load',finish);layer.once('remove',finish);
+    signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();
+    layer.on('error',()=>{if(group.hasLayer(layer))onTileStatus(message);finish();});
+   }));
+  }
   for(const part of entry.parts){
    const source=registry.layers[part.id];if(!source)continue;
    if(part.type==='tiles'){
@@ -3004,11 +3043,15 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
     tiles.on('loading',()=>{failed=false;});
     tiles.on('tileerror',()=>{failed=true;if(group.hasLayer(tiles))onTileStatus('Some fault tiles could not load. Re-select Earthquake to retry, or use the official map.');});
     tiles.on('load',()=>{if(group.hasLayer(tiles))onTileStatus(failed?'Some fault tiles could not load. Re-select Earthquake to retry, or use the official map.':'');});
+    waitForImage(tiles,'Some fault tiles could not load. Re-select Earthquake to retry, or use the official map.');
     tiles.addTo(group);
+    // No tiles are requested when this view is outside the provider coverage.
+    if(!tiles.isLoading())tiles.fire('load');
     legend.push({label:source.title,color:source.color},...(source.legend||[]));
    }else if(part.type==='image'){
     const e=part.extent,sw=L.CRS.EPSG3857.unproject(L.point(e.xmin,e.ymin)),ne=L.CRS.EPSG3857.unproject(L.point(e.xmax,e.ymax));
-    L.imageOverlay(part.dataUrl,L.latLngBounds(sw,ne),{pane:'disaster-planning',className:'disaster-image disaster-'+part.id,opacity:source.opacity??.5,zIndex:source.zIndex??1,interactive:false,alt:source.title+'; see the source description and key below.'}).addTo(group);
+    const overlay=L.imageOverlay(part.dataUrl,L.latLngBounds(sw,ne),{pane:'disaster-planning',className:'disaster-image disaster-'+part.id,opacity:source.opacity??.5,zIndex:source.zIndex??1,interactive:false,alt:source.title+'; see the source description and key below.'});
+    waitForImage(overlay,source.title+': map image could not display. Re-select the layer to retry.');overlay.addTo(group);
     legend.push({label:source.kind==='heat-image'?'HeatRisk: 0 Minimal · 1 Minor · 2 Moderate · 3 Major · 4 Extreme':source.title,color:source.color});
    }else{
     polygons+=part.data.features.length;
@@ -3017,7 +3060,7 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
     else legend.push({label:source.title,color:source.color});
    }
   }
-  return {legend:[...new Map(legend.map(x=>[x.label,x])).values()],polygons};
+  return {legend:[...new Map(legend.map(x=>[x.label,x])).values()],polygons,ready:Promise.all(pending)};
  }
  function description(entry){
   if(entry.unavailable)return offline?'Detailed GIS is not saved for this city and plan. The short plan and official source links remain available.':'GIS is unavailable for this area right now. Use the plan and official maps; missing data does not establish safety.';
@@ -3892,6 +3935,15 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
  routeControl.innerHTML='<label><input type="checkbox" id="atlas-routes-toggle" checked><span class="atlas-route-swatch" aria-hidden="true"></span>Evacuation routes</label><p id="atlas-route-status" role="status"></p>';
  root.querySelector('.atlas-map-frame').before(routeControl);
  const routeToggle=routeControl.querySelector('input'),routeStatus=routeControl.querySelector('p');
+ const layerLoading=document.createElement('div');layerLoading.className='atlas-layer-loading';layerLoading.hidden=true;layerLoading.setAttribute('role','status');layerLoading.setAttribute('aria-live','polite');
+ layerLoading.innerHTML='<span class="atlas-loading-spinner" aria-hidden="true"></span><strong></strong><span>You can choose another layer while this loads.</span>';
+ root.querySelector('.atlas-map-frame').append(layerLoading);
+ let loadingDelay;
+ function stopLayerLoading(){clearTimeout(loadingDelay);layerLoading.hidden=true;root.querySelector('#resource-map').setAttribute('aria-busy','false');}
+ function startLayerLoading(label,run){
+  stopLayerLoading();layerLoading.classList.remove('has-map-data');layerLoading.querySelector('strong').textContent='Loading '+label+' map…';root.querySelector('#resource-map').setAttribute('aria-busy','true');
+  loadingDelay=setTimeout(()=>{if(run===version)layerLoading.hidden=false;},180);
+ }
  let everydayItems=[];
  const mapSummary=document.createElement('div');mapSummary.className='atlas-map-summary';mapSummary.hidden=true;
  mapSummary.innerHTML='<p id="atlas-map-count" role="status"></p><button type="button" id="atlas-fit-resources">Show all resources</button>';
@@ -3900,13 +3952,13 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
  function everydayCount(){
   mapSummary.hidden=active!=='everyday'||!selected;
   const inView=map?everydayItems.filter(f=>map.getBounds().contains([f.lat,f.lng])).length:0;
-  mapSummary.querySelector('p').textContent=map?everydayItems.length+' listed resources mapped / '+inView+' in this view. Numbered circles group nearby places.':'The interactive map is unavailable. Use the resource list below.';
+  mapSummary.querySelector('p').textContent=map?everydayItems.length+' listed resources mapped / '+inView+' in this view. Select a places label to see the names.':'The interactive map is unavailable. Use the resource list below.';
   mapSummary.querySelector('button').disabled=!map||!everydayItems.length;
  }
  function drawEverydayPins(){
   if(!map||active!=='everyday'){everydayCount();return;}
   layerGroup.clearLayers();const groups=new Map(),zoom=map.getZoom();
-  for(const f of everydayItems){const p=map.project([f.lat,f.lng],zoom),key=Math.floor(p.x/64)+':'+Math.floor(p.y/64);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(f);}
+  for(const f of everydayItems){const p=map.project([f.lat,f.lng],zoom),key=Math.floor(p.x/88)+':'+Math.floor(p.y/88);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(f);}
   for(const items of groups.values()){
    let marker;
    if(items.length===1){
@@ -3916,13 +3968,22 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
     marker.on('click',()=>focus(f));marker.getElement().dataset.resourceId=f.id;
    }else{
     const lat=items.reduce((sum,f)=>sum+f.lat,0)/items.length,lng=items.reduce((sum,f)=>sum+f.lng,0)/items.length;
-    marker=L.marker([lat,lng],{icon:L.divIcon({className:'atlas-cluster',html:'<span>'+items.length+'</span>',iconSize:[44,44],iconAnchor:[22,22]}),keyboard:true,title:items.length+' resources. Zoom in or choose a place.',alt:items.length+' resources'}).addTo(layerGroup);
-    marker.on('click',()=>{
+    const kinds=[...new Set(items.map(f=>f.kind))],name=items.length+' nearby places: '+kinds.map(label).join(', ')+'. Open the list.';
+    const icons=kinds.slice(0,3).map(kind=>'<span style="color:'+colors[kind]+'">'+types[kind].icon+'</span>').join('')+(kinds.length>3?'<span>+</span>':'');
+    marker=L.marker([lat,lng],{icon:L.divIcon({className:'atlas-cluster',html:'<span class="atlas-cluster-count">'+items.length+' places</span><span class="atlas-cluster-icons" aria-hidden="true">'+icons+'</span>',iconSize:[78,52],iconAnchor:[39,26],popupAnchor:[0,-22]}),keyboard:true,title:name,alt:name}).addTo(layerGroup);
+    marker.getElement().setAttribute('aria-label',name);
+    marker.getElement().addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();marker.fire('click',{originalEvent:event});}});
+    marker.on('click',event=>{
+     event.originalEvent?.preventDefault();
      const bounds=L.latLngBounds(items.map(f=>[f.lat,f.lng]));
-     if(zoom<map.getMaxZoom()&&map.distance(bounds.getSouthWest(),bounds.getNorthEast())>35){map.fitBounds(bounds,{padding:[45,45],maxZoom:Math.min(zoom+3,map.getMaxZoom()),animate:false});return;}
-     const box=document.createElement('div');box.className='atlas-cluster-places';const heading=document.createElement('strong');heading.textContent=items.length+' resources at this location';box.append(heading);
-     for(const f of items){const button=document.createElement('button');button.type='button';button.textContent=f.name+' / '+label(f.kind);button.addEventListener('click',()=>focus(f));box.append(button);}
-     L.popup({maxWidth:290,maxHeight:260}).setLatLng([lat,lng]).setContent(box).openOn(map);
+     const popup=document.createElement('div');popup.className='atlas-cluster-popup';const heading=document.createElement('strong');heading.textContent=items.length+' places in this group';popup.append(heading);
+     const box=document.createElement('div');box.className='atlas-cluster-places';
+     for(const f of items){const button=document.createElement('button');button.type='button';button.innerHTML='<span class="atlas-cluster-place-icon" aria-hidden="true" style="color:'+colors[f.kind]+'">'+types[f.kind].icon+'</span><span>'+escape(f.name)+' / '+escape(label(f.kind))+'</span>';button.addEventListener('click',()=>focus(f));box.append(button);}
+     popup.append(box);
+     if(zoom<map.getMaxZoom()&&map.distance(bounds.getSouthWest(),bounds.getNorthEast())>35){const closer=document.createElement('button');closer.type='button';closer.className='atlas-cluster-zoom';closer.textContent='Zoom to these places';closer.addEventListener('click',()=>{map.closePopup();map.fitBounds(bounds,{padding:[45,45],maxZoom:Math.min(zoom+3,map.getMaxZoom()),animate:false});});popup.append(closer);}
+     const size=map.getSize();
+     L.popup({maxWidth:Math.min(290,Math.max(140,size.x-100)),maxHeight:Math.min(260,Math.max(100,size.y-160)),autoPanPaddingTopLeft:[50,60],autoPanPaddingBottomRight:[12,24]}).setLatLng([lat,lng]).setContent(popup).openOn(map);
+     box.querySelector('button')?.focus({preventScroll:true});
     });
    }
    marker.getElement().dataset.resourceCount=String(items.length);marker.getElement().dataset.resourceIds=JSON.stringify(items.map(f=>f.id));
@@ -4154,7 +4215,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
  }
  function guidance(){
   const plan=disasters?.plans.get(active),panel=root.querySelector('#atlas-action-plan');
-  root.querySelector('#atlas-guidance').innerHTML=plan?'<strong>'+escape(plan.headline)+'</strong><span>'+escape(plan.note)+'</span>':'<strong>Find a useful place.</strong><span>Select a pin or a name for its address and service details.</span>';
+  root.querySelector('#atlas-guidance').innerHTML=plan?'<strong>'+escape(plan.headline)+'</strong><span>'+escape(plan.note)+'</span>':'<strong>Find food, water and other help.</strong><span>Icons show the type of help. A label like “3 places” groups nearby locations — select it to see the names.</span>';
   panel.hidden=!plan;panel.innerHTML=plan?'<details class="atlas-plan-details"><summary>Safety steps &amp; evacuation</summary><div>'+disasters.planHTML(active)+'</div></details>':'';
   panel.querySelector('.disaster-steps')?.insertAdjacentHTML('beforebegin',evacuationHTML());
   const sources=root.querySelector('#atlas-hazard-sources');sources.replaceChildren();
@@ -4188,6 +4249,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
   finally{clearTimeout(timer);}
  }
  function renderLayer(){
+  stopLayerLoading();
   controller?.abort();hazardController?.abort();hazardGroup?.clearLayers();const run=++version;limit=active==='everyday'?8:4;resourceFilter=active==='everyday'?'all':policy().default;shelterItems=[];feedStatus.textContent='';root.querySelector('#atlas-resource-filters').open=false;
   everyday.setAttribute('aria-pressed',String(active==='everyday'));choices.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.disaster===active)));
   root.querySelector('#atlas-hazard-legend').replaceChildren();root.querySelector('#atlas-layer-status').textContent='';root.querySelector('#atlas-layer-credit').textContent='';root.dataset.hazardLoading='false';
@@ -4210,19 +4272,29 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
   const message=root.querySelector('#atlas-layer-status'),legend=root.querySelector('#atlas-hazard-legend');
   if(!map||!cityBounds){message.textContent='The interactive overlay could not load. The plan and official guidance remain available.';return;}
   root.dataset.hazardLoading='true';message.textContent=plan.layers.length?'Loading the official map layer…':'This plan has guidance; a verified overlay is not included yet.';
+  if(plan.layers.length)startLayerLoading(plan.label,run);
   hazardController=new AbortController();const requestController=hazardController,timer=setTimeout(()=>requestController.abort(new DOMException('GIS request timed out','TimeoutError')),18000),key=selected.key,id=active;
+  const drawnParts=new Set(),legendLabels=new Set(),paints=[],tileNotes=new Map();let completeEntry;
+  const isCurrent=()=>run===version&&id===active&&key===selected?.key;
+  const showStatus=()=>{if(isCurrent()&&completeEntry)message.textContent=disasters.description(completeEntry)+[...tileNotes.values()].filter(Boolean).map(note=>' '+note).join('');};
+  const paint=part=>{
+   if(!isCurrent()||drawnParts.has(part.id))return;drawnParts.add(part.id);
+   const drawn=disasters.draw({parts:[part]},map,hazardGroup,note=>{tileNotes.set(part.id,note);showStatus();},requestController.signal);
+   for(const item of drawn.legend)if(!legendLabels.has(item.label)){legendLabels.add(item.label);const span=document.createElement('span'),swatch=document.createElement('i');swatch.style.backgroundColor=item.color;swatch.setAttribute('aria-hidden','true');span.append(swatch,document.createTextNode(item.label));legend.append(span);}
+   paints.push(drawn.ready.then(()=>{if(isCurrent()&&(part.type!=='geojson'||part.data.features.length)){layerLoading.classList.add('has-map-data');layerLoading.querySelector('strong').textContent='Loading remaining '+plan.label.toLowerCase()+' detail…';}}));
+  };
   try{
-   const b=cityBounds,entry=await disasters.load(id,key,[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()],requestController.signal);
+   const b=cityBounds,entry=await disasters.load(id,key,[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()],requestController.signal,paint);
    if(run!==version||id!==active||key!==selected?.key)return;
-   const showStatus=(tileNote='')=>{if(run===version&&id===active&&key===selected?.key)message.textContent=disasters.description(entry)+(tileNote?' '+tileNote:'');};
-   const drawn=disasters.draw(entry,map,hazardGroup,showStatus);
-   for(const item of drawn.legend){const span=document.createElement('span'),swatch=document.createElement('i');swatch.style.backgroundColor=item.color;swatch.setAttribute('aria-hidden','true');span.append(swatch,document.createTextNode(item.label));legend.append(span);}
+   completeEntry=entry;entry.parts.forEach(paint);
    showStatus();
    root.querySelector('#atlas-layer-credit').textContent=[...new Set(entry.parts.map(p=>disasters.registry.layers[p.id]?.credit).filter(Boolean))].join(' · ');
+   await Promise.all(paints);
   }catch(error){if(run===version)message.textContent='The GIS layer is unavailable or timed out. Use the short plan and official map; missing data does not establish safety.';}
-  finally{clearTimeout(timer);if(run===version)root.dataset.hazardLoading='false';}
+  finally{clearTimeout(timer);if(run===version){root.dataset.hazardLoading='false';stopLayerLoading();}}
  }
  async function update(){
+  stopLayerLoading();
   const run=++version;controller?.abort();hazardController?.abort();selected=point(select.value);everydayItems=[];routeData=null;routeGroup?.clearLayers();root.hidden=!selected;if(!selected)return;
   controls.forEach(control=>{control.disabled=true;});root.setAttribute('aria-busy','true');
   shard=null;regionalServices=[];current=[];boundary?.clearLayers();layerGroup?.clearLayers();hazardGroup?.clearLayers();highlight?.clearLayers();list.replaceChildren();root.querySelector('#atlas-resource-options').replaceChildren();root.querySelector('#atlas-resource-filters').open=false;feedStatus.textContent='';

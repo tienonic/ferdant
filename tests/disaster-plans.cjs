@@ -2,6 +2,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 const {pathToFileURL}=require('node:url');
 const {chromium}=require('playwright');
 const {stubPublicMap,isPublicMapRequest}=require('./map-network.cjs');
+const {mappedCount}=require('./map-inventory.cjs');
 const base=process.env.SITE_URL||'http://127.0.0.1:4173';
 const data=JSON.parse(fs.readFileSync('local/index.html','utf8').match(/<script type="application\/json" id="resource-map-data">(.*?)<\/script>/s)[1]).disasters;
 function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(x=>x.startsWith('chromium_headless_shell-')).sort().reverse().map(x=>path.join(root,x,'chrome-headless-shell-win64','chrome-headless-shell.exe')).find(fs.existsSync);}
@@ -54,7 +55,7 @@ function collection(ids,extra={}){return {type:'FeatureCollection',features:ids.
    await choose(f,'flood');await f.emulateMedia({media:'print'});assert(await f.locator('#atlas-action-plan').isVisible());assert(!await f.locator('#resource-map').isVisible());await f.emulateMedia({media:'screen'});
    assert.deepEqual(network,[]);await off.close();
    const noJS=await browser.newContext({offline:true,javaScriptEnabled:false}),n=await noJS.newPage();await n.goto(pathToFileURL(file).href);assert(await n.locator('#atlas-action-plan').isVisible());assert.equal(await n.locator('.disaster-steps li').count(),3);assert(!await n.locator('#resource-map').isVisible());await noJS.close();
-   await p.locator('#atlas-everyday').click();assert.equal(await p.locator('.disaster-geometry').count(),0);assert.equal(await p.locator('.leaflet-image-layer').count(),0);assert.equal(await p.locator('.atlas-pin.support').count(),1);assert(!await p.locator('#atlas-action-plan').isVisible());assert(!new URL(p.url()).searchParams.has('hazard'));
+   await p.locator('#atlas-everyday').click();assert.equal(await p.locator('.disaster-geometry').count(),0);assert.equal(await p.locator('.leaflet-image-layer').count(),0);assert.equal(await mappedCount(p,'support'),1);assert(!await p.locator('#atlas-action-plan').isVisible());assert(!new URL(p.url()).searchParams.has('hazard'));
    assert.deepEqual(errors,[]);assert.deepEqual(unexpected,[]);findings.push({width,plans:15,exclusiveLayers:'passed',forecastValidity:'shown',offlinePlans:15,offlineHTTP:0,offlinePrint:'selected plan',noJavaScript:'selected plan readable',focus:'passed',textSpacing:'passed',directSymbolButtons:15,selectedState:'one at a time',keyboard:'Space/Enter/Tab',deepLinkAndCityChange:'preserved'});await c.close();
   }
   const c=await browser.newContext();await stubPublicMap(c);const p=await c.newPage();await p.goto(base+'/local/?place=57026');await ready(p);

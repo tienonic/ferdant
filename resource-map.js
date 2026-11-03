@@ -36,13 +36,13 @@
  function everydayCount(){
   mapSummary.hidden=active!=='everyday'||!selected;
   const inView=map?everydayItems.filter(f=>map.getBounds().contains([f.lat,f.lng])).length:0;
-  mapSummary.querySelector('p').textContent=map?everydayItems.length+' listed resources mapped / '+inView+' in this view. Numbered circles group nearby places.':'The interactive map is unavailable. Use the resource list below.';
+  mapSummary.querySelector('p').textContent=map?everydayItems.length+' listed resources mapped / '+inView+' in this view. Select a places label to see the names.':'The interactive map is unavailable. Use the resource list below.';
   mapSummary.querySelector('button').disabled=!map||!everydayItems.length;
  }
  function drawEverydayPins(){
   if(!map||active!=='everyday'){everydayCount();return;}
   layerGroup.clearLayers();const groups=new Map(),zoom=map.getZoom();
-  for(const f of everydayItems){const p=map.project([f.lat,f.lng],zoom),key=Math.floor(p.x/64)+':'+Math.floor(p.y/64);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(f);}
+  for(const f of everydayItems){const p=map.project([f.lat,f.lng],zoom),key=Math.floor(p.x/88)+':'+Math.floor(p.y/88);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(f);}
   for(const items of groups.values()){
    let marker;
    if(items.length===1){
@@ -52,13 +52,22 @@
     marker.on('click',()=>focus(f));marker.getElement().dataset.resourceId=f.id;
    }else{
     const lat=items.reduce((sum,f)=>sum+f.lat,0)/items.length,lng=items.reduce((sum,f)=>sum+f.lng,0)/items.length;
-    marker=L.marker([lat,lng],{icon:L.divIcon({className:'atlas-cluster',html:'<span>'+items.length+'</span>',iconSize:[44,44],iconAnchor:[22,22]}),keyboard:true,title:items.length+' resources. Zoom in or choose a place.',alt:items.length+' resources'}).addTo(layerGroup);
-    marker.on('click',()=>{
+    const kinds=[...new Set(items.map(f=>f.kind))],name=items.length+' nearby places: '+kinds.map(label).join(', ')+'. Open the list.';
+    const icons=kinds.slice(0,3).map(kind=>'<span style="color:'+colors[kind]+'">'+types[kind].icon+'</span>').join('')+(kinds.length>3?'<span>+</span>':'');
+    marker=L.marker([lat,lng],{icon:L.divIcon({className:'atlas-cluster',html:'<span class="atlas-cluster-count">'+items.length+' places</span><span class="atlas-cluster-icons" aria-hidden="true">'+icons+'</span>',iconSize:[78,52],iconAnchor:[39,26],popupAnchor:[0,-22]}),keyboard:true,title:name,alt:name}).addTo(layerGroup);
+    marker.getElement().setAttribute('aria-label',name);
+    marker.getElement().addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();marker.fire('click',{originalEvent:event});}});
+    marker.on('click',event=>{
+     event.originalEvent?.preventDefault();
      const bounds=L.latLngBounds(items.map(f=>[f.lat,f.lng]));
-     if(zoom<map.getMaxZoom()&&map.distance(bounds.getSouthWest(),bounds.getNorthEast())>35){map.fitBounds(bounds,{padding:[45,45],maxZoom:Math.min(zoom+3,map.getMaxZoom()),animate:false});return;}
-     const box=document.createElement('div');box.className='atlas-cluster-places';const heading=document.createElement('strong');heading.textContent=items.length+' resources at this location';box.append(heading);
-     for(const f of items){const button=document.createElement('button');button.type='button';button.textContent=f.name+' / '+label(f.kind);button.addEventListener('click',()=>focus(f));box.append(button);}
-     L.popup({maxWidth:290,maxHeight:260}).setLatLng([lat,lng]).setContent(box).openOn(map);
+     const popup=document.createElement('div');popup.className='atlas-cluster-popup';const heading=document.createElement('strong');heading.textContent=items.length+' places in this group';popup.append(heading);
+     const box=document.createElement('div');box.className='atlas-cluster-places';
+     for(const f of items){const button=document.createElement('button');button.type='button';button.innerHTML='<span class="atlas-cluster-place-icon" aria-hidden="true" style="color:'+colors[f.kind]+'">'+types[f.kind].icon+'</span><span>'+escape(f.name)+' / '+escape(label(f.kind))+'</span>';button.addEventListener('click',()=>focus(f));box.append(button);}
+     popup.append(box);
+     if(zoom<map.getMaxZoom()&&map.distance(bounds.getSouthWest(),bounds.getNorthEast())>35){const closer=document.createElement('button');closer.type='button';closer.className='atlas-cluster-zoom';closer.textContent='Zoom to these places';closer.addEventListener('click',()=>{map.closePopup();map.fitBounds(bounds,{padding:[45,45],maxZoom:Math.min(zoom+3,map.getMaxZoom()),animate:false});});popup.append(closer);}
+     const size=map.getSize();
+     L.popup({maxWidth:Math.min(290,Math.max(140,size.x-100)),maxHeight:Math.min(260,Math.max(100,size.y-160)),autoPanPaddingTopLeft:[50,60],autoPanPaddingBottomRight:[12,24]}).setLatLng([lat,lng]).setContent(popup).openOn(map);
+     box.querySelector('button')?.focus({preventScroll:true});
     });
    }
    marker.getElement().dataset.resourceCount=String(items.length);marker.getElement().dataset.resourceIds=JSON.stringify(items.map(f=>f.id));
@@ -290,7 +299,7 @@
  }
  function guidance(){
   const plan=disasters?.plans.get(active),panel=root.querySelector('#atlas-action-plan');
-  root.querySelector('#atlas-guidance').innerHTML=plan?'<strong>'+escape(plan.headline)+'</strong><span>'+escape(plan.note)+'</span>':'<strong>Find a useful place.</strong><span>Select a pin or a name for its address and service details.</span>';
+  root.querySelector('#atlas-guidance').innerHTML=plan?'<strong>'+escape(plan.headline)+'</strong><span>'+escape(plan.note)+'</span>':'<strong>Find food, water and other help.</strong><span>Icons show the type of help. A label like “3 places” groups nearby locations — select it to see the names.</span>';
   panel.hidden=!plan;panel.innerHTML=plan?'<details class="atlas-plan-details"><summary>Safety steps &amp; evacuation</summary><div>'+disasters.planHTML(active)+'</div></details>':'';
   panel.querySelector('.disaster-steps')?.insertAdjacentHTML('beforebegin',evacuationHTML());
   const sources=root.querySelector('#atlas-hazard-sources');sources.replaceChildren();
