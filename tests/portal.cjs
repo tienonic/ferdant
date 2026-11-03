@@ -8,12 +8,13 @@ module.exports = async function checkPortal(page) {
   const query = page.getByLabel('Find a resource or tool', {exact:true});
   await page.locator('.portal-search-glyph').click();
   assert(await query.evaluate(el=>el===document.activeElement));
+  assert.equal(await page.locator('.portal-count').count(), 0);
   assert.equal(await page.locator('[data-portal-card]:visible').count(), 6);
   assert.equal(await page.locator('[data-portal-entry]:visible').count(), 22);
-  assert.equal(await page.locator('#portal-status').innerText(), '22 links across 6 categories');
+  assert.equal(await page.locator('#portal-status').innerText(), 'Choose a category or open a tool.');
   await query.fill('contractor');
   assert.equal(await page.locator('[data-portal-entry]:visible').count(), 1);
-  assert.equal(await page.locator('#portal-status').innerText(), '1 link across 1 category');
+  assert.equal(await page.locator('#portal-status').innerText(), '1 matching link');
   assert(await page.locator('#who-can-fix-this').isVisible());
   await query.fill('zzzz');
   assert(await page.locator('#portal-empty').isVisible());

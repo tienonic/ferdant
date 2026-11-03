@@ -10,8 +10,8 @@ module.exports = async function checkWidgets(page, width, base) {
  };
  try {
   assert.equal(await page.locator('.directory-topic:visible').count(), 5);
-  assert.equal(await page.locator('.directory-tool:visible').count(), 3);
-  for (const nav of ['The five communities','Quick tools']) {
+  assert.equal(await page.locator('.directory-tool:visible').count(), 0);
+  for (const nav of ['The five communities']) {
    for (const link of await page.getByRole('navigation', {name:nav}).getByRole('link').all()) {
     const href = await link.getAttribute('href'); assert(href.startsWith('#'));
     await link.click(); assert.equal(new URL(page.url()).pathname, '/');
@@ -19,11 +19,23 @@ module.exports = async function checkWidgets(page, width, base) {
     assert.equal(await page.locator(':focus').getAttribute('id'), href.slice(1));
    }
   }
+  const directoryHeight = await page.evaluate(()=>document.documentElement.scrollHeight);
+  const launcher = page.locator('.portal-tools [data-open-tool="compare-bill"]');
+  await launcher.scrollIntoViewIfNeeded();
+  const directoryScroll = await page.evaluate(()=>scrollY);
+  await launcher.click();
+  assert(await page.getByRole('dialog',{name:'Compare a bill',exact:true}).isVisible());
+  assert.equal(await page.evaluate(()=>scrollY), directoryScroll);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollHeight), directoryHeight);
+  assert.equal(await page.locator('.directory-tool:visible').count(), 1);
+  assert.equal(await page.locator(':focus').getAttribute('aria-label'), 'Close tool');
+  await page.keyboard.press('Shift+Tab');
+  assert(await page.locator(':focus').evaluate(el=>!!el.closest('#tool-dialog')));
   await page.getByRole('button', {name:'Try an example'}).click();
   assert(await page.locator('#example-note').isVisible());
   assert.equal(await gap.innerText(), '$3.00 still to check');
   assert.equal(await page.locator('#gap-fill').evaluate(el=>el.style.width), '80%');
-  await page.locator('#compare-bill').screenshot({path:`screenshots/widgets-bill-${width}.png`});
+  await page.locator('#tool-dialog').screenshot({path:`screenshots/widgets-bill-${width}.png`});
 
   await setChanges({credits:'-5'});
   assert.equal(await gap.innerText(), '$8.00 still to check');
@@ -47,9 +59,12 @@ module.exports = async function checkWidgets(page, width, base) {
   assert.equal(await page.locator('#change-service').inputValue(), '');
   assert.equal(await page.locator('#bill-result').innerText(), 'Enter two totals to compare.');
 
+  await page.keyboard.press('Escape');
+  assert(!await page.locator('#tool-dialog').isVisible());
+  assert(await launcher.evaluate(el=>el===document.activeElement));
   await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Cancel a subscription'}).click();
-  assert(page.url().endsWith('#cancel-subscription'));
-  assert(await page.locator('#compare-bill').isVisible());
+  assert(await page.getByRole('dialog',{name:'Cancel a subscription',exact:true}).isVisible());
+  assert(!await page.locator('#compare-bill').isVisible());
   await page.getByLabel('Another platform', {exact:true}).check();
   assert((await page.locator('#cancel-route').innerText()).includes('platform named on your receipt'));
   await page.getByLabel('I’m not sure', {exact:true}).check();
@@ -60,19 +75,20 @@ module.exports = async function checkWidgets(page, width, base) {
   assert.equal(await page.locator('#cancel-progress').getAttribute('value'), '4');
   assert((await page.locator('#cancel-next').innerText()).includes('do not confirm cancellation'));
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth), `Cancellation tool overflows at ${width}`);
-  await page.locator('#cancel-subscription').screenshot({path:`screenshots/widgets-cancel-${width}.png`});
+  await page.locator('#tool-dialog').screenshot({path:`screenshots/widgets-cancel-${width}.png`});
   await page.locator('#cancel-record input').first().uncheck();
   assert.equal(await page.locator('#cancel-count').innerText(), '3 of 4 records checked');
   assert((await page.locator('#cancel-next').innerText()).includes('identify the billing business'));
 
+  await page.getByRole('button',{name:'Close tool',exact:true}).click();
   await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Draft a message'}).click();
-  assert(page.url().endsWith('#draft-message'));
+  assert(await page.getByRole('dialog',{name:'Draft a billing message',exact:true}).isVisible());
   await page.getByLabel('What needs explaining?').fill('A new service fee');
   await page.getByLabel('Important dates or previous contact').fill('Charged November 1; contacted support November 2');
   await page.getByLabel('What would help?').selectOption('correct');
   assert((await page.locator('#built-message').innerText()).includes('correct it if it was applied in error'));
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth), `Message builder overflows at ${width}`);
-  await page.locator('#draft-message').screenshot({path:`screenshots/widgets-message-${width}.png`});
+  await page.locator('#tool-dialog').screenshot({path:`screenshots/widgets-message-${width}.png`});
   const unsafeText = '<img src=x onerror=alert(1)>';
   await page.getByLabel('What needs explaining?').fill(unsafeText);
   assert.equal(await page.locator('#built-message img').count(), 0);
@@ -91,10 +107,13 @@ module.exports = async function checkWidgets(page, width, base) {
   assert(await page.getByRole('button', {name:'Copy my draft'}).locator('[data-icon=copy]').isVisible());
   assert(await page.evaluate(()=>localStorage.length===0 && sessionStorage.length===0));
   assert.deepEqual(requests, [], 'Widget interaction must not send any request');
-  await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Compare a bill'}).focus();
+  await page.getByRole('button',{name:'Back to directory',exact:true}).click();
+  await launcher.focus();
   await page.keyboard.press('Enter');
-  assert.equal(await page.locator(':focus').getAttribute('id'), 'compare-bill');
-  assert.equal(await page.locator('.directory-tool:visible').count(), 3);
+  assert(await page.getByRole('dialog',{name:'Compare a bill',exact:true}).isVisible());
+  assert.equal(await page.getByLabel('Previous bill ($)').inputValue(), '');
+  await page.getByRole('button',{name:'Close tool',exact:true}).click();
+  assert.equal(await page.locator('.directory-tool:visible').count(), 0);
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth), `Widgets overflow at ${width}`);
  } finally {
   page.off('request', recordRequest);

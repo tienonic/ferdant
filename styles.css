@@ -472,7 +472,6 @@ input::placeholder { color: #667480; }
 .portal-grid .portal-card:target { outline: 2px solid var(--cobalt); outline-offset: 3px; }
 .portal-card > header { display: flex; justify-content: space-between; align-items: start; gap: 14px; }
 .portal-grid .portal-card header h2 { font: 600 17px/1.4 var(--sans); letter-spacing: -.015em; margin: 0; }
-.portal-count { flex-shrink: 0; background: var(--cobalt); color: white; padding: 2px 7px; font-size: 11px; line-height: 1.5; font-variant-numeric: tabular-nums; }
 .portal-description { color: var(--muted); font-size: 13px; line-height: 1.65; margin: 13px 0 16px; }
 .portal-community { color: var(--muted); font-size: 11px; margin: -4px 0 13px; }
 .portal-list { list-style: none; margin: 0; padding: 0; }
@@ -533,6 +532,33 @@ input::placeholder { color: #667480; }
 @media (max-width: 700px) {
  .portal-card header h2 > .ui-icon { width: 22px; height: 22px; }
  .portal-destination small { max-width: 100px; }
+}
+
+/* Directory tools open at the point of choice, outside the main page flow. */
+html { scrollbar-gutter: stable; }
+html.tool-open { overflow: hidden; }
+#tool-dialog { width: min(960px, calc(100% - 40px)); max-height: min(88vh, 900px); padding: 0; border: 1px solid #b9c8d5; color: var(--ink); background: var(--paper); box-shadow: 0 20px 60px #1d2d3e38; }
+#tool-dialog:not([open]) { display: none; }
+#tool-dialog[open] { display: flex; flex-direction: column; }
+#tool-dialog::backdrop { background: rgb(29 45 62 / .38); }
+.tool-dialog-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 19px 24px; border-bottom: 1px solid var(--rule); background: white; flex-shrink: 0; }
+.tool-dialog-header h2 { font: 31px/1.2 var(--serif); margin: 0; }
+.tool-dialog-close { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; border: 0; background: transparent; color: var(--cobalt); font-size: 13px; padding: 8px; }
+.tool-dialog-body { min-height: 0; padding: 24px; overflow-y: auto; overscroll-behavior: contain; }
+#tool-dialog .directory-tool { padding: 0; margin: 0; background: transparent; }
+#tool-dialog .directory-tool > h2, #tool-dialog .directory-tool-heading > h2 { display: none; }
+#tool-dialog .directory-tool-heading { justify-content: flex-end; }
+#tool-dialog .directory-tool-heading .quiet-button { margin: 0 0 17px; }
+#tool-dialog .directory-tool > p { max-width: 740px; }
+.tool-source-details { margin-top: 24px; border-top: 1px solid var(--rule); padding-top: 16px; font-size: 13px; }
+.tool-source-details summary { color: var(--cobalt); }
+.tool-source-details .inline-sources { border: 0; padding-top: 16px; margin: 0; }
+#tool-dialog [data-close-tool]:not(.tool-dialog-close) { margin-top: 22px; }
+@media (max-width: 700px) {
+ #tool-dialog { width: calc(100% - 24px); max-height: calc(100dvh - 24px); }
+ .tool-dialog-header { padding: 14px 16px; gap: 12px; }
+ .tool-dialog-header h2 { font-size: 26px; }
+ .tool-dialog-body { padding: 19px; }
 }
 
 @media print {

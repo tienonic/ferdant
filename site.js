@@ -33,7 +33,7 @@ if (portalQuery) {
  const categories = [...document.querySelectorAll('[data-portal-card]')];
  function filterPortal() {
   const words = portalQuery.value.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
-  let links = 0, groups = 0;
+  let links = 0;
   for (const entry of entries) {
    entry.hidden = !words.every(word => entry.dataset.search.toLocaleLowerCase().includes(word));
    if (!entry.hidden) links++;
@@ -41,11 +41,8 @@ if (portalQuery) {
   for (const card of categories) {
    const count = [...card.querySelectorAll('[data-portal-entry]')].filter(entry => !entry.hidden).length;
    card.hidden = count === 0;
-   if (count) groups++;
-   const badge = card.querySelector('.portal-count');
-   badge.textContent = count; badge.setAttribute('aria-label', `${count} ${count === 1 ? 'link' : 'links'}`);
   }
-  document.querySelector('#portal-status').textContent = `${links} ${links === 1 ? 'link' : 'links'} across ${groups} ${groups === 1 ? 'category' : 'categories'}`;
+  document.querySelector('#portal-status').textContent = words.length ? `${links} matching ${links === 1 ? 'link' : 'links'}` : 'Choose a category or open a tool.';
   document.querySelector('#portal-empty').hidden = links !== 0;
  }
  function clearPortal() {portalQuery.value = ''; filterPortal();}
@@ -53,6 +50,39 @@ if (portalQuery) {
  for (const button of document.querySelectorAll('[data-clear-portal]')) button.addEventListener('click', () => {clearPortal(); portalQuery.focus();});
  for (const link of sectionLinks) link.addEventListener('click', clearPortal);
  filterPortal();
+}
+
+const toolDialog = document.querySelector('#tool-dialog');
+if (toolDialog && typeof toolDialog.showModal === 'function') {
+ let returnTo = null;
+ for (const link of document.querySelectorAll('[data-open-tool]')) link.addEventListener('click', event => {
+  const panel = document.getElementById(link.dataset.openTool);
+  if (!panel) return;
+  event.preventDefault();
+  returnTo = link;
+  for (const tool of toolDialog.querySelectorAll('[data-dialog-tool]')) tool.hidden = tool !== panel;
+  document.querySelector('#tool-dialog-title').textContent = panel.dataset.toolTitle;
+  toolDialog.showModal();
+  document.documentElement.classList.add('tool-open');
+  toolDialog.querySelector('.tool-dialog-body').scrollTop = 0;
+  toolDialog.querySelector('.tool-dialog-close').focus({preventScroll:true});
+ });
+ for (const button of toolDialog.querySelectorAll('[data-close-tool]')) button.addEventListener('click', () => toolDialog.close());
+ toolDialog.addEventListener('close', () => {
+  document.documentElement.classList.remove('tool-open');
+  returnTo?.focus({preventScroll:true});
+ });
+ toolDialog.addEventListener('keydown', event => {
+  if (event.key !== 'Tab') return;
+  const controls = [...toolDialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex="0"]')].filter(element => element.getClientRects().length);
+  const first = controls[0], last = controls[controls.length - 1];
+  if (event.shiftKey && document.activeElement === first) {event.preventDefault(); last.focus();}
+  else if (!event.shiftKey && document.activeElement === last) {event.preventDefault(); first.focus();}
+ });
+ toolDialog.addEventListener('click', event => {
+  const rect = toolDialog.getBoundingClientRect();
+  if (event.target === toolDialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) toolDialog.close();
+ });
 }
 
 const money = cents => new Intl.NumberFormat('en-US', {style:'currency', currency:'USD'}).format(Math.abs(cents) / 100);

@@ -74,11 +74,12 @@ Read [DESIGN.md](DESIGN.md) before changing the interface. It records the audien
 type scale and the decisions made using the user's Professor Glitch reference.
 Porcelain white `#fbfcfa`, cobalt `#244b84`, Newsreader headings and Public Sans reading text.
 The homepage follows the user's Bored.com structure reference: five category panels and one tool panel, with short direct-link rows.
-There are 14 public resources, five communities and three tools; counts are computed from these 22 entries.
+There are 14 public resources, five communities and three tools. Category corners have no count badges; active search shows actual matching results.
 Search filters the directory locally and clears when a section link is chosen. The layout uses three columns on desktop,
 two on tablets and one on phones. The white/cobalt identity is retained; no reference-site assets or copy are reproduced.
-Eight section links scroll within the page. No tool is gated behind a tab or hub visit.
-All three working tools, their scope and sources remain further down the homepage.
+Category links move within the directory. Each tool entry opens the selected tool in a bounded on-page dialog,
+with its scope and sources, instead of scrolling to a stack of forms. Close or Escape returns focus to the launcher.
+The background directory retains its position. Without JavaScript, the same entries lead to the appropriate guide and working instructions.
 Separate guide URLs remain available for optional detail and search discovery.
 
 The three tools are:

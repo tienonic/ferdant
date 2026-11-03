@@ -8,7 +8,9 @@ module.exports = async function checkFormPrivacy(browser, base) {
   try {
    for (const url of ['/', '/what-am-i-paying-for/guides/why-did-my-bill-go-up/']) {
     await page.goto(base+url);
+    if(url==='/') await page.getByRole('navigation',{name:'Quick tools'}).getByRole('link',{name:'Compare a bill'}).click();
     await page.evaluate(()=>document.fonts.ready);
+    const currentUrl = page.url();
     const requests = [];
     const listener = request => requests.push(request.url());
     page.on('request', listener);
@@ -22,7 +24,7 @@ module.exports = async function checkFormPrivacy(browser, base) {
     } else {
      assert(await submit.isDisabled());
      await page.getByLabel('Current bill ($)').press('Enter');
-     assert.equal(page.url(), base+url);
+     assert.equal(page.url(), currentUrl);
      assert(await page.locator('#quick-tool noscript p').isVisible());
     }
     assert.deepEqual(requests, [], 'Totals must not be submitted with JavaScript on or off');

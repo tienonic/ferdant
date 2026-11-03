@@ -20,8 +20,9 @@ The previous proposal used a large question beside three numbered guide rows and
 That arrangement was repetitive, made small labels do too much work and gave the introduction too much space.
 The current version follows the user's Bored.com structure reference: a compact, browse-first category portal.
 Five topic panels and a tool panel expose short destination lists in a three-column grid, two on tablets and one on phones.
-Search filters the directory in the browser. Counts describe actual listed entries, never popularity or outcomes.
-Section links use native anchors. All three working tools, source links and scope notes remain lower on the same page.
+Search filters the directory in the browser. Omit corner count badges; numbers need a direct task meaning, such as a bill amount, checked record or active search result.
+Category links use native anchors. Tool entries open the chosen tool in an on-page dialog, with source/scope notes inside it.
+Do not append all tool forms below the directory. Closing returns focus and preserves the directory position. Without scripts, tool links lead to the existing guide.
 Full guide URLs remain optional detailed reading. Primary use must not require a hub page, library visit or hidden panel.
 
 ## Tokens
@@ -47,7 +48,9 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
 - The homepage starts with a small directory heading, search and compact category/section links.
 - Group destinations in category panels with short link rows and publisher labels. Preserve exact community names in their links.
   Panels group real destinations; individual links are not nested cards. Keep the porcelain/cobalt visual identity.
-- Show all five topics and all three tools in the main document. Navigation links jump to sections.
+- Show all five topics and direct tool entries in the directory. Category links jump to panels; tool entries open one selected tool in place.
+  Use a viewport-bounded dialog with a visible close control, Escape support, focus containment and return focus.
+  Keep money values, checklist progress and matching-search counts; omit decorative counters.
   Search may filter directory entries; choosing a section clears that filter so its destination is available.
   Share tool implementations with their guide pages. Static content, section links and cancellation records work without JavaScript.
   Explain that matching periods matter and that a difference does not establish the reason for a charge.
@@ -61,7 +64,7 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
 - State exactly what buttons do. Keep calculator wording and behavior consistent across pages.
 - Use the original inline SVG set in `scripts/icons.py` for category, destination and action cues.
   Keep the 24-unit grid and rounded 1.7-unit strokes. Icons sit beside labels rather than in decorative tiles.
-  Outbound links use the external marker; same-page tools use a downward cue. Labels carry the accessible names;
+  Outbound links use the external marker; same-page tools use an expand cue. Labels carry the accessible names;
   SVGs are hidden from assistive technology and cannot receive focus. The search magnifier focuses its field.
   Copy changes to a checkmark only after successful copying and resets when a draft changes or clears.
   Do not add an icon font, fetched favicons, tracking or third-party logo requests.

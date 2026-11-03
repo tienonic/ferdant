@@ -22,6 +22,7 @@ GLYPHS = {
  'search': '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',
  'close': '<path d="m6 6 12 12M6 18 18 6"/>',
  'external': '<path d="M14 3h7v7m0-7L10 14M10 5H4v15h15v-6"/>',
+ 'expand': '<path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6"/>',
  'down': '<path d="M12 3v17m-6-6 6 6 6-6"/>',
  'copy': '<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V3H3v13h5"/>',
  'check': '<path d="m4 12 5 5L20 6"/>',
