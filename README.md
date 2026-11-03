@@ -1,7 +1,7 @@
 # Ferdant website
 
 A porcelain-white and cobalt resource library for the five existing practical-help communities.
-This branch contains an editorial preview: a one-page directory with five topic sections and three interactive tools, five optional branch hubs, three complete
+This branch contains an editorial preview: a one-page directory with five topic sections and four interactive tools, five optional branch hubs, three complete
 money-and-paperwork guides, a searchable library, about/source/privacy pages and a custom 404. Guides lead with a short answer,
 four actions and a useful tool or template; longer explanations and sources expand only when needed.
 The three guides are proposed pilot content, not a record of resolved community cases.
@@ -26,6 +26,7 @@ The deployed main branch remains the maintenance page until a fuller release is 
 - `content/directory.py`: directory link labels, publishers and separate source/check dates.
 - `scripts/build.py`: shared page templates, metadata, breadcrumb schema and generated URLs.
 - `scripts/graphics.py`: original static category drawings for the directory summaries.
+- `scripts/cost_tool.py`: compact monthly-cost worksheet displayed directly on the homepage.
 - `scripts/icons.py`: original inline SVGs for category, resource type and action feedback.
 - `styles.css`, `site.js`, `assets/`: appearance and small browser-only tools.
 - Generated HTML is checked in for the existing GitHub Pages deployment. Rebuild after editing sources.
@@ -79,21 +80,22 @@ Primary directory links and shortcuts have 44px-high targets; phone shortcuts wr
 The browser suite checks rendered contrast, text spacing, primary targets and one forced-colors view, saving `screenshots/accessibility.json`.
 This is focused verification, not a full accessibility certification.
 The homepage follows the user's Bored.com structure reference: five category panels and one tool panel, with short direct-link rows.
-There are 14 public resources, five communities and three tools. Category corners have no count badges; active search shows actual matching results.
+There are 14 public resources, five communities and four tools. Category corners have no count badges; active search shows actual matching results.
 Search filters the directory locally and clears when a section link is chosen. The layout uses three columns on desktop,
 two on tablets and one on phones. The white/cobalt identity is retained; no reference-site assets or copy are reproduced.
-Category links move within the directory. Each tool entry opens the selected tool in a bounded on-page dialog,
+Category links move within the directory. The three detailed tool entries open the selected tool in a bounded on-page dialog,
 with its scope and sources, instead of scrolling to a stack of forms. Close or Escape returns focus to the launcher.
 The background directory retains its position. Without JavaScript, the same entries lead to the appropriate guide and working instructions.
 Separate guide URLs remain available for optional detail and search discovery.
 
-The three tools are:
+The four tools are:
 
+- Cost over time: a monthly USD amount and draggable 1–12 month timeline, directly on the homepage.
 - Bill comparison with an opt-in example and a breakdown of the amount still to explain.
 - Cancellation route choices and a record checklist with progress and a next step.
 - A live billing-message builder with safe text output, copying and a clear-notes control.
 
-The tools are shared with their guide pages. They use no AI service, account or external request.
+The three detailed tools are shared with their guide pages. The inline cost worksheet is hidden when JavaScript is unavailable. They use no AI service, account or external request.
 The checklist tracks the reader's notes; it cannot verify cancellation, access or a refund.
 Fonts are served locally (about 84 KB total); notices and download provenance are in `assets/fonts/`.
 There are no external font-service or decorative image requests.

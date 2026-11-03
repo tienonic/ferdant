@@ -49,7 +49,7 @@ DESTINATIONS = {
  'https://www.ready.gov/plan': 'checklist',
  'https://www.usa.gov/disaster-financial-help': 'help',
  'https://www.usa.gov/state-emergency-management': 'building',
- '#compare-bill': 'calculator', '#cancel-subscription': 'checklist', '#draft-message': 'pen',
+ '#compare-bill': 'calculator', '#cancel-subscription': 'checklist', '#draft-message': 'pen', '#cost-preview': 'calculator',
 }
 
 

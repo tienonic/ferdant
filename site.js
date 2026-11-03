@@ -52,6 +52,30 @@ if (portalQuery) {
  filterPortal();
 }
 
+const monthlyCost = document.querySelector('#monthly-cost');
+if (monthlyCost) {
+ const months = document.querySelector('#cost-months');
+ const total = document.querySelector('#cost-total'), caption = document.querySelector('#cost-caption');
+ const tiles = [...document.querySelectorAll('.cost-month-strip > span')];
+ const format = cents => new Intl.NumberFormat('en-US', {style:'currency', currency:'USD'}).format(cents / 100);
+ let example = false;
+ function updateCost() {
+  const count = Number(months.value), cents = Math.round(Number(monthlyCost.value) * 100);
+  const valid = monthlyCost.value !== '' && monthlyCost.validity.valid && Number.isSafeInteger(cents);
+  const period = `${count} ${count === 1 ? 'month' : 'months'}`;
+  document.querySelector('#cost-month-label').textContent = period;
+  months.setAttribute('aria-valuetext', period);
+  tiles.forEach((tile, index) => {tile.classList.toggle('is-included', valid && index < count);});
+  total.textContent = valid ? format(cents * count) : '—';
+  caption.textContent = valid ? `${example ? 'Example: ' : ''}${format(cents)} × ${period}` : monthlyCost.value === '' ? 'Enter an amount to see the total.' : 'Use a non-negative amount with up to two decimal places.';
+ }
+ monthlyCost.addEventListener('input', () => {example = false; updateCost();});
+ months.addEventListener('input', updateCost);
+ document.querySelector('#cost-example').addEventListener('click', () => {monthlyCost.value = '12'; example = true; updateCost();});
+ document.querySelector('#cost-reset').addEventListener('click', () => {monthlyCost.value = ''; months.value = '12'; example = false; updateCost(); monthlyCost.focus();});
+ updateCost();
+}
+
 const toolDialog = document.querySelector('#tool-dialog');
 if (toolDialog && typeof toolDialog.showModal === 'function') {
  let returnTo = null;

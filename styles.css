@@ -614,6 +614,48 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
  .portal-nav nav[aria-label="The five communities"] a::before { background: LinkText; }
 }
 
+/* A small live cost worksheet stays directly on the directory. */
+.cost-preview { display: grid; grid-template-columns: 1fr 1.1fr 1.5fr 1fr; align-items: center; gap: 12px 26px; padding: 20px 0 14px; border-bottom: 1px solid var(--rule); }
+.cost-preview h2 { font: 600 17px/1.4 var(--sans); margin: 0 0 5px; }
+.cost-preview-heading p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0; }
+.cost-preview label, .cost-period output { font-size: 12px; color: var(--muted); }
+.cost-amount { display: flex; gap: 7px; align-items: center; margin-top: 6px; }
+.cost-amount > span { color: var(--cobalt); }
+.cost-amount input { min-width: 0; width: 100%; max-width: 120px; min-height: 44px; padding: 8px; border: 1px solid #71808c; background: white; font: 16px var(--sans); }
+.cost-amount input { appearance: textfield; }
+.cost-amount input::-webkit-inner-spin-button, .cost-amount input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.cost-amount .quiet-button { white-space: nowrap; font-size: 12px; padding: 4px; }
+.cost-period { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 9px; }
+.cost-period output { color: var(--cobalt); font-weight: 600; }
+.cost-month-strip { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; height: 22px; }
+.cost-month-strip span { border: 1px solid #b9c8d5; border-radius: 2px 2px 5px 2px; background: white; }
+.cost-month-strip .is-included { background: #dce9ed; border-color: var(--utilities); border-bottom: 4px solid var(--utilities); }
+#cost-months { display: block; width: 100%; height: 44px; margin: 0; accent-color: var(--utilities); cursor: pointer; }
+.cost-scale { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
+.cost-total { min-width: 0; }
+.cost-total strong { display: block; font: 32px/1.2 var(--serif); color: var(--utilities); overflow-wrap: anywhere; }
+.cost-total > span { display: block; font-size: 12px; line-height: 1.5; color: var(--muted); margin-top: 5px; }
+.cost-preview .cost-scope { grid-column: 1 / 4; margin: 0; font-size: 11px; color: var(--muted); line-height: 1.6; }
+#cost-reset { justify-self: start; padding: 0; font-size: 12px; }
+@media (max-width: 1050px) {
+ .cost-preview { grid-template-columns: 1fr 1fr 1.2fr; gap: 12px 22px; }
+ .cost-preview-heading { grid-column: 1 / -1; display: flex; gap: 16px; align-items: baseline; }
+ .cost-preview-heading h2 { margin: 0; }
+ .cost-preview .cost-scope { grid-column: 1 / 3; }
+}
+@media (max-width: 700px) {
+ .cost-preview { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap: 12px 18px; padding-top: 16px; }
+ .cost-preview-heading { display: block; }
+ .cost-preview-heading p { font-size: 12px; margin-top: 3px; }
+ .cost-horizon { grid-column: 1 / -1; grid-row: 3; }
+ .cost-total strong { font-size: 29px; }
+ .cost-preview .cost-scope { grid-column: 1; font-size: 10px; }
+ #cost-reset { justify-self: end; }
+}
+@media (forced-colors: active) {
+ .cost-month-strip .is-included { border-color: Highlight; background: Highlight; }
+}
+
 /* Quiet, original field sketches sit within the existing category summaries. */
 .portal-overview { display: flex; align-items: center; gap: 12px; margin: 12px 0 14px; min-height: 76px; }
 .portal-overview .portal-description { order: 1; flex: 1; margin: 0; min-width: 0; }

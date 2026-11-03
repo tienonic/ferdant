@@ -10,7 +10,7 @@ module.exports = async function checkPortal(page) {
   assert(await query.evaluate(el=>el===document.activeElement));
   assert.equal(await page.locator('.portal-count').count(), 0);
   assert.equal(await page.locator('[data-portal-card]:visible').count(), 6);
-  assert.equal(await page.locator('[data-portal-entry]:visible').count(), 22);
+  assert.equal(await page.locator('[data-portal-entry]:visible').count(), 23);
   assert.equal(await page.locator('#portal-status').innerText(), 'Choose a category or open a tool.');
   await query.fill('contractor');
   assert.equal(await page.locator('[data-portal-entry]:visible').count(), 1);

@@ -6,6 +6,7 @@ const checkWidgets = require('./widgets.cjs');
 const checkFormPrivacy = require('./form-privacy.cjs');
 const checkPortal = require('./portal.cjs');
 const checkAccessibility = require('./accessibility.cjs');
+const checkCostPreview = require('./cost-preview.cjs');
 const base = process.env.SITE_URL || 'http://127.0.0.1:4173';
 const production = process.env.SITE_MODE === 'production';
 const urls = [...fs.readFileSync('sitemap.xml','utf8').matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).concat('/404.html');
@@ -43,6 +44,7 @@ function browserPath() {
    await page.goto(base+'/');await page.keyboard.press('Tab');assert.equal(await page.locator(':focus').innerText(),'Skip to content');await page.keyboard.press('Enter');assert.equal(await page.locator(':focus').getAttribute('id'),'main');
    await page.evaluate(()=>document.fonts.ready);const loadedFonts=await page.evaluate(()=>[...document.fonts].filter(f=>f.status==='loaded').map(f=>f.family));assert(loadedFonts.includes('Newsreader'));assert(loadedFonts.includes('Public Sans'));
    await checkPortal(page);
+   await checkCostPreview(page,width);
    await checkAccessibility(page,width);
    await page.getByRole('navigation',{name:'Quick tools'}).getByRole('link',{name:'Compare a bill'}).click();
    await page.getByLabel('Previous bill ($)').fill('60');await page.getByLabel('Current bill ($)').fill('75');await page.getByRole('button',{name:'Compare the totals'}).click();assert((await page.locator('#bill-result').innerText()).includes('$15.00 (25.0%) higher'));
@@ -63,7 +65,7 @@ function browserPath() {
   }
   const offline=await browser.newContext({javaScriptEnabled:false,reducedMotion:'reduce',viewport:{width:390,height:844}});const p=await offline.newPage();await p.goto(base+'/');assert.equal(await p.locator('.directory-topic:visible').count(),5);assert.equal(await p.locator('.directory-tool:visible').count(),0);await p.getByRole('navigation',{name:'The five communities'}).getByRole('link',{name:'Repairs'}).click();assert(p.url().endsWith('#who-can-fix-this'));await p.getByRole('navigation',{name:'Quick tools'}).getByRole('link',{name:'Draft a message'}).click();assert(p.url().includes('/guides/write-a-billing-question/'));assert(await p.locator('#message-template').isVisible());await p.goto(base+'/what-am-i-paying-for/guides/why-did-my-bill-go-up/');assert(await p.locator('#quick-tool noscript p').isVisible());await p.goto(base+'/guides/');assert.equal(await p.locator('.guide-card').count(),3);assert(!await p.locator('[data-search-controls]').isVisible());await p.locator('.guide-card').first().click();await p.locator('#sources summary').click();assert(await p.locator('#sources a').first().isVisible());await p.locator('.guide-step summary').first().click();assert(await p.locator('.guide-step .step-detail').first().isVisible());await offline.close();
   for(const branch of branches){const slug=branch.replace(/([a-z])([A-Z])/g,'$1-$2').toLowerCase();const slugMap={keepusconnected:'keep-us-connected',whocanfixthis:'who-can-fix-this',keepthebasicson:'keep-the-basics-on',whatamipayingfor:'what-am-i-paying-for',planfordisruption:'plan-for-disruption'};const key=branch.toLowerCase();const text=fs.readFileSync(path.join(slugMap[key],'index.html'),'utf8');assert(text.includes(`https://www.reddit.com/r/${branch}/`));}
-  fs.writeFileSync('screenshots/verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'passed',homeCalculator:'passed',singlePageDirectory:'passed',categoryPortal:'passed',directoryToolDialogs:'passed',directoryAccessibility:'passed',cornerBadges:'removed',directorySearch:'passed',sectionNavigation:'passed',interactiveWidgets:'passed',widgetInteractionRequests:0,widgetStorage:'none',selfHostedFonts:'passed',commerceRequests:0,commerceUI:false,quickAnswers:'passed',mode:production?'production':'preview',published:false},null,2));
+  fs.writeFileSync('screenshots/verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'passed',homeCalculator:'passed',inlineCostTool:'passed',singlePageDirectory:'passed',categoryPortal:'passed',directoryToolDialogs:'passed',directoryAccessibility:'passed',cornerBadges:'removed',directorySearch:'passed',sectionNavigation:'passed',interactiveWidgets:'passed',widgetInteractionRequests:0,widgetStorage:'none',selfHostedFonts:'passed',commerceRequests:0,commerceUI:false,quickAnswers:'passed',mode:production?'production':'preview',published:false},null,2));
   await checkFormPrivacy(browser, base);
   console.log('No-JavaScript reading, source access and form privacy passed.');
  } finally {await browser.close();}

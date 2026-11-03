@@ -60,6 +60,9 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
   Share tool implementations with their guide pages. Static content, section links and cancellation records work without JavaScript.
   Explain that matching periods matter and that a difference does not establish the reason for a charge.
 - Give each tool a useful response: an amount still to explain, a record to check next, or a copyable draft.
+  A compact cost-over-time worksheet also works directly on the homepage: a monthly USD amount, a 1–12 month
+  slider, twelve visual month tiles and the calculated total. Start empty; its example is opt-in and labeled.
+  Treat this as constant-charge arithmetic, with fees, rate changes and interest excluded. Keep it local and clearable.
   Examples are opt-in and explicitly labeled. A full checklist never claims that a company canceled or refunded anything.
   Keep notes in the open page; no storage, network request, background scheduling or automatic submission.
 - Use category-colored icons and thin rules with restrained borders to distinguish groups. Keep cobalt for the brand and general controls.
