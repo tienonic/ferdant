@@ -81,7 +81,7 @@
     "assets/fonts/newsreader-OFL.txt": "fdfad38143ec470553cae82a1e45320bdd1b9ec70415d37bd0171051d8a4ded8",
     "assets/fonts/provenance.json": "262f27c8066605a31c236a8cb534464317e0f243ec78a2c528a8cee806bc241b",
     "assets/fonts/publicsans-OFL.txt": "157a9e77f7580246e97c769490e2e977ae94399f9d30f4556015c41fe8c28bac",
-    "assets/photos/provenance.json": "20441527db7a7e268bb046217a7a3a9c6b992684b8570e4385ccf28e5eb93605",
+    "assets/photos/provenance.json": "8bba2e1cec7d2a38798576202be796e802d2d5d6458b3fa9cc23f4bbe0f6ac88",
     "assets/vendor/jspdf/LICENSE": "dc388ec35ff463288cdde3588a36fd4ed12a45deff053243b37309acc9ef583b",
     "assets/vendor/jspdf/README.md": "833db2595dfb5610851c08a09e55083f36aebb07de67709a3750cd53022742a8",
     "assets/vendor/leaflet/LICENSE": "bbc959aaef7488b38942e7f05cfd1244351f8bce54261951ea17dd7cf60f894b",
@@ -137,7 +137,7 @@
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
     "phone.js": "094f9f5299edabc858f45dd44d91f18df87592074cde075a363667ff2f39fcf5",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
-    "resource-booklet.js": "e2b85ba3f5005a7c5597d69d83d0ab6d08d652584635843e512766c26231337e",
+    "resource-booklet.js": "1c3d1cd69f9051def320297aeb0a0a6883e78dd37151106f2f04af393513269e",
     "resource-map.js": "c481cf97f8321c43e514274ee59c6ccbada51ba04d6fd4aa49bbae9d4ea390f3",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
     "scripts/build.py": "18c7b425a86fbc5200ba3227b114ff21381c711185581bd47474cfdafbdaa4da",
@@ -159,7 +159,7 @@
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
     "scripts/references.py": "da7425aa75d4e6fe2da33e89de996348d0784bd2a615289e977ba12717c3ef43",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
-    "scripts/resource_map.py": "e50ecab9fd3b3f513fefc5c21b3f8f44d0b77bdc94e42950d903784de1364809",
+    "scripts/resource_map.py": "6caaad479a2a0af2511564f8a51a7cbf9b0fa1d877f69f15ec1c27990e24455e",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
     "service-resources.js": "efbaa68b9bb20649644f58e0f62b8e9776eb4eaa1267650af80b5b5fa05392ea",
@@ -15891,7 +15891,7 @@
           "width": 960,
           "height": 640,
           "sha256": "eadfe2a12f5a3d704db6a268f9033a5df6a4217db676392872b2a95f7798900d",
-          "use": "Homepage welcome photography",
+          "use": "Homepage welcome photography and resource-book covers",
           "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
         }
       ]
@@ -15921,7 +15921,7 @@
           "width": 960,
           "height": 640,
           "sha256": "eadfe2a12f5a3d704db6a268f9033a5df6a4217db676392872b2a95f7798900d",
-          "use": "Homepage welcome photography",
+          "use": "Homepage welcome photography and resource-book covers",
           "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
         },
         {
@@ -15968,7 +15968,7 @@
           "width": 960,
           "height": 640,
           "sha256": "eadfe2a12f5a3d704db6a268f9033a5df6a4217db676392872b2a95f7798900d",
-          "use": "Homepage welcome photography",
+          "use": "Homepage welcome photography and resource-book covers",
           "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
         }
       ]

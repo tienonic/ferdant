@@ -10,11 +10,12 @@
  const slug=s=>s.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
  function location(key){const row=places.cities.find(r=>r[0]===key);if(row)return {key,name:row[1],county:row[2],city:true};const county=key?.startsWith('county:')?key.slice(7):null;return places.counties[county]?{key,name:places.counties[county]+' County',county,city:false}:null;}
  function preview(key){
-  const place=location(key),name=place?.name||'California',label=name.length>28?34:name.length>19?42:52;
+  const place=location(key),name=place?.name||'California';
+  const measure=document.createElement('canvas').getContext('2d');measure.font='52px Georgia';const label=Math.min(52,326*52/measure.measureText(name).width);
   const ranked=window.FerdantRisk.ordered(key),profile=window.FerdantRisk.profile(key);
   const cells=ranked.map((p,i)=>{const x=48+(i%3)*172,y=355+Math.floor(i/3)*64;const icon=document.querySelector('[data-disaster="'+p.id+'"] .atlas-choice-symbol svg')?.outerHTML||'';return '<g transform="translate('+x+','+y+')"><rect width="164" height="60" rx="4" fill="'+p.risk.fill+'"/><g color="'+p.risk.color+'">'+icon.replace(/\s(?:width|height)="[^"]*"/g,'').replace('<svg ','<svg x="7" y="5" width="22" height="22" ')+'</g><text x="35" y="19" font-size="10" font-weight="700" fill="'+p.risk.color+'">'+esc(p.risk.label)+'</text><text x="7" y="46" font-size="10" fill="'+ink+'">'+esc(p.id==='coastal'?'Coastal flooding':p.label)+'</text></g>';}).join('');
   const scope=!profile.record?'Choose a location for a risk ranking.':profile.record.scope==='county'?'FEMA county ratings / December 2025':'City tract screening / highest overlapping-tract risk / '+profile.record.coverage+'% area coverage';
-  return '<svg xmlns="http://www.w3.org/2000/svg" width="612" height="792" viewBox="0 0 612 792"><rect width="612" height="792" fill="'+paper+'"/><path d="M48 66H564M48 306H564M48 710H564" stroke="'+rule+'"/><g font-family="Arial, sans-serif"><text x="48" y="47" fill="'+blue+'" font-size="16" font-weight="700">ferdant.</text><text x="564" y="47" text-anchor="end" fill="'+muted+'" font-size="10">THE LOCAL RESOURCE BOOK</text><text x="48" y="115" font-size="12" fill="'+blue+'">'+esc(place?places.counties[place.county]+' County / California':'California / statewide edition')+'</text><g font-family="Georgia, serif" fill="'+ink+'"><text x="48" y="175" font-size="'+label+'">'+esc(name)+'</text><text x="48" y="229" font-size="42">field notes.</text></g><text x="48" y="274" font-size="14" fill="'+muted+'">Places to turn. Numbers to call. Steps to take.</text><text x="48" y="331" font-size="13" font-weight="700" fill="'+ink+'">Long-term relative risk / highest first</text>'+cells+'<text x="48" y="690" font-size="9" fill="'+muted+'">'+esc(scope)+'</text><text x="48" y="704" font-size="9" fill="'+muted+'">Not event probability. Low is not safe; gray means unassessed.</text><text x="48" y="744" font-size="12" fill="'+blue+'">Everyday searches / 15 events / phone charts</text><text x="48" y="766" font-size="10" fill="'+muted+'">FEMA NRI / December 2025. Follow current local instructions.</text></g></svg>';
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="612" height="792" viewBox="0 0 612 792"><rect width="612" height="792" fill="'+paper+'"/><path d="M48 66H564M48 306H564M48 710H564" stroke="'+rule+'"/><g font-family="Arial, sans-serif"><text x="48" y="47" fill="'+blue+'" font-size="16" font-weight="700">ferdant.</text><text x="564" y="47" text-anchor="end" fill="'+muted+'" font-size="10">THE LOCAL RESOURCE BOOK</text><text x="48" y="115" font-size="12" fill="'+blue+'">'+esc(place?places.counties[place.county]+' County / California':'California / statewide edition')+'</text><image x="396" y="91" width="176" height="117.333" preserveAspectRatio="xMidYMid meet" href="'+config.bookletCover.dataURL+'"/><text x="396" y="222" font-size="7" fill="'+muted+'">'+esc('Photo: '+config.bookletCover.photographer+' / '+config.bookletCover.publisher)+'</text><g font-family="Georgia, serif" fill="'+ink+'"><text x="48" y="175" font-size="'+label+'">'+esc(name)+'</text><text x="48" y="229" font-size="42">field notes.</text></g><text x="48" y="274" font-size="14" fill="'+muted+'">Places to turn. Numbers to call. Steps to take.</text><text x="48" y="331" font-size="13" font-weight="700" fill="'+ink+'">Long-term relative risk / highest first</text>'+cells+'<text x="48" y="690" font-size="9" fill="'+muted+'">'+esc(scope)+'</text><text x="48" y="704" font-size="9" fill="'+muted+'">Not event probability. Low is not safe; gray means unassessed.</text><text x="48" y="744" font-size="12" fill="'+blue+'">Everyday searches / 15 events / phone charts</text><text x="48" y="766" font-size="10" fill="'+muted+'">FEMA NRI / December 2025. Follow current local instructions.</text></g></svg>';
  }
  function contactIds(place,event){
   const local=place?[...(phones.countyContacts[place.county]||[]),...(phones.cityContacts[place.key]||[])]:[];
@@ -42,6 +43,7 @@
  async function model(key){
   const place=location(key),directory=place&&await window.FerdantResourceMap.directory(key),items=directory?.items||[],sources=[],bySource=new Map();
   function source(s){const id=[s.url,s.title,s.checked,s.published].join('|');if(!bySource.has(id)){bySource.set(id,sources.length+1);sources.push({...s,id:sources.length+1});}return bySource.get(id);}
+  const coverPhoto=config.bookletCover,coverSource=source({...coverPhoto,dataURL:undefined,title:coverPhoto.title+' / '+coverPhoto.photographer+' / '+coverPhoto.publisher});
   const riskProfile=window.FerdantRisk.profile(key),riskSource=source(config.hazardRisk.source),riskTractSource=source(config.hazardRisk.tractSource);
   function physical(f,issue){const s=config.sources[f.source],outside=place?.city&&!f.within?(f.servesCounty?'Serves '+places.counties[place.county]+' County; office outside city.':'Outside city / '+(places.counties[f.county]||'nearby')+' County / '+(f.km<10?f.km.toFixed(1):Math.round(f.km))+' km straight-line.') : '';
    return {issue,title:f.name,detail:f.address+', '+f.city+'. '+outside,access:f.visit?.hours?'Regular hours: '+f.visit.hours:'Hours and intake not confirmed; check with the provider.',kind:f.kind,url:f.url||s.url,source:source(s),physicalId:f.id};}
@@ -67,7 +69,7 @@
   const ids=[...new Set([...phones.statewide,...(place?phones.countyContacts[place.county]||[]:[]),...(place?phones.cityContacts[place.key]||[]:[])])];
   const appendix=ids.map(id=>({id,...phones.contacts[id],sourceRef:source({...phones.sources[phones.contacts[id].source],checked:phones.checked})}));
   const searches=config.resourceSearch.groups.map(group=>({...group,resources:group.sources.map(id=>{const s=config.resourceSearch.sources[id];return {...s,sourceRef:source(s)};})}));
-  return {place,events,sources,appendix,evacuation,evacuationMap,streetMap,searches,riskProfile,riskSource,riskTractSource,regionalAvailable:directory?.regionalAvailable??false,geometryAvailable:directory?.geometryAvailable??false};
+  return {place,events,sources,appendix,evacuation,evacuationMap,streetMap,coverSource,searches,riskProfile,riskSource,riskTractSource,regionalAvailable:directory?.regionalAvailable??false,geometryAvailable:directory?.geometryAvailable??false};
  }
  function sourceDocument(m){
   const name=m.place?.name||'California',stem='ferdant-'+slug(name)+'-resource-book-'+config.serviceChecked;
@@ -85,7 +87,7 @@
    ...m.events.map(p=>p.label+': '+p.risk.label+'; highest source rating: '+p.risk.sourceRating+'; rated components '+p.risk.ratedComponents+'/'+p.risk.totalComponents+'. Scope: '+p.risk.scopeNote),
    ...(m.riskProfile.record?.tracts?['Intersecting census tracts: '+m.riskProfile.record.tracts.join(', ')]:[]),'',
    ...(m.evacuation?['EVACUATION SOURCE REVIEW',...[...m.evacuation.links,m.evacuation.general,m.evacuation.flood,m.evacuation.tsunami,m.evacuation.tsunamiMap].flatMap(s=>['[S'+s.sourceRef+'] '+s.title,'Type: '+s.kind,'Review: '+s.review,...(s.corroborationURL?['Corroborating source: '+s.corroborationURL]:[]),''])]:[]),
-   ...m.sources.flatMap(s=>['[S'+s.id+'] '+s.title,s.url,'Checked: '+(s.checked||'referral link; current service not verified'),'Publisher/data date: '+(s.published||'not supplied'),...(s.evidenceURL?['Publisher evidence: '+s.evidenceURL,'Evidence date: '+(s.evidencePublished||'not supplied'),'Coverage: '+s.coverage,'Review limits: '+s.verification]:[]),''])].join('\r\n');
+   ...m.sources.flatMap(s=>['[S'+s.id+'] '+s.title,s.url,'Checked: '+(s.checked||'referral link; current service not verified'),'Publisher/data date: '+(s.published||'not supplied'),...(s.photographer?['Photographer: '+s.photographer]:[]),...(s.licenseURL?['License: '+s.license,'License URL: '+s.licenseURL]:[]),...(s.evidenceURL?['Publisher evidence: '+s.evidenceURL,'Evidence date: '+(s.evidencePublished||'not supplied'),'Coverage: '+s.coverage,'Review limits: '+s.verification]:[]),''])].join('\r\n');
   return {filename:stem+'-sources.txt',pdfFilename:stem+'.pdf',text};
  }
  let pdfReady;
@@ -100,8 +102,17 @@
   const image=new Image();image.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg.replace(/\s(?:width|height|xmlns|style)="[^"]*"/g,'').replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" style="color:'+color+'" '));await image.decode();
   const canvas=document.createElement('canvas');canvas.width=80;canvas.height=80;canvas.getContext('2d').drawImage(image,0,0,80,80);const png=canvas.toDataURL('image/png');iconCache.set(key,png);return png;
  }
+ let coverImage;
+ function coverPhoto(){
+  if(!coverImage)coverImage=(async()=>{
+   const image=new Image();image.src=config.bookletCover.dataURL;await image.decode();
+   const canvas=document.createElement('canvas');canvas.width=720;canvas.height=480;canvas.getContext('2d').drawImage(image,0,0,720,480);
+   return canvas.toDataURL('image/jpeg',.9);
+  })();
+  return coverImage;
+ }
  async function build(key){
-  const [m,PDF]=await Promise.all([model(key),library()]),pdf=new PDF({unit:'pt',format:'letter',compress:true,putOnlyUsedFonts:true}),name=m.place?.name||'California',layout=[],links=[];
+  const [m,PDF,photo]=await Promise.all([model(key),library(),coverPhoto()]),pdf=new PDF({unit:'pt',format:'letter',compress:true,putOnlyUsedFonts:true}),name=m.place?.name||'California',layout=[],links=[];
   pdf.setProperties({title:name+' field notes - resources and disaster phone charts',author:'Ferdant',subject:'Dated California resources; no live dispatch or shelter status'});pdf.setCreationDate(new Date(config.serviceChecked+'T12:00:00Z'));pdf.setFileId(('46455244414e54'+[...String(key||'CA')].map(c=>c.charCodeAt(0).toString(16)).join('')).padEnd(32,'0').slice(0,32));pdf.setLanguage('en-US');
   const icons=Object.fromEntries(await Promise.all(Object.entries(config.serviceTypes).map(async([id,t])=>[id,await iconImage(t.icon,t.color)])));
   const hazardIcons=Object.fromEntries(await Promise.all(m.events.map(async p=>{const svg=document.querySelector('[data-disaster="'+p.id+'"] .atlas-choice-symbol svg')?.outerHTML;return [p.id,svg?await iconImage(svg,blue):null];})));
@@ -139,7 +150,11 @@
   }
   header();
   text(m.place?places.counties[m.place.county]+' COUNTY / CALIFORNIA':'CALIFORNIA / STATEWIDE EDITION',40,80,532,10,blue,'helvetica','bold');
-  const nh=text(name,40,116,520,name.length>28?32:44,ink,'times');text('field notes.',40,124+nh,532,42,ink,'times');
+  const photoLayout={page:1,x:396,y:91,width:176,height:176*2/3};
+  pdf.addImage(photo,'JPEG',photoLayout.x,photoLayout.y,photoLayout.width,photoLayout.height);
+  text('Photo: '+config.bookletCover.photographer+' / Pexels [S'+m.coverSource+']',396,215,176,7,muted);
+  pdf.setFont('times','normal');pdf.setFontSize(44);const titleSize=Math.min(44,324*44/pdf.getTextWidth(plain(name)));
+  const nh=Math.max(44*1.26,text(name,40,116,332,titleSize,ink,'times'));text('field notes.',40,124+nh,532,42,ink,'times');
   const introY=136+nh+53;const introHeight=text('Places to turn. Numbers to call. Steps to take.',40,introY,532,14,muted);
   text('Street map / page 2',40,introY+introHeight+5,532,9,blue);pdf.link(40,introY+introHeight+3,532,18,{pageNumber:2});
   y=introY+introHeight+25;y+=text('Long-term risk / highest first',40,y,532,19,ink,'times')+19;
@@ -268,7 +283,7 @@
   pdf.outline.add(null,'Everyday phone desk',{pageNumber:m.events.at(-1).endPage+1});
   for(let n=1;n<=total;n++){pdf.setPage(n);line(749);text('FERDANT / '+name,40,758,260,8,blue);text('Sources: companion TXT / '+n+' of '+total,351,758,221,8,muted);}
   for(const item of layout)if(item.top+item.height>(item.top>=750?776:744)||item.x+item.width>573)throw Error('Booklet layout overflow: '+JSON.stringify(item));
-  return {blob:pdf.output('blob'),filename:companion.pdfFilename,sourcesFilename:companion.filename,sourcesText:companion.text,pages:total,events:m.events.map(p=>({id:p.id,start:p.startPage,end:p.endPage,cards:p.cards,phoneIds:p.phones.map(c=>c.id)})),layout,links,mapAudit,model:m};
+  return {blob:pdf.output('blob'),filename:companion.pdfFilename,sourcesFilename:companion.filename,sourcesText:companion.text,pages:total,events:m.events.map(p=>({id:p.id,start:p.startPage,end:p.endPage,cards:p.cards,phoneIds:p.phones.map(c=>c.id)})),layout,links,mapAudit,photoLayout,model:m};
  }
  window.FerdantBooklet={preview,model,build,contactIds,async sources(key){return sourceDocument(await model(key));}};
  function save(blob,filename){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}

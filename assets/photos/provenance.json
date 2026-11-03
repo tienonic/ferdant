@@ -1,5 +1,5 @@
 {
-  "title": "Homepage stock photography",
+  "title": "Website and resource-book stock photography",
   "photos": [
     {
       "title": "Family playing in a park",
@@ -15,7 +15,7 @@
       "width": 960,
       "height": 640,
       "sha256": "eadfe2a12f5a3d704db6a268f9033a5df6a4217db676392872b2a95f7798900d",
-      "use": "Homepage welcome photography",
+      "use": "Homepage welcome photography and resource-book covers",
       "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
     },
     {
