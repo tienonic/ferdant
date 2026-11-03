@@ -2,6 +2,8 @@
 
 November 3, 2026. Proposed research sequence; experiments and funding applications have not begun.
 
+Follow-up findings: [outreach buyers and near term income](outreach-buyers-and-income-findings-20261103.md). Free official materials and program-specific grant restrictions narrow the proposed paid offer to a demonstrated gap in local customization or maintenance.
+
 ## Direction to test
 
 Test whether Ferdant can earn regular use by making local practical-help tasks easier, then whether organizations will pay to maintain and distribute that useful service. Study donations and memberships as a second route. Large investments and national traffic are later outcomes to explain, not starting targets to copy.
@@ -92,6 +94,8 @@ Allow two further weeks for initial evidence after the usefulness gate, with lon
 Study shareable offline resources as part of those routes, not as a separate campaign. A downloaded file may help several people without further visits; file downloads cannot establish readership. Community sharing remains subject to existing exact-post review and is not permission to post in subreddits or Discord.
 
 For the payer test, prepare two concrete offers: a maintained local resource pack with dated checks and a staff distribution package with onboarding and correction support. Describe deliverables, service limits and renewal terms before discussing a price. Compare them with the buyer's current workload and tools. Do not promise case management, live alerts or integrations that Ferdant does not provide.
+
+Before preparing a proposal, compare free official materials and establish the buyer's authority to pay for the additional work. For the FY2025–26 Listos Southern regional grant, official materials are required and grant-funded custom materials need prior Cal OES approval. Test a local supplement or maintenance gap rather than assuming that grantees need replacement packets. The [follow-up findings](outreach-buyers-and-income-findings-20261103.md#free-alternatives-and-grant-restrictions) preserve the source, scope and implications for the offer.
 
 Advance to a separately approved paid pilot only if at least two independent organizations describe a repeated problem and one budget owner identifies a credible purchasing route for a defined offer. An interview, proposal, letter of interest, signed contract, paid invoice and renewal are separate stages. Record each accurately.
 
