@@ -23,6 +23,8 @@ The deployed main branch remains the maintenance page until a fuller release is 
 ## Edit and check
 
 - `content/site.py`: branch descriptions, original guide text, source links and dates.
+- `content/regions.json`: explicit region coverage, public contacts and source-review limits; dates never advance automatically.
+- `scripts/offline.py`: self-contained regional downloads, including fonts, icons, tools and saved guides.
 - `content/directory.py`: directory link labels, publishers and separate source/check dates.
 - `scripts/build.py`: shared page templates, metadata, breadcrumb schema and generated URLs.
 - `scripts/graphics.py`: original static category drawings for the directory summaries.
@@ -38,7 +40,7 @@ npm.cmd run build
 npm.cmd run verify:responsive
 ```
 
-Keep the local server running for browser checks. They test all 14 pages at 320, 390, 768 and
+Keep the local server running for browser checks. They test all 15 pages at 320, 390, 768 and
 1440 pixels, internal links, unique metadata, canonical URLs, structured data, keyboard/mobile
 navigation, search, calculator cases, clipboard behavior, native detail expansion without JavaScript,
 and zero Shopify requests or shop UI.
@@ -49,7 +51,7 @@ can reuse an existing Playwright headless browser; otherwise install the browser
 ## SEO and release
 
 Each answer has its own HTML URL, title, description, canonical URL and source/scope section.
-All primary content and navigation work without JavaScript. The sitemap includes 13 content URLs;
+All primary content and navigation work without JavaScript. The sitemap includes 14 content URLs;
 the error page remains `noindex` in production. No ranking, traffic or conversion improvement is claimed.
 
 Before publication, the existing website owner confirms pilot content and rights, factual review,
@@ -104,6 +106,22 @@ There are no external font-service or decorative image requests.
 Search, bill breakdowns, cancellation selections and message notes run in the browser without sending or storing input.
 Template copy uses the clipboard only after a click. No analytics, account system, document upload,
 polling process or scheduler is included. Private plans, conversations and credentials stay outside this repository.
+
+## Regional offline editions
+
+Open `/offline/` from the preparedness directory entry. Current downloads cover Davis/Yolo County and
+San Francisco, with city/provider boundaries stated on each edition. Each dated HTML file under `downloads/`
+embeds its CSS, fonts, favicon assets, four tools, three full guides, regional contacts and source notes.
+Open it directly in a browser; no server, install or service worker is required. Native reading also works
+without JavaScript. On phones, a file preview may show the text but require opening in a browser for tools.
+The browser suite downloads the files through their real links and reopens them as local files with networking
+disabled at three widths. It checks all four tools, reading, embedded assets and zero network requests.
+
+Phone calls still require phone service. External websites and alert registration require a connection.
+The file has no live alerts, outage status or shelter availability, and entered notes do not persist after closing.
+Some regional facts were checked through the primary publisher's indexed excerpt when direct retrieval was
+blocked; preserve that distinction in `content/regions.json`. Add a region only after checking its own sources.
+Keep both embedded font licenses. Rebuilding never refreshes a factual review date or starts collection.
 
 ## Background infrastructure and low-maintenance updates
 

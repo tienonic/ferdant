@@ -7,6 +7,7 @@ const checkFormPrivacy = require('./form-privacy.cjs');
 const checkPortal = require('./portal.cjs');
 const checkAccessibility = require('./accessibility.cjs');
 const checkCostPreview = require('./cost-preview.cjs');
+const checkOffline = require('./offline.cjs');
 const base = process.env.SITE_URL || 'http://127.0.0.1:4173';
 const production = process.env.SITE_MODE === 'production';
 const urls = [...fs.readFileSync('sitemap.xml','utf8').matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).concat('/404.html');
@@ -67,6 +68,7 @@ function browserPath() {
   for(const branch of branches){const slug=branch.replace(/([a-z])([A-Z])/g,'$1-$2').toLowerCase();const slugMap={keepusconnected:'keep-us-connected',whocanfixthis:'who-can-fix-this',keepthebasicson:'keep-the-basics-on',whatamipayingfor:'what-am-i-paying-for',planfordisruption:'plan-for-disruption'};const key=branch.toLowerCase();const text=fs.readFileSync(path.join(slugMap[key],'index.html'),'utf8');assert(text.includes(`https://www.reddit.com/r/${branch}/`));}
   fs.writeFileSync('screenshots/verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'passed',homeCalculator:'passed',inlineCostTool:'passed',singlePageDirectory:'passed',categoryPortal:'passed',directoryToolDialogs:'passed',directoryAccessibility:'passed',cornerBadges:'removed',directorySearch:'passed',destinationFavicons:'19 locally served images decoded',externalPageRequests:0,sectionNavigation:'passed',interactiveWidgets:'passed',widgetInteractionRequests:0,widgetStorage:'none',selfHostedFonts:'passed',commerceRequests:0,commerceUI:false,quickAnswers:'passed',mode:production?'production':'preview',published:false},null,2));
   await checkFormPrivacy(browser, base);
+  await checkOffline(browser, base);
   console.log('No-JavaScript reading, source access and form privacy passed.');
  } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1});

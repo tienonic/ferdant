@@ -31,10 +31,10 @@ DRAWINGS = {
     'what-am-i-paying-for': '''
       <path class="sketch-wash" d="m8 27 32-14 42 9 14 27-29 19-46-9Z"/>
       <path class="sketch-guide" d="M13 62h83"/>
-      <path d="m22 52-4-31 30-4 4 30M27 22l29-6 10 45-6-2-4 4-5-3-5 4-5-3-5 4-9-43Z"/>
-      <path d="m36 29 15-3m-14 9 15-3m-13 10 8-2m-5 11 13-3"/>
-      <rect x="70" y="30" width="23" height="31" rx="3"/>
-      <path d="M75 37h13m-13 7h2m5 0h1m5 0h.1M75 50h2m5 0h1m5 0h.1M75 56h2m5 0h6"/>
+      <path d="M24 16v-6h36v42h-6M18 16h36v48l-6-3-6 3-6-3-6 3-6-3-6 3V16Z"/>
+      <path d="M25 26h22M25 34h22M25 42h13M25 53h22"/>
+      <rect x="64" y="30" width="22" height="32" rx="3"/>
+      <path d="M69 37h12m-12 7h2m4 0h2m4 0h.1M69 50h2m4 0h2m4 0h.1M69 56h2m4 0h6"/>
     ''',
     'plan-for-disruption': '''
       <path class="sketch-wash" d="m7 31 26-18 48 8 17 31-32 16-45-8Z"/>

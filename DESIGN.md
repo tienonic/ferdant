@@ -67,6 +67,9 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
   Keep notes in the open page; no storage, network request, background scheduling or automatic submission.
 - Use category-colored icons and thin rules with restrained borders to distinguish groups. Keep cobalt for the brand and general controls.
   Do not add the reference site's branding, trivia ticker, ads or fake activity.
+- The preparedness directory links to short regional download choices. Save one self-contained HTML file
+  with source-dated local contacts, the existing tools and full guides. State city/provider boundaries, limited
+  region coverage and which features need a connection. Use explicit region choice; no inferred location.
 - The five-topic directory pairs familiar labels with the exact community names and a concise full-scope description.
 - Guide pages show actions and tools first. Longer explanations and sources use native expandable details.
 - Use sentence case. Skip decorative eyebrows, meaningless serial numbers and arrows appended to every action.

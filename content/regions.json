@@ -1,0 +1,47 @@
+{
+  "checked": "2026-11-02",
+  "sources": {
+    "davis-contact": {"title": "City of Davis contact directory", "url": "https://www.cityofdavis.org/city-hall/contact-us", "published": null, "review": "Primary publisher indexed excerpt; direct page retrieval blocked."},
+    "davis-water": {"title": "Davis Public Works: Utilities & Operations", "url": "https://www.cityofdavis.org/city-hall/public-works-utilities-and-operations", "published": null, "review": "Primary publisher indexed excerpt; direct page retrieval blocked."},
+    "davis-bill": {"title": "Davis utility billing", "url": "https://www.cityofdavis.org/city-hall/finance/city-services", "published": null, "review": "Primary publisher indexed excerpt; direct page retrieval blocked."},
+    "yolo-211": {"title": "2-1-1 Yolo County", "url": "https://www.211sacramento.org/211/2-1-1-yolo-county/", "published": null, "review": "Primary publisher page reviewed."},
+    "yolo-alert": {"title": "Yolo County: Stay informed, get alerts", "url": "https://www.yolocounty.gov/government/general-government-departments/office-of-emergency-services/alerts", "published": null, "review": "Primary publisher indexed excerpt; direct page retrieval blocked."},
+    "sf-311": {"title": "San Francisco: Get information from 311", "url": "https://www.sf.gov/get-information-311", "published": null, "review": "Primary publisher indexed excerpt; direct page retrieval required a browser verification challenge."},
+    "sf-911": {"title": "San Francisco: When to call 911 and 311", "url": "https://www.sf.gov/coordinated-street-response-program-1", "published": null, "review": "Primary publisher indexed excerpt reviewed."},
+    "sf-water": {"title": "SFPUC contact information", "url": "https://www.sfpuc.gov/about-us/contact-us", "published": null, "review": "Primary publisher page reviewed."},
+    "sf-bill": {"title": "SFPUC resources for customers with overdue bills", "url": "https://www.sfpuc.gov/accounts-services/bill-relief/resources-customers-overdue-bills", "published": null, "review": "Primary publisher indexed excerpt reviewed."},
+    "sf-alert": {"title": "San Francisco: July Fourth public safety information", "url": "https://recpark.sf.gov/m/newsflash/home/detail/2936", "published": null, "review": "Primary publisher indexed excerpt reviewed for AlertSF signup instructions only; event details are not carried forward."},
+    "pge": {"title": "PG&E Safety Action Center: Important contacts", "url": "https://www.pge.com/en/newsroom/safety-action-center/safety-resources/safety-action-center-faqs.html", "published": null, "review": "Primary publisher page reviewed."}
+  },
+  "regions": [
+    {
+      "slug": "davis-yolo",
+      "name": "Davis & Yolo County, CA",
+      "summary": "Yolo County help and alerts, plus Davis city utility, billing and service contacts. Campus services are separate.",
+      "scope": "211 and Alert Yolo cover Yolo County. City water, repair and billing numbers below apply to Davis city services, not every Yolo County address or UC Davis campus service.",
+      "contacts": [
+        {"title": "Police, fire or medical emergency", "phones": [{"label": "911", "value": "911"}], "detail": "For an emergency, call 911. Phone service is needed; this file cannot contact responders.", "source": "davis-contact"},
+        {"title": "Food, housing & community help", "phones": [{"label": "211", "value": "211"}, {"label": "855-866-1783", "value": "+18558661783"}], "detail": "Yolo County's information and referral line. Ask what local help fits your situation; an available place or benefit is not guaranteed.", "source": "yolo-211"},
+        {"title": "Davis water leaks & sewer backups", "phones": [{"label": "530-757-5686", "value": "+15307575686"}, {"label": "After hours: 530-747-5400", "value": "+15307475400"}], "detail": "City Public Works: Monday–Friday, 7am–3:30pm, excluding holidays. The after-hours number is the City's police non-emergency line for these reports.", "source": "davis-water"},
+        {"title": "Davis city utility bills", "phones": [{"label": "530-757-5651", "value": "+15307575651"}], "detail": "City water, sewer, waste and storm-drainage billing. Choose option 1 for billing questions. Check the provider named on your bill first.", "source": "davis-bill"},
+        {"title": "Davis repairs & city services", "phones": [{"label": "530-757-5602", "value": "+15307575602"}], "detail": "City general information can direct a non-emergency service question. For a private-property repair, use your property manager or a suitable specialist.", "source": "davis-contact"},
+        {"title": "PG&E outage information", "phones": [{"label": "800-743-5002", "value": "+18007435002"}], "detail": "For addresses served by PG&E. Other providers have their own reporting routes; confirm yours on the bill.", "source": "pge"}
+      ],
+      "alert": {"name": "Alert Yolo", "instruction": "Before going offline, use the County's alert page to choose a signup method. Its SMS-only option is to text YOLO to 888777. Delivery needs mobile service and is not guaranteed.", "source": "yolo-alert"}
+    },
+    {
+      "slug": "san-francisco",
+      "name": "San Francisco, CA",
+      "summary": "City services, SFPUC billing, PG&E outage information and AlertSF. For San Francisco, not the whole Bay Area.",
+      "scope": "For the City and County of San Francisco. Utility contacts apply only to the provider on your bill; this is not a directory for the whole Bay Area.",
+      "contacts": [
+        {"title": "Police, fire or medical emergency", "phones": [{"label": "911", "value": "911"}], "detail": "For an emergency, call 911. Phone service is needed; this file cannot contact responders.", "source": "sf-911"},
+        {"title": "City services, repairs & referrals", "phones": [{"label": "311", "value": "311"}, {"label": "Outside SF: 415-701-2311", "value": "+14157012311"}], "detail": "Non-emergency City questions and service requests, including finding the right department for a local housing or administrative question.", "source": "sf-311"},
+        {"title": "SFPUC water & sewer service problems", "phones": [{"label": "311", "value": "311"}, {"label": "Outside SF: 415-701-2311", "value": "+14157012311"}], "detail": "SFPUC directs water, power or sewer service problems to this 24-hour route. For immediate danger, call 911.", "source": "sf-water"},
+        {"title": "SFPUC water & sewer bills", "phones": [{"label": "415-551-3000", "value": "+14155513000"}], "detail": "Ask about your bill or a payment plan. Available arrangements and eligibility depend on your account; this pack does not determine eligibility.", "source": "sf-bill"},
+        {"title": "PG&E outage information", "phones": [{"label": "800-743-5002", "value": "+18007435002"}], "detail": "For addresses served by PG&E. Other providers have their own reporting routes; confirm yours on the bill.", "source": "pge"}
+      ],
+      "alert": {"name": "AlertSF", "instruction": "Before going offline, sign up for AlertSF using the City's instructions. Its SMS option is to text your ZIP code to 888777. Delivery needs mobile service and is not guaranteed.", "source": "sf-alert"}
+    }
+  ]
+}

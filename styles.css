@@ -575,6 +575,8 @@ html.tool-open { overflow: hidden; }
 [data-open-tool="draft-message"], #tool-dialog[data-active-tool="draft-message"] { --category-color: var(--money); }
 .portal-grid .portal-card { border-top-color: var(--category-color, var(--cobalt)); }
 .portal-card header h2 > .ui-icon { width: 25px; height: 25px; color: var(--category-color, var(--cobalt)); }
+#what-am-i-paying-for header h2 { align-items: center; }
+#what-am-i-paying-for header h2 > .ui-icon { margin-top: 0; }
 .destination-label > .ui-icon { width: 19px; height: 19px; margin-top: 2px; color: var(--category-color, var(--cobalt)); }
 .destination-label > span { overflow-wrap: anywhere; }
 .portal-destination { min-height: 46px; padding: 11px 0; font-size: 15px; line-height: 1.55; align-items: start; }
@@ -613,6 +615,50 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
  .portal-card { border-color: CanvasText !important; }
  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline-color: Highlight; box-shadow: none; }
  .portal-nav nav[aria-label="The five communities"] a::before { background: LinkText; }
+}
+
+/* Regional downloads keep the directory small; each saved file carries its own local details. */
+.region-grid, .local-contact-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+.region-grid { margin: 26px 0 34px; }
+.download-intro { padding: 25px 0 10px; }
+.download-intro h1 { font-size: 40px; margin: 0 0 12px; }
+.download-intro p { font-size: 16px; line-height: 1.7; color: var(--muted); max-width: 65ch; margin: 0; }
+.download-page { padding-bottom: 32px; }
+.download-page > p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.download-page .region-grid { max-width: 900px; }
+.download-page > a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; margin-top: 14px; }
+.download-page .offline-detail { max-width: 900px; }
+.region-card { padding: 22px; border: 1px solid var(--rule); background: white; min-width: 0; }
+.region-card h2 { font: 600 19px/1.4 var(--sans); margin: 0 0 12px; }
+.region-card p { font-size: 14px; line-height: 1.65; }
+.region-card .region-includes { color: var(--muted); }
+.region-card .button { font-size: 13px; white-space: normal; text-align: left; }
+.region-preview-link { display: block; width: fit-content; min-height: 44px; padding-top: 13px; font-size: 13px; }
+.offline-notice { padding: 18px 22px; background: var(--wash); border-left: 3px solid var(--utilities); margin-top: 20px; }
+.offline-notice strong { font-size: 16px; }
+.offline-notice p, .offline-notice nav { font-size: 13px; line-height: 1.7; margin: 8px 0 0; }
+.offline-notice nav { display: flex; flex-wrap: wrap; gap: 10px 24px; }
+.offline-notice nav a { min-height: 44px; display: flex; align-items: center; }
+.offline-local { padding: 12px 0 24px; }
+.offline-local h2, .offline-guides h2 { font-size: 30px; margin: 0 0 12px; }
+.offline-local > p, .offline-guides > p { font-size: 14px; line-height: 1.7; color: var(--muted); }
+.local-contact-grid { margin: 20px 0; }
+.local-contact { padding: 18px; background: white; border: 1px solid var(--rule); min-width: 0; }
+.local-contact h3 { font: 600 16px/1.5 var(--sans); margin: 0 0 10px; }
+.local-phones { display: flex; flex-wrap: wrap; gap: 0 20px; }
+.local-phones a { display: flex; align-items: center; min-height: 44px; color: var(--cobalt); font-size: 18px; }
+.local-contact p { font-size: 13px; line-height: 1.7; color: var(--muted); }
+.local-source { font-size: 12px; overflow-wrap: anywhere; }
+.offline-detail { padding: 16px 0; border-top: 1px solid var(--rule); font-size: 14px; line-height: 1.8; }
+.offline-detail summary { min-height: 44px; padding: 8px 0; font-weight: 600; cursor: pointer; }
+.offline-detail p, .offline-detail li { max-width: 75ch; }
+.offline-detail a { overflow-wrap: anywhere; }
+.offline-guides { padding: 24px 0; }
+.font-licenses pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; }
+@media (max-width: 700px) {
+ .region-grid, .local-contact-grid { grid-template-columns: 1fr; }
+ .region-card { padding: 18px; }
+ .offline-notice { padding: 15px; }
 }
 
 /* A small live cost worksheet stays directly on the directory. */
@@ -684,4 +730,8 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
   .button { color: black; background: white; }
   .interactive { break-inside: avoid; }
   .guide-step > .step-detail, .sources > .source-detail { display: block !important; }
+  .offline-detail:not(.font-licenses) > * { display: block !important; }
+  .offline-detail:not(.font-licenses) > summary { list-style: none; }
+  .font-licenses { display: none; }
+  .local-contact { break-inside: avoid; }
 }

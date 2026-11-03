@@ -31,7 +31,21 @@ for slug, entries in directory.LINKS.items():
             assert datetime.date.fromisoformat(normalized) <= today
         directory_urls.append(url)
 assert len(set(directory_urls)) == len(directory_urls), 'Duplicate directory resource.'
-report['directory'] = {'resources': len(directory_urls), 'communities': 5, 'tools': 3, 'sourceChecked': directory.CHECKED}
+report['directory'] = {'resources': len(directory_urls), 'communities': 5, 'tools': 4, 'sourceChecked': directory.CHECKED}
+regional = json.loads((root / 'content/regions.json').read_text(encoding='utf-8'))
+regional_date = datetime.date.fromisoformat(regional['checked'])
+assert regional_date <= today
+assert len({region['slug'] for region in regional['regions']}) == len(regional['regions'])
+for region in regional['regions']:
+    assert region['name'] and region['scope'] and region['contacts']
+    for entry in [*region['contacts'], region['alert']]:
+        source = regional['sources'][entry['source']]
+        assert urlsplit(source['url']).scheme == 'https' and source['review']
+    for contact in region['contacts']:
+        assert contact['detail'] and all(phone['label'] and phone['value'].lstrip('+').isdigit() for phone in contact['phones'])
+report['offlineRegions'] = {'regions': [region['slug'] for region in regional['regions']], 'sourceChecked': regional['checked']}
+if (today - regional_date).days > 90:
+    report['sourceReviewNeeded'].append('regional-offline-information')
 if (today - directory_checked).days > 90:
     report['sourceReviewNeeded'].append('directory-resources')
 for guide in content.GUIDES:
