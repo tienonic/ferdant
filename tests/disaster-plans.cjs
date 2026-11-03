@@ -12,7 +12,7 @@ function collection(ids,extra={}){return {type:'FeatureCollection',features:ids.
  assert.equal(data.plans.length,15);assert.equal(new Set(data.plans.map(p=>p.id)).size,15);
  assert(data.plans.every(p=>p.steps.length===3&&p.guidance.url.startsWith('https://')&&(p.id==='tsunami'||p.layers.length)));
  assert(data.plans.every(p=>p.layers.every(id=>data.layers[id])));
- for(const s of Object.values(data.layers))assert(/^(https:\/\/)(hazards\.fema\.gov|services[12]?\.arcgis\.com|mapservices\.weather\.noaa\.gov|coast\.noaa\.gov|gis\.conservation\.ca\.gov)\//.test(s.service));
+ for(const s of Object.values(data.layers))assert(/^(https:\/\/)(hazards\.fema\.gov|services[12]?\.arcgis\.com|mapservices\.weather\.noaa\.gov|coast\.noaa\.gov|gis\.conservation\.ca\.gov|tiles\.arcgis\.com)\//.test(s.service));
  const browser=await chromium.launch({executablePath:executable()}),findings=[];
  try{
   for(const width of [320,390,768,1440]){

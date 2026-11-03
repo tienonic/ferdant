@@ -93,7 +93,7 @@
   });
   if(prior&&!prior.unavailable&&!prior.issues.length&&validCached&&(!live||Date.now()-Date.parse(prior.retrieved)<300000))return prior;
   const results=await Promise.allSettled(plan.layers.map(async layer=>{
-   const source=registry.layers[layer];return source.kind==='heat-image'?heat(layer,source,bounds,signal):source.kind==='map-image'?image(layer,source,bounds,signal):vectors(layer,source,bounds,signal);
+   const source=registry.layers[layer];return source.kind==='tiles'?{id:layer,type:'tiles'}:source.kind==='heat-image'?heat(layer,source,bounds,signal):source.kind==='map-image'?image(layer,source,bounds,signal):vectors(layer,source,bounds,signal);
   }));
   if(signal.aborted&&signal.reason?.name!=='TimeoutError')throw new DOMException('Layer changed','AbortError');
   const parts=[],issues=[];
@@ -102,11 +102,24 @@
   if(JSON.stringify(entry).length<=10000000)cache.set(cacheKey,entry);
   while(cache.size>18||[...cache.values()].reduce((n,e)=>n+JSON.stringify(e).length,0)>20000000)cache.delete(cache.keys().next().value);return entry;
  }
- function draw(entry,map,group){
+ function draw(entry,map,group,onTileStatus=()=>{}){
   const legend=[];let polygons=0;
   for(const part of entry.parts){
    const source=registry.layers[part.id];if(!source)continue;
-   if(part.type==='image'){
+   if(part.type==='tiles'){
+    // The provider has already drawn these small images. Load only visible tiles,
+    // after map movement ends; never query or process statewide fault geometry.
+    const tiles=L.tileLayer(source.tileUrl,{pane:'disaster-planning',className:'disaster-tiles disaster-'+part.id,
+     bounds:source.bounds,minZoom:5,maxZoom:19,maxNativeZoom:source.maxNativeZoom,
+     tileSize:256,keepBuffer:0,updateWhenIdle:true,updateWhenZooming:false,
+     updateInterval:250,noWrap:true,detectRetina:false,opacity:source.opacity,zIndex:source.zIndex});
+    let failed=false;
+    tiles.on('loading',()=>{failed=false;});
+    tiles.on('tileerror',()=>{failed=true;if(group.hasLayer(tiles))onTileStatus('Some fault tiles could not load. Re-select Earthquake to retry, or use the official map.');});
+    tiles.on('load',()=>{if(group.hasLayer(tiles))onTileStatus(failed?'Some fault tiles could not load. Re-select Earthquake to retry, or use the official map.':'');});
+    tiles.addTo(group);
+    legend.push({label:source.title,color:source.color},...(source.legend||[]));
+   }else if(part.type==='image'){
     const e=part.extent,sw=L.CRS.EPSG3857.unproject(L.point(e.xmin,e.ymin)),ne=L.CRS.EPSG3857.unproject(L.point(e.xmax,e.ymax));
     L.imageOverlay(part.dataUrl,L.latLngBounds(sw,ne),{pane:'disaster-planning',className:'disaster-image disaster-'+part.id,opacity:source.opacity??.5,zIndex:source.zIndex??1,interactive:false,alt:source.title+'; see the source description and key below.'}).addTo(group);
     legend.push({label:source.kind==='heat-image'?'HeatRisk: 0 Minimal · 1 Minor · 2 Moderate · 3 Major · 4 Extreme':source.title,color:source.color});
@@ -125,6 +138,8 @@
   const count=entry.parts.reduce((n,p)=>n+(p.data?.features.length||0),0),image=entry.parts.find(p=>p.type==='image'),forecast=entry.parts.find(p=>p.forecast)?.forecast;
   const time=value=>new Date(value).toLocaleString(undefined,{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'});
   const partial=entry.issues.length||entry.parts.some(p=>p.truncated);
+  const tiles=entry.parts.find(p=>p.type==='tiles');
+  if(tiles)return registry.layers[tiles.id].tileDescription+(partial?' Some investigation-zone layers are unavailable.':'')+' Planning information, not a current warning.';
   return (offline?'Saved planning overlay · '+time(entry.retrieved)+' · ':'Map checked '+time(entry.retrieved)+' · ')+(image?(image.valid?'Forecast valid time: '+time(image.valid)+'; issued '+time(image.issued)+'.':registry.layers[image.id].imageDescription||'NOAA planning image for this city area. Blank areas may be outside mapped coverage.'):count?'Mapped areas are shown for this city view.':entry.live?'No current alert or forecast areas could be mapped; this does not establish safe conditions.':'No mapped areas returned for this view; coverage may be incomplete.')+(forecast?' Monthly outlook: '+forecast.target+'; issued '+time(forecast.issued)+'.':'')+(partial?' Partial coverage: one or more layers are missing or incomplete.':'')+(entry.live?' Issued/forecast data at the check time; not continuous monitoring.':' Planning information, not a current warning.');
  }
  async function embed(doc,key,active){

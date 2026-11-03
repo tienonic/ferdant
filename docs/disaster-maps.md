@@ -73,32 +73,40 @@ distinct from an absence of hazard.
 
 ## Fault lines and performance
 
-The earthquake view adds the California Geological Survey's Quaternary fault
-traces from layer 21 of the [2010 Fault Activity Map](https://maps.conservation.ca.gov/cgs/fam/).
-The map edition is 2010; the service was checked November 3, 2026. Faults appear
-as red lines above the investigation-zone shading. Styling is simplified and
-does not encode age or location certainty. These are approximate planning
-locations, not parcel boundaries, a complete inventory or earthquake predictions.
+The earthquake view uses the California Geological Survey's cached
+[Quaternary fault tiles](https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer)
+from the [2010 Fault Activity Map](https://maps.conservation.ca.gov/cgs/fam/).
+The map edition is 2010; the service and legend were checked November 3, 2026.
+Black traces and colored activity-age bands retain the provider's symbology:
+red Historic, orange Holocene, green Late Quaternary and purple Quaternary.
+The bands are not current warning levels or hazard-zone widths. Locations are
+approximate planning references, not parcel boundaries or earthquake predictions.
 
-The CGS server renders one transparent 800 by 600 pixel PNG for the selected
-city/county area, with a minimum 0.2-degree context box for small places. This
-avoids the service's street-scale display cutoff; returned image bounds retain
-the actual georeferencing. The browser receives that image, never the statewide line
-geometry. Only selecting Earthquake requests it (or opening an earthquake deep
-link); other views do not preload it. There is one export-metadata request and
-one image request. Switching away removes it, and successful repeat selections
-reuse the existing bounded in-memory cache. Pan and zoom reuse the image without
-queries or geometry calculations; zooming therefore does not add mapping detail.
+Fault tiles follow the visible map across California, including when the user
+pans away from the selected city or zooms out. This replaces the first version's
+fixed city-area image, which stopped at its original bounds. The initial live
+image checks found traces around Los Angeles, San Diego, San Francisco, San Jose,
+Eureka and Palm Springs. Small Davis and Sacramento extracts were blank; this
+does not establish that the wider region has no faults or no earthquake risk.
 
-Images have a 512,000-byte limit enforced while streaming, before decoding.
-The final live Berkeley browser check returned a roughly 9 KB image, with no
-page errors; broader Bay Area and Los Angeles probes were about 17 and 19 KB.
-Those are sample results, not a guarantee for every view. Existing request
-cancellation, timeout and partial-source handling remain in effect. A failed
-fault layer does not erase successful investigation-zone layers, and missing
-lines never establish safety. The source metadata hashes are in
-`content/disaster-source-manifest.json`. Like the existing CGS investigation-zone
-extracts, the fault image is online only and excluded from saved offline files.
+Only selecting Earthquake (or opening an earthquake deep link) adds this layer.
+The browser requests pre-rendered 256 by 256 pixel PNG tiles for the visible area;
+it performs no fault-geometry query, export rendering request or statewide data
+processing. Tiles update after movement ends, with no off-screen retention
+buffer or retina multiplier. Off-screen tiles are pruned. HTTP caching can reuse
+previous tiles; no browser database, polling or bulk prefetch is added.
+
+The highest source tile level is 13. Closer zooms enlarge that existing level
+rather than requesting unavailable detail. Requests stay within the source's
+California extent and do not wrap around the world. Switching away removes the
+layer; subsequent map movement cannot request new fault tiles. Loading failures
+are reported without hiding other successful hazard layers, and late errors from
+a removed layer cannot overwrite the next plan's status.
+
+The source metadata and legend hashes are in `content/disaster-source-manifest.json`.
+Earlier city-image receipts remain as superseded history. The tile service
+disallows bulk tile export; fault tiles are online only and are excluded from
+saved offline files, consistent with the existing CGS extract rule.
 
 ## Offline copies
 
@@ -124,8 +132,9 @@ schedule. `content/disaster-source-manifest.json` holds its latest reviewed rece
 
 Run the normal build/content/responsive checks, `npm run verify:maps` and
 `npm run verify:disasters` and `node tests/fault-lines.cjs`. The fault checks cover
-lazy loading, bounded image requests, cache reuse, pan/zoom, removal, failure
-recovery and size rejection. Repeatable browser checks simulate external GIS
+all 483 city and 58 county selections, lazy loading, viewport coverage, bounded
+tile retention, native zoom limits, removal, failure recovery and late errors.
+Repeatable browser checks simulate external GIS
 responses; separate live-browser checks are necessary to establish provider
 availability. Tests are not agency approval, a safety audit or complete local
 service coverage. Keep the public-release and maintenance-owner review boundaries.

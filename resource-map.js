@@ -222,9 +222,10 @@
   try{
    const b=cityBounds,entry=await disasters.load(id,key,[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()],requestController.signal);
    if(run!==version||id!==active||key!==selected?.key)return;
-   const drawn=disasters.draw(entry,map,hazardGroup);
+   const showStatus=(tileNote='')=>{if(run===version&&id===active&&key===selected?.key)message.textContent=disasters.description(entry)+(tileNote?' '+tileNote:'');};
+   const drawn=disasters.draw(entry,map,hazardGroup,showStatus);
    for(const item of drawn.legend){const span=document.createElement('span'),swatch=document.createElement('i');swatch.style.backgroundColor=item.color;swatch.setAttribute('aria-hidden','true');span.append(swatch,document.createTextNode(item.label));legend.append(span);}
-   message.textContent=disasters.description(entry);
+   showStatus();
    root.querySelector('#atlas-layer-credit').textContent=[...new Set(entry.parts.map(p=>disasters.registry.layers[p.id]?.credit).filter(Boolean))].join(' · ');
   }catch(error){if(run===version)message.textContent='The GIS layer is unavailable or timed out. Use the short plan and official map; missing data does not establish safety.';}
   finally{clearTimeout(timer);if(run===version)root.dataset.hazardLoading='false';}

@@ -359,6 +359,42 @@
       "retrievedUTC": "2026-11-03T11:37:55.019624+00:00",
       "published": "2010",
       "dateMeaning": "Map edition, not service check or earthquake date"
+    },
+    {
+      "url": "https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer",
+      "sha256": "9361c6d870375d89b2a7f48247d6431e7113ce1295c7a5897bf41bd362488c86",
+      "bytes": 5296,
+      "name": "QuatFaults_Tiles",
+      "checkedLocalDate": "2026-11-03",
+      "retrievedUTC": "2026-11-03T11:54:14.986097+00:00",
+      "published": "2010",
+      "dateMeaning": "Map edition; tile publication date not supplied",
+      "capabilities": "Map,TilesOnly",
+      "tileSize": 256,
+      "maxNativeZoom": 13,
+      "exportTilesAllowed": false
+    },
+    {
+      "url": "https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer/legend",
+      "sha256": "e20f2df799c410a970597d1d59bd1d273c5aa8caf073fca0dfbf1ac86d83981e",
+      "bytes": 14815,
+      "name": null,
+      "checkedLocalDate": "2026-11-03",
+      "retrievedUTC": "2026-11-03T11:54:15.091790+00:00",
+      "published": "2010",
+      "dateMeaning": "Map edition; tile publication date not supplied",
+      "capabilities": null
+    },
+    {
+      "url": "https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer/2",
+      "sha256": "0456a1ab3b5afb8508723d259dbed86e299fae930d7107c7fa110e70133f6b3f",
+      "bytes": 2559,
+      "name": "Fault Classification",
+      "checkedLocalDate": "2026-11-03",
+      "retrievedUTC": "2026-11-03T11:54:15.228760+00:00",
+      "published": "2010",
+      "dateMeaning": "Map edition; tile publication date not supplied",
+      "capabilities": "Map"
     }
   ],
   "notes": [
@@ -366,6 +402,7 @@
     "Dates below are service data edit dates, not necessarily publication, effective, observation or forecast dates.",
     "CGS modified report figures retain the specified credit. New CGS extracts are excluded from offline exports.",
     "Live forecast and warning validity are checked in the browser; this receipt is not a current warning.",
-    "Fault map and layer 21 metadata added November 3, 2026; earlier receipts retain their original dates. 2010 map edition. Rendering uses one 800x600 server image for the selected area; no statewide fault geometry enters the browser. Online only, consistent with the existing CGS extract rule."
+    "Fault map and layer 21 metadata added November 3, 2026; earlier receipts retain their original dates. 2010 map edition. Rendering uses one 800x600 server image for the selected area; no statewide fault geometry enters the browser. Online only, consistent with the existing CGS extract rule.",
+    "November 3 follow-up: active fault overlay now uses CGS QuatFaults_Tiles across the viewport, not a city-cropped export. Earlier MapServer export receipts are retained as superseded history. Tiles are online only; no bulk export or offline tile cache."
   ]
 }
