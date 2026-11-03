@@ -4,7 +4,7 @@
  if(!root||!node)return;
  const config=JSON.parse(node.textContent),places=JSON.parse(document.querySelector('#phone-data').textContent).places;
  const select=document.querySelector('#phone-city'),offline=location.protocol==='file:';
- const disasters=window.FerdantDisasters,chooser=root.querySelector('#atlas-disaster'),everyday=root.querySelector('#atlas-everyday'),controls=[chooser,everyday],list=root.querySelector('#atlas-place-list');
+ const disasters=window.FerdantDisasters,everyday=root.querySelector('#atlas-everyday'),choices=[...root.querySelectorAll('[data-disaster]')],controls=[everyday,...choices],list=root.querySelector('#atlas-place-list');
  const status=root.querySelector('#atlas-map-status'),feedStatus=root.querySelector('#atlas-feed-status');
  const shards=new Map(),requests=new Map(),snapshots=JSON.parse(document.querySelector('#city-map-snapshot').textContent);
  if(snapshots.county)shards.set(snapshots.county,snapshots);
@@ -168,7 +168,7 @@
  }
  function renderLayer(){
   controller?.abort();hazardController?.abort();hazardGroup?.clearLayers();const run=++version;limit=active==='everyday'?8:4;feedStatus.textContent='';
-  everyday.setAttribute('aria-pressed',String(active==='everyday'));chooser.value=active==='everyday'?'':active;
+  everyday.setAttribute('aria-pressed',String(active==='everyday'));choices.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.disaster===active)));
   root.querySelector('#atlas-hazard-legend').replaceChildren();root.querySelector('#atlas-layer-status').textContent='';root.querySelector('#atlas-layer-credit').textContent='';root.dataset.hazardLoading='false';
   const plan=disasters?.plans.get(active);guidance();
   if(map){
@@ -206,14 +206,14 @@
   root.querySelector('#resource-map-title').textContent=selected.name+' on the map';status.textContent='Loading the city outline…';
   const county=selected.county;
   const results=await Promise.allSettled([init(),loadCounty(county)]);if(run!==version)return;
-  controls.forEach(control=>{control.disabled=false;});chooser.disabled=!disasters;root.removeAttribute('aria-busy');
+  controls.forEach(control=>{control.disabled=false;});choices.forEach(button=>{button.disabled=!disasters;});root.removeAttribute('aria-busy');
   shard=results[1].status==='fulfilled'?results[1].value:null;
   if(!map){renderLayer();return;}
   drawBoundary();status.textContent=!shard?(offline?'Offline overview. This area’s detailed outline and hazard layer were not saved.':'Area data unavailable. The approximate location, resources and source links remain available.'):(offline?'Saved outline and planning zones. Street tiles and shelter status are unavailable offline.':'Choose a pin or a place. City view restores the full area.');
   renderLayer();
  }
  everyday.addEventListener('click',()=>{active='everyday';renderLayer();});
- chooser.addEventListener('change',()=>{active=disasters?.plans.has(chooser.value)?chooser.value:'everyday';renderLayer();});
+ choices.forEach(button=>button.addEventListener('click',()=>{active=button.dataset.disaster;renderLayer();}));
  root.querySelector('#atlas-reset').addEventListener('click',()=>{highlight?.clearLayers();map?.closePopup();fit();});
  root.querySelector('#atlas-more').addEventListener('click',()=>{limit+=8;drawPlaces();fit();});
  const sourceList=root.querySelector('#atlas-source-list');

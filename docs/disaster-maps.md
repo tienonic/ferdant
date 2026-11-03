@@ -1,7 +1,10 @@
 # Disaster plans and city GIS
 
-The city page has one disaster selector, an everyday-resource view and a three-step
-plan beside the map. Selecting another plan removes the preceding hazard geometry,
+The city page has 15 labelled disaster-symbol buttons, an everyday-resource button and a three-step
+plan beside the map. Each symbol opens its plan directly, without a dropdown. A checkmark and pressed
+state identify the selected view; text and shape carry the meaning alongside muted
+icon colors. Native buttons retain keyboard focus and work with Space or Enter.
+The grid wraps at phone widths without horizontal scrolling. Selecting another plan removes the preceding hazard geometry,
 images, highlights and resource pins. City boundaries stay visible. The URL can
 retain `hazard=flood` or another registered plan ID alongside `place`.
 

@@ -3,6 +3,7 @@ import json
 import html
 import importlib.util
 from pathlib import Path
+from icons import icon
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -14,10 +15,19 @@ def resource_map():
     spec.loader.exec_module(disasters)
     data['disasters'] = disasters.DATA
     payload = json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
-    choices = ''.join('<option value="'+html.escape(p['id'])+'">'+html.escape(p['label'])+'</option>' for p in disasters.PLANS)
+    short_labels = {'heat':'Heat', 'cold':'Cold / freeze', 'storms':'Wind / storms',
+                    'coastal':'Coastal flooding', 'landslide':'Landslide',
+                    'avalanche':'Avalanche', 'subsidence':'Subsidence'}
+    # Symbols supplement text; they are not warning signs or standalone labels.
+    accents = {'earthquake':'#735597', 'tsunami':'#28697e', 'flood':'#286690',
+               'wildfire':'#a34832', 'heat':'#9b5128', 'cold':'#346e89',
+               'storms':'#59628c', 'coastal':'#286e76', 'landslide':'#88633c',
+               'drought':'#896632', 'dam':'#3b638a', 'levee':'#3f7167',
+               'avalanche':'#486d8b', 'subsidence':'#805a70', 'volcano':'#965348'}
+    choices = ''.join('<button type="button" class="atlas-choice" data-disaster="'+p['id']+'" aria-pressed="false" aria-controls="resource-map-panel" aria-label="'+html.escape('Wind / storms: severe weather' if p['id']=='storms' else p['label'])+'" style="--hazard-accent:'+accents[p['id']]+'"><span class="atlas-choice-symbol">'+icon(p['id'])+'</span><span class="atlas-choice-label">'+html.escape(short_labels.get(p['id'],p['label']))+'</span><span class="atlas-choice-check" aria-hidden="true">'+icon('check')+'</span></button>' for p in disasters.PLANS)
     return '''<section class="resource-atlas" id="resource-atlas" aria-labelledby="resource-map-title" hidden>
  <header class="atlas-heading"><div><p class="atlas-eyebrow">Explore your area</p><h2 id="resource-map-title">Your city, at a glance</h2></div><a class="atlas-offline-link" href="#offline-download">Save offline <span aria-hidden="true">↓</span></a></header>
- <div class="atlas-controls"><button type="button" id="atlas-everyday" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12Z"/><circle cx="12" cy="9" r="2"/></svg>Everyday resources</button><div><label for="atlas-disaster">Disaster plan & map</label><select id="atlas-disaster"><option value="">Choose a disaster</option>''' + choices + '''</select></div></div>
+ <div class="atlas-controls" role="group" aria-label="Resources and disaster plans"><button type="button" id="atlas-everyday" class="atlas-choice" aria-pressed="true" aria-controls="resource-map-panel" aria-label="Everyday resources" style="--hazard-accent:#365d7a"><span class="atlas-choice-symbol">''' + icon('map') + '''</span><span class="atlas-choice-label">Everyday</span><span class="atlas-choice-check" aria-hidden="true">''' + icon('check') + '''</span></button>''' + choices + '''</div>
  <div id="resource-map-panel" role="region" aria-labelledby="resource-map-title" tabindex="0">
   <div class="atlas-guidance" id="atlas-guidance"></div>
   <div class="atlas-layout"><div class="atlas-map-column"><div class="atlas-map-frame"><div id="resource-map" role="region" aria-label="City resource map"></div><button class="atlas-reset" type="button" id="atlas-reset" aria-label="Return to the full city map">City view</button></div><div class="atlas-legend" id="atlas-legend"></div><div class="atlas-legend" id="atlas-hazard-legend"></div><p class="atlas-map-status" id="atlas-layer-status" role="status"></p><p class="atlas-map-status" id="atlas-map-status" role="status"></p><p id="atlas-layer-credit"></p></div>

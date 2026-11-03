@@ -27,7 +27,7 @@ The deployed main branch remains the maintenance page until a fuller release is 
 - `content/california-cities.json`: official city/county index, approximate points, generalized local map and source hashes.
 - `content/resource-map.json`, `content/map-data-manifest.json`: dated public facilities, map source limits and exact geometry receipts.
 - `assets/data/city-maps/`: 58 compact county files, covering all 483 indexed city boundaries and 20 counties with official tsunami planning areas.
-- `scripts/resource_map.py`, `resource-map.js`: result-page map, everyday resources and a compact 15-plan disaster selector. Changing a plan replaces the previous GIS overlay and resource pins. FEMA shelters are queried for applicable response plans; street tiles are online only.
+- `scripts/resource_map.py`, `resource-map.js`: result-page map, everyday resources and 15 directly accessible, labelled disaster symbols. Changing a plan replaces the previous GIS overlay and resource pins. FEMA shelters are queried for applicable response plans; street tiles are online only.
 - `content/disasters.py`, `disaster-layers.js`: three-step plans, primary-source GIS registry, bounded on-demand queries, valid-time checks and eligible offline planning snapshots. Weather and shelter status are never frozen as current in an offline copy.
 - `content/disaster-source-manifest.json`, `scripts/audit-disaster-sources.py`: manual metadata receipt for the 13 official service endpoints. The builder runs no importer, audit or scheduler.
 - `scripts/project-building-outlines.py`: manual extraction of estimated Microsoft building outlines containing directory points; source geometry is ODbL, with receipts and license retained.

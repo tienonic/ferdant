@@ -6,7 +6,7 @@ const base=process.env.SITE_URL||'http://127.0.0.1:4173';
 const data=JSON.parse(fs.readFileSync('local/index.html','utf8').match(/<script type="application\/json" id="resource-map-data">(.*?)<\/script>/s)[1]).disasters;
 function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(x=>x.startsWith('chromium_headless_shell-')).sort().reverse().map(x=>path.join(root,x,'chrome-headless-shell-win64','chrome-headless-shell.exe')).find(fs.existsSync);}
 async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});}
-async function choose(p,id){await p.locator('#atlas-disaster').selectOption(id);await ready(p);}
+async function choose(p,id){await p.locator('[data-disaster="'+id+'"]').click();await ready(p);}
 function collection(ids,extra={}){return {type:'FeatureCollection',features:ids.map(id=>({type:'Feature',geometry:{type:'Polygon',coordinates:[[[-121.75,38.55],[-121.74,38.55],[-121.74,38.56],[-121.75,38.56],[-121.75,38.55]]]},properties:{OBJECTID:id,...extra}}))};}
 (async()=>{
  assert.equal(data.plans.length,15);assert.equal(new Set(data.plans.map(p=>p.id)).size,15);
@@ -18,9 +18,11 @@ function collection(ids,extra={}){return {type:'FeatureCollection',features:ids.
   for(const width of [320,390,768,1440]){
    const c=await browser.newContext({acceptDownloads:true,viewport:{width,height:960},reducedMotion:'reduce'});await stubPublicMap(c);
    const p=await c.newPage(),errors=[],unexpected=[];p.on('pageerror',e=>errors.push(e.message));p.on('request',r=>{if(/^https?:/.test(r.url())&&new URL(r.url()).origin!==new URL(base).origin&&!isPublicMapRequest(r.url()))unexpected.push(r.url());});
-   await p.goto(base+'/local/?place=57026');await ready(p);assert.equal(await p.locator('#atlas-disaster option').count(),16);
+   await p.goto(base+'/local/?place=57026');await ready(p);assert.equal(await p.locator('[data-disaster]').count(),15);assert.equal(await p.locator('.atlas-controls select').count(),0);assert.equal(await p.locator('.atlas-controls button[aria-pressed="true"]').count(),1);
+   assert.equal(await p.locator('[data-disaster] .atlas-choice-symbol svg').count(),15);
+   assert(await p.locator('.atlas-choice-label').evaluateAll(els=>els.every(el=>{const text=el.firstChild;let offset=0;return el.textContent.split(/(\s+)/).every(word=>{const start=offset;offset+=word.length;if(!word.trim())return true;const range=document.createRange();range.setStart(text,start);range.setEnd(text,offset);return range.getClientRects().length===1;});})), 'Ordinary button labels must keep words intact at each width');
    for(const plan of data.plans){
-    await choose(p,plan.id);assert.equal(await p.locator('#resource-atlas').getAttribute('data-layer'),plan.id);assert.equal(await p.locator('.disaster-steps li').count(),3);assert((await p.locator('#atlas-action-plan h3').innerText()).includes(plan.label));
+    await choose(p,plan.id);assert.equal(await p.locator('.atlas-controls button[aria-pressed="true"]').count(),1);assert.equal(await p.locator('[data-disaster="'+plan.id+'"]').getAttribute('aria-pressed'),'true');assert.equal(await p.locator('#resource-atlas').getAttribute('data-layer'),plan.id);assert.equal(await p.locator('.disaster-steps li').count(),3);assert((await p.locator('#atlas-action-plan h3').innerText()).includes(plan.label));
     assert.equal(await p.locator('.atlas-pin.food,.atlas-pin.support').count(),0,'Disaster plans replace everyday places');
     assert.equal(await p.locator('#atlas-everyday').getAttribute('aria-pressed'),'false');
     if(plan.id==='heat'){assert.equal(await p.locator('.leaflet-disaster-planning-pane .leaflet-image-layer').count(),1);assert((await p.locator('#atlas-layer-status').innerText()).includes('Forecast valid time'));}
@@ -29,23 +31,29 @@ function collection(ids,extra={}){return {type:'FeatureCollection',features:ids.
     assert(await p.locator('#resource-atlas,.atlas-controls,#resource-map-panel').evaluateAll(els=>els.every(el=>el.scrollWidth<=el.clientWidth+1&&el.scrollLeft===0)),plan.id+' must fit without sideways clipping');
    }
    await choose(p,'flood');assert.equal(new URL(p.url()).searchParams.get('hazard'),'flood');
+   await p.locator('[data-disaster="heat"]').focus();await p.keyboard.press('Space');await ready(p);assert.equal(await p.locator('#resource-atlas').getAttribute('data-layer'),'heat');assert(await p.locator('[data-disaster="heat"]').evaluate(el=>el===document.activeElement));
+   await p.keyboard.press('Tab');assert(await p.locator('[data-disaster="cold"]').evaluate(el=>el===document.activeElement));await p.keyboard.press('Enter');await ready(p);assert.equal(await p.locator('#resource-atlas').getAttribute('data-layer'),'cold');await choose(p,'flood');
+   // Direct links and city changes preserve the visible selected plan.
+   await p.reload();await ready(p);assert.equal(await p.locator('[data-disaster="flood"]').getAttribute('aria-pressed'),'true');
+   await p.locator('#phone-city').selectOption('38001',{force:true});await ready(p);assert.equal(await p.locator('[data-disaster="flood"]').getAttribute('aria-pressed'),'true');assert.equal(new URL(p.url()).searchParams.get('hazard'),'flood');
+   await p.locator('#phone-city').selectOption('57026',{force:true});await ready(p);
    const style=await p.addStyleTag({content:'.resource-atlas *{line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important;}'});assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await style.evaluate(el=>el.remove());
-   assert(await p.locator('.atlas-controls button,.atlas-controls select,.disaster-guidance-link').evaluateAll(els=>els.every(el=>el.getBoundingClientRect().height>=44)));
-   await p.locator('#atlas-disaster').focus();assert(await p.locator('#atlas-disaster').evaluate(el=>parseFloat(getComputedStyle(el).outlineWidth)>=3));
-   if(width===390){await p.emulateMedia({forcedColors:'active'});assert(await p.locator('#atlas-disaster').evaluate(el=>parseFloat(getComputedStyle(el).outlineWidth)>=3));await p.emulateMedia({forcedColors:'none'});}
+   assert(await p.locator('.atlas-controls button,.disaster-guidance-link').evaluateAll(els=>els.every(el=>el.getBoundingClientRect().height>=44)));
+   await p.locator('[data-disaster="flood"]').focus();assert(await p.locator('[data-disaster="flood"]').evaluate(el=>parseFloat(getComputedStyle(el).outlineWidth)>=3));
+   if(width===390){await p.emulateMedia({forcedColors:'active'});assert(await p.locator('[data-disaster="flood"]').evaluate(el=>parseFloat(getComputedStyle(el).outlineWidth)>=3));await p.emulateMedia({forcedColors:'none'});}
    await p.locator('#resource-atlas').screenshot({path:`screenshots/disaster-plan-flood-${width}.png`});
    // Actual export retains only public, permitted static geometry for this city.
    const wait=p.waitForEvent('download');await p.locator('#offline-download [data-city-download]').click();const dl=await wait,file=path.resolve('screenshots','disaster-plans-'+width+'.html');await dl.saveAs(file);
    const source=fs.readFileSync(file,'utf8'),saved=JSON.parse(source.match(/<script type="application\/json" id="disaster-map-snapshot">(.*?)<\/script>/s)[1]);
    assert(saved.entries.some(e=>e.plan==='flood'));assert(saved.entries.every(e=>e.key==='57026'&&e.parts.every(part=>data.layers[part.id].offline&&!data.layers[part.id].live)));assert(!saved.entries.some(e=>['heat','cold','storms','drought','avalanche','earthquake'].includes(e.plan)));
    const off=await browser.newContext({offline:true,viewport:{width,height:960}}),f=await off.newPage(),network=[];f.on('request',r=>{if(/^https?:/.test(r.url()))network.push(r.url());});
-   await f.goto(pathToFileURL(file).href);await ready(f);assert.equal(await f.locator('#atlas-disaster').inputValue(),'flood');assert((await f.locator('#atlas-layer-status').innerText()).includes('Saved planning overlay'));
+   await f.goto(pathToFileURL(file).href);await ready(f);assert.equal(await f.locator('[data-disaster="flood"]').getAttribute('aria-pressed'),'true');assert((await f.locator('#atlas-layer-status').innerText()).includes('Saved planning overlay'));
    for(const plan of data.plans){await choose(f,plan.id);assert.equal(await f.locator('.disaster-steps li').count(),3);if(['heat','cold','storms','drought','avalanche','earthquake'].includes(plan.id))assert((await f.locator('#atlas-layer-status').innerText()).includes('not saved'));}
    await choose(f,'flood');await f.emulateMedia({media:'print'});assert(await f.locator('#atlas-action-plan').isVisible());assert(!await f.locator('#resource-map').isVisible());await f.emulateMedia({media:'screen'});
    assert.deepEqual(network,[]);await off.close();
    const noJS=await browser.newContext({offline:true,javaScriptEnabled:false}),n=await noJS.newPage();await n.goto(pathToFileURL(file).href);assert(await n.locator('#atlas-action-plan').isVisible());assert.equal(await n.locator('.disaster-steps li').count(),3);assert(!await n.locator('#resource-map').isVisible());await noJS.close();
    await p.locator('#atlas-everyday').click();assert.equal(await p.locator('.disaster-geometry').count(),0);assert.equal(await p.locator('.leaflet-image-layer').count(),0);assert.equal(await p.locator('.atlas-pin.support').count(),2);assert(!await p.locator('#atlas-action-plan').isVisible());assert(!new URL(p.url()).searchParams.has('hazard'));
-   assert.deepEqual(errors,[]);assert.deepEqual(unexpected,[]);findings.push({width,plans:15,exclusiveLayers:'passed',forecastValidity:'shown',offlinePlans:15,offlineHTTP:0,offlinePrint:'selected plan',noJavaScript:'selected plan readable',focus:'passed',textSpacing:'passed'});await c.close();
+   assert.deepEqual(errors,[]);assert.deepEqual(unexpected,[]);findings.push({width,plans:15,exclusiveLayers:'passed',forecastValidity:'shown',offlinePlans:15,offlineHTTP:0,offlinePrint:'selected plan',noJavaScript:'selected plan readable',focus:'passed',textSpacing:'passed',directSymbolButtons:15,selectedState:'one at a time',keyboard:'Space/Enter/Tab',deepLinkAndCityChange:'preserved'});await c.close();
   }
   const c=await browser.newContext();await stubPublicMap(c);const p=await c.newPage();await p.goto(base+'/local/?place=57026');await ready(p);
   // Partial and failed sources must not be presented as no hazard.
@@ -56,7 +64,7 @@ function collection(ids,extra={}){return {type:'FeatureCollection',features:ids.
   await p.reload();await ready(p);await choose(p,'flood');assert.deepEqual(offsets,[0,2]);assert.equal(await p.locator('.disaster-flood').count(),3);
   // A delayed old response must not replace a newer plan.
   await p.goto(base+'/local/?place=57026');await ready(p);await p.route(url=>url.href.startsWith(data.layers.flood.service+'/query?'),async r=>{await new Promise(resolve=>setTimeout(resolve,350));try{await r.fulfill({contentType:'application/json',body:JSON.stringify(collection([1]))});}catch{}});
-  await p.locator('#atlas-disaster').selectOption('flood');await choose(p,'heat');await p.waitForTimeout(500);assert.equal(await p.locator('.disaster-flood').count(),0);assert.equal(await p.locator('.leaflet-image-layer').count(),1);
+  await p.locator('[data-disaster="flood"]').click();await choose(p,'heat');await p.waitForTimeout(500);assert.equal(await p.locator('.disaster-flood').count(),0);assert.equal(await p.locator('.leaflet-image-layer').count(),1);
   // Current weather rejects expired records, even when the server returns them.
   await p.route(url=>url.href.startsWith(data.layers['cold-alerts'].service+'/query?'),r=>r.fulfill({contentType:'application/json',body:JSON.stringify(collection([1],{expiration:Date.now()-3600000,prod_type:'Expired test alert'}))}));await choose(p,'cold');assert.equal(await p.locator('.disaster-cold-alerts').count(),0);assert((await p.locator('#atlas-layer-status').innerText()).includes('does not establish safe'));
   await p.goto(base+'/local/?place=57026');await ready(p);let coldRequests=0;
