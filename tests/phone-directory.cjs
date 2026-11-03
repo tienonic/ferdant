@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const {isPublicMapRequest}=require('./map-network.cjs');
 
 module.exports = async function checkPhoneDirectory(page, width) {
  await page.goto(new URL('/local/',page.url()).href);
@@ -13,7 +14,7 @@ module.exports = async function checkPhoneDirectory(page, width) {
  await page.locator('.phone-toggle').click();
  await page.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');
  assert.equal(await page.evaluate(()=>L.version),'1.9.4');
- const network=[];const listener=r=>network.push(r.url());page.on('request',listener);
+ const network=[];const listener=r=>{if(!isPublicMapRequest(r.url()))network.push(r.url());};page.on('request',listener);
  try {
   const city=page.getByLabel('Your city in California',{exact:true});
   assert(!await city.isVisible(),'Location changes use the single Change location control');
@@ -68,6 +69,6 @@ module.exports = async function checkPhoneDirectory(page, width) {
   await page.locator('.phone-toggle').click();await page.locator('.phone-toggle').click();
   assert.equal(await page.locator('#city-map .leaflet-control-zoom').count(),1,'Reopening must reuse the same map');
   assert(await page.evaluate(()=>localStorage.length===0 && sessionStorage.length===0));
-  assert.deepEqual(network,[],'Choosing a city must not request or send data');
+  assert.deepEqual(network,[],'City changes may request only public map geometry and street tiles');
  } finally {page.off('request',listener);}
 };

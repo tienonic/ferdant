@@ -1,9 +1,11 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
+const {stubPublicMap}=require('./map-network.cjs');
 
 module.exports=async function checkInfographic(browser,base){
  const context=await browser.newContext({acceptDownloads:true,hasTouch:true,isMobile:true,viewport:{width:390,height:844}});
+ await stubPublicMap(context);
  const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
  const data=JSON.parse(fs.readFileSync('content/regions.json','utf8'));
  const places=JSON.parse(fs.readFileSync('content/california-cities.json','utf8'));
@@ -21,6 +23,7 @@ module.exports=async function checkInfographic(browser,base){
  for(const key of cases){
   await page.goto(base+'/local/'+(key?'?place='+encodeURIComponent(key):''));
   await page.waitForFunction(()=>document.querySelector('#infographic-preview').naturalWidth>0);
+  await page.waitForFunction(()=>{const root=document.querySelector('#resource-atlas');return !root||root.hidden||!root.hasAttribute('aria-busy');});
   const texts=await page.evaluate(key=>{
    const {svg}=window.FerdantInfographic.build(key),doc=new DOMParser().parseFromString(svg,'image/svg+xml');
    if(doc.querySelector('parsererror'))throw Error('Malformed SVG');

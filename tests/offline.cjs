@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const {pathToFileURL} = require('node:url');
+const {stubPublicMap}=require('./map-network.cjs');
 
 module.exports = async function checkOffline(browser, base) {
  const regional = JSON.parse(fs.readFileSync('content/regions.json','utf8'));
@@ -100,11 +101,12 @@ module.exports = async function checkOffline(browser, base) {
  }
  await context.close();
  // The standalone homepage download works without opening or loading the phone map.
- const direct=await browser.newContext({acceptDownloads:true});const directPage=await direct.newPage();
+ const direct=await browser.newContext({acceptDownloads:true});await stubPublicMap(direct);const directPage=await direct.newPage();
  await directPage.goto(base+'/local/?place=57026');
  assert.equal(await directPage.locator('#phone-city').inputValue(),'57026');
  assert(!await directPage.locator('.phone-directory').evaluate(el=>el.open));
- assert.equal(await directPage.locator('script[src*="leaflet"]').count(),0);
+ await directPage.waitForFunction(()=>document.querySelector('#resource-map').dataset.ready==='true');
+ assert.equal(await directPage.locator('script[src*="leaflet"]').count(),1,'The visible city-resource map loads the shared Leaflet library');
  assert.equal(await directPage.locator('#location-start #city-map').count(),1);
  const directDownload=directPage.waitForEvent('download');await directPage.locator('#offline-download [data-city-download]').click();
  const directFile=await directDownload;assert.equal(directFile.suggestedFilename(),'ferdant-davis-ca-2026-11-02.html');
@@ -120,6 +122,7 @@ module.exports = async function checkOffline(browser, base) {
  await directPage.waitForURL('**/local/?place=19050');
  assert(new URL(directPage.url()).searchParams.get('place')==='19050');await direct.close();
  const privacy=await browser.newContext({acceptDownloads:true,reducedMotion:'reduce'});
+ await stubPublicMap(privacy);
  const privatePage=await privacy.newPage();await privatePage.goto(base+'/local/?place=57026');
  await privatePage.locator('.phone-toggle').click();
  await privatePage.locator('#what-am-i-paying-for > summary').click();

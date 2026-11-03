@@ -1,3 +1,4 @@
 /assets/vendor/leaflet/*.js text eol=lf
 /assets/vendor/leaflet/*.css text eol=lf
 /assets/vendor/leaflet/LICENSE text eol=lf
+/assets/data/city-maps/*.json text eol=lf

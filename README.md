@@ -25,6 +25,10 @@ The deployed main branch remains the maintenance page until a fuller release is 
 - `content/site.py`: branch descriptions, original guide text, source links and dates.
 - `content/regions.json`: shared numbers, contact/source records and city/county references; dates never advance automatically.
 - `content/california-cities.json`: official city/county index, approximate points, generalized local map and source hashes.
+- `content/resource-map.json`, `content/map-data-manifest.json`: dated public facilities, map source limits and exact geometry receipts.
+- `assets/data/city-maps/`: 58 compact county files, covering all 483 indexed city boundaries and 20 counties with official tsunami planning areas.
+- `scripts/resource_map.py`, `resource-map.js`: result-page map, exclusive Everyday / Earthquake / Tsunami tabs, readable place list and public geometry export. FEMA shelters are queried on demand; street tiles are online only.
+- `scripts/project-building-outlines.py`: manual extraction of estimated Microsoft building outlines containing directory points; source geometry is ODbL, with receipts and license retained.
 - `assets/vendor/leaflet/`: pinned Leaflet 1.9.4 release files, BSD license and download hashes.
 - `scripts/phone_chart.py`, `phone.js`: shared city phone chart, local filtering and city-only offline export.
 - `scripts/offline.py`: self-contained regional downloads, including fonts, icons, tools and contacts.
@@ -41,6 +45,7 @@ The deployed main branch remains the maintenance page until a fuller release is 
 npm.cmd ci --ignore-scripts
 npm.cmd run build
 npm.cmd run verify:responsive
+node tests/resource-map.cjs
 ```
 
 Keep the local server running for browser checks. They test all 16 pages at 320, 390, 768 and

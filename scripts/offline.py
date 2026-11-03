@@ -29,6 +29,7 @@ def build_editions(home, output):
     doc = doc.replace('<link rel="stylesheet" href="/styles.css">', f'<style>{css}</style>')
     doc = doc.replace('<script src="/site.js" defer></script>', '')
     doc = doc.replace('<script src="/phone.js" defer></script>', '').replace('<script src="/infographic.js" defer></script>', '')
+    doc = doc.replace('<script src="/resource-map.js" defer></script>', '')
     doc = re.sub(r'(<details class="phone-directory" id="local-essentials")([^>]*)(>)', lambda m: m[1]+m[2]+('' if re.search(r'\bopen\b',m[2]) else ' open')+m[3], doc)
     doc = re.sub(r'<div class="phone-actions">.*?</div>', '', doc, flags=re.S)
     doc = doc.replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
@@ -50,6 +51,8 @@ def build_editions(home, output):
     licenses = ''.join(f'<h3>{e(p.name)}</h3><pre>{e(p.read_text(encoding="utf-8"))}</pre>' for p in sorted((ROOT / 'assets/fonts').glob('*OFL*')))
     leaflet_license=e((ROOT / 'assets/vendor/leaflet/LICENSE').read_text(encoding='utf-8'))
     licenses += f'<h3>Leaflet 1.9.4 — BSD-2-Clause</h3><pre>{leaflet_license}</pre>'
+    buildings_license=e((ROOT / 'assets/data/city-maps/BUILDINGS-LICENSE.txt').read_text(encoding='utf-8'))
+    licenses += f'<h3>Microsoft extracted building geometry — ODbL 1.0</h3><pre>{buildings_license}</pre>'
     doc = doc.replace('</main>', f'<details class="offline-detail font-licenses"><summary>Embedded software & font licenses</summary>{licenses}</details></main>')
     print_js = '''
 let detailsBeforePrint = [];
@@ -63,7 +66,8 @@ window.addEventListener('afterprint', () => {
     leaflet_js=(ROOT / 'assets/vendor/leaflet/leaflet.js').read_text(encoding='utf-8')
     phone_js = leaflet_js + '\n' + (ROOT / 'phone.js').read_text(encoding='utf-8')
     infographic_js=(ROOT / 'infographic.js').read_text(encoding='utf-8')
-    doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{infographic_js}\n{print_js}</script></body>')
+    map_js=(ROOT / 'resource-map.js').read_text(encoding='utf-8')
+    doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{infographic_js}\n{map_js}\n{print_js}</script></body>')
     doc = re.sub(r'(?m)^[ \t]+$', '', doc)
     (output / Path(DOWNLOAD).name).write_text(doc, encoding='utf-8')
     # Superseded preview exports; one shared edition replaces per-region copies.

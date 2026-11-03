@@ -184,9 +184,11 @@
  }
  function loadLeaflet() {
   if(window.L)return Promise.resolve();
+  if(window.ferdantLeaflet)return window.ferdantLeaflet;
   const css=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/assets/vendor/leaflet/leaflet.css';link.onload=resolve;link.onerror=reject;document.head.append(link);});
   const js=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='/assets/vendor/leaflet/leaflet.js';script.onload=resolve;script.onerror=reject;document.head.append(script);});
-  return Promise.all([css,js]);
+  window.ferdantLeaflet=Promise.all([css,js]).catch(error=>{window.ferdantLeaflet=undefined;throw error;});
+  return window.ferdantLeaflet;
  }
  function ensureMap() {
   if(cityMap){syncMap(place(select.value));return Promise.resolve();}
@@ -223,7 +225,15 @@
    if(doc.querySelector('#phone-data')?.textContent!==dataNode.textContent)throw Error('Edition changed; reload');
    doc.querySelector('meta[name="ferdant-city"]').content=key;
    // The saved rows and meta value keep the chosen city readable even with JavaScript off.
-   render(doc,key);window.FerdantInfographic?.embed(doc,key);doc.querySelector('h1').textContent=`${location.name}, California — offline edition`;
+   render(doc,key);window.FerdantInfographic?.embed(doc,key);
+   if(window.FerdantResourceMap)await window.FerdantResourceMap.embed(doc,key);
+   else if(doc.querySelector('#city-map-snapshot')){
+    const response=await fetch('/assets/data/city-maps/'+location.county+'.json',{credentials:'omit'});
+    if(!response.ok)throw Error('City map could not be saved');
+    const area=await response.json();if(area.checked!==data.checked||area.county!==location.county)throw Error('Map edition changed');
+    doc.querySelector('#city-map-snapshot').textContent=JSON.stringify(area).replace(/</g,'\\u003c');
+   }
+   doc.querySelector('h1').textContent=`${location.name}, California — offline edition`;
    doc.title=`${location.name} — Ferdant offline`;
    const blob=new Blob(['<!doctype html>\n'+doc.documentElement.outerHTML],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob);
    const name=key.startsWith('county:')?places.counties[location.county]+' County':location.name;
