@@ -108,7 +108,7 @@ module.exports = async function checkWidgets(page, width, base) {
   assert(await page.getByRole('button', {name:'Copy my draft'}).locator('[data-icon=copy]').isVisible());
   assert(await page.evaluate(()=>localStorage.length===0 && sessionStorage.length===0));
   assert.deepEqual(requests, [], 'Widget interaction must not send any request');
-  await page.getByRole('button',{name:'Back to directory',exact:true}).click();
+  await page.getByRole('button',{name:'Close tool',exact:true}).click();
   await launcher.focus();
   await page.keyboard.press('Enter');
   assert(await page.getByRole('dialog',{name:'Compare a bill',exact:true}).isVisible());

@@ -10,16 +10,6 @@ from phone_chart import DATA, DOWNLOAD
 e = lambda value: html.escape(str(value), quote=True)
 
 
-def saved_guides(guides):
-    result = '<section class="offline-guides" id="saved-guides" tabindex="-1"><h2>Saved guides</h2><p>Full text is included in this file. Open a guide without a connection.</p>'
-    for guide in guides:
-        actions = ''.join(f'<li>{e(action)}</li>' for action in guide['quick'])
-        sections = ''.join(f'<h3>{e(title)}</h3><p>{e(body)}</p>' for title, body in guide['sections'])
-        sources = ''.join(f'<li><a href="{e(url)}">{e(title)}</a> — {e(date)}</li>' for title, url, date in guide['sources'])
-        result += f'<details class="offline-detail" id="saved-{guide["slug"]}"><summary>{e(guide["title"])}</summary><p>{e(guide["intro"])}</p><ol>{actions}</ol>{sections}<h3>Message template</h3><blockquote>{e(guide["template"])}</blockquote><p>{e(guide["scope"])}</p><p>Guide sources checked {e(guide["sourceChecked"])}. Links need internet.</p><ul>{sources}</ul></details>'
-    return result + '</section>'
-
-
 def data_url(url):
     path = ROOT / url.lstrip('/')
     assert path.resolve().is_relative_to((ROOT / 'assets').resolve()), 'Only reviewed assets may be embedded.'
@@ -27,7 +17,7 @@ def data_url(url):
     return 'data:' + mime + ';base64,' + base64.b64encode(path.read_bytes()).decode('ascii')
 
 
-def build_editions(home, guides, output):
+def build_editions(home, output):
     leaflet_css=(ROOT / 'assets/vendor/leaflet/leaflet.css').read_text(encoding='utf-8')
     leaflet_css=leaflet_css.replace('url(images/', 'url(/assets/vendor/leaflet/images/')
     css = leaflet_css + '\n' + (ROOT / 'styles.css').read_text(encoding='utf-8')
@@ -35,12 +25,11 @@ def build_editions(home, guides, output):
     js = (ROOT / 'site.js').read_text(encoding='utf-8')
     output = output / 'downloads'
     output.mkdir(parents=True, exist_ok=True)
-    guide_links = {f'/what-am-i-paying-for/guides/{g["slug"]}/': '#saved-' + g['slug'] for g in guides}
     doc = re.sub(r'<title>.*?</title>', '<title>California — Ferdant offline</title>', home, count=1)
     doc = doc.replace('<link rel="stylesheet" href="/styles.css">', f'<style>{css}</style>')
     doc = doc.replace('<script src="/site.js" defer></script>', '')
     doc = doc.replace('<script src="/phone.js" defer></script>', '').replace('<script src="/infographic.js" defer></script>', '')
-    doc = doc.replace('<details class="phone-directory" id="local-essentials">', '<details class="phone-directory" id="local-essentials" open>')
+    doc = re.sub(r'(<details class="phone-directory" id="local-essentials")([^>]*)(>)', lambda m: m[1]+m[2]+('' if re.search(r'\bopen\b',m[2]) else ' open')+m[3], doc)
     doc = re.sub(r'<div class="phone-actions">.*?</div>', '', doc, flags=re.S)
     doc = doc.replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
     csp = "default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'"
@@ -49,17 +38,14 @@ def build_editions(home, guides, output):
     doc = doc.replace('<h2 id="location-title">Start with your location</h2>', '<h2 id="location-title">Your saved location</h2>')
     doc = re.sub(r'<h1[^>]*>.*?</h1>', '<h1 id="local-page-title">California offline edition</h1>', doc, count=1)
     doc = doc.replace('Choose your location. Find your next step.</p>', f'Saved copy · Regional sources checked {DATA["checked"]}.</p>')
-    notice = '<div class="offline-notice"><strong>Saved to your device</strong><p>The directory, tools and saved guides work without internet. Website links and alert signup need a connection; calls need phone service. This file has no live alerts, outages or shelter availability.</p><nav aria-label="Offline sections"><a href="#local-essentials">Local essentials</a><a href="#communities">Directory</a><a href="#saved-guides">Saved guides</a></nav></div>'
-    doc = doc.replace('<main id="main" tabindex="-1">', '<main id="main" tabindex="-1">' + notice)
-    doc = doc.replace('<section id="about"', saved_guides(guides) + '<section id="about"', 1)
     doc = re.sub(r'(src|href)="(/assets/[^"\s]+)"', lambda m: f'{m[1]}="{data_url(m[2])}"', doc)
     def local_link(match):
         url = match[1]
         if url == '/': return 'href="#main"'
         if url.startswith('/#'): return f'href="{e(url[1:])}"'
-        path = url.split('#')[0]
-        return 'href="' + (guide_links[path] if path in guide_links else 'https://ferdant.com' + e(url)) + '"'
+        return 'href="https://ferdant.com' + e(url) + '"'
     doc = re.sub(r'href="(/[^"\s]*)"', local_link, doc)
+    doc = re.sub(r'(<a class="widget-guide-link"[^>]*>)(.*?)(</a>)', lambda m:m[1]+m[2]+' (online)'+m[3], doc)
     # All fonts, icons and tools are embedded; there are no network subresources or service workers.
     licenses = ''.join(f'<h3>{e(p.name)}</h3><pre>{e(p.read_text(encoding="utf-8"))}</pre>' for p in sorted((ROOT / 'assets/fonts').glob('*OFL*')))
     leaflet_license=e((ROOT / 'assets/vendor/leaflet/LICENSE').read_text(encoding='utf-8'))

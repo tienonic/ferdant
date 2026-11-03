@@ -75,7 +75,9 @@
   if(alert){const link=node(doc,'a',alert.name+' — official instructions');link.href=data.sources[alert.source].url;alertArea.append(link);}
  }
  function render(doc,key) {
-  const location = place(key), ids=contactIds(location), body=doc.querySelector('#phone-rows');
+  const location=place(key),shared=doc.querySelector('.phone-directory').hasAttribute('data-shared-only');
+  const localIds=location?[...new Set([...(data.countyContacts[location.county]?.length?data.countyContacts[location.county]:['211-routing']),...(data.cityContacts[location.id]||[])])]:[];
+  const ids=shared?data.statewide.filter(id=>!doc.querySelector('#location-resources')||!localIds.includes(id)):contactIds(location),body=doc.querySelector('#phone-rows');
   const rows=doc.createDocumentFragment(), sources=doc.createDocumentFragment();
   for (const id of ids) {
    const contact=data.contacts[id], row=node(doc,'tr');row.dataset.contactId=id;
@@ -100,8 +102,8 @@
    coverage+=data.countyContacts[location.county]?.length ? `County referral number included. ` : `No alternate ${county} County referral number was listed in the checked directory; the California ZIP-code routing line remains available. `;
    coverage+=data.cityNotes[location.id] || 'City-specific police, utility and other agency contacts have not been checked here. Statewide and any listed county numbers are shown.';
   }
-  doc.querySelector('#phone-coverage').textContent=coverage;
-  doc.querySelector('#phone-caption').textContent=`${location ? location.name : 'California'} emergency and support phone numbers other than 911`;
+  doc.querySelector('#phone-coverage').textContent=shared?(location&&doc.querySelector('#location-resources')?'Shared California support lines. Checked local contacts appear in the location resources above.':'Shared California support lines. Search a location to open checked local resources.'):coverage;
+  doc.querySelector('#phone-caption').textContent=shared?'California-wide support numbers':`${location ? location.name : 'California'} emergency and support phone numbers other than 911`;
   for(const download of doc.querySelectorAll('[data-city-download]')) download.textContent=download.closest('.infographic-download')?'Complete offline website (HTML)':location ? `Download offline for ${location.name}` : 'Download California offline copy';
   const alertArea=doc.querySelector('#phone-local-alert');
   if(alertArea){alertArea.replaceChildren();const alert=data.alerts[location?.id];if(alert){const p=node(doc,'p',`${alert.name}: ${alert.instruction}`),link=node(doc,'a','Official alert instructions (online)');link.href=data.sources[alert.source].url;alertArea.append(p,link);}}
@@ -204,7 +206,7 @@
     marker.on('click',()=>{if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(city.id);else chooseCity(city.id);});const element=marker.getElement();if(element)element.dataset.cityId=city.id;
    }
    document.querySelector('#city-map').dataset.ready='true';syncMap(place(select.value));
-  }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. The city selector and phone numbers still work.';});
+  }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. Location search and phone numbers still work.';});
   return mapPromise;
  }
  if(mapDisclosure)mapDisclosure.addEventListener('toggle',()=>{if(mapDisclosure.open)ensureMap();});

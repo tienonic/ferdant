@@ -29,7 +29,7 @@ One shared page and dataset serve every location; do not duplicate the full city
 The primary download is a locally generated PNG infographic, with a clear hierarchy, large numbers, local and
 statewide sections, service details, provider/after-hours cues and the original source-date limits. It must use
 canonical public data, never private financial inputs or filtered DOM rows. Keep the complete single-file offline
-website as a secondary action for maps, four tools, three full guides and full sources. The image preview uses
+website as a secondary action for maps, four tools and full sources. The image preview uses
 the same generated SVG as the PNG export. Long names and text wrap without clipping. No external image service,
 SDK, geolocation permission or account is required.
 
@@ -102,7 +102,7 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
   Use a local vector map and approximate city points, with visible attribution and no repeating motion.
   Keep the native selector as an alternative. The homepage location map loads immediately from local assets;
   the separate offline-chooser page can initialize its map when the enclosing disclosure opens. Both work in the offline file.
-  A single offline template carries the same shared city/contact dataset, map, tools and guides. A city download
+  A single offline template carries the same shared city/contact dataset, map, tools and contacts. A city download
   carries only the selected location and all its saved contacts; never carry private tool notes or the service filter.
   Preserve jurisdiction/provider limits and visible coverage gaps. Use explicit choice, with no inferred location.
 - The five-topic directory pairs familiar labels with the exact community names and a concise full-scope description.
@@ -182,3 +182,9 @@ search form per page. Keep search forms separate from private financial forms.
 
 The version before autocomplete, resource pages and the PNG infographic is preserved at tag
 `preview-before-city-results-20261102` (`ffe4e403278ab89fe6cbd70a16b289faa24083ce`).
+
+The current offline copy omits Saved guides, the Local essentials shortcut and the Saved to your device banner.
+Guide links lead to the online pages and need internet. Download actions are consolidated: one standard HTML
+copy on the homepage, one PNG/HTML area on the resource page, and one download on the separate offline chooser.
+Change location is the single result-page location control; tool dialogs use their one Close control. Checked
+local contacts appear once above the shared statewide support chart, with actual service distinctions preserved.

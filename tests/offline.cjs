@@ -23,7 +23,9 @@ module.exports = async function checkOffline(browser, base) {
   const templateRequests=requests.filter(url=>url.endsWith('.html')).length;
   assert(region.key?templateRequests===1:templateRequests>=1&&templateRequests<=2,'City copies reuse one clean template; standard download may use the browser cache');
   const county=region.key.startsWith('county:')?region.key.slice(7):places.cities.find(row=>row[0]===region.key)?.[2];
-  const expected=[...new Set([...regional.statewide,...(regional.countyContacts[county]||[]),...(regional.cityContacts[region.key]||[])])];
+  const expectedAll=[...new Set([...regional.statewide,...(regional.countyContacts[county]||[]),...(regional.cityContacts[region.key]||[])])];
+  const local=region.key?[...new Set([...(regional.countyContacts[county]?.length?regional.countyContacts[county]:['211-routing']),...(regional.cityContacts[region.key]||[])])]:[];
+  const expected=regional.statewide.filter(id=>!local.includes(id));
   for (const width of [320,390,1440]) {
    const offline = await browser.newContext({offline:true,viewport:{width,height:960},reducedMotion:'reduce'});
    const p = await offline.newPage();const network=[],errors=[];
@@ -40,12 +42,15 @@ module.exports = async function checkOffline(browser, base) {
    await p.getByLabel('Search California cities or counties',{exact:true}).fill('San Diego');
    await p.getByRole('button',{name:'Search',exact:true}).click();
    assert.equal(await p.locator('#phone-city').inputValue(),'37060');
-   await p.getByLabel('Your city in California',{exact:true}).selectOption('37060');
-   assert(await p.locator('[data-contact-id="sd-nonemergency"]').isVisible());
+   assert(await p.locator('[data-local-contact="sd-nonemergency"]').isVisible());
    await p.reload();
    assert.equal(await p.locator('#phone-city').inputValue(),region.key);
    assert.equal(await p.locator('[id]').evaluateAll(els=>new Set(els.map(el=>el.id)).size===els.length),true);
-   assert(await p.locator('.offline-notice').innerText().then(t=>t.includes('no live alerts')));
+   assert.equal(await p.locator('.offline-notice, #saved-guides, .offline-guides, a[href^="#saved-"]').count(),0);
+   assert.deepEqual(await p.locator('#location-links > li').evaluateAll(items=>items.map(item=>item.dataset.localContact)),local);
+   const all=await p.locator('#phone-rows tr, #location-links > li').evaluateAll(items=>items.map(item=>item.dataset.contactId||item.dataset.localContact));
+   assert.equal(new Set(all).size,all.length,'Each contact belongs to one section');
+   assert.deepEqual([...all].sort(),[...expectedAll].sort());
    assert(await p.locator('.site-favicon').evaluateAll(images=>images.every(img=>img.complete && img.naturalWidth>0)));
    assert(await p.evaluate(()=>[...document.fonts].some(f=>f.status==='loaded')));
    assert.equal(await p.locator('meta[name=robots]').getAttribute('content'),'noindex,follow');
@@ -68,14 +73,11 @@ module.exports = async function checkOffline(browser, base) {
    await p.getByLabel('What needs explaining?').fill('Offline test charge');
    assert((await p.locator('#built-message').innerText()).includes('Offline test charge'));
    await p.keyboard.press('Escape');
-   assert.equal(await p.locator('.offline-guides details[open]').count(),0,'Opening a tool must leave its fallback guide closed');
-   const savedGuide=p.locator('.offline-guides details').first();await savedGuide.locator('summary').click();
-   assert(await savedGuide.locator('ol').isVisible());
-   assert.equal(await p.locator('.offline-guides details').count(),3);
+   const sourcesBeforePrint=await p.locator('.phone-source-details').evaluate(el=>el.open);
    await p.evaluate(()=>window.dispatchEvent(new Event('beforeprint')));
-   assert.equal(await p.locator('.offline-guides details[open]').count(),3);
+   assert(await p.locator('.phone-source-details').evaluate(el=>el.open));
    await p.evaluate(()=>window.dispatchEvent(new Event('afterprint')));
-   assert.equal(await p.locator('.offline-guides details[open]').count(),1);
+   assert.equal(await p.locator('.phone-source-details').evaluate(el=>el.open),sourcesBeforePrint);
    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Offline overflow at ${width}`);
    assert.deepEqual(network,[],'Reopened file must make no network requests');assert.deepEqual(errors,[]);
    if(width!==320) {
@@ -83,7 +85,7 @@ module.exports = async function checkOffline(browser, base) {
     await p.screenshot({path:`screenshots/offline-${(region.key||"california").replace(':','-')}-${width}.png`});
     await p.locator('.phone-directory').screenshot({path:`screenshots/offline-contacts-${(region.key||"california").replace(':','-')}-${width}.png`});
    }
-   findings.push({region:region.key,width,fileScheme:true,networkRequests:network.length,tools:4,savedGuides:3,result:'passed'});
+   findings.push({region:region.key,width,fileScheme:true,networkRequests:network.length,tools:4,savedGuides:0,result:'passed'});
    await offline.close();
   }
   const noJs=await browser.newContext({offline:true,javaScriptEnabled:false,viewport:{width:390,height:960}});
@@ -92,8 +94,7 @@ module.exports = async function checkOffline(browser, base) {
   assert.equal(await p.locator('.phone-table a[href="tel:911"]').count(),0);
   assert.equal(await p.locator('#location-resources').isVisible(),Boolean(region.key));
   if(region.key)assert((await p.locator('#location-results-title').innerText()).includes(region.name));
-  await p.locator('.offline-guides details').first().locator('summary').click();
-  assert(await p.locator('.offline-guides details').first().locator('ol').isVisible());
+  assert.equal(await p.locator('.offline-notice, #saved-guides, .offline-guides').count(),0);
   assert(!await p.locator('.cost-preview').isVisible());
   await noJs.close();
  }
@@ -113,7 +114,10 @@ module.exports = async function checkOffline(browser, base) {
  assert(fs.readFileSync(directPath,'utf8').includes('data-local-contact="davis-nonemergency"'),'The saved city summary must work with scripts off');
  await directPage.locator('.phone-toggle').click();
  assert.equal(await directPage.getByLabel('Your city in California',{exact:true}).inputValue(),'57026');
- await directPage.getByLabel('Your city in California',{exact:true}).selectOption('19050');
+ await directPage.locator('.change-location > summary').click();
+ await directPage.getByRole('combobox',{name:'Search California cities or counties'}).fill('Los Angeles');
+ await directPage.getByRole('button',{name:'Search',exact:true}).click();
+ await directPage.waitForURL('**/local/?place=19050');
  assert(new URL(directPage.url()).searchParams.get('place')==='19050');await direct.close();
  const privacy=await browser.newContext({acceptDownloads:true,reducedMotion:'reduce'});
  const privatePage=await privacy.newPage();await privatePage.goto(base+'/local/?place=57026');
@@ -122,9 +126,8 @@ module.exports = async function checkOffline(browser, base) {
  await privatePage.getByRole('navigation',{name:'Quick tools'}).getByRole('link',{name:'Draft a billing message'}).click();
  await privatePage.getByLabel('What needs explaining?').fill('PRIVATE-NOTE-NOT-FOR-EXPORT');
  await privatePage.getByRole('button',{name:'Close tool',exact:true}).click();
- await privatePage.getByLabel('Your city in California',{exact:true}).selectOption('57026');
  await privatePage.getByLabel('Find a service',{exact:true}).fill('water');
- const privateDownload=privatePage.waitForEvent('download');await privatePage.locator('.phone-directory [data-city-download]').click();
+ const privateDownload=privatePage.waitForEvent('download');await privatePage.locator('#offline-download [data-city-download]').click();
  const privateFile=await privateDownload,privatePath=path.resolve('screenshots','privacy-export.html');await privateFile.saveAs(privatePath);
  const privateSource=fs.readFileSync(privatePath,'utf8');assert(!privateSource.includes('PRIVATE-NOTE-NOT-FOR-EXPORT'),'Only the city may be carried into a download');
  assert(privateSource.includes('davis-nonemergency'),'Service filtering must not remove contacts from the download');
@@ -142,5 +145,5 @@ module.exports = async function checkOffline(browser, base) {
  await noMap.getByRole('button',{name:'Search',exact:true}).click();
  await noMap.waitForURL('**/local/?place=57026');
  assert(await noMap.locator('[data-local-contact="davis-nonemergency"]').isVisible());await mapFailure.close();
- fs.writeFileSync('screenshots/offline-verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'chosen city contacts and saved guides passed',downloads:'actual city and standard downloads saved',privateInputsExported:false,filterDoesNotLimitDownload:true,failureHandling:'passed',liveAlerts:false},null,2));
+ fs.writeFileSync('screenshots/offline-verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'chosen city contacts passed; saved guides removed',downloads:'actual city and standard downloads saved',privateInputsExported:false,filterDoesNotLimitDownload:true,failureHandling:'passed',liveAlerts:false},null,2));
 };

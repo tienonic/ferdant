@@ -33,16 +33,17 @@ def city_map(include_search=True):
     return f'''<div class="city-map-workspace" data-enhancement hidden>{city_search() if include_search else ''}<p id="city-map-status" role="status">Type a city name or choose a city marker. Search uses California locations only.</p><div id="city-map" role="region" aria-label="California city selection map"></div><p class="city-map-note">City locations and county lines are approximate. Choose a named city; this is not an address lookup or a route map.</p></div>'''
 
 
-def phone_chart(expanded=False, include_map=True):
+def phone_chart(expanded=False, include_map=True, show_download=True, show_picker=True, shared_only=False):
     payload = json.dumps({'directory': DATA, 'places': CITIES, 'download': DOWNLOAD}, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
     rows = ''.join(phone_row(key) for key in DATA['statewide'])
-    return f'''<details class="phone-directory" id="local-essentials"{' open' if expanded else ''}>
-      <summary class="phone-toggle">{icon('phone')}<span><strong>Phone numbers</strong><small>Emergency & local contacts</small></span>{icon('chevron')}</summary><div class="phone-panel">
-      <div class="phone-heading"><div><h2 id="phone-title">Emergency & support numbers</h2><p>California · Choose your city for local contacts.</p></div><div class="phone-controls" data-enhancement hidden><div class="phone-city-control"><label for="phone-city">Your city in California</label><select id="phone-city" aria-describedby="phone-coverage"><option value="">California-wide numbers</option></select></div><div class="phone-query-control"><label for="phone-query">Find a service</label><input id="phone-query" type="search" placeholder="Poison, police, water…" autocomplete="off"></div></div></div>
+    actions=f'<div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><p id="phone-download-status" role="status"></p></div>' if show_download else ''
+    return f'''<details class="phone-directory" id="local-essentials"{' open' if expanded else ''}{' data-shared-only' if shared_only else ''}>
+      <summary class="phone-toggle">{icon('phone')}<span><strong>{"California support numbers" if shared_only else "Phone numbers"}</strong><small>{"Shared statewide contacts" if shared_only else "Emergency & local contacts"}</small></span>{icon('chevron')}</summary><div class="phone-panel">
+      <div class="phone-heading"><div><h2 id="phone-title">{"California-wide support" if shared_only else "Emergency & support numbers"}</h2><p>California · Choose your city for local contacts.</p></div><div class="phone-controls" data-enhancement hidden><div class="phone-city-control"{" hidden" if not show_picker else ""}><label for="phone-city">Your city in California</label><select id="phone-city" aria-describedby="phone-coverage"><option value="">California-wide numbers</option></select></div><div class="phone-query-control"><label for="phone-query">Find a service</label><input id="phone-query" type="search" placeholder="Poison, police, water…" autocomplete="off"></div></div></div>
 {city_map() if include_map else ''}
       <p class="phone-coverage" id="phone-coverage" role="status">Showing California-wide support. City and county coverage is added when you choose a location.</p>
-      <noscript><p>California-wide numbers are below. Enable JavaScript to choose a city; the downloaded file still includes these numbers and the saved guides without JavaScript.</p></noscript>
-      <div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><a href="/offline/">About the offline version</a><p id="phone-download-status" role="status"></p></div>
+      <noscript><p>California-wide numbers are below. Enable JavaScript to choose a city; the downloaded file still includes these numbers without JavaScript.</p></noscript>
+{actions}
       <table class="phone-table"><caption class="visually-hidden" id="phone-caption">California emergency and support phone numbers other than 911</caption><thead><tr><th scope="col">Help with</th><th scope="col">Phone number</th></tr></thead><tbody id="phone-rows">{rows}</tbody></table>
       <p id="phone-no-matches" class="phone-coverage" hidden>No saved contacts match that search. Clear “Find a service” to see all saved numbers for this location.</p>
       <p class="phone-footnote">Contacts checked {DATA['checked']}. Phone service is needed to call or text. This is a saved directory, with no live dispatch, outage or shelter feed. Immediate danger still needs 911.</p>

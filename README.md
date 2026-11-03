@@ -27,7 +27,7 @@ The deployed main branch remains the maintenance page until a fuller release is 
 - `content/california-cities.json`: official city/county index, approximate points, generalized local map and source hashes.
 - `assets/vendor/leaflet/`: pinned Leaflet 1.9.4 release files, BSD license and download hashes.
 - `scripts/phone_chart.py`, `phone.js`: shared city phone chart, local filtering and city-only offline export.
-- `scripts/offline.py`: self-contained regional downloads, including fonts, icons, tools and saved guides.
+- `scripts/offline.py`: self-contained regional downloads, including fonts, icons, tools and contacts.
 - `content/directory.py`: directory link labels, publishers and separate source/check dates.
 - `scripts/build.py`: shared page templates, metadata, breadcrumb schema and generated URLs.
 - `scripts/graphics.py`: original static category drawings for the directory summaries.
@@ -129,7 +129,7 @@ fetches that clean shared template once per page, adds only the selected city an
 local file. Subsequent city downloads reuse the template in memory. Tool notes and service filters are not copied.
 The saved file retains the city even with JavaScript disabled; with scripts enabled, its full city selector works
 without a connection. The vector map, pinned Leaflet 1.9.4 library, styles, fonts, favicon assets, four tools and
-three full guides are embedded, with the required software/font licenses.
+contact details are embedded, with the required software/font licenses.
 
 Open the file in a browser; no server, install or service worker is required. Phone file previews may require a
 browser for interactive tools. Calls/texts need phone service; website links and alert registration need internet.
@@ -174,7 +174,7 @@ Its checked resources retain scope, provider, hours and source limits; general g
 A prominent result-page section offers a contact-sheet PNG and the complete offline website. `infographic.js`
 builds the SVG preview and high-resolution PNG locally from the canonical public contacts. The PNG contains
 local and statewide numbers, practical notes, source dates and coverage limits, with no private tool inputs.
-The complete HTML file adds the map, four tools, three guides and full sources. PNG generation needs scripts;
+The complete HTML file adds the map, four tools and full sources. PNG generation needs scripts;
 selected contact charts in saved HTML remain readable without scripts. The offline template is built from the
 shared resource page, rather than a separate database or copy per city.
 
@@ -209,3 +209,9 @@ The preceding unified-location preview is preserved at `preview-before-city-resu
 (`ffe4e403278ab89fe6cbd70a16b289faa24083ce`). New checks cover one-letter suggestions, arrows/Enter/Escape,
 touch selection, separate/invalid resource URLs, actual PNG bytes and dimensions, canonical contact coverage,
 private-input exclusion, and map loading that preserves text already being typed.
+
+The current offline copy omits Saved guides, the Local essentials shortcut and the Saved to your device banner.
+Guide links lead to the online pages and need internet. Download actions are consolidated: one standard HTML
+copy on the homepage, one PNG/HTML area on the resource page, and one download on the separate offline chooser.
+Change location is the single result-page location control; tool dialogs use their one Close control. Checked
+local contacts appear once above the shared statewide support chart, with actual service distinctions preserved.
