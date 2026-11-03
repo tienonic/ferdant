@@ -2601,7 +2601,8 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
   if(cityMap){syncMap(place(select.value));return Promise.resolve();}
   if(mapPromise)return mapPromise;
   mapPromise=loadLeaflet().then(()=>{
-   cityMap=L.map('city-map',{scrollWheelZoom:false,minZoom:4,maxZoom:12,zoomAnimation:false,fadeAnimation:false}).setView([37.2,-120],5);
+   const landingOverview=Boolean(document.querySelector('[data-location-routing]'));
+   cityMap=L.map('city-map',{scrollWheelZoom:false,minZoom:4,maxZoom:12,zoomSnap:landingOverview?0.1:1,zoomAnimation:false,fadeAnimation:false}).setView([37.2,-120],5);
    cityMap.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
    cityMap.attributionControl.addAttribution('Map data: <a href="https://publish.data.ca.gov/dataset/boe-citycounty">CDTFA</a> · <a href="https://tigerweb.geo.census.gov/">U.S. Census Bureau</a>');
    const boundaries=L.geoJSON(places.map.geometry,{style:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1},onEachFeature:(feature,layer)=>{
@@ -2614,6 +2615,7 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
     markers.set(city.id,marker);const label=document.createElement('span');label.textContent=city.name;marker.bindTooltip(label);
     marker.on('click',()=>{if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(city.id);else chooseCity(city.id);});const element=marker.getElement();if(element)element.dataset.cityId=city.id;
    }
+   if(landingOverview)cityMap.on('resize',()=>{if(!select.value)syncMap(null);});
    document.querySelector('#city-map').dataset.ready='true';syncMap(place(select.value));
   }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. Location search and phone numbers still work.';});
   return mapPromise;
