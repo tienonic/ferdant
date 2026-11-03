@@ -63,3 +63,7 @@ The later November 3 creative revision replaces all placeholder headlines and
 icons with finished ad/affiliate/sponsor designs. All-page four-width checks now
 also verify loaded product photos and sample offer details. Original family
 photos and the before-monetization tag remain unchanged.
+
+Each disaster now has its own [affiliate example](disaster-affiliates.md). One
+card follows the selected city-map plan, with distinct sample links, prices and
+product details; it stays separate from resource results and offline downloads.

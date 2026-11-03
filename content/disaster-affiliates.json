@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "mode": "demo",
+  "brand": "Alder Supply",
+  "checked": "2026-11-03",
+  "scope": "Fictional product concepts and illustrative prices, not evaluated products or complete emergency kits. General supply types are informed by public kit lists; event-to-product matches are an editorial demonstration, not agency endorsements.",
+  "sources": [
+    {
+      "title": "FEMA emergency supply kit checklist",
+      "url": "https://www.fema.gov/sites/default/files/documents/fema_hm-emergency-supply-kit-checklist_english.pdf",
+      "checked": "2026-11-03",
+      "access": "Search-index extract; direct Ready.gov pages returned 403."
+    },
+    {
+      "title": "City of Philadelphia emergency management: Make a go bag",
+      "url": "https://www.phila.gov/departments/oem/ready-or-not/how-to-get-ready/prepare-for-an-emergency/make-a-go-bag/",
+      "checked": "2026-11-03",
+      "access": "Public guidance read for bag/communication/document examples."
+    }
+  ],
+  "offers": {
+    "earthquake": {
+      "hazardLabel": "Earthquake",
+      "title": "Earthquake Go Bag",
+      "sku": "earthquake-go-bag",
+      "image": "/assets/ads/go-bag.png",
+      "imageAlt": "Earthquake Go Bag shown as a fictional affiliate product concept.",
+      "price": "$68.00",
+      "description": "A grab-and-go pack for the supplies in your household earthquake plan. Bag only; contents are not included.",
+      "cta": "View the go bag",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "tsunami": {
+      "hazardLabel": "Tsunami",
+      "title": "Coastal Evacuation Pack",
+      "sku": "tsunami-evacuation-pack",
+      "image": "/assets/ads/go-bag.png",
+      "imageAlt": "Coastal Evacuation Pack shown as a fictional affiliate product concept.",
+      "price": "$58.00",
+      "description": "A lightweight backpack for the essentials on your evacuation checklist. Pack it in advance.",
+      "cta": "View the evacuation pack",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "flood": {
+      "hazardLabel": "Flood",
+      "title": "Household Document Pouch",
+      "sku": "flood-document-pouch",
+      "image": "/assets/ads/document-pouch.png",
+      "imageAlt": "Household Document Pouch shown as a fictional affiliate product concept.",
+      "price": "$24.00",
+      "description": "Keep printed contacts and copies of important paperwork together in one portable pouch.",
+      "cta": "View the document pouch",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "wildfire": {
+      "hazardLabel": "Wildfire",
+      "title": "Portable Weather Radio",
+      "sku": "wildfire-weather-radio",
+      "image": "/assets/ads/weather-radio.png",
+      "imageAlt": "Portable Weather Radio shown as a fictional affiliate product concept.",
+      "price": "$39.00",
+      "description": "A battery-radio concept for the communication supplies in your household wildfire plan.",
+      "cta": "View the weather radio",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "heat": {
+      "hazardLabel": "Extreme heat",
+      "title": "Everyday Water Bottle",
+      "sku": "heat-water-bottle",
+      "image": "/assets/ads/water-bottle.png",
+      "imageAlt": "Everyday Water Bottle shown as a fictional affiliate product concept.",
+      "price": "$26.00",
+      "description": "A refillable bottle concept to carry water during ordinary hot-weather outings.",
+      "cta": "View the water bottle",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "cold": {
+      "hazardLabel": "Extreme cold / freeze",
+      "title": "Warm Fleece Blanket",
+      "sku": "cold-fleece-blanket",
+      "image": "/assets/ads/warm-blanket.png",
+      "imageAlt": "Warm Fleece Blanket shown as a fictional affiliate product concept.",
+      "price": "$28.00",
+      "description": "A soft extra layer for a household or winter travel kit.",
+      "cta": "View the blanket",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "storms": {
+      "hazardLabel": "Wind / severe weather",
+      "title": "Outage Weather Radio",
+      "sku": "storms-outage-radio",
+      "image": "/assets/ads/weather-radio.png",
+      "imageAlt": "Outage Weather Radio shown as a fictional affiliate product concept.",
+      "price": "$42.00",
+      "description": "A portable radio concept for the supplies you keep for power interruptions and severe weather.",
+      "cta": "View the outage radio",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "coastal": {
+      "hazardLabel": "Coastal flooding",
+      "title": "Coastal Paperwork Pouch",
+      "sku": "coastal-paperwork-pouch",
+      "image": "/assets/ads/document-pouch.png",
+      "imageAlt": "Coastal Paperwork Pouch shown as a fictional affiliate product concept.",
+      "price": "$24.00",
+      "description": "Keep copies of household documents and local contact sheets together before you need to leave.",
+      "cta": "View the paperwork pouch",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "landslide": {
+      "hazardLabel": "Landslide / debris flow",
+      "title": "Ready-to-Carry Daypack",
+      "sku": "landslide-ready-daypack",
+      "image": "/assets/ads/go-bag.png",
+      "imageAlt": "Ready-to-Carry Daypack shown as a fictional affiliate product concept.",
+      "price": "$62.00",
+      "description": "A compact pack for the essentials on your household evacuation checklist. Bag only.",
+      "cta": "View the daypack",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "drought": {
+      "hazardLabel": "Drought",
+      "title": "Home Water Storage Container",
+      "sku": "drought-water-container",
+      "image": "/assets/ads/water-container.png",
+      "imageAlt": "Home Water Storage Container shown as a fictional affiliate product concept.",
+      "price": "$32.00",
+      "description": "A handled container concept for organizing stored household water supplies.",
+      "cta": "View the water container",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "dam": {
+      "hazardLabel": "Dam failure",
+      "title": "Grab-and-Go Radio",
+      "sku": "dam-grab-radio",
+      "image": "/assets/ads/weather-radio.png",
+      "imageAlt": "Grab-and-Go Radio shown as a fictional affiliate product concept.",
+      "price": "$39.00",
+      "description": "A compact radio concept for the communication supplies in an evacuation bag.",
+      "cta": "View the portable radio",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "levee": {
+      "hazardLabel": "Levee failure",
+      "title": "Evacuation Papers Organizer",
+      "sku": "levee-papers-organizer",
+      "image": "/assets/ads/document-pouch.png",
+      "imageAlt": "Evacuation Papers Organizer shown as a fictional affiliate product concept.",
+      "price": "$24.00",
+      "description": "A portable place for copies of your household plan, key documents and contact sheet.",
+      "cta": "View the papers organizer",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "avalanche": {
+      "hazardLabel": "Snow avalanche",
+      "title": "Winter Travel Blanket",
+      "sku": "avalanche-winter-blanket",
+      "image": "/assets/ads/warm-blanket.png",
+      "imageAlt": "Winter Travel Blanket shown as a fictional affiliate product concept.",
+      "price": "$34.00",
+      "description": "An extra blanket concept for a winter vehicle kit. This is not avalanche rescue equipment.",
+      "cta": "View the travel blanket",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "subsidence": {
+      "hazardLabel": "Land subsidence",
+      "title": "Home Records Pouch",
+      "sku": "subsidence-home-records",
+      "image": "/assets/ads/document-pouch.png",
+      "imageAlt": "Home Records Pouch shown as a fictional affiliate product concept.",
+      "price": "$24.00",
+      "description": "Keep copies of home records, insurance contacts and inspection notes together.",
+      "cta": "View the records pouch",
+      "linkLabel": "Affiliate link ? Demo"
+    },
+    "volcano": {
+      "hazardLabel": "Volcano",
+      "title": "Compact LED Flashlight",
+      "sku": "volcano-led-flashlight",
+      "image": "/assets/ads/flashlight.png",
+      "imageAlt": "Compact LED Flashlight shown as a fictional affiliate product concept.",
+      "price": "$19.00",
+      "description": "A battery flashlight concept for the basic supplies in your household preparedness kit.",
+      "cta": "View the flashlight",
+      "linkLabel": "Affiliate link ? Demo"
+    }
+  }
+}

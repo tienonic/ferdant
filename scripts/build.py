@@ -25,7 +25,7 @@ def button(url,text,secondary=False):return f'<a class="button{" secondary" if s
 def cards(guides=None):return ''.join(f'<a class="guide-card" href="{gp(g)}" data-search="{e(g["title"]+" "+g["description"]+" "+g["tag"])}"><div class="guide-copy"><h3>{g["title"]}</h3><p>{g["description"]}</p></div></a>' for g in (c.GUIDES if guides is None else guides))
 def topics():return ''.join(f'<a class="topic-row" href="/{b["slug"]}/"><span class="topic-copy"><strong>{b["label"]}</strong><span>{b["name"]}</span></span><span class="topic-description">{b["description"]}</span></a>' for b in c.BRANCHES)
 def page(path,title,description,body,crumbs=None):
- commercial_assets, commercial_banner, commercial_cards = placements()
+ commercial_assets, commercial_banner, commercial_cards = placements(local=path=='/local/')
  schema=[{'@context':'https://schema.org','@type':'WebSite','name':'Ferdant','url':DOMAIN+'/'},{'@context':'https://schema.org','@type':'WebPage','name':title,'description':description,'url':DOMAIN+path,'inLanguage':'en'}]
  crumb=''
  if crumbs:

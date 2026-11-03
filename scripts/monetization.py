@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def placements():
+def placements(local=False):
     config = json.loads((ROOT / 'config/monetization.json').read_text(encoding='utf-8'))
     if not config['enabled']:
         return '', '', ''
@@ -34,4 +34,8 @@ def placements():
       <form method="dialog"><button class="demo-close" aria-label="Close placement demo" autofocus>Close <span aria-hidden="true">&#215;</span></button></form>
       <span class="demo-label">Monetization preview</span><h2 id="monetization-demo-title">Example placement</h2><p id="monetization-demo-description"></p><dl id="monetization-demo-offer"></dl><p class="demo-dialog-note">Fictional brands and illustrative offers. Nothing is purchased or submitted here. Your city, resource results and downloads are unchanged.</p>
     </dialog><!--monetization-demo:end-->'''
+    if local:
+        catalog = json.loads((ROOT / 'content/disaster-affiliates.json').read_text(encoding='utf-8'))
+        payload = json.dumps(catalog, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
+        cards = cards.replace('<!--monetization-demo:end-->', '<script type="application/json" id="disaster-affiliate-data">' + payload + '</script><!--monetization-demo:end-->')
     return assets, banner, cards

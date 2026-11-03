@@ -44,6 +44,18 @@
 .demo-sponsor h3 { margin-top: 20px; }
 .demo-sponsor .demo-text-link { margin-top: auto; color: #244535; }
 .demo-disclosure { font-size: 11px; line-height: 1.65; color: var(--muted); margin: 14px 0 0; scroll-margin-top: 24px; }
+.demo-disaster-slot { margin: 22px 0; }
+.demo-context-affiliate { display: grid; grid-template-columns: 260px minmax(0,1fr); }
+.demo-context-affiliate .demo-product-art { height: 100%; min-height: 250px; }
+.demo-context-affiliate .demo-product-art img { object-fit: cover; object-position: 38% 50%; background: #efe9dd; }
+.demo-context-affiliate .demo-product-category { margin-top: 10px; }
+.demo-context-affiliate h3 { font-size: 30px; margin: 8px 0; }
+.demo-context-affiliate .demo-product-price { margin: 4px 0 8px; }
+.demo-context-affiliate .demo-partner-copy > small { margin-top: 8px; }
+.demo-kit-checklist { display: inline-flex; align-items: center; min-height: 44px; color: var(--cobalt); font-size: 11px; }
+.demo-partner-grid--sponsor-only { display: block; }
+.demo-partner-grid--sponsor-only .demo-sponsor { display: grid; grid-template-columns: 35% minmax(0,1fr); }
+.demo-partner-grid--sponsor-only .demo-sponsor-identity { height: 100%; min-height: 250px; justify-content: center; }
 .demo-dialog { background: var(--paper); color: var(--ink); border: 1px solid var(--rule); border-radius: 6px; width: min(560px,calc(100% - 32px)); max-height: calc(100dvh - 40px); padding: 28px; }
 .demo-dialog::backdrop { background: rgb(29 45 62 / .4); }
 .demo-dialog form { display: flex; justify-content: flex-end; margin: -10px -10px 16px 0; }
@@ -75,7 +87,15 @@
  .demo-partners { margin-top: 28px; }
  .demo-dialog { padding: 22px; }
  .demo-dialog dl { grid-template-columns: 90px minmax(0,1fr); gap: 8px 12px; }
+ .demo-context-affiliate { grid-template-columns: minmax(0,1fr); }
+ .demo-context-affiliate .demo-product-art { height: 160px; min-height: 160px; }
+ .demo-context-affiliate .demo-product-art img { object-fit: contain; object-position: center; }
+ .demo-context-affiliate .demo-partner-copy { padding: 16px; }
+ .demo-context-affiliate h3 { font-size: 26px; }
+ .demo-context-affiliate .demo-product-brand { font-size: 9px; top: 12px; left: 12px; padding: 4px 7px; }
+ .demo-partner-grid--sponsor-only .demo-sponsor { display: flex; }
+ .demo-partner-grid--sponsor-only .demo-sponsor-identity { height: 180px; min-height: 180px; }
 }
 @media(max-width: 360px) { .demo-ad { grid-template-columns: minmax(0,1fr) 30%; } .demo-ad-copy { padding: 12px; } .demo-ad-copy .demo-ad-title { font-size: 25px; } .demo-ad-media { min-height: 270px; } }
-@media print { .demo-ad, .demo-partners, .demo-dialog { display: none !important; } }
+@media print { .demo-ad, .demo-partners, .demo-dialog, .demo-disaster-slot { display: none !important; } }
 @media(forced-colors: active) { .demo-ad, .demo-partner, .demo-label > span { border-color: CanvasText; } .demo-shop-link { border: 1px solid LinkText; } }

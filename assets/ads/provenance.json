@@ -5,5 +5,55 @@
   "description": "Photorealistic indigo canvas document pouch on an oak table; no real product or brand represented",
   "use": "Fictional Alder Supply advertisement and affiliate card",
   "sha256": "93f28fbe91ded468f0d7b97d9e38c3c23e8520edc89825498179ba949ba6b96d",
-  "sizeBytes": 3024334
+  "sizeBytes": 3024334,
+  "additionalAssets": [
+    {
+      "asset": "go-bag.png",
+      "created": "2026-11-03",
+      "origin": "Generated with the built-in image generation tool",
+      "use": "Fictional disaster-specific affiliate concept; no actual product or brand",
+      "sha256": "70b05e9ede659bbd3e205765bb978b9fa30e93ebcd7dada0f996d71e20bddc32",
+      "sizeBytes": 2857961
+    },
+    {
+      "asset": "weather-radio.png",
+      "created": "2026-11-03",
+      "origin": "Generated with the built-in image generation tool",
+      "use": "Fictional disaster-specific affiliate concept; no actual product or brand",
+      "sha256": "5f1675240fa478b06ebeedd3de6513015e58e419e9ce9f473b7ff60667a4bf43",
+      "sizeBytes": 2392122
+    },
+    {
+      "asset": "water-bottle.png",
+      "created": "2026-11-03",
+      "origin": "Generated with the built-in image generation tool",
+      "use": "Fictional disaster-specific affiliate concept; no actual product or brand",
+      "sha256": "02dd33e76866098748ca11eb83550ad482fad8eff535fad399833c84ab862bc5",
+      "sizeBytes": 1907704
+    },
+    {
+      "asset": "water-container.png",
+      "created": "2026-11-03",
+      "origin": "Generated with the built-in image generation tool",
+      "use": "Fictional disaster-specific affiliate concept; no actual product or brand",
+      "sha256": "25d7f7bfca20a234eaea57e0c558b2a5734b4150e3995741cae442e1a0ed740c",
+      "sizeBytes": 1823877
+    },
+    {
+      "asset": "warm-blanket.png",
+      "created": "2026-11-03",
+      "origin": "Generated with the built-in image generation tool",
+      "use": "Fictional disaster-specific affiliate concept; no actual product or brand",
+      "sha256": "bda591926a8c675bbfe8807374cd858ec3a0a300e201988f87125e57b2e6a819",
+      "sizeBytes": 2818608
+    },
+    {
+      "asset": "flashlight.png",
+      "created": "2026-11-03",
+      "origin": "Generated with the built-in image generation tool",
+      "use": "Fictional disaster-specific affiliate concept; no actual product or brand",
+      "sha256": "89b92ed8a9488cf5b6bd94e4ac26d5f2236dbf863704ffa171892888b7715327",
+      "sizeBytes": 2278703
+    }
+  ]
 }
