@@ -1,7 +1,7 @@
 # Ferdant website
 
 A porcelain-white and cobalt resource library for the five existing practical-help communities.
-This branch contains an editorial preview: a landing page, five branch hubs, three complete
+This branch contains an editorial preview: a homepage with a working bill comparison, five branch hubs, three complete
 money-and-paperwork guides, a searchable library, about/source/privacy pages and a custom 404. Guides lead with a short answer,
 four actions and a useful tool or template; longer explanations and sources expand only when needed.
 The three guides are proposed pilot content, not a record of resolved community cases.
@@ -68,9 +68,12 @@ hosting and fee/test decisions; this preview does not create a shop or accept pa
 
 ## Design and privacy
 
-Porcelain white `#fbfcfa`, cobalt `#244b84`, fine rules, serif headings and native sans-serif text.
-The homepage puts working guides beside the introduction and groups the five communities by topic.
-It uses a text directory rather than decorative artwork or promotional cards. No external fonts or image requests.
+Read [DESIGN.md](DESIGN.md) before changing the interface. It records the audience, palette, layout,
+type scale and the decisions made using the user's Professor Glitch reference.
+Porcelain white `#fbfcfa`, cobalt `#244b84`, Newsreader headings and Public Sans reading text.
+The homepage offers a working bill comparison, two related guides and a directory of all five topics.
+Fonts are served locally (about 84 KB total); notices and download provenance are in `assets/fonts/`.
+There are no external font-service or decorative image requests.
 
 Search, bill comparison and checklists run in the browser without sending or storing input.
 Template copy uses the clipboard only after a click. No analytics, account system, document upload,

@@ -1,0 +1,22 @@
+{
+  "downloaded": "2026-11-02",
+  "stylesheet": "https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Public+Sans:wght@400;500;600&display=swap",
+  "files": [
+    {
+      "file": "newsreader-400-latin.woff2",
+      "family": "Newsreader",
+      "weight": "400",
+      "url": "https://fonts.gstatic.com/s/newsreader/v26/cY9VfjOCX1hbuyalUrK49dLafXjalZCsZBsgBgbNJYQ.woff2",
+      "sha256": "725d78a558da7c48dd6753e4aa21bc40b4a5dc721c457e2b7d3ef782e8a9904b",
+      "bytes": 57268
+    },
+    {
+      "file": "public-sans-400-latin.woff2",
+      "family": "Public Sans",
+      "weight": "400",
+      "url": "https://fonts.gstatic.com/s/publicsans/v21/ijwRs572Xtc6ZYQws9YVwnNGfJ4.woff2",
+      "sha256": "5ed4d31c988e73b258894244f209069ebe77dc7e564861954b21198b6de90d68",
+      "bytes": 26832
+    }
+  ]
+}
