@@ -17,29 +17,29 @@ async function ready(p){await p.waitForFunction(()=>{const r=document.querySelec
    const input=p.getByRole('combobox',{name:'Search California cities or counties'});await input.fill('Yo');
    assert(await p.locator('#location-suggestions [role="option"]').evaluateAll(els=>els.length>0&&els.every(e=>e.dataset.placeKey.startsWith('county:'))));
    await input.press('ArrowDown');await input.press('Enter');await p.waitForURL('**/local/?place=county%3A57');await ready(p);
-   assert.equal(await p.locator('#local-resource-levels [data-resource-level="city"]').count(),0);
-   assert.equal(await p.locator('#local-resource-levels dd').count(),2);
+   assert.equal(await p.locator('#local-resource-levels').count(),0);
+   assert.equal(await p.locator('#local-page-title').innerText(),'Yolo County resources');
    assert.equal(await p.locator('#location-links [data-resource-level="city"]').count(),0);
    await p.locator('.change-location > summary').click();await p.locator('[data-location-kind="city"]').click();
    await p.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');assert.equal(await p.locator('#city-map [data-city-id]').count(),483);
    await input.fill('Da');assert(await p.locator('#location-suggestions [role="option"]').evaluateAll(els=>els.every(e=>!e.dataset.placeKey.startsWith('county:'))));
    await p.getByRole('option',{name:'Davis, Yolo County, California',exact:true}).click();await p.waitForURL('**/local/?place=57026');await ready(p);
-   assert.deepEqual(await p.locator('#local-resource-levels dd').allTextContents(),['Davis','Yolo County','California']);
+   assert.equal(await p.locator('#local-page-title').innerText(),'Davis resources');
    assert.equal(await p.locator('[data-local-contact="davis-nonemergency"]').getAttribute('data-resource-level'),'city');
    assert.equal(await p.locator('[data-local-contact="yolo-211"]').getAttribute('data-resource-level'),'county');
    assert.equal(await p.locator('[data-local-contact="pge-outage"]').getAttribute('data-resource-level'),'provider');
    assert(await p.locator('#phone-rows tr').evaluateAll(els=>els.every(e=>e.dataset.resourceLevel==='state')));
    assert.equal(await p.locator('#atlas-place-list > li:not([data-resource-level])').count(),0);
-   await p.locator('#local-resource-levels').screenshot({path:`screenshots/resource-scopes/levels-${width}.png`});
+   await p.locator('#local-page-title').screenshot({path:`screenshots/resource-scopes/levels-${width}.png`});
    await p.locator('#location-links').screenshot({path:`screenshots/resource-scopes/contacts-${width}.png`});
    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    if(width===390){
     const wait=p.waitForEvent('download');await p.locator('#offline-download [data-city-download]').click();const download=await wait,file=path.resolve('screenshots/resource-scopes/davis-offline.html');await download.saveAs(file);
     const offline=await browser.newContext({offline:true,viewport:{width:390,height:1000}}),f=await offline.newPage(),network=[];f.on('request',r=>{if(/^https?:/.test(r.url()))network.push(r.url());});await f.goto(pathToFileURL(file).href);await ready(f);
-    assert.deepEqual(await f.locator('#local-resource-levels dd').allTextContents(),['Davis','Yolo County','California']);
+    assert.equal(await f.locator('#local-page-title').innerText(),'Davis resources');assert.equal(await f.locator('#local-resource-levels').count(),0);
     assert.equal(await f.locator('[data-local-contact="pge-outage"]').getAttribute('data-resource-level'),'provider');
     await f.locator('.change-location > summary').click();await f.locator('[data-location-kind="county"]').click();await f.getByRole('combobox',{name:'Search California cities or counties'}).fill('Yolo');await f.getByRole('button',{name:'Search',exact:true}).click();await ready(f);
-    assert.equal(await f.locator('#phone-city').inputValue(),'county:57');assert.equal(await f.locator('#local-resource-levels dd').count(),2);assert.deepEqual(network,[]);await offline.close();
+    assert.equal(await f.locator('#phone-city').inputValue(),'county:57');assert.equal(await f.locator('#local-page-title').innerText(),'Yolo County resources');assert.deepEqual(network,[]);await offline.close();
    }
    await p.goto(base+'/');await p.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');await p.locator('[data-location-kind="county"]').click();
    await p.locator('#city-map [data-county-id="57"]').click();await p.waitForURL('**/local/?place=county%3A57');await ready(p);

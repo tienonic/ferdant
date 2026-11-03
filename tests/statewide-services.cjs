@@ -49,7 +49,7 @@ function inside(geometries,f){return geometries.some(g=>(g.type==='Polygon'?[g.c
   const choices=[...places.cities.map(c=>({key:c[0],name:c[1]})),...Object.entries(places.counties).map(([id,name])=>({key:'county:'+id,name:name+' County'}))];
   for(let i=0;i<choices.length;i++){
    const choice=choices[i];await p.locator('#phone-city').selectOption(choice.key,{force:true});await ready(p);
-   assert.equal(await p.locator('#resource-map-title').innerText(),choice.name+' on the map');assert(((await mappedIds(p)).length)>0,choice.name);
+   assert.equal(await p.locator('#resource-map-title').innerText(),'Resource map');assert(((await mappedIds(p)).length)>0,choice.name);
    assert.equal(await p.locator('.atlas-pin svg[data-icon^="resource-"]').count(),await p.locator('.atlas-pin').count());
    assert(!(await p.locator('#atlas-service-coverage').textContent()).includes('unavailable'),choice.name);assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    if(i%100===0)console.log('Statewide browser choices: '+i+'/'+choices.length);

@@ -11,7 +11,7 @@ module.exports = async function checkOffline(browser, base) {
  const context = await browser.newContext({acceptDownloads:true,reducedMotion:'reduce'});
  const page = await context.newPage();await page.goto(base+'/offline/');await page.evaluate(()=>document.fonts.ready);
  const requests=[];page.on('request',r=>requests.push(r.url()));
- const cases=[{key:'57026',name:'Davis'},{key:'19050',name:'Los Angeles'},{key:'county:57',name:'Yolo County (county-level)'},{key:'',name:'California'}];
+ const cases=[{key:'57026',name:'Davis'},{key:'19050',name:'Los Angeles'},{key:'county:57',name:'Yolo County'},{key:'',name:'California'}];
  const gap=places.cities.find(row=>!regional.cityContacts[row[0]] && !regional.countyContacts[row[2]].length);cases.splice(cases.length-1,0,{key:gap[0],name:gap[1]});
  for (const region of cases) {
   await page.getByLabel('Your city in California',{exact:true}).selectOption(region.key);

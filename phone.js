@@ -30,7 +30,7 @@
  options.append(cityGroup);
  const countyGroup = document.createElement('optgroup');countyGroup.label = 'County lookup / community not listed';
  for (const [id,name] of Object.entries(places.counties).sort((a,b)=>a[1].localeCompare(b[1]))) {
-  const option = document.createElement('option');option.value = `county:${id}`;option.textContent = `${name} County — county-level contacts`;countyGroup.append(option);
+  const option = document.createElement('option');option.value = `county:${id}`;option.textContent = `${name} County`;countyGroup.append(option);
  }
  options.append(countyGroup);select.append(options);
  const locationSelect=document.querySelector('[data-location-select]');
@@ -39,7 +39,7 @@
  function place(key) {
   if (cities.has(key)) return cities.get(key);
   const county = key.startsWith('county:') ? key.slice(7) : null;
-  return county && places.counties[county] ? {id:key,name:`${places.counties[county]} County (county-level)`,county} : null;
+  return county && places.counties[county] ? {id:key,name:`${places.counties[county]} County`,county} : null;
  }
  function contactIds(location) {
   return [...new Set([...data.statewide,...(location ? data.countyContacts[location.county] || [] : []),...(location ? data.cityContacts[location.id] || [] : [])])];
@@ -56,14 +56,6 @@
   return {level:'provider',label:contact.scope};
  }
  function scopeBadge(doc,scope) {return node(doc,'span',scope.label,'resource-scope-badge scope-'+scope.level);}
- function renderLevels(doc,location) {
-  const levels=doc.querySelector('#local-resource-levels');if(!levels)return;
-  levels.replaceChildren();levels.hidden=!location;
-  if(!location)return;
-  const isCounty=location.id.startsWith('county:');
-  const entries=isCounty?[['county','County',places.counties[location.county]+' County'],['state','State','California']]:[['city','City',location.name],['county','County',places.counties[location.county]+' County'],['state','State','California']];
-  for(const [level,label,name] of entries){const group=node(doc,'div');group.dataset.resourceLevel=level;group.append(node(doc,'dt',label),node(doc,'dd',name));levels.append(group);}
- }
  function contactMethods(doc,contact) {
   const fragment=doc.createDocumentFragment();
   for(const ref of contact.phones) {
@@ -110,8 +102,8 @@
   if(!location){summary.textContent='Choose a city or county for checked local contacts. You can browse general resources below.';title.textContent='Local resources';coverage.textContent='';return;}
   const cityIds=data.cityContacts[location.id]||[],countyIds=data.countyContacts[location.county]||[];
   const ids=[...new Set([...(countyIds.length?countyIds:['211-routing']),...cityIds])];
-  summary.textContent=`${location.name}, California selected. Your offline copy uses this location.`;
-  title.textContent=`Resources for ${location.name}`;
+  summary.textContent=`${location.name} selected. Your offline copy uses this location.`;
+  title.textContent='Local contacts';
   const countyOnly=location.id.startsWith('county:');
   coverage.textContent=countyOnly ? 'County-level contacts only. Choose a city for any checked city agencies.' : data.cityNotes[location.id] || 'City agency contacts have not been checked here. Any saved county contacts are below; statewide help stays available in Phone numbers.';
   if(!countyIds.length)coverage.textContent+=' No alternate county referral number was listed in the checked directory; the statewide ZIP-code routing line is shown below.';
@@ -168,11 +160,10 @@
   const locationCity=doc.querySelector('[data-location-select]');if(locationCity)locationCity.value=key;
   const citySearch=doc.querySelector('#map-city-search');if(citySearch)citySearch.value=location && !location.id.startsWith('county:')?location.name:'';
   renderLocation(doc,location);
-  renderLevels(doc,location);
   const intro=doc.querySelector('#local-page-intro');
-  if(intro&&location)intro.textContent=location.id.startsWith('county:')?`${places.counties[location.county]} County services and statewide help. Select a city for city-specific resources.`:`Resources in ${location.name}, ${places.counties[location.county]} County services and statewide help.`;
+  if(intro)intro.textContent=location?.id.startsWith('county:')?'County services and emergency information. Choose a city for local resources.':'Local services and emergency information.';
   if(doc===document&&location)setSelectionKind(location.id.startsWith('county:')?'county':'city');
-  const heading=doc.querySelector('#local-page-title');if(heading)heading.textContent=location?`Resources for ${location.name}, California`:'California resources';
+  const heading=doc.querySelector('#local-page-title');if(heading)heading.textContent=location?`${location.name} resources`:'Local resources';
   filter(doc);if(doc===document){syncMap(location);document.dispatchEvent(new CustomEvent('ferdant:location',{detail:{key}}));}return location;
  }
  function filter(doc) {

@@ -1878,7 +1878,7 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 </style><meta property="og:type" content="website"><meta property="og:title" content="Local resources | Ferdant"><meta property="og:description" content="Checked California location resources, shared support numbers, public guides and a downloadable resource book with disaster resources, related phone charts and a complete offline website."><meta property="og:url" content="https://ferdant.com/local/"><meta property="og:site_name" content="Ferdant"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "WebSite", "name": "Ferdant", "url": "https://ferdant.com/"}, {"@context": "https://schema.org", "@type": "WebPage", "name": "Local resources", "description": "Checked California location resources, shared support numbers, public guides and a downloadable resource book with disaster resources, related phone charts and a complete offline website.", "url": "https://ferdant.com/local/", "inLanguage": "en"}]</script></head>
 <body><a class="skip" href="#main">Skip to content</a><div class="preview-note">Editorial preview · saved offline copy</div><div class="page"><header class="site-header"><a class="wordmark" href="#main" aria-label="Ferdant home">ferdant<span>.</span></a><nav class="desktop-nav" aria-label="Main navigation"><a href="#location-start">Find local help</a><a href="#california-resources">California resources</a><a href="#communities">Community</a></nav><a class="recommendation-entry" href="#recommend-a-resource" aria-label="Suggest a resource"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg><span class="recommendation-full">Suggest a resource</span><span class="recommendation-short" aria-hidden="true">Suggest</span></a><span class="header-note">Practical help for everyday problems</span><details class="mobile-menu"><summary>Menu</summary><nav aria-label="Mobile navigation"><a href="#location-start">Find local help</a><a href="#california-resources">California resources</a><a href="#communities">Community</a></nav></details></header><main id="main" tabindex="-1">
 
- <div class="portal-heading" data-location-page><div><h1 id="local-page-title">California offline edition</h1><p id="local-page-intro">City resources, county services and statewide help.</p><dl class="resource-levels" id="local-resource-levels" aria-label="Your city, county and state" hidden></dl></div></div>
+ <div class="portal-heading" data-location-page><div><h1 id="local-page-title">California offline edition</h1><p id="local-page-intro">Local services and emergency information.</p></div></div>
  <details class="change-location"><summary>Change location</summary><section class="location-start" id="location-start" aria-labelledby="location-title">
  <h2 id="location-title">Your saved location</h2>
  <div class="city-search" data-enhancement hidden><div class="location-kind-switch" role="group" aria-label="Choose city or county"><button type="button" data-location-kind="city" aria-pressed="true">City</button><button type="button" data-location-kind="county" aria-pressed="false">County</button></div><form id="map-city-form" role="search"><label for="map-city-search">Search California cities or counties</label><div class="city-search-row"><div class="suggestion-anchor"><input id="map-city-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="location-suggestions" placeholder="City, e.g. Davis" autocomplete="off"><ul id="location-suggestions" role="listbox" aria-label="California locations" hidden></ul></div><button type="submit" class="button">Search</button></div><p id="city-search-status" role="status"></p></form></div>
@@ -2526,7 +2526,7 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  options.append(cityGroup);
  const countyGroup = document.createElement('optgroup');countyGroup.label = 'County lookup / community not listed';
  for (const [id,name] of Object.entries(places.counties).sort((a,b)=>a[1].localeCompare(b[1]))) {
-  const option = document.createElement('option');option.value = `county:${id}`;option.textContent = `${name} County — county-level contacts`;countyGroup.append(option);
+  const option = document.createElement('option');option.value = `county:${id}`;option.textContent = `${name} County`;countyGroup.append(option);
  }
  options.append(countyGroup);select.append(options);
  const locationSelect=document.querySelector('[data-location-select]');
@@ -2535,7 +2535,7 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  function place(key) {
   if (cities.has(key)) return cities.get(key);
   const county = key.startsWith('county:') ? key.slice(7) : null;
-  return county && places.counties[county] ? {id:key,name:`${places.counties[county]} County (county-level)`,county} : null;
+  return county && places.counties[county] ? {id:key,name:`${places.counties[county]} County`,county} : null;
  }
  function contactIds(location) {
   return [...new Set([...data.statewide,...(location ? data.countyContacts[location.county] || [] : []),...(location ? data.cityContacts[location.id] || [] : [])])];
@@ -2552,14 +2552,6 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
   return {level:'provider',label:contact.scope};
  }
  function scopeBadge(doc,scope) {return node(doc,'span',scope.label,'resource-scope-badge scope-'+scope.level);}
- function renderLevels(doc,location) {
-  const levels=doc.querySelector('#local-resource-levels');if(!levels)return;
-  levels.replaceChildren();levels.hidden=!location;
-  if(!location)return;
-  const isCounty=location.id.startsWith('county:');
-  const entries=isCounty?[['county','County',places.counties[location.county]+' County'],['state','State','California']]:[['city','City',location.name],['county','County',places.counties[location.county]+' County'],['state','State','California']];
-  for(const [level,label,name] of entries){const group=node(doc,'div');group.dataset.resourceLevel=level;group.append(node(doc,'dt',label),node(doc,'dd',name));levels.append(group);}
- }
  function contactMethods(doc,contact) {
   const fragment=doc.createDocumentFragment();
   for(const ref of contact.phones) {
@@ -2606,8 +2598,8 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
   if(!location){summary.textContent='Choose a city or county for checked local contacts. You can browse general resources below.';title.textContent='Local resources';coverage.textContent='';return;}
   const cityIds=data.cityContacts[location.id]||[],countyIds=data.countyContacts[location.county]||[];
   const ids=[...new Set([...(countyIds.length?countyIds:['211-routing']),...cityIds])];
-  summary.textContent=`${location.name}, California selected. Your offline copy uses this location.`;
-  title.textContent=`Resources for ${location.name}`;
+  summary.textContent=`${location.name} selected. Your offline copy uses this location.`;
+  title.textContent='Local contacts';
   const countyOnly=location.id.startsWith('county:');
   coverage.textContent=countyOnly ? 'County-level contacts only. Choose a city for any checked city agencies.' : data.cityNotes[location.id] || 'City agency contacts have not been checked here. Any saved county contacts are below; statewide help stays available in Phone numbers.';
   if(!countyIds.length)coverage.textContent+=' No alternate county referral number was listed in the checked directory; the statewide ZIP-code routing line is shown below.';
@@ -2664,11 +2656,10 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
   const locationCity=doc.querySelector('[data-location-select]');if(locationCity)locationCity.value=key;
   const citySearch=doc.querySelector('#map-city-search');if(citySearch)citySearch.value=location && !location.id.startsWith('county:')?location.name:'';
   renderLocation(doc,location);
-  renderLevels(doc,location);
   const intro=doc.querySelector('#local-page-intro');
-  if(intro&&location)intro.textContent=location.id.startsWith('county:')?`${places.counties[location.county]} County services and statewide help. Select a city for city-specific resources.`:`Resources in ${location.name}, ${places.counties[location.county]} County services and statewide help.`;
+  if(intro)intro.textContent=location?.id.startsWith('county:')?'County services and emergency information. Choose a city for local resources.':'Local services and emergency information.';
   if(doc===document&&location)setSelectionKind(location.id.startsWith('county:')?'county':'city');
-  const heading=doc.querySelector('#local-page-title');if(heading)heading.textContent=location?`Resources for ${location.name}, California`:'California resources';
+  const heading=doc.querySelector('#local-page-title');if(heading)heading.textContent=location?`${location.name} resources`:'Local resources';
   filter(doc);if(doc===document){syncMap(location);document.dispatchEvent(new CustomEvent('ferdant:location',{detail:{key}}));}return location;
  }
  function filter(doc) {
@@ -4235,7 +4226,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
   const run=++version;controller?.abort();hazardController?.abort();selected=point(select.value);everydayItems=[];routeData=null;routeGroup?.clearLayers();root.hidden=!selected;if(!selected)return;
   controls.forEach(control=>{control.disabled=true;});root.setAttribute('aria-busy','true');
   shard=null;regionalServices=[];current=[];boundary?.clearLayers();layerGroup?.clearLayers();hazardGroup?.clearLayers();highlight?.clearLayers();list.replaceChildren();root.querySelector('#atlas-resource-options').replaceChildren();root.querySelector('#atlas-resource-filters').open=false;feedStatus.textContent='';
-  root.querySelector('#resource-map-title').textContent=selected.name+' on the map';status.textContent='Loading the city outline…';
+  root.querySelector('#resource-map-title').textContent='Resource map';status.textContent='Loading the city outline…';
   const county=selected.county;
   const results=await Promise.allSettled([init(),loadCounty(county),services?services.load(county):Promise.reject(Error('Service reader unavailable')),loadRoutes(county)]);if(run!==version)return;
   controls.forEach(control=>{control.disabled=false;});choices.forEach(button=>{button.disabled=!disasters;});root.removeAttribute('aria-busy');

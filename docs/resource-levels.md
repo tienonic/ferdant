@@ -20,8 +20,10 @@ changes the selection interface; a resource location changes only after a map
 choice or a confirmed search. The same switch works in the Change location
 control and in the complete offline HTML.
 
-A selected city page names its city, county and state above the map. A county
-page names its county and state without implying a city selection. Local
+A selected location appears once in the main heading, such as “Davis resources”
+or “San Bernardino County resources.” The repeated City/County/State strip and
+the redundant “(county-level), California” suffix were removed at Philip's
+request. County pages retain a short prompt to choose a city for local help. Local
 contacts and phone rows carry visible scope labels, derived from the existing
 source records and city/county membership arrays. PG&E's customer-only contact
 is labeled Provider, rather than implying a city or statewide public service.
@@ -42,7 +44,7 @@ service-area fields and city-boundary calculations. Regions SHA256:
 `1bec6513304e739e0bbddb5d00559b75528a6d01b3d7b14fc8303e065798364c`.
 No new records, service boundaries, source dates or eligibility facts were
 collected or inferred. Original family photos, guides, disaster plans and
-resource selections remain. Offline HTML contains the hierarchy, scope badges
+resource selections remain. Offline HTML contains the concise heading, scope badges
 and selection switch; existing PDF/TXT/PNG exports keep their original source
 and provider-limit fields.
 

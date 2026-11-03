@@ -92,7 +92,7 @@ def home(local=False):
  sections=''.join(directory_topic(b) for b in c.BRANCHES)
  bill,cancel,message=c.GUIDES
  bill_tool=tool(bill,heading=3)
- intro='<h1 id="local-page-title">California resources</h1><p id="local-page-intro">City resources, county services and statewide help.</p><dl class="resource-levels" id="local-resource-levels" aria-label="Your city, county and state" hidden></dl>' if local else '<p>Choose your California location. Find your next step.</p>'
+ intro='<h1 id="local-page-title">Local resources</h1><p id="local-page-intro">Local services and emergency information.</p>' if local else '<p>Choose your California location. Find your next step.</p>'
  start=('<details class="change-location"><summary>Change location</summary>'+location_start(show_download=False)+'</details>') if local else location_start(show_download=False, heading=2, include_state=True)
  phones=phone_chart(include_map=False, show_download=False, show_picker=False, shared_only=True)
  resources=(f'<div class="resource-heading" id="california-resources"><div><h2>Statewide help &amp; general guides</h2><p>California-wide and national services, guides and discussions. Eligibility and service areas vary.</p></div></div><div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{phones}{sections}</div>' if local else landing_resources(c.BRANCHES, phones))
