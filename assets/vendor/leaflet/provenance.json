@@ -9,49 +9,68 @@
       "file": "leaflet.js",
       "source": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
       "sha256": "db49d009c841f5ca34a888c96511ae936fd9f5533e90d8b2c4d57596f4e5641a",
-      "bytes": 147552
+      "bytes": 147552,
+      "downloadSha256": "db49d009c841f5ca34a888c96511ae936fd9f5533e90d8b2c4d57596f4e5641a",
+      "downloadBytes": 147552,
+      "normalization": "LF line endings only"
     },
     {
       "file": "leaflet.css",
       "source": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
-      "sha256": "a7837102824184820dfa198d1ebcd109ff6d0ff9a2672a074b9a1b4d147d04c6",
-      "bytes": 14806
+      "sha256": "337bfca5cabd03b39815b2700febe2b3b7edf55921c59cd49f88ecb328212303",
+      "bytes": 14145,
+      "downloadSha256": "a7837102824184820dfa198d1ebcd109ff6d0ff9a2672a074b9a1b4d147d04c6",
+      "downloadBytes": 14806,
+      "normalization": "LF line endings only"
     },
     {
       "file": "LICENSE",
       "source": "https://unpkg.com/leaflet@1.9.4/LICENSE",
-      "sha256": "53e8dc25862014e4324741ca18fbe3611e11d42ef69f59f86ea8c5389647d4cb",
-      "bytes": 1395
+      "sha256": "bbc959aaef7488b38942e7f05cfd1244351f8bce54261951ea17dd7cf60f894b",
+      "bytes": 1369,
+      "downloadSha256": "53e8dc25862014e4324741ca18fbe3611e11d42ef69f59f86ea8c5389647d4cb",
+      "downloadBytes": 1395,
+      "normalization": "LF line endings only"
     },
     {
       "file": "images/layers.png",
       "source": "https://unpkg.com/leaflet@1.9.4/dist/images/layers.png",
       "sha256": "1dbbe9d028e292f36fcba8f8b3a28d5e8932754fc2215b9ac69e4cdecf5107c6",
-      "bytes": 696
+      "bytes": 696,
+      "downloadSha256": "1dbbe9d028e292f36fcba8f8b3a28d5e8932754fc2215b9ac69e4cdecf5107c6",
+      "downloadBytes": 696
     },
     {
       "file": "images/layers-2x.png",
       "source": "https://unpkg.com/leaflet@1.9.4/dist/images/layers-2x.png",
       "sha256": "066daca850d8ffbef007af00b06eac0015728dee279c51f3cb6c716df7c42edf",
-      "bytes": 1259
+      "bytes": 1259,
+      "downloadSha256": "066daca850d8ffbef007af00b06eac0015728dee279c51f3cb6c716df7c42edf",
+      "downloadBytes": 1259
     },
     {
       "file": "images/marker-icon.png",
       "source": "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
       "sha256": "574c3a5cca85f4114085b6841596d62f00d7c892c7b03f28cbfa301deb1dc437",
-      "bytes": 1466
+      "bytes": 1466,
+      "downloadSha256": "574c3a5cca85f4114085b6841596d62f00d7c892c7b03f28cbfa301deb1dc437",
+      "downloadBytes": 1466
     },
     {
       "file": "images/marker-icon-2x.png",
       "source": "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
       "sha256": "00179c4c1ee830d3a108412ae0d294f55776cfeb085c60129a39aa6fc4ae2528",
-      "bytes": 2464
+      "bytes": 2464,
+      "downloadSha256": "00179c4c1ee830d3a108412ae0d294f55776cfeb085c60129a39aa6fc4ae2528",
+      "downloadBytes": 2464
     },
     {
       "file": "images/marker-shadow.png",
       "source": "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
       "sha256": "264f5c640339f042dd729062cfc04c17f8ea0f29882b538e3848ed8f10edb4da",
-      "bytes": 618
+      "bytes": 618,
+      "downloadSha256": "264f5c640339f042dd729062cfc04c17f8ea0f29882b538e3848ed8f10edb4da",
+      "downloadBytes": 618
     }
   ]
 }
