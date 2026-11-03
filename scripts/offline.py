@@ -27,7 +27,7 @@ def build_editions(home, output):
     output.mkdir(parents=True, exist_ok=True)
     doc = re.sub(r'<title>.*?</title>', '<title>California — Ferdant offline</title>', home, count=1)
     doc = doc.replace('<link rel="stylesheet" href="/styles.css">', f'<style>{css}</style>')
-    doc = doc.replace('<script src="/site.js" defer></script>', '')
+    doc = doc.replace('<script src="/site.js" defer></script>', '').replace('<script src="/recommendations.js" defer></script>', '')
     doc = doc.replace('<script src="/phone.js" defer></script>', '').replace('<script src="/infographic.js" defer></script>', '')
     doc = doc.replace('<script src="/resource-map.js" defer></script>', '')
     doc = doc.replace('<script src="/disaster-layers.js" defer></script>', '')
@@ -58,6 +58,7 @@ def build_editions(home, output):
     buildings_license=e((ROOT / 'assets/data/city-maps/BUILDINGS-LICENSE.txt').read_text(encoding='utf-8'))
     licenses += f'<h3>Microsoft extracted building geometry — ODbL 1.0</h3><pre>{buildings_license}</pre>'
     doc = doc.replace('</main>', f'<details class="offline-detail font-licenses"><summary>Embedded software & font licenses</summary>{licenses}</details></main>')
+    recommendations_js=(ROOT / 'recommendations.js').read_text(encoding='utf-8')
     print_js = '''
 let detailsBeforePrint = [];
 window.addEventListener('beforeprint', () => {
@@ -76,7 +77,7 @@ window.addEventListener('afterprint', () => {
     booklet_js=(ROOT / 'resource-booklet.js').read_text(encoding='utf-8')
     pdf_js=(ROOT / 'assets/vendor/jspdf/jspdf.umd.min.js').read_text(encoding='utf-8').replace('</script', '<\\/script')
     pdf_js='\n'.join(line.rstrip() for line in pdf_js.splitlines())
-    doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{disaster_js}\n{services_js}\n{pdf_js}\n{booklet_js}\n{infographic_js}\n{map_js}\n{print_js}</script></body>')
+    doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{disaster_js}\n{services_js}\n{pdf_js}\n{booklet_js}\n{infographic_js}\n{map_js}\n{recommendations_js}\n{print_js}</script></body>')
     doc = re.sub(r'(?m)^[ \t]+$', '', doc)
     (output / Path(DOWNLOAD).name).write_text(doc, encoding='utf-8')
     # Superseded preview exports; one shared edition replaces per-region copies.

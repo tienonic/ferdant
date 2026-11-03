@@ -1103,3 +1103,34 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
  .atlas-offline-link { width: 100%; font-size: 16px; min-height: 58px; }
  .booklet-sources { margin-left: 0; display: flex; }
 }
+
+/* A visible recommendation entry; drafts stay local until explicitly exported. */
+.site-header { gap: 24px; }
+.recommendation-entry { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px 12px; margin-left: auto; border: 1px solid var(--cobalt); border-radius: 5px; color: var(--cobalt); background: #fff; font-size: 13px; font-weight: 600; white-space: nowrap; text-decoration: none; flex-shrink: 0; }
+.recommendation-entry .ui-icon { width: 18px; height: 18px; }
+.recommendation-entry:hover { background: #eef3f8; }
+.recommendation-short { display: none; }
+.recommendation-panel { max-width: 1000px; margin: 28px auto; border: 1px solid var(--rule); border-left: 3px solid var(--cobalt); background: #fff; }
+.recommendation-panel > summary { display: flex; align-items: center; justify-content: space-between; min-height: 62px; padding: 12px 20px; color: var(--cobalt); font-size: 16px; font-weight: 600; list-style: none; }
+.recommendation-panel > summary::-webkit-details-marker { display: none; }
+.recommendation-panel[open] > summary { border-bottom: 1px solid var(--rule); }
+.recommendation-panel[open] > summary > [aria-hidden] { transform: rotate(45deg); }
+.recommendation-body { padding: 24px; max-width: 850px; }
+.recommendation-body h2 { font-size: 30px; }
+.recommendation-body > p { font-size: 14px; }
+.recommendation-stage { padding: 12px 14px; background: #eef3f8; border-left: 2px solid var(--cobalt); }
+#recommendation-form fieldset { min-width: 0; border: 0; margin: 0; padding: 0; }
+#recommendation-form label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+#recommendation-form label > span { font-weight: 400; color: var(--muted); }
+#recommendation-form input, #recommendation-form select, #recommendation-form textarea { display: block; width: 100%; min-width: 0; min-height: 44px; margin-top: 5px; padding: 10px 12px; border: 1px solid #aebdca; border-radius: 4px; color: var(--ink); background: #fff; font: 16px/1.5 var(--sans); }
+#recommendation-form textarea { resize: vertical; }
+#recommendation-form select:focus-visible, #recommendation-form textarea:focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
+.recommendation-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.recommendation-hint { font-size: 12px; color: var(--muted); }
+#recommendation-link-note { margin-top: -9px; }
+.recommendation-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.recommendation-actions button { min-height: 44px; }
+#recommendation-status { font-size: 13px; margin: 12px 0 0; }
+@media(max-width:1050px) { .recommendation-full { display: none; } .recommendation-short { display: inline; } }
+@media(max-width:700px) { .site-header { gap: 8px; flex-wrap: wrap; height: auto; min-height: 78px; padding: 12px 0; } .recommendation-entry { padding: 8px; gap: 6px; font-size: 12px; } .recommendation-body { padding: 16px; } .recommendation-pair { grid-template-columns: minmax(0,1fr); gap: 0; } }
+@media print { .recommendation-panel { display: none; } }
