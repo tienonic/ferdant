@@ -2,6 +2,8 @@
 
 Research date: November 3, 2026.
 
+Next step: [research plan for audience growth and sustainable funding](audience-and-funding-research-plan-20261103.md).
+
 Findhelp has the largest disclosed investment found in this comparison; Citizens Advice has the largest verified annual organizational income; iFixit has the highest estimated monthly website traffic among the four domains with traffic estimates below. These findings cover the selected comparables, not every resource website.
 
 This comparison supports choices about which services to study for Ferdant. Website visits, individual users, outreach reach, investment and annual income are separate measures. No combined popularity-and-money score is justified by the available evidence.
