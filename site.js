@@ -17,7 +17,7 @@ if (search) {
 // Reveal enhancements only after the script has loaded. The guides remain plain HTML.
 for (const element of document.querySelectorAll('[data-enhancement]')) element.hidden = false;
 
-const sectionLinks = [...document.querySelectorAll('.directory-nav nav a')];
+const sectionLinks = [...document.querySelectorAll('.portal-nav nav a')];
 function markSection() {
  for (const link of sectionLinks) {
   if (link.getAttribute('href') === location.hash) link.setAttribute('aria-current', 'location');
@@ -26,6 +26,34 @@ function markSection() {
 }
 window.addEventListener('hashchange', markSection);
 markSection();
+
+const portalQuery = document.querySelector('#portal-query');
+if (portalQuery) {
+ const entries = [...document.querySelectorAll('[data-portal-entry]')];
+ const categories = [...document.querySelectorAll('[data-portal-card]')];
+ function filterPortal() {
+  const words = portalQuery.value.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
+  let links = 0, groups = 0;
+  for (const entry of entries) {
+   entry.hidden = !words.every(word => entry.dataset.search.toLocaleLowerCase().includes(word));
+   if (!entry.hidden) links++;
+  }
+  for (const card of categories) {
+   const count = [...card.querySelectorAll('[data-portal-entry]')].filter(entry => !entry.hidden).length;
+   card.hidden = count === 0;
+   if (count) groups++;
+   const badge = card.querySelector('.portal-count');
+   badge.textContent = count; badge.setAttribute('aria-label', `${count} ${count === 1 ? 'link' : 'links'}`);
+  }
+  document.querySelector('#portal-status').textContent = `${links} ${links === 1 ? 'link' : 'links'} across ${groups} ${groups === 1 ? 'category' : 'categories'}`;
+  document.querySelector('#portal-empty').hidden = links !== 0;
+ }
+ function clearPortal() {portalQuery.value = ''; filterPortal();}
+ portalQuery.addEventListener('input', filterPortal);
+ for (const button of document.querySelectorAll('[data-clear-portal]')) button.addEventListener('click', () => {clearPortal(); portalQuery.focus();});
+ for (const link of sectionLinks) link.addEventListener('click', clearPortal);
+ filterPortal();
+}
 
 const money = cents => new Intl.NumberFormat('en-US', {style:'currency', currency:'USD'}).format(Math.abs(cents) / 100);
 const readCents = input => {

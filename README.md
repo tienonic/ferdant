@@ -23,6 +23,7 @@ The deployed main branch remains the maintenance page until a fuller release is 
 ## Edit and check
 
 - `content/site.py`: branch descriptions, original guide text, source links and dates.
+- `content/directory.py`: directory link labels, publishers and separate source/check dates.
 - `scripts/build.py`: shared page templates, metadata, breadcrumb schema and generated URLs.
 - `styles.css`, `site.js`, `assets/`: appearance and small browser-only tools.
 - Generated HTML is checked in for the existing GitHub Pages deployment. Rebuild after editing sources.
@@ -71,9 +72,12 @@ hosting and fee/test decisions; this preview does not create a shop or accept pa
 Read [DESIGN.md](DESIGN.md) before changing the interface. It records the audience, palette, layout,
 type scale and the decisions made using the user's Professor Glitch reference.
 Porcelain white `#fbfcfa`, cobalt `#244b84`, Newsreader headings and Public Sans reading text.
-The homepage puts all five topics and the three tools in visible sections. Eight section links scroll within the page;
-the index stays beside the content on desktop and appears at the top on phones. No tool is gated behind a tab or hub visit.
-Each topic shows common questions, a public resource and its Reddit link. Tool scope and source links are available inline.
+The homepage follows the user's Bored.com structure reference: five category panels and one tool panel, with short direct-link rows.
+There are 14 public resources, five communities and three tools; counts are computed from these 22 entries.
+Search filters the directory locally and clears when a section link is chosen. The layout uses three columns on desktop,
+two on tablets and one on phones. The white/cobalt identity is retained; no reference-site assets or copy are reproduced.
+Eight section links scroll within the page. No tool is gated behind a tab or hub visit.
+All three working tools, their scope and sources remain further down the homepage.
 Separate guide URLs remain available for optional detail and search discovery.
 
 The three tools are:

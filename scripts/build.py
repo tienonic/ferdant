@@ -5,6 +5,8 @@ from widgets import bill_breakdown, cancellation_planner, message_builder
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('content',ROOT/'content/site.py')
 c=importlib.util.module_from_spec(spec); spec.loader.exec_module(c)
+spec_directory=importlib.util.spec_from_file_location('directory',ROOT/'content/directory.py')
+d=importlib.util.module_from_spec(spec_directory); spec_directory.loader.exec_module(d)
 e=lambda s:html.escape(str(s),quote=True)
 DOMAIN='https://ferdant.com'; pages={}
 arrow='<span class="link-arrow" aria-hidden="true">↗</span>'
@@ -23,14 +25,19 @@ def page(path,title,description,body,crumbs=None):
  pages[path]=f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{e(title)} | Ferdant</title><meta name="description" content="{e(description)}"><meta name="robots" content="{robots}"><meta name="theme-color" content="#fbfcfa"><link rel="canonical" href="{DOMAIN}{path}"><link rel="icon" href="/assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" href="/styles.css"><meta property="og:type" content="website"><meta property="og:title" content="{e(title)} | Ferdant"><meta property="og:description" content="{e(description)}"><meta property="og:url" content="{DOMAIN}{path}"><meta property="og:site_name" content="Ferdant"><script type="application/ld+json">{json.dumps(schema,ensure_ascii=False)}</script><script src="/site.js" defer></script></head>
 <body><a class="skip" href="#main">Skip to content</a>{preview}<div class="page"><header class="site-header"><a class="wordmark" href="/" aria-label="Ferdant home">ferdant<span>.</span></a><nav class="desktop-nav" aria-label="Main navigation"><a href="/#communities">Topics</a><a href="/#tools">Tools</a><a href="/#about">About</a></nav><span class="header-note">Practical help for everyday problems</span><details class="mobile-menu"><summary>Menu</summary><nav aria-label="Mobile navigation"><a href="/#communities">Topics</a><a href="/#tools">Tools</a><a href="/#about">About</a></nav></details></header><main id="main" tabindex="-1">{crumb}{body}</main><footer class="site-footer"><div><a class="wordmark" href="/">ferdant<span>.</span></a><p>Guides & practical-help communities</p></div><nav aria-label="Footer navigation"><a href="/#tools">Tools</a><a href="/#about">About</a><a href="/sources-and-corrections/">Sources & corrections</a><a href="/privacy/">Privacy</a></nav><p class="footer-note">Keep personal account details private.</p></footer></div></body></html>'''
+def portal_entry(title,url,publisher,context):
+ search=e(title+' '+publisher+' '+context)
+ return f'<li data-portal-entry data-search="{search}"><a class="portal-destination" href="{e(url)}"><span>{e(title)}</span><small>{e(publisher)}</small></a></li>'
+
 def directory_topic(b):
- questions=''.join(f'<li>{e(q)}</li>' for q in b['questions'])
- name,url,description=b['resource']
- tools='<div class="topic-tool-links"><a href="#compare-bill">Compare a bill</a><a href="#cancel-subscription">Plan a cancellation</a><a href="#draft-message">Draft a message</a></div>' if b['name']=='WhatAmIPayingFor' else ''
- return f'''<section class="directory-topic" id="{b['slug']}" tabindex="-1" aria-labelledby="title-{b['slug']}">
-  <header><p class="community-name">{b['name']}</p><h2 id="title-{b['slug']}">{b['label']}</h2><p>{b['description']}</p></header>
-  {tools}<div class="topic-at-a-glance"><div><h3>Common questions</h3><ul>{questions}</ul></div><div class="directory-resource"><div><a href="{e(url)}">{e(name)}</a><p>{e(description)}</p></div><a class="community-link" href="https://www.reddit.com/r/{b['name']}/">Ask r/{b['name']}</a></div></div>
-  <p class="topic-boundary">{b['boundary']}</p><a class="back-to-directory" href="#communities">Back to sections</a>
+ context=b['name']+' '+b['label']+' '+b['description']
+ entries=''.join(portal_entry(title,url,publisher,context) for title,url,publisher,_ in d.LINKS[b['slug']])
+ entries+=portal_entry('Ask the community','https://www.reddit.com/r/'+b['name']+'/', 'r/'+b['name'],context)
+ count=len(d.LINKS[b['slug']])+1
+ return f'''<section class="directory-topic portal-card" id="{b['slug']}" tabindex="-1" aria-labelledby="title-{b['slug']}" data-portal-card>
+  <header><h2 id="title-{b['slug']}">{b['label']}</h2><span class="portal-count" aria-label="{count} links">{count}</span></header>
+  <p class="portal-description">{b['description']}</p>
+  <ul class="portal-list">{entries}</ul><p class="portal-note">{d.NOTES[b['slug']]}</p>
  </section>'''
 
 def inline_sources(g):
@@ -45,10 +52,12 @@ def home():
  bill,cancel,message=c.GUIDES
  bill_tool=tool(bill,heading=3).replace('<details class="bill-breakdown"','<details open class="bill-breakdown"')
  page('/','Practical guides for everyday problems','A one-page directory for connectivity, repairs, utilities, bills, paperwork and preparedness, with practical resources and three tools you can use here.',f'''
- <section class="directory-intro"><h1>Find what you need.</h1><p>Five topics, practical resources and tools. Choose a section below; it’s all on this page.</p></section>
- <div class="directory-layout" id="communities" tabindex="-1">
-  <aside class="directory-nav"><p>On this page</p><nav aria-label="The five communities">{topic_links}</nav><nav aria-label="Quick tools">{tool_links}</nav><a class="directory-about" href="#about">About Ferdant</a></aside>
-  <div class="directory-content">{sections}
+ <div class="portal-heading"><div><h1>Resources & tools</h1><p>Find a useful place to start.</p></div><div class="portal-search" role="search" data-enhancement hidden><label for="portal-query">Find a resource or tool</label><div><input id="portal-query" type="search" autocomplete="off" placeholder="Try internet, repair or bills"><button class="quiet-button" type="button" data-clear-portal>Clear</button></div></div></div>
+ <div id="communities" tabindex="-1" class="portal-nav"><nav aria-label="The five communities">{topic_links}</nav><nav aria-label="Quick tools">{tool_links}</nav></div>
+ <div class="portal-status" data-enhancement hidden><p id="portal-status" role="status" aria-live="polite">22 links across 6 categories</p><span>Public resources, communities & local tools</span></div>
+ <div class="portal-grid">{sections}<section class="portal-card portal-tools" id="tool-directory" data-portal-card><header><h2>Quick tools</h2><span class="portal-count" aria-label="3 links">3</span></header><p class="portal-description">Use these here, without an account.</p><ul class="portal-list">{portal_entry('Compare a bill','#compare-bill','Calculator','bill price cost money charges')}{portal_entry('Plan a cancellation','#cancel-subscription','Checklist','subscription renewal cancel money')}{portal_entry('Draft a billing message','#draft-message','Message builder','write question complaint bill money')}</ul><p class="portal-note">Your inputs stay in this open page.</p></section></div>
+ <div id="portal-empty" data-enhancement hidden><p>No matching links. Try another word, or clear the search.</p><button class="quiet-button" type="button" data-clear-portal>Show all links</button></div>
+ <div class="portal-workspace"><div class="directory-content">
    <div id="tools" class="tools-heading"><h2>Tools you can use here</h2><p>Your inputs stay in this open page. No account needed.</p></div>
    <section id="compare-bill" class="directory-tool" tabindex="-1" aria-labelledby="compare-title"><div class="directory-tool-heading"><h2 id="compare-title">Compare a bill</h2><button class="quiet-button" id="bill-example" data-enhancement hidden>Try an example</button></div><p>{bill['intro']}</p><p id="example-note" class="example-note" role="status" hidden>Example figures. Replace these with your own totals and changes.</p>{bill_tool}<p class="quick-note">{bill['briefNote']}</p><a class="widget-guide-link" href="{gp(bill)}">Full bill-checking guide</a>{inline_sources(bill)}<a class="back-to-directory" href="#communities">Back to sections</a></section>
    <section id="cancel-subscription" class="directory-tool" tabindex="-1" aria-labelledby="cancel-title"><h2 id="cancel-title">Cancel a subscription</h2><p>{cancel['intro']}</p>{cancellation_planner(heading=3,tool_id='cancel-tool')}<a class="widget-guide-link" href="{gp(cancel)}">Full cancellation guide</a>{inline_sources(cancel)}<a class="back-to-directory" href="#communities">Back to sections</a></section>

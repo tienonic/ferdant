@@ -18,9 +18,10 @@ not invented savings, claims, testimonials or activity counters.
 
 The previous proposal used a large question beside three numbered guide rows and a second numbered directory.
 That arrangement was repetitive, made small labels do too much work and gave the introduction too much space.
-The current version is one directory page: five visible topic sections and three visible tool sections.
-Section buttons use native anchors. Desktop keeps the index beside the page; phones put it above the sections.
-Each topic includes its scope, common questions, public resource and community link. Tool sources and scope appear on the homepage too.
+The current version follows the user's Bored.com structure reference: a compact, browse-first category portal.
+Five topic panels and a tool panel expose short destination lists in a three-column grid, two on tablets and one on phones.
+Search filters the directory in the browser. Counts describe actual listed entries, never popularity or outcomes.
+Section links use native anchors. All three working tools, source links and scope notes remain lower on the same page.
 Full guide URLs remain optional detailed reading. Primary use must not require a hub page, library visit or hidden panel.
 
 ## Tokens
@@ -43,14 +44,17 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
 ## Layout and components
 
 - Left aligned. Desktop content width is 1192px within 64px side gutters; phone gutters are 22px.
-- The homepage starts with a compact directory introduction and eight section buttons.
-- Show all five topics and all three tools in the main document. Buttons jump to sections; they never hide the other sections.
+- The homepage starts with a small directory heading, search and compact category/section links.
+- Group destinations in category panels with short link rows and publisher labels. Preserve exact community names in their links.
+  Panels group real destinations; individual links are not nested cards. Keep the porcelain/cobalt visual identity.
+- Show all five topics and all three tools in the main document. Navigation links jump to sections.
+  Search may filter directory entries; choosing a section clears that filter so its destination is available.
   Share tool implementations with their guide pages. Static content, section links and cancellation records work without JavaScript.
   Explain that matching periods matter and that a difference does not establish the reason for a charge.
 - Give each tool a useful response: an amount still to explain, a record to check next, or a copyable draft.
   Examples are opt-in and explicitly labeled. A full checklist never claims that a company canceled or refunded anything.
   Keep notes in the open page; no storage, network request, background scheduling or automatic submission.
-- Use the cobalt line on the worksheet to distinguish the working tool. Do not outline every link as a card.
+- Use cobalt panel headers and restrained borders to distinguish groups. Do not add the reference site's branding, trivia ticker, ads or fake activity.
 - The five-topic directory pairs familiar labels with the exact community names and a concise full-scope description.
 - Guide pages show actions and tools first. Longer explanations and sources use native expandable details.
 - Use sentence case. Skip decorative eyebrows, meaningless serial numbers and arrows appended to every action.
@@ -71,6 +75,7 @@ Do not treat a design audit, screenshots or passing code checks as audience appr
 
 - User-supplied process reference: [Professor Glitch's guide](https://www.askglitch.com/guides/how-to-make-ai-websites-not-look-ai), read November 2, 2026.
 - Linked [Anthropic frontend-design guidance](https://github.com/anthropics/skills/tree/main/skills/frontend-design), read the same day.
+- User-supplied structure reference: [Bored.com](https://www.bored.com/), desktop and phone inspected November 2, 2026.
 - Existing project direction: Nicholas/matcha_plug's clean, refined porcelain preference, already recorded in T36.
 
 These informed the choices above. Their copy, brand and page layout are not reproduced.

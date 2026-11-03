@@ -14,6 +14,26 @@ assert [b['name'] for b in content.BRANCHES] == expected, 'The five branch ident
 assert len({g['slug'] for g in content.GUIDES}) == len(content.GUIDES), 'Duplicate guide URL.'
 today = datetime.datetime.now(datetime.timezone.utc).date()
 report = {'checkedAt': today.isoformat(), 'guides': [], 'sourceReviewNeeded': []}
+directory_spec = importlib.util.spec_from_file_location('directory_content', root / 'content/directory.py')
+directory = importlib.util.module_from_spec(directory_spec)
+directory_spec.loader.exec_module(directory)
+assert set(directory.LINKS) == {b['slug'] for b in content.BRANCHES}
+directory_checked = datetime.date.fromisoformat(directory.CHECKED)
+assert directory_checked <= today
+directory_urls = []
+for slug, entries in directory.LINKS.items():
+    assert slug in directory.NOTES and entries
+    for title, url, publisher, published in entries:
+        assert title and publisher and urlsplit(url).scheme == 'https'
+        assert not urlsplit(url).username and not urlsplit(url).password
+        if published:
+            normalized = published + '-01' if len(published) == 7 else published
+            assert datetime.date.fromisoformat(normalized) <= today
+        directory_urls.append(url)
+assert len(set(directory_urls)) == len(directory_urls), 'Duplicate directory resource.'
+report['directory'] = {'resources': len(directory_urls), 'communities': 5, 'tools': 3, 'sourceChecked': directory.CHECKED}
+if (today - directory_checked).days > 90:
+    report['sourceReviewNeeded'].append('directory-resources')
 for guide in content.GUIDES:
     assert len(guide['quick']) == 4, f"Four concise actions required: {guide['slug']}"
     assert len(guide['intro'].split()) <= 40, 'Lead with a short answer.'
