@@ -26,8 +26,11 @@ def phone_row(key):
     return f'<tr data-contact-id="{key}" data-resource-level="state"><th scope="row">{e(contact["title"])}<span class="resource-scope-badge scope-state">Statewide · California</span><small>{e(scope)}</small></th><td>{phones}</td></tr>'
 
 
-def city_search():
-    return '''<div class="city-search" data-enhancement hidden><div class="location-kind-switch" role="group" aria-label="Choose city or county"><button type="button" data-location-kind="city" aria-pressed="true">City</button><button type="button" data-location-kind="county" aria-pressed="false">County</button></div><form id="map-city-form" role="search"><label for="map-city-search">Search California cities or counties</label><div class="city-search-row"><div class="suggestion-anchor"><input id="map-city-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="location-suggestions" placeholder="City, e.g. Davis" autocomplete="off"><ul id="location-suggestions" role="listbox" aria-label="California locations" hidden></ul></div><button type="submit" class="button">Search</button></div><p id="city-search-status" role="status"></p></form></div>'''
+def city_search(include_state=False):
+    state_button = '<button type="button" data-location-kind="state" aria-pressed="false">State</button>' if include_state else ''
+    switch_class = 'location-kind-switch location-kind-switch--state' if include_state else 'location-kind-switch'
+    switch_label = 'Choose city, county or state' if include_state else 'Choose city or county'
+    return f'''<div class="city-search" data-enhancement hidden><div class="{switch_class}" role="group" aria-label="{switch_label}"><button type="button" data-location-kind="city" aria-pressed="true">City</button><button type="button" data-location-kind="county" aria-pressed="false">County</button>{state_button}</div><form id="map-city-form" role="search"><label for="map-city-search">Search California cities or counties</label><div class="city-search-row"><div class="suggestion-anchor"><input id="map-city-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="location-suggestions" placeholder="City, e.g. Davis" autocomplete="off"><ul id="location-suggestions" role="listbox" aria-label="California locations" hidden></ul></div><button type="submit" class="button">Search</button></div><p id="city-search-status" role="status"></p></form></div>'''
 
 
 def city_map(include_search=True):

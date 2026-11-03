@@ -11,9 +11,9 @@
     "Census geocoding receipts include unsuccessful candidates; a query is not proof that a point was accepted or mapped."
   ],
   "inputSha256": {
-    ".github/workflows/check-site.yml": "3eccfd34e044ae55fe342252d5d239598552095e32f36812f178a3c76b7ba267",
+    ".github/workflows/check-site.yml": "23c2c47db6fe7f14dab28667a6d32e200aecf6d5c858b18427267bfad7197491",
     "DESIGN.md": "5c07a65e2ad3aa75afb9f3faf16eb14bce9e376fbca542ff21868deb4a0e84c9",
-    "README.md": "40dc3d08c867e10f834b7f0c152a360142da410a2d4364a52e9d6f54821fb94b",
+    "README.md": "c25f2348ae7d536630b3c7d9b09fda03beb7f7549dd526ad894f847518589374",
     "assets/data/city-maps/BUILDINGS-LICENSE.txt": "1e4162322549351e6ce131d66c3c6c6cb56755db58e0475138e3f41cd94c4b3c",
     "assets/data/city-maps/README.md": "346247e7e378991bcd18e3602eb7ca91b08f38a71aa9f7ac232eab8877cd8bde",
     "assets/data/everyday-maps/README.md": "7f0f956a461fc1b499e3ee052312e612a1f5f5c2d50e0a0c994d260b0b233fff",
@@ -90,7 +90,7 @@
     "content/california-cities.json": "3c7eed83b6103ba8df4fc2d2bd45cc961fa9bc011bf40d065f2e36279b9fcd86",
     "content/directory.py": "b6e9ac2cf636dca5f73cccabe699d63f345b107cf2a19e5a499d3786ee435cf9",
     "content/disaster-source-manifest.json": "269678370101851e075c2d62f21a0cad9c5d3a5b808f61afafda82cb32b24256",
-    "content/disasters.py": "201ad289d68def790f7ad83b086a51dbec35bf36766034696bcf6f6eaf7a1433",
+    "content/disasters.py": "0bebe4b78391c39016adf9c96f490c098333cb2054b7d41143a65e0816298664",
     "content/emergency-alert-overrides.json": "50dba43e4ab76c17c5182d676f88ba81fc1691af647f3b72ac82b1b39d8030a9",
     "content/emergency-alerts.json": "7f65138b779eb1870a3bd5e6e454df39b07630686b47e481af12d60c17110b21",
     "content/evacuation.json": "8df541625adae084a4a4a2dd1d83937332727842c26fbbb65a07ff3f762c04b8",
@@ -109,7 +109,7 @@
     "disaster-layers.js": "ed9e95724430dcc47d1cdcb137fd14d3d5ec45ac4893d0f3d2661fe53215d916",
     "docs/audience-and-funding-research-plan-20261103.md": "7f993897458c6344f4d24c3c99646c6bda408de16f45bc0baec52ea25e3146eb",
     "docs/comparable-websites-20261103.md": "9e29b7a9e190a788eaf91484370f3b6f15f42c96f56f6ca45e7c5dc995dc39c6",
-    "docs/disaster-maps.md": "96a60699db1d9152d27372cb44b958b544237cb82b0fe306d8d221c76e152902",
+    "docs/disaster-maps.md": "c33608c62890233d0d995dace688f5279cbe5953440cd462523ef43f86d0f83b",
     "docs/emergency-alerts.md": "f1068c717b8fd2c2321e6efd282df91c6af20a8e55cbca7eb0fcd5faf200acbb",
     "docs/emergent-search-20261103.md": "1c707bafde77bbb55cf94965daa9ba7a4b4360610716d68e1ed94242a1e7e718",
     "docs/evacuation-map-20261103.md": "d7132b11603e629c58d09106418c8e5b93cf73d9089c699cfe74199f48b5bb45",
@@ -123,7 +123,7 @@
     "docs/recommendations.md": "629a6e4997716de962faa8502a8ca6384b60db167a7625d1eb9f792bdd86ec03",
     "docs/resource-booklet.md": "a88adafe2718e5297734dae36fa8cd05c010dd88b00472b8db49663624e02714",
     "docs/resource-directory-research-20261103.md": "aa6926eeafcca63b1adbe5cd5e6020d7ffa0d081dfd768bb34de9c4714fb79be",
-    "docs/resource-levels.md": "257ee9a567f8a6521cdabc2538a518aa9792050517f5dc585c918ed074f9e906",
+    "docs/resource-levels.md": "f8920b5ee6518e7778efce2abb158185f39afd701e25702a185ba6e828516630",
     "docs/website-references.md": "c25aa51f2c19d02c177454a4ff417abfa93f2e8b6530d23afc48d3c6848f44ea",
     "hazard-risk.js": "f17dcd3360644dfbbdf488ac203a337925a3e2c6aecffea4fb6366af2bc610ff",
     "infographic.js": "f3ab28fe67ecfe4cc3d9434e0e31187b29c6fbd5435a5d18d5c88c034c65faca",
@@ -131,21 +131,21 @@
     "integrations/shopify.mjs": "06b43fa4f3c823fdb1372918e3ce881d4ec42d384e830697afbb66e08c12cf72",
     "landing.js": "9f5d4b58e93e901e16e6fcee4b187cdb0d5f7d3de467a9d411e03dd2a4c994fc",
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
-    "phone.js": "9ca343e00204bcf4db6a073b122afffd52edab8665d7e9b4cadd5e161c0008f1",
+    "phone.js": "e1eccf296bd35f2197f945a723b01d94e3099bf5383827f3b2d27e8e16aa3c48",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
     "resource-booklet.js": "854d63e23c3aad272dde842f3f00b2eb6fe1b96bb932d9a67b61a30dc798c9a8",
-    "resource-map.js": "06d7747e326af72a678f4b4b4475a23a0473659eb62084c6d65b5ebaa95f4a18",
+    "resource-map.js": "389055b1e05973acad17c3deb7315952c331dcbbb2f7ce5358516325ded1f1ed",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
-    "scripts/build.py": "d46f295c24dacd6520dbc5aec21c04e473f1bf9d8e4a08755aec391873262bc6",
+    "scripts/build.py": "0cd56b19b9c93a211ed50042844a993c9799bc30445cf27de83ac8d115ffe4d7",
     "scripts/check-content.py": "912019aebb7a4ae61dfac2ec6772c1e1a30ffd15d1185bcb4412dc808f27e643",
     "scripts/cost_tool.py": "71f3ff17044114405286e328aabfec51bed9d6536fd357214648a4d48c45af69",
     "scripts/graphics.py": "5fc8aac8d4e418e5f575749505b3d4e679cb98d3afadcb68d231c020f85f1557",
     "scripts/icons.py": "1bd04e25fa9377f22667316bbefaf1eac3a4daa0f52767b41d1a2d4072988aa2",
     "scripts/import-alert-links.py": "14fa1c157000de895f634327e7b94620830b33694ac0f604e505c168ef950a4a",
     "scripts/import-evacuation-routes.py": "30865e3f3d3e51f5b587618153b1a66b7f1cf7f7296241d908836f1aee497807",
-    "scripts/landing.py": "0774a05eaf7965210d9cd1c74799debc3898886725a572b9fb0ff22d5a0aae89",
+    "scripts/landing.py": "6fb697f66edb9511ec3f78897d6a1c40435decbbd2a30bdca230ba7a7a44932a",
     "scripts/offline.py": "2f81c19a2566a85a91789f36aeac5d6895fedf1f89f3b57e0e3a019de8831d93",
-    "scripts/phone_chart.py": "04d5144580f7321a80a70734bf0141efcced270b63f95bfe266099beae476adb",
+    "scripts/phone_chart.py": "782c7914807f40c6efdf1cda0c345e01ea49fb7b7e645781f25d3b7c4340e6f2",
     "scripts/physical_services.py": "57961a7a681ca0cb840de47c431d7acf02f9a04c0e9c5aceacfc6c952223da8f",
     "scripts/project-building-outlines.py": "c9b573683aa5449a45660ee7d296475f5489dbe7288c43b0f5e7c8fa1f048347",
     "scripts/project-everyday-services.py": "497de5f704494b2f90c957c2917cfdf486d32ee5f87d20b592e449dbdc33887e",
@@ -154,12 +154,12 @@
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
     "scripts/references.py": "4f96e4bbd2fb293e1fafe4cf04289c6ad358e68d238031abffc001c14ecd7ff9",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
-    "scripts/resource_map.py": "bc3751be06c36bcf6397276d3f4d273b6a1fb56af887043029962dab0f6252de",
+    "scripts/resource_map.py": "f83a8b7d3acfbbf8d15fb76bdc7f014f948ded3bca845dc4c6bb357201d9a64d",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
     "service-resources.js": "efbaa68b9bb20649644f58e0f62b8e9776eb4eaa1267650af80b5b5fa05392ea",
     "site.js": "9fbad56eb918ca1acb66f9221a712f78ddd3a512358c1ca2f00778b68960a6b7",
-    "styles.css": "a2bf3c19883771ab57af2075c76e476162e2218f6363a17c269134602cef654d"
+    "styles.css": "547f89560f26353e6ee1c154a0b4e83206a6a464e439b67673436dc2b28bacd9"
   },
   "references": [
     {
@@ -9972,25 +9972,227 @@
           "zIndex": 201,
           "legend": [
             {
-              "label": "Fault activity: Historic",
+              "label": "Movement recorded in recent history",
               "color": "#ff0000"
             },
             {
-              "label": "Holocene",
+              "label": "Moved within about 12,000 years",
               "color": "#ff8000"
             },
             {
-              "label": "Late Quaternary",
+              "label": "Moved within about 700,000 years",
               "color": "#80ff00"
             },
             {
-              "label": "Quaternary",
+              "label": "Past movement; timing less certain",
               "color": "#bf80ff"
             }
           ],
+          "ageExplanationSource": "https://maps.conservation.ca.gov/cgs/historicearthquakes/",
+          "classificationSource": "https://www.conservation.ca.gov/cgs/documents/publications/geologic-data-maps/GDM_006-FAM-Pamphlet-2010.pdf",
+          "impactSource": "https://www.usgs.gov/programs/earthquake-hazards/what-are-effects-earthquakes",
+          "preparednessSource": "https://www.cdc.gov/earthquakes/safety/stay-safe-during-an-earthquake.html",
           "credit": "California Geological Survey, 2010 Fault Activity Map of California; C.W. Jennings and W.A. Bryant.",
-          "tileDescription": "Fault lines follow the map across California. Zoom out to see regional faults; a blank local area does not establish safety.",
-          "note": "Quaternary fault traces from the 2010 statewide map. Colored bands show the source activity-age classes, not current earthquake severity or hazard-zone width. Line styles retain source location certainty. Approximate planning reference, not parcel boundaries or an earthquake prediction. Zooming beyond the source resolution enlarges the same map. Open the official map for classifications.",
+          "tileDescription": "Fault colors show when movement happened in the past, not how soon another earthquake will happen. Shaking can damage homes away from a fault line. Zoom out to see nearby faults; a blank area does not mean no earthquake risk.",
+          "note": "Fault traces from the 2010 statewide map. Plain-language key: Historic = movement recorded in recent history (roughly 200 years in the source map); Holocene = within about 12,000 years (11,700 in CGS guidance); Late Quaternary = within about 700,000 years; undivided Quaternary = past movement with less specific timing. These are source age classes, not repeat intervals, high/low risk levels, current earthquake severity or hazard-zone widths. Line styles retain source location certainty. Approximate planning reference, not parcel boundaries or an earthquake prediction. Zooming beyond the source resolution enlarges the same map.",
+          "publisher": "CGS",
+          "dateMeaning": "map edition; individual source mapping dates vary"
+        }
+      ]
+    },
+    {
+      "title": "CGS mapped fault lines (approximate) — ageExplanationSource",
+      "url": "https://maps.conservation.ca.gov/cgs/historicearthquakes/",
+      "category": "disasters",
+      "uses": [
+        "Hazard overlay: faults"
+      ],
+      "recordedIn": [
+        "content/disasters.py",
+        "docs/disaster-maps.md"
+      ],
+      "records": [
+        {
+          "kind": "tiles",
+          "title": "CGS mapped fault lines (approximate)",
+          "service": "https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer",
+          "tileUrl": "https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer/tile/{z}/{y}/{x}",
+          "maxNativeZoom": 13,
+          "bounds": [
+            [
+              32.3,
+              -126.4
+            ],
+            [
+              42.1,
+              -114.3
+            ]
+          ],
+          "source": "https://maps.conservation.ca.gov/cgs/fam/",
+          "published": "2010",
+          "checked": "2026-11-03",
+          "live": false,
+          "offline": false,
+          "color": "#202020",
+          "opacity": 0.85,
+          "zIndex": 201,
+          "legend": [
+            {
+              "label": "Movement recorded in recent history",
+              "color": "#ff0000"
+            },
+            {
+              "label": "Moved within about 12,000 years",
+              "color": "#ff8000"
+            },
+            {
+              "label": "Moved within about 700,000 years",
+              "color": "#80ff00"
+            },
+            {
+              "label": "Past movement; timing less certain",
+              "color": "#bf80ff"
+            }
+          ],
+          "ageExplanationSource": "https://maps.conservation.ca.gov/cgs/historicearthquakes/",
+          "classificationSource": "https://www.conservation.ca.gov/cgs/documents/publications/geologic-data-maps/GDM_006-FAM-Pamphlet-2010.pdf",
+          "impactSource": "https://www.usgs.gov/programs/earthquake-hazards/what-are-effects-earthquakes",
+          "preparednessSource": "https://www.cdc.gov/earthquakes/safety/stay-safe-during-an-earthquake.html",
+          "credit": "California Geological Survey, 2010 Fault Activity Map of California; C.W. Jennings and W.A. Bryant.",
+          "tileDescription": "Fault colors show when movement happened in the past, not how soon another earthquake will happen. Shaking can damage homes away from a fault line. Zoom out to see nearby faults; a blank area does not mean no earthquake risk.",
+          "note": "Fault traces from the 2010 statewide map. Plain-language key: Historic = movement recorded in recent history (roughly 200 years in the source map); Holocene = within about 12,000 years (11,700 in CGS guidance); Late Quaternary = within about 700,000 years; undivided Quaternary = past movement with less specific timing. These are source age classes, not repeat intervals, high/low risk levels, current earthquake severity or hazard-zone widths. Line styles retain source location certainty. Approximate planning reference, not parcel boundaries or an earthquake prediction. Zooming beyond the source resolution enlarges the same map.",
+          "publisher": "CGS",
+          "dateMeaning": "map edition; individual source mapping dates vary"
+        }
+      ]
+    },
+    {
+      "title": "CGS mapped fault lines (approximate) — classificationSource",
+      "url": "https://www.conservation.ca.gov/cgs/documents/publications/geologic-data-maps/GDM_006-FAM-Pamphlet-2010.pdf",
+      "category": "disasters",
+      "uses": [
+        "Hazard overlay: faults"
+      ],
+      "recordedIn": [
+        "content/disasters.py",
+        "docs/disaster-maps.md"
+      ],
+      "records": [
+        {
+          "kind": "tiles",
+          "title": "CGS mapped fault lines (approximate)",
+          "service": "https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer",
+          "tileUrl": "https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer/tile/{z}/{y}/{x}",
+          "maxNativeZoom": 13,
+          "bounds": [
+            [
+              32.3,
+              -126.4
+            ],
+            [
+              42.1,
+              -114.3
+            ]
+          ],
+          "source": "https://maps.conservation.ca.gov/cgs/fam/",
+          "published": "2010",
+          "checked": "2026-11-03",
+          "live": false,
+          "offline": false,
+          "color": "#202020",
+          "opacity": 0.85,
+          "zIndex": 201,
+          "legend": [
+            {
+              "label": "Movement recorded in recent history",
+              "color": "#ff0000"
+            },
+            {
+              "label": "Moved within about 12,000 years",
+              "color": "#ff8000"
+            },
+            {
+              "label": "Moved within about 700,000 years",
+              "color": "#80ff00"
+            },
+            {
+              "label": "Past movement; timing less certain",
+              "color": "#bf80ff"
+            }
+          ],
+          "ageExplanationSource": "https://maps.conservation.ca.gov/cgs/historicearthquakes/",
+          "classificationSource": "https://www.conservation.ca.gov/cgs/documents/publications/geologic-data-maps/GDM_006-FAM-Pamphlet-2010.pdf",
+          "impactSource": "https://www.usgs.gov/programs/earthquake-hazards/what-are-effects-earthquakes",
+          "preparednessSource": "https://www.cdc.gov/earthquakes/safety/stay-safe-during-an-earthquake.html",
+          "credit": "California Geological Survey, 2010 Fault Activity Map of California; C.W. Jennings and W.A. Bryant.",
+          "tileDescription": "Fault colors show when movement happened in the past, not how soon another earthquake will happen. Shaking can damage homes away from a fault line. Zoom out to see nearby faults; a blank area does not mean no earthquake risk.",
+          "note": "Fault traces from the 2010 statewide map. Plain-language key: Historic = movement recorded in recent history (roughly 200 years in the source map); Holocene = within about 12,000 years (11,700 in CGS guidance); Late Quaternary = within about 700,000 years; undivided Quaternary = past movement with less specific timing. These are source age classes, not repeat intervals, high/low risk levels, current earthquake severity or hazard-zone widths. Line styles retain source location certainty. Approximate planning reference, not parcel boundaries or an earthquake prediction. Zooming beyond the source resolution enlarges the same map.",
+          "publisher": "CGS",
+          "dateMeaning": "map edition; individual source mapping dates vary"
+        }
+      ]
+    },
+    {
+      "title": "CGS mapped fault lines (approximate) — impactSource",
+      "url": "https://www.usgs.gov/programs/earthquake-hazards/what-are-effects-earthquakes",
+      "category": "disasters",
+      "uses": [
+        "Hazard overlay: faults"
+      ],
+      "recordedIn": [
+        "content/disasters.py",
+        "docs/disaster-maps.md"
+      ],
+      "records": [
+        {
+          "kind": "tiles",
+          "title": "CGS mapped fault lines (approximate)",
+          "service": "https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer",
+          "tileUrl": "https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer/tile/{z}/{y}/{x}",
+          "maxNativeZoom": 13,
+          "bounds": [
+            [
+              32.3,
+              -126.4
+            ],
+            [
+              42.1,
+              -114.3
+            ]
+          ],
+          "source": "https://maps.conservation.ca.gov/cgs/fam/",
+          "published": "2010",
+          "checked": "2026-11-03",
+          "live": false,
+          "offline": false,
+          "color": "#202020",
+          "opacity": 0.85,
+          "zIndex": 201,
+          "legend": [
+            {
+              "label": "Movement recorded in recent history",
+              "color": "#ff0000"
+            },
+            {
+              "label": "Moved within about 12,000 years",
+              "color": "#ff8000"
+            },
+            {
+              "label": "Moved within about 700,000 years",
+              "color": "#80ff00"
+            },
+            {
+              "label": "Past movement; timing less certain",
+              "color": "#bf80ff"
+            }
+          ],
+          "ageExplanationSource": "https://maps.conservation.ca.gov/cgs/historicearthquakes/",
+          "classificationSource": "https://www.conservation.ca.gov/cgs/documents/publications/geologic-data-maps/GDM_006-FAM-Pamphlet-2010.pdf",
+          "impactSource": "https://www.usgs.gov/programs/earthquake-hazards/what-are-effects-earthquakes",
+          "preparednessSource": "https://www.cdc.gov/earthquakes/safety/stay-safe-during-an-earthquake.html",
+          "credit": "California Geological Survey, 2010 Fault Activity Map of California; C.W. Jennings and W.A. Bryant.",
+          "tileDescription": "Fault colors show when movement happened in the past, not how soon another earthquake will happen. Shaking can damage homes away from a fault line. Zoom out to see nearby faults; a blank area does not mean no earthquake risk.",
+          "note": "Fault traces from the 2010 statewide map. Plain-language key: Historic = movement recorded in recent history (roughly 200 years in the source map); Holocene = within about 12,000 years (11,700 in CGS guidance); Late Quaternary = within about 700,000 years; undivided Quaternary = past movement with less specific timing. These are source age classes, not repeat intervals, high/low risk levels, current earthquake severity or hazard-zone widths. Line styles retain source location certainty. Approximate planning reference, not parcel boundaries or an earthquake prediction. Zooming beyond the source resolution enlarges the same map.",
           "publisher": "CGS",
           "dateMeaning": "map edition; individual source mapping dates vary"
         }
@@ -10036,25 +10238,29 @@
           "zIndex": 201,
           "legend": [
             {
-              "label": "Fault activity: Historic",
+              "label": "Movement recorded in recent history",
               "color": "#ff0000"
             },
             {
-              "label": "Holocene",
+              "label": "Moved within about 12,000 years",
               "color": "#ff8000"
             },
             {
-              "label": "Late Quaternary",
+              "label": "Moved within about 700,000 years",
               "color": "#80ff00"
             },
             {
-              "label": "Quaternary",
+              "label": "Past movement; timing less certain",
               "color": "#bf80ff"
             }
           ],
+          "ageExplanationSource": "https://maps.conservation.ca.gov/cgs/historicearthquakes/",
+          "classificationSource": "https://www.conservation.ca.gov/cgs/documents/publications/geologic-data-maps/GDM_006-FAM-Pamphlet-2010.pdf",
+          "impactSource": "https://www.usgs.gov/programs/earthquake-hazards/what-are-effects-earthquakes",
+          "preparednessSource": "https://www.cdc.gov/earthquakes/safety/stay-safe-during-an-earthquake.html",
           "credit": "California Geological Survey, 2010 Fault Activity Map of California; C.W. Jennings and W.A. Bryant.",
-          "tileDescription": "Fault lines follow the map across California. Zoom out to see regional faults; a blank local area does not establish safety.",
-          "note": "Quaternary fault traces from the 2010 statewide map. Colored bands show the source activity-age classes, not current earthquake severity or hazard-zone width. Line styles retain source location certainty. Approximate planning reference, not parcel boundaries or an earthquake prediction. Zooming beyond the source resolution enlarges the same map. Open the official map for classifications.",
+          "tileDescription": "Fault colors show when movement happened in the past, not how soon another earthquake will happen. Shaking can damage homes away from a fault line. Zoom out to see nearby faults; a blank area does not mean no earthquake risk.",
+          "note": "Fault traces from the 2010 statewide map. Plain-language key: Historic = movement recorded in recent history (roughly 200 years in the source map); Holocene = within about 12,000 years (11,700 in CGS guidance); Late Quaternary = within about 700,000 years; undivided Quaternary = past movement with less specific timing. These are source age classes, not repeat intervals, high/low risk levels, current earthquake severity or hazard-zone widths. Line styles retain source location certainty. Approximate planning reference, not parcel boundaries or an earthquake prediction. Zooming beyond the source resolution enlarges the same map.",
           "publisher": "CGS",
           "dateMeaning": "map edition; individual source mapping dates vary"
         },
@@ -10111,25 +10317,29 @@
           "zIndex": 201,
           "legend": [
             {
-              "label": "Fault activity: Historic",
+              "label": "Movement recorded in recent history",
               "color": "#ff0000"
             },
             {
-              "label": "Holocene",
+              "label": "Moved within about 12,000 years",
               "color": "#ff8000"
             },
             {
-              "label": "Late Quaternary",
+              "label": "Moved within about 700,000 years",
               "color": "#80ff00"
             },
             {
-              "label": "Quaternary",
+              "label": "Past movement; timing less certain",
               "color": "#bf80ff"
             }
           ],
+          "ageExplanationSource": "https://maps.conservation.ca.gov/cgs/historicearthquakes/",
+          "classificationSource": "https://www.conservation.ca.gov/cgs/documents/publications/geologic-data-maps/GDM_006-FAM-Pamphlet-2010.pdf",
+          "impactSource": "https://www.usgs.gov/programs/earthquake-hazards/what-are-effects-earthquakes",
+          "preparednessSource": "https://www.cdc.gov/earthquakes/safety/stay-safe-during-an-earthquake.html",
           "credit": "California Geological Survey, 2010 Fault Activity Map of California; C.W. Jennings and W.A. Bryant.",
-          "tileDescription": "Fault lines follow the map across California. Zoom out to see regional faults; a blank local area does not establish safety.",
-          "note": "Quaternary fault traces from the 2010 statewide map. Colored bands show the source activity-age classes, not current earthquake severity or hazard-zone width. Line styles retain source location certainty. Approximate planning reference, not parcel boundaries or an earthquake prediction. Zooming beyond the source resolution enlarges the same map. Open the official map for classifications.",
+          "tileDescription": "Fault colors show when movement happened in the past, not how soon another earthquake will happen. Shaking can damage homes away from a fault line. Zoom out to see nearby faults; a blank area does not mean no earthquake risk.",
+          "note": "Fault traces from the 2010 statewide map. Plain-language key: Historic = movement recorded in recent history (roughly 200 years in the source map); Holocene = within about 12,000 years (11,700 in CGS guidance); Late Quaternary = within about 700,000 years; undivided Quaternary = past movement with less specific timing. These are source age classes, not repeat intervals, high/low risk levels, current earthquake severity or hazard-zone widths. Line styles retain source location certainty. Approximate planning reference, not parcel boundaries or an earthquake prediction. Zooming beyond the source resolution enlarges the same map.",
           "publisher": "CGS",
           "dateMeaning": "map edition; individual source mapping dates vary"
         }
@@ -10483,10 +10693,12 @@
       "url": "https://www.cdc.gov/earthquakes/safety/stay-safe-during-an-earthquake.html",
       "category": "disasters",
       "uses": [
-        "Earthquake"
+        "Earthquake",
+        "Hazard overlay: faults"
       ],
       "recordedIn": [
-        "content/disasters.py"
+        "content/disasters.py",
+        "docs/disaster-maps.md"
       ],
       "records": [
         {
@@ -10495,6 +10707,58 @@
           "published": "2026-08-21",
           "checked": "2026-11-02",
           "note": "Fault lines and their colored activity-age bands are approximate, not an earthquake prediction. Zoom out to see nearby regional faults. Investigation-zone shading does not certify buildings. Hospitals and FEMA shelters are response resources, not safe zones."
+        },
+        {
+          "kind": "tiles",
+          "title": "CGS mapped fault lines (approximate)",
+          "service": "https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer",
+          "tileUrl": "https://tiles.arcgis.com/tiles/zr3KAIbsRSUyARHG/arcgis/rest/services/QuatFaults_Tiles/MapServer/tile/{z}/{y}/{x}",
+          "maxNativeZoom": 13,
+          "bounds": [
+            [
+              32.3,
+              -126.4
+            ],
+            [
+              42.1,
+              -114.3
+            ]
+          ],
+          "source": "https://maps.conservation.ca.gov/cgs/fam/",
+          "published": "2010",
+          "checked": "2026-11-03",
+          "live": false,
+          "offline": false,
+          "color": "#202020",
+          "opacity": 0.85,
+          "zIndex": 201,
+          "legend": [
+            {
+              "label": "Movement recorded in recent history",
+              "color": "#ff0000"
+            },
+            {
+              "label": "Moved within about 12,000 years",
+              "color": "#ff8000"
+            },
+            {
+              "label": "Moved within about 700,000 years",
+              "color": "#80ff00"
+            },
+            {
+              "label": "Past movement; timing less certain",
+              "color": "#bf80ff"
+            }
+          ],
+          "ageExplanationSource": "https://maps.conservation.ca.gov/cgs/historicearthquakes/",
+          "classificationSource": "https://www.conservation.ca.gov/cgs/documents/publications/geologic-data-maps/GDM_006-FAM-Pamphlet-2010.pdf",
+          "impactSource": "https://www.usgs.gov/programs/earthquake-hazards/what-are-effects-earthquakes",
+          "preparednessSource": "https://www.cdc.gov/earthquakes/safety/stay-safe-during-an-earthquake.html",
+          "credit": "California Geological Survey, 2010 Fault Activity Map of California; C.W. Jennings and W.A. Bryant.",
+          "tileDescription": "Fault colors show when movement happened in the past, not how soon another earthquake will happen. Shaking can damage homes away from a fault line. Zoom out to see nearby faults; a blank area does not mean no earthquake risk.",
+          "note": "Fault traces from the 2010 statewide map. Plain-language key: Historic = movement recorded in recent history (roughly 200 years in the source map); Holocene = within about 12,000 years (11,700 in CGS guidance); Late Quaternary = within about 700,000 years; undivided Quaternary = past movement with less specific timing. These are source age classes, not repeat intervals, high/low risk levels, current earthquake severity or hazard-zone widths. Line styles retain source location certainty. Approximate planning reference, not parcel boundaries or an earthquake prediction. Zooming beyond the source resolution enlarges the same map.",
+          "publisher": "CGS",
+          "dateMeaning": "map edition; individual source mapping dates vary"
         }
       ]
     },

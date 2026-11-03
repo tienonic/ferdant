@@ -6,6 +6,11 @@
  const cities = new Map(places.cities.map(([id,name,county,lat,lng])=>[id,{id,name,county,lat,lng}]));
  const mapRoot=document.querySelector('#city-map'),mapDisclosure=mapRoot?.closest('details');
  const landingOverview=Boolean(document.querySelector('[data-location-routing]'));
+ const stateLibrary=landingOverview?document.querySelector('.landing-library'):null;
+ const stateLibraryIntro=stateLibrary?.querySelector('.library-heading > p').textContent;
+ const stateLibraryHome=document.createComment('Original statewide resource position');
+ const stateResourceHost=document.createElement('div');stateResourceHost.className='state-location-resources';stateResourceHost.hidden=true;
+ if(stateLibrary){stateLibrary.before(stateLibraryHome);document.querySelector('#location-start').append(stateResourceHost);}
  let cityMap, cityMarkers, mapPromise, mapBounds, selectedMarker, selectedCounty;
  const modeButtons=[...document.querySelectorAll('[data-location-kind]')];
  let selectionKind='city';
@@ -197,6 +202,7 @@
  function activate(index){active=index;[...suggestions.children].forEach((el,i)=>el.setAttribute('aria-selected',String(i===active)));if(active>=0){mapSearch.setAttribute('aria-activedescendant',suggestions.children[active].id);suggestions.children[active].scrollIntoView({block:'nearest'});}}
  function commitPlace(key){closeSuggestions();if(routing()){const query=new URLSearchParams({place:key}),hazard=window.FerdantResourceMap?.active;if(hazard&&hazard!=='everyday')query.set('hazard',hazard);location.assign('/local/?'+query);return;}chooseCity(key);}
  function suggest(){
+  if(selectionKind==='state'){closeSuggestions();return;}
   clearTimeout(closeTimer);const query=normalize(mapSearch.value);suggestions.replaceChildren();matches=[];active=-1;
   if(!query){closeSuggestions();searchStatus.textContent='';return;}
   const eligible=locations.filter(item=>item.id.startsWith('county:')===(selectionKind==='county'));
@@ -216,7 +222,7 @@
  });
  mapSearch.addEventListener('blur',()=>{closeTimer=setTimeout(closeSuggestions,150);});
  document.querySelector('#map-city-form').addEventListener('submit',event=>{
-  event.preventDefault();if(!suggestions.hidden && active>=0){commitPlace(matches[active].id);return;}
+  event.preventDefault();if(selectionKind==='state')return;if(!suggestions.hidden && active>=0){commitPlace(matches[active].id);return;}
   const eligible=locations.filter(item=>item.id.startsWith('county:')===(selectionKind==='county'));
   const query=normalize(mapSearch.value),exact=eligible.find(item=>normalize(item.name)===query),prefix=eligible.filter(item=>query && normalize(item.name).startsWith(query));
   const selected=exact||(prefix.length===1?prefix[0]:null);
@@ -225,10 +231,26 @@
  });
  function chooseCity(key){select.value=key;select.dispatchEvent(new Event('change'));}
  function setSelectionKind(kind,reset=false){
+  if(kind==='state'&&!stateLibrary)return;
+  const changing=kind!==selectionKind;
   clearCountyPreview();
   selectionKind=kind;
   modeButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.locationKind===kind)));
   if(mapRoot)mapRoot.dataset.selectionKind=kind;
+  if(stateLibrary){
+   const state=kind==='state';
+   mapRoot.closest('.city-map-workspace').hidden=state;
+   document.querySelector('#map-city-form').hidden=state;
+   document.querySelector('#location-summary').hidden=state;
+   stateResourceHost.hidden=!state;
+   stateLibrary.querySelector('.library-heading > p').textContent=state?'California-wide services and support numbers.':stateLibraryIntro;
+   if(state){
+    if(stateLibrary.parentElement!==stateResourceHost)stateResourceHost.append(stateLibrary);
+    if(reset||changing){closeSuggestions();stateLibrary.querySelector('#tab-california').click();}
+    return;
+   }
+   if(stateLibrary.parentElement===stateResourceHost)stateLibraryHome.after(stateLibrary);
+  }
   countyLayers.forEach((layer,id)=>{
    const element=layer.getElement();if(element)element.style.pointerEvents=kind==='county'?'auto':'none';
    if(kind==='city')layer.unbindTooltip();else if(!layer.getTooltip())layer.bindTooltip(node(document,'span',places.counties[id]+' County'));

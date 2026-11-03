@@ -7,7 +7,7 @@ four actions and a useful tool or template; longer explanations and sources expa
 The three guides are proposed pilot content, not a record of resolved community cases.
 Dormant Shopify infrastructure is included in the source, with no commerce UI or page-load requests.
 
-This ad-free revision adds a City / County map switch and visible city, county,
+This ad-free revision adds City / County / State views and visible city, county,
 provider and statewide resource labels. See [resource levels and saved versions](docs/resource-levels.md).
 
 ## Preview locally

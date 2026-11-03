@@ -61,11 +61,11 @@ def directory_topic(b):
   <ul class="portal-list">{entries}</ul><p class="portal-note">{d.NOTES[b['slug']]}</p>{tools}</div>
  </details>'''
 
-def location_start(show_download=True, heading=2):
+def location_start(show_download=True, heading=2, include_state=False):
  actions=f'<div class="location-controls"><div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><small>One file: phone numbers, maps & tools</small><p id="location-download-status" role="status"></p></div></div>' if show_download else ''
  return f'''<section class="location-start" id="location-start" aria-labelledby="location-title">
  <h{heading} id="location-title">Start with your location</h{heading}>
- {city_search()}
+ {city_search(include_state=include_state)}
 {actions}
  <p id="location-summary" role="status">Choose a city or county for checked local contacts. You can browse general resources below.</p>
  {city_map(include_search=False)}
@@ -93,7 +93,7 @@ def home(local=False):
  bill,cancel,message=c.GUIDES
  bill_tool=tool(bill,heading=3)
  intro='<h1 id="local-page-title">California resources</h1><p id="local-page-intro">City resources, county services and statewide help.</p><dl class="resource-levels" id="local-resource-levels" aria-label="Your city, county and state" hidden></dl>' if local else '<p>Choose your California location. Find your next step.</p>'
- start=('<details class="change-location"><summary>Change location</summary>'+location_start(show_download=False)+'</details>') if local else location_start(show_download=False, heading=2)
+ start=('<details class="change-location"><summary>Change location</summary>'+location_start(show_download=False)+'</details>') if local else location_start(show_download=False, heading=2, include_state=True)
  phones=phone_chart(include_map=False, show_download=False, show_picker=False, shared_only=True)
  resources=(f'<div class="resource-heading" id="california-resources"><div><h2>Statewide help &amp; general guides</h2><p>California-wide and national services, guides and discussions. Eligibility and service areas vary.</p></div></div><div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{phones}{sections}</div>' if local else landing_resources(c.BRANCHES, phones))
  about_section='<section id="about" class="directory-about-section" tabindex="-1"><h2>About Ferdant</h2><p>Ferdant connects five practical-help communities. Read the resources here or take a specific question to the relevant Reddit community. Replies and outcomes aren’t guaranteed.</p><p>AggieBillHelp is the separate UC Davis campus community. Ferdant does not imply a university affiliation.</p></section>'

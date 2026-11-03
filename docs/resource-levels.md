@@ -6,7 +6,7 @@ The revised source is on `website-preview-before-monetization`; the saved
 revision tag is `before-monetization-resource-levels`. The separate
 monetization experiment remains on its existing preview branch.
 
-The starting map has City and County buttons. City mode shows 483 city markers
+The homepage location chooser has City, County and State buttons. City mode shows 483 city markers
 and searches city names. County mode removes those markers, shows 58 county
 areas and searches county names. On desktop, hovering turns a county blue and
 clicking selects its resources. On touch screens, tapping previews a blue county
@@ -68,3 +68,18 @@ The later hover/touch check (`tests/county-preview.cjs`) covers all 58 polygon
 entry/exit handlers, actual pointer hover, selected-color restoration, actual
 mobile touch preview/confirmation, switching between counties, panning without
 navigation, mode changes and a real offline download with zero HTTP requests.
+
+## Homepage State view
+
+State sits beside County in Start with your location. It hides the map and city/
+county search, and moves the existing statewide resource section into that box.
+The same four California links and phone controls are reused, with no duplicate
+IDs, new source data or background requests. Selecting State shows the California
+resources even when Communities was previously open. City and County restore the
+map/search and return the resource section to its original position.
+
+State is a homepage option; Change location and the offline city picker retain
+their City/County selection controls. Without JavaScript, all statewide resources
+remain readable in their original position. `tests/state-view.cjs` checks four
+widths, keyboard activation, repeated transitions, strict city/county behavior,
+phone-control identity, unique IDs, no added requests and no-script reading.

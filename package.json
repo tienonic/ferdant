@@ -15,7 +15,7 @@
     "verify:booklet": "node tests/resource-booklet.cjs",
     "verify:risk": "node tests/hazard-risk.cjs",
     "verify:recommendations": "node tests/recommendations.cjs",
-    "verify:scopes": "node tests/resource-scopes.cjs && node tests/county-preview.cjs"
+    "verify:scopes": "node tests/resource-scopes.cjs && node tests/county-preview.cjs && node tests/state-view.cjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0"
