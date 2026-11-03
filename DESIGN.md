@@ -60,16 +60,19 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
   Share tool implementations with their guide pages. Static content, section links and cancellation records work without JavaScript.
   Explain that matching periods matter and that a difference does not establish the reason for a charge.
 - Give each tool a useful response: an amount still to explain, a record to check next, or a copyable draft.
-  A compact cost-over-time worksheet also works directly on the homepage: a monthly USD amount, a 1–12 month
+  The cost-over-time worksheet opens from its directory row in a native expandable workspace: a monthly USD amount, a 1–12 month
   slider, twelve visual month tiles and the calculated total. Start empty; its example is opt-in and labeled.
   Treat this as constant-charge arithmetic, with fees, rate changes and interest excluded. Keep it local and clearable.
   Examples are opt-in and explicitly labeled. A full checklist never claims that a company canceled or refunded anything.
   Keep notes in the open page; no storage, network request, background scheduling or automatic submission.
 - Use category-colored icons and thin rules with restrained borders to distinguish groups. Keep cobalt for the brand and general controls.
   Do not add the reference site's branding, trivia ticker, ads or fake activity.
-- The preparedness directory links to short regional download choices. Save one self-contained HTML file
-  with source-dated local contacts, the existing tools and full guides. State city/provider boundaries, limited
-  region coverage and which features need a connection. Use explicit region choice; no inferred location.
+- Put the California phone chart near the homepage top, with a native city selector, optional service filter
+  and city download action. Keep numbers visible without opening a detail panel. Distinguish crisis, referral,
+  non-emergency and utility contacts; keep 911 outside the chart. City listing does not imply local-agency coverage.
+  A single offline template carries the same shared city/contact dataset, tools and guides. A city download
+  carries only the selected location and all its saved contacts; never carry private tool notes or the service filter.
+  Preserve jurisdiction/provider limits and visible coverage gaps. Use explicit choice, with no inferred location.
 - The five-topic directory pairs familiar labels with the exact community names and a concise full-scope description.
 - Guide pages show actions and tools first. Longer explanations and sources use native expandable details.
 - Use sentence case. Skip decorative eyebrows, meaningless serial numbers and arrows appended to every action.

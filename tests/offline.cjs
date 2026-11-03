@@ -5,21 +5,24 @@ const {pathToFileURL} = require('node:url');
 
 module.exports = async function checkOffline(browser, base) {
  const regional = JSON.parse(fs.readFileSync('content/regions.json','utf8'));
+ const places = JSON.parse(fs.readFileSync('content/california-cities.json','utf8'));
  const findings = [];
- for (const region of regional.regions) {
-  const context = await browser.newContext({acceptDownloads:true});
-  const page = await context.newPage();
-  await page.goto(base+'/offline/');
-  const download = page.waitForEvent('download');
-  await page.locator(`a[download][href*="${region.slug}"]`).click();
-  const file = await download;
-  const saved = path.resolve('screenshots','downloaded-'+file.suggestedFilename());
-  await file.saveAs(saved);
-  const source = fs.readFileSync(saved,'utf8');
-  assert(!/<(?:script|link)[^>]+(?:src|href)="\//.test(source), 'Saved file must embed scripts and styles');
-  assert(!/src="(?:https?:|\/assets\/)/.test(source), 'Saved file must embed its images');
-  assert(source.includes('form-action &#x27;none&#x27;'));
-  await context.close();
+ const context = await browser.newContext({acceptDownloads:true,reducedMotion:'reduce'});
+ const page = await context.newPage();await page.goto(base+'/offline/');await page.evaluate(()=>document.fonts.ready);
+ const requests=[];page.on('request',r=>requests.push(r.url()));
+ const cases=[{key:'57026',name:'Davis'},{key:'19050',name:'Los Angeles'},{key:'county:57',name:'Yolo County (county-level)'},{key:'',name:'California'}];
+ for (const region of cases) {
+  await page.getByLabel('Your city in California',{exact:true}).selectOption(region.key);
+  const download=page.waitForEvent('download');await page.locator('[data-city-download]').click();
+  const file=await download;const saved=path.resolve('screenshots','downloaded-'+file.suggestedFilename());await file.saveAs(saved);
+  const source=fs.readFileSync(saved,'utf8');
+  assert(!/<(?:script|link)[^>]+(?:src|href)="\//.test(source),'Saved file must embed scripts and styles');
+  assert(!/src="(?:https?:|\/assets\/)/.test(source),'Saved file must embed images');
+  assert(source.includes('Content-Security-Policy'));
+  const templateRequests=requests.filter(url=>url.endsWith('.html')).length;
+  assert(region.key?templateRequests===1:templateRequests>=1&&templateRequests<=2,'City copies reuse one clean template; standard download may use the browser cache');
+  const county=region.key.startsWith('county:')?region.key.slice(7):places.cities.find(row=>row[0]===region.key)?.[2];
+  const expected=[...new Set([...regional.statewide,...(regional.countyContacts[county]||[]),...(regional.cityContacts[region.key]||[])])];
   for (const width of [320,390,1440]) {
    const offline = await browser.newContext({offline:true,viewport:{width,height:960},reducedMotion:'reduce'});
    const p = await offline.newPage();const network=[],errors=[];
@@ -28,12 +31,18 @@ module.exports = async function checkOffline(browser, base) {
    await p.goto(pathToFileURL(saved).href);
    await p.evaluate(()=>document.fonts.ready);
    assert((await p.locator('h1').innerText()).includes(region.name));
-   assert.equal(await p.locator('.local-contact').count(), region.contacts.length);
+   assert.equal(await p.locator('#phone-city').inputValue(),region.key);
+   assert.deepEqual(await p.locator('#phone-rows tr').evaluateAll(rows=>rows.map(row=>row.dataset.contactId)),expected);
+   await p.getByLabel('Your city in California',{exact:true}).selectOption('37060');
+   assert(await p.locator('[data-contact-id="sd-nonemergency"]').isVisible());
+   await p.reload();
+   assert.equal(await p.locator('#phone-city').inputValue(),region.key);
    assert.equal(await p.locator('[id]').evaluateAll(els=>new Set(els.map(el=>el.id)).size===els.length),true);
    assert(await p.locator('.offline-notice').innerText().then(t=>t.includes('no live alerts')));
    assert(await p.locator('.site-favicon').evaluateAll(images=>images.every(img=>img.complete && img.naturalWidth>0)));
    assert(await p.evaluate(()=>[...document.fonts].some(f=>f.status==='loaded')));
    assert.equal(await p.locator('meta[name=robots]').getAttribute('content'),'noindex,follow');
+   await p.getByRole('link',{name:'Cost over time On this page',exact:false}).click();
    await p.getByLabel('Monthly cost (USD)',{exact:true}).fill('10');
    assert.equal(await p.locator('#cost-total').innerText(),'$120.00');
    const tools=p.getByRole('navigation',{name:'Quick tools'});
@@ -62,19 +71,39 @@ module.exports = async function checkOffline(browser, base) {
    assert.deepEqual(network,[],'Reopened file must make no network requests');assert.deepEqual(errors,[]);
    if(width!==320) {
     await p.evaluate(()=>scrollTo(0,0));
-    await p.screenshot({path:`screenshots/offline-${region.slug}-${width}.png`});
-    await p.locator('.offline-local').screenshot({path:`screenshots/offline-contacts-${region.slug}-${width}.png`});
+    await p.screenshot({path:`screenshots/offline-${(region.key||"california").replace(':','-')}-${width}.png`});
+    await p.locator('.phone-directory').screenshot({path:`screenshots/offline-contacts-${(region.key||"california").replace(':','-')}-${width}.png`});
    }
-   findings.push({region:region.slug,width,fileScheme:true,networkRequests:network.length,tools:4,savedGuides:3,result:'passed'});
+   findings.push({region:region.key,width,fileScheme:true,networkRequests:network.length,tools:4,savedGuides:3,result:'passed'});
    await offline.close();
   }
   const noJs=await browser.newContext({offline:true,javaScriptEnabled:false,viewport:{width:390,height:960}});
   const p=await noJs.newPage();await p.goto(pathToFileURL(saved).href);
-  assert.equal(await p.locator('.local-contact:visible').count(),region.contacts.length);
+  assert.deepEqual(await p.locator('#phone-rows tr').evaluateAll(rows=>rows.map(row=>row.dataset.contactId)),expected);
+  assert.equal(await p.locator('.phone-table a[href="tel:911"]').count(),0);
   await p.locator('.offline-guides details').first().locator('summary').click();
   assert(await p.locator('.offline-guides details').first().locator('ol').isVisible());
   assert(!await p.locator('.cost-preview').isVisible());
   await noJs.close();
  }
- fs.writeFileSync('screenshots/offline-verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'contacts and saved guides passed',downloads:'saved through actual download links',liveAlerts:false},null,2));
+ await context.close();
+ const privacy=await browser.newContext({acceptDownloads:true,reducedMotion:'reduce'});
+ const privatePage=await privacy.newPage();await privatePage.goto(base+'/');
+ await privatePage.getByRole('navigation',{name:'Quick tools'}).getByRole('link',{name:'Draft a message'}).click();
+ await privatePage.getByLabel('What needs explaining?').fill('PRIVATE-NOTE-NOT-FOR-EXPORT');
+ await privatePage.getByRole('button',{name:'Close tool',exact:true}).click();
+ await privatePage.getByLabel('Your city in California',{exact:true}).selectOption('57026');
+ await privatePage.getByLabel('Find a service',{exact:true}).fill('water');
+ const privateDownload=privatePage.waitForEvent('download');await privatePage.locator('[data-city-download]').click();
+ const privateFile=await privateDownload,privatePath=path.resolve('screenshots','privacy-export.html');await privateFile.saveAs(privatePath);
+ const privateSource=fs.readFileSync(privatePath,'utf8');assert(!privateSource.includes('PRIVATE-NOTE-NOT-FOR-EXPORT'),'Only the city may be carried into a download');
+ assert(privateSource.includes('davis-nonemergency'),'Service filtering must not remove contacts from the download');
+ await privacy.close();
+ const failure=await browser.newContext({acceptDownloads:true});const failurePage=await failure.newPage();
+ await failurePage.route('**/downloads/ferdant-california-*.html',route=>route.fulfill({status:503,body:'Temporarily unavailable'}));
+ await failurePage.goto(base+'/offline/');await failurePage.getByLabel('Your city in California',{exact:true}).selectOption('57026');
+ let failedDownloads=0;failurePage.on('download',()=>failedDownloads++);await failurePage.locator('[data-city-download]').click();
+ await failurePage.waitForFunction(()=>document.querySelector('#phone-download-status').textContent.includes('could not be prepared'));
+ assert.equal(failedDownloads,0,'A failed city export must not silently save the wrong edition');await failure.close();
+ fs.writeFileSync('screenshots/offline-verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'chosen city contacts and saved guides passed',downloads:'actual city and standard downloads saved',privateInputsExported:false,filterDoesNotLimitDownload:true,failureHandling:'passed',liveAlerts:false},null,2));
 };

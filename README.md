@@ -23,12 +23,14 @@ The deployed main branch remains the maintenance page until a fuller release is 
 ## Edit and check
 
 - `content/site.py`: branch descriptions, original guide text, source links and dates.
-- `content/regions.json`: explicit region coverage, public contacts and source-review limits; dates never advance automatically.
+- `content/regions.json`: shared numbers, contact/source records and city/county references; dates never advance automatically.
+- `content/california-cities.json`: compact official city/county index, with source hash and edit-date provenance.
+- `scripts/phone_chart.py`, `phone.js`: shared city phone chart, local filtering and city-only offline export.
 - `scripts/offline.py`: self-contained regional downloads, including fonts, icons, tools and saved guides.
 - `content/directory.py`: directory link labels, publishers and separate source/check dates.
 - `scripts/build.py`: shared page templates, metadata, breadcrumb schema and generated URLs.
 - `scripts/graphics.py`: original static category drawings for the directory summaries.
-- `scripts/cost_tool.py`: compact monthly-cost worksheet displayed directly on the homepage.
+- `scripts/cost_tool.py`: monthly-cost worksheet opened from the directory in a native expandable workspace.
 - `scripts/icons.py`: original category/tool/action SVGs and local destination-favicon mapping.
 - `assets/favicons/`: destination icons with download provenance and cached-source limits.
 - `styles.css`, `site.js`, `assets/`: appearance and small browser-only tools.
@@ -93,7 +95,7 @@ Separate guide URLs remain available for optional detail and search discovery.
 
 The four tools are:
 
-- Cost over time: a monthly USD amount and draggable 1–12 month timeline, directly on the homepage.
+- Cost over time: a monthly USD amount and draggable 1–12 month timeline, opened from its directory row.
 - Bill comparison with an opt-in example and a breakdown of the amount still to explain.
 - Cancellation route choices and a record checklist with progress and a next step.
 - A live billing-message builder with safe text output, copying and a clear-notes control.
@@ -107,21 +109,32 @@ Search, bill breakdowns, cancellation selections and message notes run in the br
 Template copy uses the clipboard only after a click. No analytics, account system, document upload,
 polling process or scheduler is included. Private plans, conversations and credentials stay outside this repository.
 
-## Regional offline editions
+## California phone chart and offline copy
 
-Use the prominent "Download for offline use" button beneath the homepage title, or the preparedness directory entry, to open `/offline/`. Current downloads cover Davis/Yolo County and
-San Francisco, with city/provider boundaries stated on each edition. Each dated HTML file under `downloads/`
-embeds its CSS, fonts, favicon assets, four tools, three full guides, regional contacts and source notes.
-Open it directly in a browser; no server, install or service worker is required. Native reading also works
-without JavaScript. On phones, a file preview may show the text but require opening in a browser for tools.
-The browser suite downloads the files through their real links and reopens them as local files with networking
-disabled at three widths. It checks all four tools, reading, embedded assets and zero network requests.
+The homepage and `/offline/` share a city-selectable phone chart. The official CDTFA attribute snapshot supplies
+483 incorporated cities and 58 county choices for unlisted/unincorporated communities. Listing a city is distinct
+from checking its agencies: this edition has municipal contacts for 11 cities and alternate referral numbers for
+41 counties. Other selections retain California-wide hotlines and any checked county information, with explicit gaps.
+The chart excludes 911 rows; crisis, referral, non-emergency and utility contacts retain their different purposes.
 
-Phone calls still require phone service. External websites and alert registration require a connection.
-The file has no live alerts, outage status or shelter availability, and entered notes do not persist after closing.
-Some regional facts were checked through the primary publisher's indexed excerpt when direct retrieval was
-blocked; preserve that distinction in `content/regions.json`. Add a region only after checking its own sources.
-Keep both embedded font licenses. Rebuilding never refreshes a factual review date or starts collection.
+The registry stores 59 distinct numbers once and references them from 58 contact records. Counties and cities
+reference contact IDs; shared hotlines are not copied per city. The official city index is about 15 KB and contains
+no geometry or address data. The build minifies the data embedded on chart pages; changing a city or service filter
+makes no request, detects no location and saves nothing to browser storage. Publisher dates, check dates and
+primary-page versus indexed-excerpt review limits are preserved. Missing numbers are never inferred.
+
+One generated HTML file under `downloads/` replaces per-region exports. With a city selected, an explicit download
+fetches that clean shared template once per page, adds only the selected city and readable chart rows, and saves a
+local file. Subsequent city downloads reuse the template in memory. Tool notes and service filters are not copied.
+The saved file retains the city even with JavaScript disabled; with scripts enabled, its full city selector works
+without a connection. Fonts, favicon assets, four tools and three full guides are embedded, with font licenses.
+
+Open the file in a browser; no server, install or service worker is required. Phone file previews may require a
+browser for interactive tools. Calls/texts need phone service; website links and alert registration need internet.
+There are no live dispatch, outage, road-status or shelter feeds. Tool inputs do not persist after closing.
+The tests cover every city/county mapping, jurisdiction changes, filtering, actual personalized/standard downloads,
+disconnected local-file reading/tools, no-JavaScript selected-city rows, private-note exclusion and failure handling.
+Builds never refresh factual review dates or restart collection. Add municipal numbers only after checking sources.
 
 ## Background infrastructure and low-maintenance updates
 

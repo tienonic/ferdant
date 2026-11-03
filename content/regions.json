@@ -1,47 +1,1345 @@
 {
+  "schemaVersion": 2,
+  "state": "CA",
   "checked": "2026-11-02",
   "sources": {
-    "davis-contact": {"title": "City of Davis contact directory", "url": "https://www.cityofdavis.org/city-hall/contact-us", "published": null, "review": "Primary publisher indexed excerpt; direct page retrieval blocked."},
-    "davis-water": {"title": "Davis Public Works: Utilities & Operations", "url": "https://www.cityofdavis.org/city-hall/public-works-utilities-and-operations", "published": null, "review": "Primary publisher indexed excerpt; direct page retrieval blocked."},
-    "davis-bill": {"title": "Davis utility billing", "url": "https://www.cityofdavis.org/city-hall/finance/city-services", "published": null, "review": "Primary publisher indexed excerpt; direct page retrieval blocked."},
-    "yolo-211": {"title": "2-1-1 Yolo County", "url": "https://www.211sacramento.org/211/2-1-1-yolo-county/", "published": null, "review": "Primary publisher page reviewed."},
-    "yolo-alert": {"title": "Yolo County: Stay informed, get alerts", "url": "https://www.yolocounty.gov/government/general-government-departments/office-of-emergency-services/alerts", "published": null, "review": "Primary publisher indexed excerpt; direct page retrieval blocked."},
-    "sf-311": {"title": "San Francisco: Get information from 311", "url": "https://www.sf.gov/get-information-311", "published": null, "review": "Primary publisher indexed excerpt; direct page retrieval required a browser verification challenge."},
-    "sf-911": {"title": "San Francisco: When to call 911 and 311", "url": "https://www.sf.gov/coordinated-street-response-program-1", "published": null, "review": "Primary publisher indexed excerpt reviewed."},
-    "sf-water": {"title": "SFPUC contact information", "url": "https://www.sfpuc.gov/about-us/contact-us", "published": null, "review": "Primary publisher page reviewed."},
-    "sf-bill": {"title": "SFPUC resources for customers with overdue bills", "url": "https://www.sfpuc.gov/accounts-services/bill-relief/resources-customers-overdue-bills", "published": null, "review": "Primary publisher indexed excerpt reviewed."},
-    "sf-alert": {"title": "San Francisco: July Fourth public safety information", "url": "https://recpark.sf.gov/m/newsflash/home/detail/2936", "published": null, "review": "Primary publisher indexed excerpt reviewed for AlertSF signup instructions only; event details are not carried forward."},
-    "pge": {"title": "PG&E Safety Action Center: Important contacts", "url": "https://www.pge.com/en/newsroom/safety-action-center/safety-resources/safety-action-center-faqs.html", "published": null, "review": "Primary publisher page reviewed."}
-  },
-  "regions": [
-    {
-      "slug": "davis-yolo",
-      "name": "Davis & Yolo County, CA",
-      "summary": "Yolo County help and alerts, plus Davis city utility, billing and service contacts. Campus services are separate.",
-      "scope": "211 and Alert Yolo cover Yolo County. City water, repair and billing numbers below apply to Davis city services, not every Yolo County address or UC Davis campus service.",
-      "contacts": [
-        {"title": "Police, fire or medical emergency", "phones": [{"label": "911", "value": "911"}], "detail": "For an emergency, call 911. Phone service is needed; this file cannot contact responders.", "source": "davis-contact"},
-        {"title": "Food, housing & community help", "phones": [{"label": "211", "value": "211"}, {"label": "855-866-1783", "value": "+18558661783"}], "detail": "Yolo County's information and referral line. Ask what local help fits your situation; an available place or benefit is not guaranteed.", "source": "yolo-211"},
-        {"title": "Davis water leaks & sewer backups", "phones": [{"label": "530-757-5686", "value": "+15307575686"}, {"label": "After hours: 530-747-5400", "value": "+15307475400"}], "detail": "City Public Works: Monday–Friday, 7am–3:30pm, excluding holidays. The after-hours number is the City's police non-emergency line for these reports.", "source": "davis-water"},
-        {"title": "Davis city utility bills", "phones": [{"label": "530-757-5651", "value": "+15307575651"}], "detail": "City water, sewer, waste and storm-drainage billing. Choose option 1 for billing questions. Check the provider named on your bill first.", "source": "davis-bill"},
-        {"title": "Davis repairs & city services", "phones": [{"label": "530-757-5602", "value": "+15307575602"}], "detail": "City general information can direct a non-emergency service question. For a private-property repair, use your property manager or a suitable specialist.", "source": "davis-contact"},
-        {"title": "PG&E outage information", "phones": [{"label": "800-743-5002", "value": "+18007435002"}], "detail": "For addresses served by PG&E. Other providers have their own reporting routes; confirm yours on the bill.", "source": "pge"}
-      ],
-      "alert": {"name": "Alert Yolo", "instruction": "Before going offline, use the County's alert page to choose a signup method. Its SMS-only option is to text YOLO to 888777. Delivery needs mobile service and is not guaranteed.", "source": "yolo-alert"}
+    "davis-contact": {
+      "title": "City of Davis contact directory",
+      "url": "https://www.cityofdavis.org/city-hall/contact-us",
+      "published": null,
+      "review": "Primary publisher indexed excerpt; direct page retrieval blocked."
     },
-    {
-      "slug": "san-francisco",
-      "name": "San Francisco, CA",
-      "summary": "City services, SFPUC billing, PG&E outage information and AlertSF. For San Francisco, not the whole Bay Area.",
-      "scope": "For the City and County of San Francisco. Utility contacts apply only to the provider on your bill; this is not a directory for the whole Bay Area.",
-      "contacts": [
-        {"title": "Police, fire or medical emergency", "phones": [{"label": "911", "value": "911"}], "detail": "For an emergency, call 911. Phone service is needed; this file cannot contact responders.", "source": "sf-911"},
-        {"title": "City services, repairs & referrals", "phones": [{"label": "311", "value": "311"}, {"label": "Outside SF: 415-701-2311", "value": "+14157012311"}], "detail": "Non-emergency City questions and service requests, including finding the right department for a local housing or administrative question.", "source": "sf-311"},
-        {"title": "SFPUC water & sewer service problems", "phones": [{"label": "311", "value": "311"}, {"label": "Outside SF: 415-701-2311", "value": "+14157012311"}], "detail": "SFPUC directs water, power or sewer service problems to this 24-hour route. For immediate danger, call 911.", "source": "sf-water"},
-        {"title": "SFPUC water & sewer bills", "phones": [{"label": "415-551-3000", "value": "+14155513000"}], "detail": "Ask about your bill or a payment plan. Available arrangements and eligibility depend on your account; this pack does not determine eligibility.", "source": "sf-bill"},
-        {"title": "PG&E outage information", "phones": [{"label": "800-743-5002", "value": "+18007435002"}], "detail": "For addresses served by PG&E. Other providers have their own reporting routes; confirm yours on the bill.", "source": "pge"}
-      ],
-      "alert": {"name": "AlertSF", "instruction": "Before going offline, sign up for AlertSF using the City's instructions. Its SMS option is to text your ZIP code to 888777. Delivery needs mobile service and is not guaranteed.", "source": "sf-alert"}
+    "davis-water": {
+      "title": "Davis Public Works: Utilities & Operations",
+      "url": "https://www.cityofdavis.org/city-hall/public-works-utilities-and-operations",
+      "published": null,
+      "review": "Primary publisher indexed excerpt; direct page retrieval blocked."
+    },
+    "davis-bill": {
+      "title": "Davis utility billing",
+      "url": "https://www.cityofdavis.org/city-hall/finance/city-services",
+      "published": null,
+      "review": "Primary publisher indexed excerpt; direct page retrieval blocked."
+    },
+    "yolo-211": {
+      "title": "2-1-1 Yolo County",
+      "url": "https://www.211sacramento.org/211/2-1-1-yolo-county/",
+      "published": null,
+      "review": "Primary publisher page reviewed."
+    },
+    "yolo-alert": {
+      "title": "Yolo County: Stay informed, get alerts",
+      "url": "https://www.yolocounty.gov/government/general-government-departments/office-of-emergency-services/alerts",
+      "published": null,
+      "review": "Primary publisher indexed excerpt; direct page retrieval blocked."
+    },
+    "sf-311": {
+      "title": "San Francisco: Get information from 311",
+      "url": "https://www.sf.gov/get-information-311",
+      "published": null,
+      "review": "Primary publisher indexed excerpt; direct page retrieval required a browser verification challenge."
+    },
+    "sf-911": {
+      "title": "San Francisco: When to call 911 and 311",
+      "url": "https://www.sf.gov/coordinated-street-response-program-1",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "sf-water": {
+      "title": "SFPUC contact information",
+      "url": "https://www.sfpuc.gov/about-us/contact-us",
+      "published": null,
+      "review": "Primary publisher page reviewed."
+    },
+    "sf-bill": {
+      "title": "SFPUC resources for customers with overdue bills",
+      "url": "https://www.sfpuc.gov/accounts-services/bill-relief/resources-customers-overdue-bills",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "sf-alert": {
+      "title": "San Francisco: July Fourth public safety information",
+      "url": "https://recpark.sf.gov/m/newsflash/home/detail/2936",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed for AlertSF signup instructions only; event details are not carried forward."
+    },
+    "pge": {
+      "title": "PG&E Safety Action Center: Important contacts",
+      "url": "https://www.pge.com/en/newsroom/safety-action-center/safety-resources/safety-action-center-faqs.html",
+      "published": null,
+      "review": "Primary publisher page reviewed."
+    },
+    "ca-poison": {
+      "title": "California Poison Control: Poison hotline",
+      "url": "https://calpoison.org/poison-hotline-operation",
+      "published": null,
+      "review": "Primary publisher page reviewed."
+    },
+    "ca-crisis": {
+      "title": "California Department of Public Health: Crisis hotlines",
+      "url": "https://www.cdph.ca.gov/Programs/CCDPHP/DCDIC/SACB/Pages/Crisis-Hotlines--Resources.aspx",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "domestic-violence": {
+      "title": "National Domestic Violence Hotline: Get help",
+      "url": "https://www.thehotline.org/get-help/",
+      "published": null,
+      "review": "Primary publisher page reviewed."
+    },
+    "disaster-distress": {
+      "title": "SAMHSA: Disaster Distress Helpline",
+      "url": "https://www.samhsa.gov/find-help/helplines/disaster-distress-helpline",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed; direct retrieval blocked."
+    },
+    "ca-roads": {
+      "title": "Caltrans highway information",
+      "url": "https://roads.dot.ca.gov/roadscell.php",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "211-network": {
+      "title": "211 California: Find your local 211",
+      "url": "https://211ca.org/find-your-local-211/",
+      "published": null,
+      "review": "Primary network directory read through web reader; direct retrieval blocked. Alternate numbers only; active service and hours are not inferred. The Yolo-specific provider page takes precedence for Yolo."
+    },
+    "sf-police": {
+      "title": "San Francisco police: non-emergency contact",
+      "url": "https://www.sanfranciscopolice.org/get-service",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "la-police": {
+      "title": "Los Angeles police: non-emergency contact",
+      "url": "https://www.lapdonline.org/contact-us/",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "sd-police": {
+      "title": "San Diego police: non-emergency contact",
+      "url": "https://www.sandiego.gov/police/services/when-to-call-911",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "sj-police": {
+      "title": "San Jose police: non-emergency contact",
+      "url": "https://www.sjpd.org/about-us/inside-sjpd/phone-directory",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "sac-police": {
+      "title": "Sacramento police: non-emergency contact",
+      "url": "https://www.cityofsacramento.gov/police/your-sacpd/about/contact-us",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "fresno-police": {
+      "title": "Fresno police: non-emergency contact",
+      "url": "https://www.fresno.gov/police/police-contacts/",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "oakland-police": {
+      "title": "Oakland police: non-emergency contact",
+      "url": "https://www.oaklandca.gov/Public-Safety-Streets/Police",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "lb-police": {
+      "title": "Long Beach police: non-emergency contact",
+      "url": "https://www.longbeach.gov/disasterpreparedness/long-beach-9-1-1/calling-9-1-1/",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "bakersfield-police": {
+      "title": "Bakersfield police: non-emergency contact",
+      "url": "https://www.bakersfieldcity.us/police",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
+    },
+    "riverside-police": {
+      "title": "Riverside police: non-emergency contact",
+      "url": "https://riversideca.gov/rpd/about-contact",
+      "published": null,
+      "review": "Primary publisher indexed excerpt reviewed."
     }
-  ]
+  },
+  "numbers": {
+    "988": {
+      "label": "988",
+      "tel": "988"
+    },
+    "18002221222": {
+      "label": "800-222-1222",
+      "tel": "+18002221222"
+    },
+    "18007997233": {
+      "label": "800-799-7233",
+      "tel": "+18007997233"
+    },
+    "18006564673": {
+      "label": "800-656-4673",
+      "tel": "+18006564673"
+    },
+    "18009855990": {
+      "label": "800-985-5990",
+      "tel": "+18009855990"
+    },
+    "18004277623": {
+      "label": "800-427-7623",
+      "tel": "+18004277623"
+    },
+    "18663463211": {
+      "label": "866-346-3211",
+      "tel": "+18663463211"
+    },
+    "18888869660": {
+      "label": "888-886-9660",
+      "tel": "+18888869660"
+    },
+    "18669163566": {
+      "label": "866-916-3566",
+      "tel": "+18669163566"
+    },
+    "18008332900": {
+      "label": "800-833-2900",
+      "tel": "+18008332900"
+    },
+    "18665594211": {
+      "label": "866-559-4211",
+      "tel": "+18665594211"
+    },
+    "18558391175": {
+      "label": "855-839-1175",
+      "tel": "+18558391175"
+    },
+    "18774606000": {
+      "label": "877-460-6000",
+      "tel": "+18774606000"
+    },
+    "18002270997": {
+      "label": "800-227-0997",
+      "tel": "+18002270997"
+    },
+    "18002732275": {
+      "label": "800-273-2275",
+      "tel": "+18002732275"
+    },
+    "18778649290": {
+      "label": "877-864-9290",
+      "tel": "+18778649290"
+    },
+    "18003396993": {
+      "label": "800-339-6993",
+      "tel": "+18003396993"
+    },
+    "18002736222": {
+      "label": "800-273-6222",
+      "tel": "+18002736222"
+    },
+    "18442877400": {
+      "label": "844-287-7400",
+      "tel": "+18442877400"
+    },
+    "18338141211": {
+      "label": "833-814-1211",
+      "tel": "+18338141211"
+    },
+    "18333425211": {
+      "label": "833-342-5211",
+      "tel": "+18333425211"
+    },
+    "18886004357": {
+      "label": "888-600-4357",
+      "tel": "+18886004357"
+    },
+    "18446520822": {
+      "label": "844-652-0822",
+      "tel": "+18446520822"
+    },
+    "18004641123": {
+      "label": "800-464-1123",
+      "tel": "+18004641123"
+    },
+    "18445461464": {
+      "label": "844-546-1464",
+      "tel": "+18445461464"
+    },
+    "18583001211": {
+      "label": "858-300-1211",
+      "tel": "+18583001211"
+    },
+    "18004369997": {
+      "label": "800-436-9997",
+      "tel": "+18004369997"
+    },
+    "18005498989": {
+      "label": "800-549-8989",
+      "tel": "+18005498989"
+    },
+    "18004001572": {
+      "label": "800-400-1572",
+      "tel": "+18004001572"
+    },
+    "18668963587": {
+      "label": "866-896-3587",
+      "tel": "+18668963587"
+    },
+    "18317134111": {
+      "label": "831-713-4111",
+      "tel": "+18317134111"
+    },
+    "18552117822": {
+      "label": "855-211-7822",
+      "tel": "+18552117822"
+    },
+    "18449870590": {
+      "label": "844-987-0590",
+      "tel": "+18449870590"
+    },
+    "18003259604": {
+      "label": "800-325-9604",
+      "tel": "+18003259604"
+    },
+    "18772117826": {
+      "label": "877-211-7826",
+      "tel": "+18772117826"
+    },
+    "18669638182": {
+      "label": "866-963-8182",
+      "tel": "+18669638182"
+    },
+    "18002839323": {
+      "label": "800-283-9323",
+      "tel": "+18002839323"
+    },
+    "18889847506": {
+      "label": "888-984-7506",
+      "tel": "+18889847506"
+    },
+    "18003399597": {
+      "label": "800-339-9597",
+      "tel": "+18003399597"
+    },
+    "211": {
+      "label": "211",
+      "tel": "211"
+    },
+    "18558661783": {
+      "label": "855-866-1783",
+      "tel": "+18558661783"
+    },
+    "15307575686": {
+      "label": "530-757-5686",
+      "tel": "+15307575686"
+    },
+    "15307475400": {
+      "label": "530-747-5400",
+      "tel": "+15307475400"
+    },
+    "15307575651": {
+      "label": "530-757-5651",
+      "tel": "+15307575651"
+    },
+    "15307575602": {
+      "label": "530-757-5602",
+      "tel": "+15307575602"
+    },
+    "18007435002": {
+      "label": "800-743-5002",
+      "tel": "+18007435002"
+    },
+    "311": {
+      "label": "311",
+      "tel": "311"
+    },
+    "14157012311": {
+      "label": "415-701-2311",
+      "tel": "+14157012311"
+    },
+    "14155513000": {
+      "label": "415-551-3000",
+      "tel": "+14155513000"
+    },
+    "14155530123": {
+      "label": "415-553-0123",
+      "tel": "+14155530123"
+    },
+    "18772755273": {
+      "label": "877-275-5273",
+      "tel": "+18772755273"
+    },
+    "16195312000": {
+      "label": "619-531-2000",
+      "tel": "+16195312000"
+    },
+    "14082778900": {
+      "label": "408-277-8900",
+      "tel": "+14082778900"
+    },
+    "19168085471": {
+      "label": "916-808-5471",
+      "tel": "+19168085471"
+    },
+    "15596217000": {
+      "label": "559-621-7000",
+      "tel": "+15596217000"
+    },
+    "15107773333": {
+      "label": "510-777-3333",
+      "tel": "+15107773333"
+    },
+    "15624356711": {
+      "label": "562-435-6711",
+      "tel": "+15624356711"
+    },
+    "16613277111": {
+      "label": "661-327-7111",
+      "tel": "+16613277111"
+    },
+    "19513542007": {
+      "label": "951-354-2007",
+      "tel": "+19513542007"
+    }
+  },
+  "contacts": {
+    "crisis": {
+      "title": "Suicide & emotional crisis",
+      "phones": [
+        {
+          "number": "988",
+          "text": true
+        }
+      ],
+      "detail": "Call or text the 988 Suicide & Crisis Lifeline for yourself or someone you are concerned about.",
+      "source": "ca-crisis",
+      "kind": "Crisis",
+      "scope": "California",
+      "hours": "24/7"
+    },
+    "poison": {
+      "title": "Poison exposure or questions",
+      "phones": [
+        {
+          "number": "18002221222"
+        }
+      ],
+      "detail": "California Poison Control provides expert advice on possible poison exposure.",
+      "source": "ca-poison",
+      "kind": "Poison advice",
+      "scope": "California",
+      "hours": "24/7"
+    },
+    "domestic-violence": {
+      "title": "Domestic violence support",
+      "phones": [
+        {
+          "number": "18007997233"
+        }
+      ],
+      "detail": "National hotline for support, crisis intervention and local referrals. It does not provide direct financial assistance.",
+      "source": "domestic-violence",
+      "kind": "Crisis support",
+      "scope": "California"
+    },
+    "sexual-assault": {
+      "title": "Sexual assault support",
+      "phones": [
+        {
+          "number": "18006564673"
+        }
+      ],
+      "detail": "RAINN hotline for someone affected by sexual assault.",
+      "source": "ca-crisis",
+      "kind": "Crisis support",
+      "scope": "California",
+      "hours": "24/7"
+    },
+    "disaster-distress": {
+      "title": "Distress after a disaster",
+      "phones": [
+        {
+          "number": "18009855990",
+          "text": true
+        }
+      ],
+      "detail": "Disaster Distress Helpline: counseling for emotional distress related to disasters; this is not an evacuation or shelter-status line.",
+      "source": "disaster-distress",
+      "kind": "Crisis support",
+      "scope": "California",
+      "hours": "24/7"
+    },
+    "highway": {
+      "title": "Highway conditions",
+      "phones": [
+        {
+          "number": "18004277623"
+        }
+      ],
+      "detail": "Caltrans highway condition information. Call for current information; no road status is stored in this file.",
+      "source": "ca-roads",
+      "kind": "Travel information",
+      "scope": "California"
+    },
+    "211-routing": {
+      "title": "Food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18663463211"
+        }
+      ],
+      "detail": "211 California ZIP-code routing. Enter your California ZIP code. Local service coverage and available help vary.",
+      "source": "211-network",
+      "kind": "Referrals",
+      "scope": "California"
+    },
+    "211-18888869660": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18888869660"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18669163566": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18669163566"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18008332900": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18008332900"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18665594211": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18665594211"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18558391175": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18558391175"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18774606000": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18774606000"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18002270997": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18002270997"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18002732275": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18002732275"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18778649290": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18778649290"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18003396993": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18003396993"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18002736222": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18002736222"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18442877400": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18442877400"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18338141211": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18338141211"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18333425211": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18333425211"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18886004357": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18886004357"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18446520822": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18446520822"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18004641123": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18004641123"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18445461464": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18445461464"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18583001211": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18583001211"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18004369997": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18004369997"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18005498989": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18005498989"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18004001572": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18004001572"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18668963587": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18668963587"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18317134111": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18317134111"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18552117822": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18552117822"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18449870590": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18449870590"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18003259604": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18003259604"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18772117826": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18772117826"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18669638182": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18669638182"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18002839323": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18002839323"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18889847506": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18889847506"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "211-18003399597": {
+      "title": "County food, housing & disaster referrals",
+      "phones": [
+        {
+          "number": "18003399597"
+        }
+      ],
+      "detail": "Alternate county helpline listed by 211 California. Availability, hours and eligibility vary; this is not emergency dispatch.",
+      "source": "211-network",
+      "kind": "County referrals",
+      "scope": "Selected county"
+    },
+    "yolo-211": {
+      "title": "Yolo County food, housing & community help",
+      "phones": [
+        {
+          "number": "211"
+        },
+        {
+          "number": "18558661783"
+        }
+      ],
+      "detail": "Yolo County information and referrals. An available place or benefit is not guaranteed.",
+      "source": "yolo-211",
+      "kind": "County referrals",
+      "scope": "Yolo County"
+    },
+    "davis-water": {
+      "title": "Davis water leaks & sewer backups",
+      "phones": [
+        {
+          "number": "15307575686"
+        },
+        {
+          "number": "15307475400",
+          "note": "After hours"
+        }
+      ],
+      "detail": "City Public Works: Monday–Friday, 7am–3:30pm, excluding holidays. The after-hours number is the City's police non-emergency line for these reports.",
+      "source": "davis-water",
+      "kind": "Local services",
+      "scope": "Davis"
+    },
+    "davis-bill": {
+      "title": "Davis city utility bills",
+      "phones": [
+        {
+          "number": "15307575651"
+        }
+      ],
+      "detail": "City water, sewer, waste and storm-drainage billing. Choose option 1 for billing questions. Check the provider named on your bill first.",
+      "source": "davis-bill",
+      "kind": "Local services",
+      "scope": "Davis"
+    },
+    "davis-contact": {
+      "title": "Davis repairs & city services",
+      "phones": [
+        {
+          "number": "15307575602"
+        }
+      ],
+      "detail": "City general information can direct a non-emergency service question. For a private-property repair, use your property manager or a suitable specialist.",
+      "source": "davis-contact",
+      "kind": "Local services",
+      "scope": "Davis"
+    },
+    "pge-outage": {
+      "title": "PG&E outage information",
+      "phones": [
+        {
+          "number": "18007435002"
+        }
+      ],
+      "detail": "For addresses served by PG&E. Other providers have their own reporting routes; confirm yours on the bill.",
+      "source": "pge",
+      "kind": "Utility information",
+      "scope": "PG&E customers only"
+    },
+    "sf-311": {
+      "title": "City services, repairs & referrals",
+      "phones": [
+        {
+          "number": "311"
+        },
+        {
+          "number": "14157012311",
+          "note": "Outside SF"
+        }
+      ],
+      "detail": "Non-emergency City questions and service requests, including finding the right department for a local housing or administrative question.",
+      "source": "sf-311",
+      "kind": "Local services",
+      "scope": "San Francisco"
+    },
+    "sf-water": {
+      "title": "SFPUC water & sewer service problems",
+      "phones": [
+        {
+          "number": "311"
+        },
+        {
+          "number": "14157012311",
+          "note": "Outside SF"
+        }
+      ],
+      "detail": "SFPUC directs water, power or sewer service problems to this 24-hour route. For immediate danger, call 911.",
+      "source": "sf-water",
+      "kind": "Local services",
+      "scope": "San Francisco"
+    },
+    "sf-bill": {
+      "title": "SFPUC water & sewer bills",
+      "phones": [
+        {
+          "number": "14155513000"
+        }
+      ],
+      "detail": "Ask about your bill or a payment plan. Available arrangements and eligibility depend on your account; this pack does not determine eligibility.",
+      "source": "sf-bill",
+      "kind": "Local services",
+      "scope": "San Francisco"
+    },
+    "davis-nonemergency": {
+      "title": "Davis police non-emergency",
+      "phones": [
+        {
+          "number": "15307475400"
+        }
+      ],
+      "detail": "For police matters that do not require emergency response. This line applies to the city jurisdiction, not the whole county.",
+      "source": "davis-contact",
+      "kind": "Non-emergency",
+      "scope": "Davis"
+    },
+    "sf-nonemergency": {
+      "title": "San Francisco police non-emergency",
+      "phones": [
+        {
+          "number": "14155530123"
+        }
+      ],
+      "detail": "For police matters that do not require emergency response. This line applies to the city jurisdiction, not the whole county.",
+      "source": "sf-police",
+      "kind": "Non-emergency",
+      "scope": "San Francisco"
+    },
+    "la-nonemergency": {
+      "title": "Los Angeles police non-emergency",
+      "phones": [
+        {
+          "number": "18772755273"
+        }
+      ],
+      "detail": "For police matters that do not require emergency response. This line applies to the city jurisdiction, not the whole county.",
+      "source": "la-police",
+      "kind": "Non-emergency",
+      "scope": "Los Angeles"
+    },
+    "sd-nonemergency": {
+      "title": "San Diego police non-emergency",
+      "phones": [
+        {
+          "number": "16195312000"
+        }
+      ],
+      "detail": "For police matters that do not require emergency response. This line applies to the city jurisdiction, not the whole county.",
+      "source": "sd-police",
+      "kind": "Non-emergency",
+      "scope": "San Diego"
+    },
+    "sj-nonemergency": {
+      "title": "San Jose police non-emergency",
+      "phones": [
+        {
+          "number": "14082778900"
+        }
+      ],
+      "detail": "For police matters that do not require emergency response. This line applies to the city jurisdiction, not the whole county.",
+      "source": "sj-police",
+      "kind": "Non-emergency",
+      "scope": "San Jose"
+    },
+    "sac-nonemergency": {
+      "title": "Sacramento police non-emergency",
+      "phones": [
+        {
+          "number": "19168085471"
+        }
+      ],
+      "detail": "For police matters that do not require emergency response. This line applies to the city jurisdiction, not the whole county.",
+      "source": "sac-police",
+      "kind": "Non-emergency",
+      "scope": "Sacramento"
+    },
+    "fresno-nonemergency": {
+      "title": "Fresno police non-emergency",
+      "phones": [
+        {
+          "number": "15596217000"
+        }
+      ],
+      "detail": "For police matters that do not require emergency response. This line applies to the city jurisdiction, not the whole county.",
+      "source": "fresno-police",
+      "kind": "Non-emergency",
+      "scope": "Fresno"
+    },
+    "oakland-nonemergency": {
+      "title": "Oakland police non-emergency",
+      "phones": [
+        {
+          "number": "15107773333"
+        }
+      ],
+      "detail": "For police matters that do not require emergency response. This line applies to the city jurisdiction, not the whole county.",
+      "source": "oakland-police",
+      "kind": "Non-emergency",
+      "scope": "Oakland"
+    },
+    "lb-nonemergency": {
+      "title": "Long Beach police non-emergency",
+      "phones": [
+        {
+          "number": "15624356711"
+        }
+      ],
+      "detail": "For police matters that do not require emergency response. This line applies to the city jurisdiction, not the whole county.",
+      "source": "lb-police",
+      "kind": "Non-emergency",
+      "scope": "Long Beach"
+    },
+    "bakersfield-nonemergency": {
+      "title": "Bakersfield police non-emergency",
+      "phones": [
+        {
+          "number": "16613277111"
+        }
+      ],
+      "detail": "For police matters that do not require emergency response. This line applies to the city jurisdiction, not the whole county.",
+      "source": "bakersfield-police",
+      "kind": "Non-emergency",
+      "scope": "Bakersfield"
+    },
+    "riverside-nonemergency": {
+      "title": "Riverside police non-emergency",
+      "phones": [
+        {
+          "number": "19513542007"
+        }
+      ],
+      "detail": "For police matters that do not require emergency response. This line applies to the city jurisdiction, not the whole county.",
+      "source": "riverside-police",
+      "kind": "Non-emergency",
+      "scope": "Riverside"
+    }
+  },
+  "statewide": [
+    "crisis",
+    "poison",
+    "domestic-violence",
+    "sexual-assault",
+    "disaster-distress",
+    "highway",
+    "211-routing"
+  ],
+  "countyContacts": {
+    "01": [
+      "211-18888869660"
+    ],
+    "02": [],
+    "03": [],
+    "04": [
+      "211-18669163566"
+    ],
+    "05": [],
+    "06": [],
+    "07": [
+      "211-18008332900"
+    ],
+    "08": [],
+    "09": [],
+    "10": [
+      "211-18665594211"
+    ],
+    "11": [
+      "211-18558391175"
+    ],
+    "12": [
+      "211-18774606000"
+    ],
+    "13": [
+      "211-18002270997"
+    ],
+    "14": [],
+    "15": [
+      "211-18002732275"
+    ],
+    "16": [
+      "211-18778649290"
+    ],
+    "17": [],
+    "18": [],
+    "19": [
+      "211-18003396993"
+    ],
+    "20": [],
+    "21": [
+      "211-18002736222"
+    ],
+    "22": [
+      "211-18442877400"
+    ],
+    "23": [],
+    "24": [
+      "211-18442877400"
+    ],
+    "25": [],
+    "26": [],
+    "27": [
+      "211-18338141211"
+    ],
+    "28": [
+      "211-18002736222"
+    ],
+    "29": [
+      "211-18333425211"
+    ],
+    "30": [
+      "211-18886004357"
+    ],
+    "31": [
+      "211-18333425211"
+    ],
+    "32": [
+      "211-18446520822"
+    ],
+    "33": [
+      "211-18004641123"
+    ],
+    "34": [
+      "211-18445461464"
+    ],
+    "35": [
+      "211-18002736222"
+    ],
+    "36": [
+      "211-18004641123"
+    ],
+    "37": [
+      "211-18583001211"
+    ],
+    "38": [
+      "211-18002736222"
+    ],
+    "39": [
+      "211-18004369997"
+    ],
+    "40": [
+      "211-18005498989"
+    ],
+    "41": [
+      "211-18002736222"
+    ],
+    "42": [
+      "211-18004001572"
+    ],
+    "43": [
+      "211-18668963587"
+    ],
+    "44": [
+      "211-18317134111"
+    ],
+    "45": [
+      "211-18552117822"
+    ],
+    "46": [],
+    "47": [
+      "211-18449870590"
+    ],
+    "48": [
+      "211-18002736222"
+    ],
+    "49": [
+      "211-18003259604"
+    ],
+    "50": [
+      "211-18772117826"
+    ],
+    "51": [],
+    "52": [
+      "211-18669638182"
+    ],
+    "53": [],
+    "54": [
+      "211-18002839323"
+    ],
+    "55": [
+      "211-18889847506"
+    ],
+    "56": [
+      "211-18003399597"
+    ],
+    "57": [
+      "yolo-211"
+    ],
+    "58": []
+  },
+  "cityContacts": {
+    "57026": [
+      "davis-nonemergency",
+      "davis-water",
+      "davis-bill",
+      "davis-contact",
+      "pge-outage"
+    ],
+    "38001": [
+      "sf-nonemergency",
+      "sf-311",
+      "sf-water",
+      "sf-bill",
+      "pge-outage"
+    ],
+    "19050": [
+      "la-nonemergency"
+    ],
+    "37060": [
+      "sd-nonemergency"
+    ],
+    "43060": [
+      "sj-nonemergency"
+    ],
+    "34060": [
+      "sac-nonemergency"
+    ],
+    "10060": [
+      "fresno-nonemergency"
+    ],
+    "01060": [
+      "oakland-nonemergency"
+    ],
+    "19060": [
+      "lb-nonemergency"
+    ],
+    "15021": [
+      "bakersfield-nonemergency"
+    ],
+    "33050": [
+      "riverside-nonemergency"
+    ]
+  },
+  "cityNotes": {
+    "57026": "211 and Alert Yolo cover Yolo County. City water, repair and billing numbers below apply to Davis city services, not every Yolo County address or UC Davis campus service.",
+    "38001": "For the City and County of San Francisco. Utility contacts apply only to the provider on your bill; this is not a directory for the whole Bay Area.",
+    "19050": "City police contact applies within Los Angeles jurisdiction. Other local agency and utility contacts have not been checked for this city.",
+    "37060": "City police contact applies within San Diego jurisdiction. Other local agency and utility contacts have not been checked for this city.",
+    "43060": "City police contact applies within San Jose jurisdiction. Other local agency and utility contacts have not been checked for this city.",
+    "34060": "City police contact applies within Sacramento jurisdiction. Other local agency and utility contacts have not been checked for this city.",
+    "10060": "City police contact applies within Fresno jurisdiction. Other local agency and utility contacts have not been checked for this city.",
+    "01060": "City police contact applies within Oakland jurisdiction. Other local agency and utility contacts have not been checked for this city.",
+    "19060": "City police contact applies within Long Beach jurisdiction. Other local agency and utility contacts have not been checked for this city.",
+    "15021": "City police contact applies within Bakersfield jurisdiction. Other local agency and utility contacts have not been checked for this city.",
+    "33050": "City police contact applies within Riverside jurisdiction. Other local agency and utility contacts have not been checked for this city."
+  },
+  "alerts": {
+    "57026": {
+      "name": "Alert Yolo",
+      "instruction": "Before going offline, use the County's alert page to choose a signup method. Its SMS-only option is to text YOLO to 888777. Delivery needs mobile service and is not guaranteed.",
+      "source": "yolo-alert"
+    },
+    "38001": {
+      "name": "AlertSF",
+      "instruction": "Before going offline, sign up for AlertSF using the City's instructions. Its SMS option is to text your ZIP code to 888777. Delivery needs mobile service and is not guaranteed.",
+      "source": "sf-alert"
+    }
+  }
 }

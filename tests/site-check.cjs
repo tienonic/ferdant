@@ -8,6 +8,7 @@ const checkPortal = require('./portal.cjs');
 const checkAccessibility = require('./accessibility.cjs');
 const checkCostPreview = require('./cost-preview.cjs');
 const checkOffline = require('./offline.cjs');
+const checkPhoneDirectory = require('./phone-directory.cjs');
 const base = process.env.SITE_URL || 'http://127.0.0.1:4173';
 const production = process.env.SITE_MODE === 'production';
 const urls = [...fs.readFileSync('sitemap.xml','utf8').matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).concat('/404.html');
@@ -45,6 +46,7 @@ function browserPath() {
    await page.goto(base+'/');await page.keyboard.press('Tab');assert.equal(await page.locator(':focus').innerText(),'Skip to content');await page.keyboard.press('Enter');assert.equal(await page.locator(':focus').getAttribute('id'),'main');
    await page.evaluate(()=>document.fonts.ready);const loadedFonts=await page.evaluate(()=>[...document.fonts].filter(f=>f.status==='loaded').map(f=>f.family));assert(loadedFonts.includes('Newsreader'));assert(loadedFonts.includes('Public Sans'));
    await checkPortal(page);
+   await checkPhoneDirectory(page,width);
    await checkCostPreview(page,width);
    await checkAccessibility(page,width);
    await page.getByRole('navigation',{name:'Quick tools'}).getByRole('link',{name:'Compare a bill'}).click();

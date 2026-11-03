@@ -52,6 +52,8 @@ if (portalQuery) {
  filterPortal();
 }
 
+for (const link of document.querySelectorAll('a[href="#cost-preview"]')) link.addEventListener('click', () => {const workspace=document.querySelector('.cost-workspace');if(workspace)workspace.open=true;});
+
 const monthlyCost = document.querySelector('#monthly-cost');
 if (monthlyCost) {
  const months = document.querySelector('#cost-months');

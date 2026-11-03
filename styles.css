@@ -455,7 +455,6 @@ input::placeholder { color: #667480; }
 .portal-heading { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: 25px 0 22px; }
 .portal-heading h1 { font-size: 35px; letter-spacing: -.025em; line-height: 1.1; margin: 0 0 8px; }
 .portal-heading p { color: var(--muted); font-size: 13px; margin: 0; }
-.portal-heading .offline-home-link { margin-top: 14px; min-height: 44px; padding: 10px 14px; font-size: 13px; }
 .portal-search { width: 410px; max-width: 100%; }
 .portal-search label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 6px; }
 .portal-search > div { display: flex; border: 1px solid var(--cobalt); padding-right: 13px; align-items: center; gap: 13px; background: white; }
@@ -619,37 +618,71 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 }
 
 /* Regional downloads keep the directory small; each saved file carries its own local details. */
-.region-grid, .local-contact-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
-.region-grid { margin: 26px 0 34px; }
+.phone-directory { margin: 8px 0 22px; padding: 18px 0; border-top: 2px solid var(--utilities); border-bottom: 1px solid var(--rule); }
+.phone-heading { display: flex; justify-content: space-between; align-items: start; gap: 20px; }
+.phone-heading h2 { font: 600 21px/1.4 var(--sans); margin: 0 0 5px; }
+.phone-heading p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0; }
+.phone-city-control { width: 340px; max-width: 100%; flex-shrink: 0; }
+.phone-controls { display: flex; gap: 14px; align-items: start; max-width: 100%; }
+.phone-query-control { width: 210px; min-width: 0; }
+.phone-city-control label, .phone-query-control label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.phone-city-control select { width: 100%; min-height: 44px; padding: 9px 30px 9px 10px; font: 14px var(--sans); color: var(--ink); border: 1px solid #71808c; background: white; text-overflow: ellipsis; }
+.phone-query-control input { width: 100%; min-height: 44px; padding: 9px 10px; font: 14px var(--sans); color: var(--ink); border: 1px solid #71808c; background: white; }
+.phone-coverage { font-size: 12px; line-height: 1.65; color: var(--muted); max-width: 110ch; margin: 12px 0; }
+.phone-table { width: 100%; border-collapse: collapse; table-layout: fixed; background: white; }
+.phone-table th:first-child { width: 62%; }
+.phone-table thead { background: var(--wash); }
+.phone-table thead th { padding: 8px 14px; text-align: left; font-size: 12px; font-weight: 600; }
+.phone-table tbody th { text-align: left; font-size: 14px; font-weight: 500; }
+.phone-table tbody th, .phone-table td { border-bottom: 1px solid var(--rule); padding: 5px 14px; vertical-align: middle; overflow-wrap: anywhere; }
+.phone-table tbody th > small { display: block; color: var(--muted); font-size: 11px; font-weight: 400; line-height: 1.5; margin-top: 3px; }
+.phone-method { display: flex; align-items: center; gap: 0 15px; flex-wrap: wrap; }
+.phone-method > small { flex-basis: 100%; font-size: 11px; color: var(--muted); padding-top: 4px; }
+.phone-method a { display: inline-flex; align-items: center; min-height: 44px; color: var(--cobalt); font-size: 16px; white-space: nowrap; }
+.phone-method a.phone-text { font-size: 12px; }
+.phone-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; margin: 12px 0 18px; font-size: 13px; }
+.phone-actions .button { min-height: 44px; padding: 10px 14px; font-size: 13px; }
+.phone-actions > a:not(.button) { display: flex; align-items: center; min-height: 44px; }
+.phone-actions p { flex-basis: 100%; margin: 0; font-size: 12px; color: var(--muted); }
+.phone-actions p:empty { display: none; }
+.phone-footnote { font-size: 11px; line-height: 1.7; color: var(--muted); margin: 12px 0 4px; }
+.phone-source-details { font-size: 13px; line-height: 1.7; }
+.phone-source-details summary { display: list-item; min-height: 44px; padding: 10px 0; color: var(--cobalt); cursor: pointer; }
+.phone-source { max-width: 75ch; border-top: 1px solid var(--rule); padding: 12px 0; }
+.phone-source h3 { font: 600 14px/1.5 var(--sans); margin: 0; }
+.phone-source p { margin: 7px 0; }
+.phone-source .source-review { color: var(--muted); font-size: 11px; }
+.phone-source a { overflow-wrap: anywhere; }
+.cost-workspace { border-bottom: 1px solid var(--rule); padding: 8px 0; margin-bottom: 8px; }
+.cost-workspace > summary { color: var(--cobalt); font-size: 14px; min-height: 44px; padding: 11px 0; cursor: pointer; }
+.cost-workspace .cost-preview { border-bottom: 0; }
+@media (max-width: 1050px) { .phone-controls { display: block; } .phone-query-control { width: 340px; max-width: 100%; margin-top: 12px; } }
+@media (max-width: 700px) {
+ .phone-heading { display: block; }
+ .phone-city-control { width: 100%; margin-top: 16px; }
+ .phone-query-control { width: 100%; }
+ .phone-query-control input { font-size: 16px; }
+ .phone-city-control select { font-size: 16px; }
+ .phone-heading h2 { font-size: 20px; }
+ .phone-table th:first-child { width: 48%; }
+ .phone-table thead th, .phone-table tbody th, .phone-table td { padding-left: 8px; padding-right: 8px; }
+ .phone-table tbody th { font-size: 15px; }
+ .phone-method { gap: 0 8px; }
+ .phone-method a { font-size: 16px; }
+ .phone-method a.phone-text { font-size: 12px; }
+}
 .download-intro { padding: 25px 0 10px; }
 .download-intro h1 { font-size: 40px; margin: 0 0 12px; }
 .download-intro p { font-size: 16px; line-height: 1.7; color: var(--muted); max-width: 65ch; margin: 0; }
 .download-page { padding-bottom: 32px; }
 .download-page > p { font-size: 13px; color: var(--muted); line-height: 1.7; }
-.download-page .region-grid { max-width: 900px; }
 .download-page > a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; margin-top: 14px; }
 .download-page .offline-detail { max-width: 900px; }
-.region-card { padding: 22px; border: 1px solid var(--rule); background: white; min-width: 0; }
-.region-card h2 { font: 600 19px/1.4 var(--sans); margin: 0 0 12px; }
-.region-card p { font-size: 14px; line-height: 1.65; }
-.region-card .region-includes { color: var(--muted); }
-.region-card .button { font-size: 13px; white-space: normal; text-align: left; }
-.region-preview-link { display: block; width: fit-content; min-height: 44px; padding-top: 13px; font-size: 13px; }
 .offline-notice { padding: 18px 22px; background: var(--wash); border-left: 3px solid var(--utilities); margin-top: 20px; }
 .offline-notice strong { font-size: 16px; }
 .offline-notice p, .offline-notice nav { font-size: 13px; line-height: 1.7; margin: 8px 0 0; }
 .offline-notice nav { display: flex; flex-wrap: wrap; gap: 10px 24px; }
 .offline-notice nav a { min-height: 44px; display: flex; align-items: center; }
-.offline-local { padding: 12px 0 24px; }
-.offline-local h2, .offline-guides h2 { font-size: 30px; margin: 0 0 12px; }
-.offline-local > p, .offline-guides > p { font-size: 14px; line-height: 1.7; color: var(--muted); }
-.local-contact-grid { margin: 20px 0; }
-.local-contact { padding: 18px; background: white; border: 1px solid var(--rule); min-width: 0; }
-.local-contact h3 { font: 600 16px/1.5 var(--sans); margin: 0 0 10px; }
-.local-phones { display: flex; flex-wrap: wrap; gap: 0 20px; }
-.local-phones a { display: flex; align-items: center; min-height: 44px; color: var(--cobalt); font-size: 18px; }
-.local-contact p { font-size: 13px; line-height: 1.7; color: var(--muted); }
-.local-source { font-size: 12px; overflow-wrap: anywhere; }
 .offline-detail { padding: 16px 0; border-top: 1px solid var(--rule); font-size: 14px; line-height: 1.8; }
 .offline-detail summary { min-height: 44px; padding: 8px 0; font-weight: 600; cursor: pointer; }
 .offline-detail p, .offline-detail li { max-width: 75ch; }
@@ -657,8 +690,6 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 .offline-guides { padding: 24px 0; }
 .font-licenses pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; }
 @media (max-width: 700px) {
- .region-grid, .local-contact-grid { grid-template-columns: 1fr; }
- .region-card { padding: 18px; }
  .offline-notice { padding: 15px; }
 }
 
@@ -734,5 +765,5 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
   .offline-detail:not(.font-licenses) > * { display: block !important; }
   .offline-detail:not(.font-licenses) > summary { list-style: none; }
   .font-licenses { display: none; }
-  .local-contact { break-inside: avoid; }
+  .phone-table tr { break-inside: avoid; }
 }

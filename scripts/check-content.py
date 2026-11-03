@@ -35,15 +35,25 @@ report['directory'] = {'resources': len(directory_urls), 'communities': 5, 'tool
 regional = json.loads((root / 'content/regions.json').read_text(encoding='utf-8'))
 regional_date = datetime.date.fromisoformat(regional['checked'])
 assert regional_date <= today
-assert len({region['slug'] for region in regional['regions']}) == len(regional['regions'])
-for region in regional['regions']:
-    assert region['name'] and region['scope'] and region['contacts']
-    for entry in [*region['contacts'], region['alert']]:
-        source = regional['sources'][entry['source']]
-        assert urlsplit(source['url']).scheme == 'https' and source['review']
-    for contact in region['contacts']:
-        assert contact['detail'] and all(phone['label'] and phone['value'].lstrip('+').isdigit() for phone in contact['phones'])
-report['offlineRegions'] = {'regions': [region['slug'] for region in regional['regions']], 'sourceChecked': regional['checked']}
+cities = json.loads((root / 'content/california-cities.json').read_text(encoding='utf-8'))
+assert regional['schemaVersion'] == 2 and cities['state'] == regional['state'] == 'CA'
+city_ids = {row[0] for row in cities['cities']}
+assert len(city_ids) == len(cities['cities'])
+assert len(cities['counties']) == 58
+assert all(row[2] in cities['counties'] for row in cities['cities'])
+assert set(regional['cityContacts']) <= city_ids
+assert set(regional['countyContacts']) == set(cities['counties'])
+assert '911' not in regional['numbers']
+assert len({n['tel'] for n in regional['numbers'].values()}) == len(regional['numbers']), 'Store each number once.'
+for number in regional['numbers'].values():
+    assert number['label'] and number['tel'].lstrip('+').isdigit()
+for contact in regional['contacts'].values():
+    source = regional['sources'][contact['source']]
+    assert urlsplit(source['url']).scheme == 'https' and source['review']
+    assert contact['detail'] and all(phone['number'] in regional['numbers'] for phone in contact['phones'])
+for ids in [regional['statewide'], *regional['countyContacts'].values(), *regional['cityContacts'].values()]:
+    assert len(ids) == len(set(ids)) and all(key in regional['contacts'] for key in ids)
+report['offlineRegions'] = {'state': 'CA', 'cities': len(city_ids), 'counties': len(cities['counties']), 'cityAgencyCoverage': len(regional['cityContacts']), 'countyAlternatePhoneCoverage': sum(bool(ids) for ids in regional['countyContacts'].values()), 'uniqueNumbers': len(regional['numbers']), 'sourceChecked': regional['checked']}
 if (today - regional_date).days > 90:
     report['sourceReviewNeeded'].append('regional-offline-information')
 if (today - directory_checked).days > 90:
