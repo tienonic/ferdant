@@ -19,6 +19,15 @@
  routeControl.innerHTML='<label><input type="checkbox" id="atlas-routes-toggle" checked><span class="atlas-route-swatch" aria-hidden="true"></span>Evacuation routes</label><p id="atlas-route-status" role="status"></p>';
  root.querySelector('.atlas-map-frame').before(routeControl);
  const routeToggle=routeControl.querySelector('input'),routeStatus=routeControl.querySelector('p');
+ const layerLoading=document.createElement('div');layerLoading.className='atlas-layer-loading';layerLoading.hidden=true;layerLoading.setAttribute('role','status');layerLoading.setAttribute('aria-live','polite');
+ layerLoading.innerHTML='<span class="atlas-loading-spinner" aria-hidden="true"></span><strong></strong><span>You can choose another layer while this loads.</span>';
+ root.querySelector('.atlas-map-frame').append(layerLoading);
+ let loadingDelay;
+ function stopLayerLoading(){clearTimeout(loadingDelay);layerLoading.hidden=true;root.querySelector('#resource-map').setAttribute('aria-busy','false');}
+ function startLayerLoading(label,run){
+  stopLayerLoading();layerLoading.classList.remove('has-map-data');layerLoading.querySelector('strong').textContent='Loading '+label+' map…';root.querySelector('#resource-map').setAttribute('aria-busy','true');
+  loadingDelay=setTimeout(()=>{if(run===version)layerLoading.hidden=false;},180);
+ }
  let everydayItems=[];
  const mapSummary=document.createElement('div');mapSummary.className='atlas-map-summary';mapSummary.hidden=true;
  mapSummary.innerHTML='<p id="atlas-map-count" role="status"></p><button type="button" id="atlas-fit-resources">Show all resources</button>';
@@ -315,6 +324,7 @@
   finally{clearTimeout(timer);}
  }
  function renderLayer(){
+  stopLayerLoading();
   controller?.abort();hazardController?.abort();hazardGroup?.clearLayers();const run=++version;limit=active==='everyday'?8:4;resourceFilter=active==='everyday'?'all':policy().default;shelterItems=[];feedStatus.textContent='';root.querySelector('#atlas-resource-filters').open=false;
   everyday.setAttribute('aria-pressed',String(active==='everyday'));choices.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.disaster===active)));
   root.querySelector('#atlas-hazard-legend').replaceChildren();root.querySelector('#atlas-layer-status').textContent='';root.querySelector('#atlas-layer-credit').textContent='';root.dataset.hazardLoading='false';
@@ -337,19 +347,29 @@
   const message=root.querySelector('#atlas-layer-status'),legend=root.querySelector('#atlas-hazard-legend');
   if(!map||!cityBounds){message.textContent='The interactive overlay could not load. The plan and official guidance remain available.';return;}
   root.dataset.hazardLoading='true';message.textContent=plan.layers.length?'Loading the official map layer…':'This plan has guidance; a verified overlay is not included yet.';
+  if(plan.layers.length)startLayerLoading(plan.label,run);
   hazardController=new AbortController();const requestController=hazardController,timer=setTimeout(()=>requestController.abort(new DOMException('GIS request timed out','TimeoutError')),18000),key=selected.key,id=active;
+  const drawnParts=new Set(),legendLabels=new Set(),paints=[],tileNotes=new Map();let completeEntry;
+  const isCurrent=()=>run===version&&id===active&&key===selected?.key;
+  const showStatus=()=>{if(isCurrent()&&completeEntry)message.textContent=disasters.description(completeEntry)+[...tileNotes.values()].filter(Boolean).map(note=>' '+note).join('');};
+  const paint=part=>{
+   if(!isCurrent()||drawnParts.has(part.id))return;drawnParts.add(part.id);
+   const drawn=disasters.draw({parts:[part]},map,hazardGroup,note=>{tileNotes.set(part.id,note);showStatus();},requestController.signal);
+   for(const item of drawn.legend)if(!legendLabels.has(item.label)){legendLabels.add(item.label);const span=document.createElement('span'),swatch=document.createElement('i');swatch.style.backgroundColor=item.color;swatch.setAttribute('aria-hidden','true');span.append(swatch,document.createTextNode(item.label));legend.append(span);}
+   paints.push(drawn.ready.then(()=>{if(isCurrent()&&(part.type!=='geojson'||part.data.features.length)){layerLoading.classList.add('has-map-data');layerLoading.querySelector('strong').textContent='Loading remaining '+plan.label.toLowerCase()+' detail…';}}));
+  };
   try{
-   const b=cityBounds,entry=await disasters.load(id,key,[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()],requestController.signal);
+   const b=cityBounds,entry=await disasters.load(id,key,[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()],requestController.signal,paint);
    if(run!==version||id!==active||key!==selected?.key)return;
-   const showStatus=(tileNote='')=>{if(run===version&&id===active&&key===selected?.key)message.textContent=disasters.description(entry)+(tileNote?' '+tileNote:'');};
-   const drawn=disasters.draw(entry,map,hazardGroup,showStatus);
-   for(const item of drawn.legend){const span=document.createElement('span'),swatch=document.createElement('i');swatch.style.backgroundColor=item.color;swatch.setAttribute('aria-hidden','true');span.append(swatch,document.createTextNode(item.label));legend.append(span);}
+   completeEntry=entry;entry.parts.forEach(paint);
    showStatus();
    root.querySelector('#atlas-layer-credit').textContent=[...new Set(entry.parts.map(p=>disasters.registry.layers[p.id]?.credit).filter(Boolean))].join(' · ');
+   await Promise.all(paints);
   }catch(error){if(run===version)message.textContent='The GIS layer is unavailable or timed out. Use the short plan and official map; missing data does not establish safety.';}
-  finally{clearTimeout(timer);if(run===version)root.dataset.hazardLoading='false';}
+  finally{clearTimeout(timer);if(run===version){root.dataset.hazardLoading='false';stopLayerLoading();}}
  }
  async function update(){
+  stopLayerLoading();
   const run=++version;controller?.abort();hazardController?.abort();selected=point(select.value);everydayItems=[];routeData=null;routeGroup?.clearLayers();root.hidden=!selected;if(!selected)return;
   controls.forEach(control=>{control.disabled=true;});root.setAttribute('aria-busy','true');
   shard=null;regionalServices=[];current=[];boundary?.clearLayers();layerGroup?.clearLayers();hazardGroup?.clearLayers();highlight?.clearLayers();list.replaceChildren();root.querySelector('#atlas-resource-options').replaceChildren();root.querySelector('#atlas-resource-filters').open=false;feedStatus.textContent='';

@@ -81,29 +81,51 @@
   const dataUrl=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(blob);});
   return {id,type:'image',dataUrl,extent,...dates};
  }
- async function load(id,key,bounds,signal){
+ function validPart(p){
+  const s=registry.layers[p.id];if(!s?.live)return true;
+  if(p.retrieved&&Date.now()-Date.parse(p.retrieved)>=300000)return false;
+  if(p.valid)return Date.parse(p.valid)+86400000>Date.now()&&Date.now()-Date.parse(p.issued)<172800000;
+  if(p.forecast){const match=p.forecast.target.match(/^([A-Za-z]{3}) (\d{4})$/),month=match?'JanFebMarAprMayJunJulAugSepOctNovDec'.indexOf(match[1])/3:-1;return match&&month>=0&&Date.UTC(Number(match[2]),month+1,1)>Date.now();}
+  return p.data.features.every(f=>f.properties.expires>Date.now());
+ }
+ async function load(id,key,bounds,signal,onPart=()=>{}){
   const plan=plans.get(id);if(!plan)return {parts:[],issues:[],unavailable:true};
   const cacheKey=key+':'+id,prior=cache.get(cacheKey),live=plan.layers.some(k=>registry.layers[k].live);
   if(offline)return prior||{key,plan:id,parts:[],issues:['This layer was not saved for this city. Open the official source when online.'],unavailable:true};
-  const validCached=prior?.parts.every(p=>{
-   const s=registry.layers[p.id];if(!s?.live)return true;
-   if(p.valid)return Date.parse(p.valid)+86400000>Date.now()&&Date.now()-Date.parse(p.issued)<172800000;
-   if(p.forecast){const match=p.forecast.target.match(/^([A-Za-z]{3}) (\d{4})$/),month=match?'JanFebMarAprMayJunJulAugSepOctNovDec'.indexOf(match[1])/3:-1;return match&&month>=0&&Date.UTC(Number(match[2]),month+1,1)>Date.now();}
-   return p.data.features.every(f=>f.properties.expires>Date.now());
-  });
-  if(prior&&!prior.unavailable&&!prior.issues.length&&validCached&&(!live||Date.now()-Date.parse(prior.retrieved)<300000))return prior;
+  const sameBounds=e=>JSON.stringify(e.bounds)===JSON.stringify(bounds);
+  if(prior&&!prior.unavailable&&!prior.issues.length&&sameBounds(prior)&&prior.parts.every(validPart)&&(!live||Date.now()-Date.parse(prior.retrieved)<300000))return prior;
   const results=await Promise.allSettled(plan.layers.map(async layer=>{
-   const source=registry.layers[layer];return source.kind==='tiles'?{id:layer,type:'tiles'}:source.kind==='heat-image'?heat(layer,source,bounds,signal):source.kind==='map-image'?image(layer,source,bounds,signal):vectors(layer,source,bounds,signal);
+   const source=registry.layers[layer];
+   // Reuse the same reviewed source across plans for this exact area. Live
+   // sources retain their five-minute limit and feature/forecast expiry checks.
+   let reused;
+   for(const entry of cache.values())if(entry.key===key&&sameBounds(entry)&&(!source.live||Date.now()-Date.parse(entry.retrieved)<300000)){
+    const match=entry.parts.find(p=>p.id===layer&&validPart(p));if(match){reused={...match,retrieved:match.retrieved||entry.retrieved};break;}
+   }
+   const part=reused||await (source.kind==='tiles'?{id:layer,type:'tiles'}:source.kind==='heat-image'?heat(layer,source,bounds,signal):source.kind==='map-image'?image(layer,source,bounds,signal):vectors(layer,source,bounds,signal));
+   part.retrieved??=new Date().toISOString();
+   if(signal.aborted)throw new DOMException('Layer changed','AbortError');
+   onPart(part);return part;
   }));
   if(signal.aborted&&signal.reason?.name!=='TimeoutError')throw new DOMException('Layer changed','AbortError');
   const parts=[],issues=[];
   results.forEach((result,i)=>{const source=registry.layers[plan.layers[i]];if(result.status==='fulfilled')parts.push(result.value);else issues.push(source.title+': unavailable.');});
-  const entry={key,plan:id,retrieved:new Date().toISOString(),parts,issues,live,unavailable:Boolean(plan.layers.length&&!parts.length)};
+  const entry={key,plan:id,bounds,retrieved:new Date().toISOString(),parts,issues,live,unavailable:Boolean(plan.layers.length&&!parts.length)};
   if(JSON.stringify(entry).length<=10000000)cache.set(cacheKey,entry);
   while(cache.size>18||[...cache.values()].reduce((n,e)=>n+JSON.stringify(e).length,0)>20000000)cache.delete(cache.keys().next().value);return entry;
  }
- function draw(entry,map,group,onTileStatus=()=>{}){
-  const legend=[];let polygons=0;
+ function draw(entry,map,group,onTileStatus=()=>{},signal){
+  const legend=[],pending=[];let polygons=0;
+  function waitForImage(layer,message){
+   pending.push(new Promise(resolve=>{
+    let done=false;const finish=()=>{if(done)return;done=true;clearTimeout(timer);signal?.removeEventListener('abort',abort);resolve();};
+    const abort=()=>{if(signal.reason?.name==='TimeoutError'&&group.hasLayer(layer))onTileStatus(message);finish();};
+    const timer=setTimeout(()=>{if(group.hasLayer(layer))onTileStatus(message);finish();},12000);
+    layer.once('load',finish);layer.once('remove',finish);
+    signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();
+    layer.on('error',()=>{if(group.hasLayer(layer))onTileStatus(message);finish();});
+   }));
+  }
   for(const part of entry.parts){
    const source=registry.layers[part.id];if(!source)continue;
    if(part.type==='tiles'){
@@ -117,11 +139,15 @@
     tiles.on('loading',()=>{failed=false;});
     tiles.on('tileerror',()=>{failed=true;if(group.hasLayer(tiles))onTileStatus('Some fault tiles could not load. Re-select Earthquake to retry, or use the official map.');});
     tiles.on('load',()=>{if(group.hasLayer(tiles))onTileStatus(failed?'Some fault tiles could not load. Re-select Earthquake to retry, or use the official map.':'');});
+    waitForImage(tiles,'Some fault tiles could not load. Re-select Earthquake to retry, or use the official map.');
     tiles.addTo(group);
+    // No tiles are requested when this view is outside the provider coverage.
+    if(!tiles.isLoading())tiles.fire('load');
     legend.push({label:source.title,color:source.color},...(source.legend||[]));
    }else if(part.type==='image'){
     const e=part.extent,sw=L.CRS.EPSG3857.unproject(L.point(e.xmin,e.ymin)),ne=L.CRS.EPSG3857.unproject(L.point(e.xmax,e.ymax));
-    L.imageOverlay(part.dataUrl,L.latLngBounds(sw,ne),{pane:'disaster-planning',className:'disaster-image disaster-'+part.id,opacity:source.opacity??.5,zIndex:source.zIndex??1,interactive:false,alt:source.title+'; see the source description and key below.'}).addTo(group);
+    const overlay=L.imageOverlay(part.dataUrl,L.latLngBounds(sw,ne),{pane:'disaster-planning',className:'disaster-image disaster-'+part.id,opacity:source.opacity??.5,zIndex:source.zIndex??1,interactive:false,alt:source.title+'; see the source description and key below.'});
+    waitForImage(overlay,source.title+': map image could not display. Re-select the layer to retry.');overlay.addTo(group);
     legend.push({label:source.kind==='heat-image'?'HeatRisk: 0 Minimal · 1 Minor · 2 Moderate · 3 Major · 4 Extreme':source.title,color:source.color});
    }else{
     polygons+=part.data.features.length;
@@ -130,7 +156,7 @@
     else legend.push({label:source.title,color:source.color});
    }
   }
-  return {legend:[...new Map(legend.map(x=>[x.label,x])).values()],polygons};
+  return {legend:[...new Map(legend.map(x=>[x.label,x])).values()],polygons,ready:Promise.all(pending)};
  }
  function description(entry){
   if(entry.unavailable)return offline?'Detailed GIS is not saved for this city and plan. The short plan and official source links remain available.':'GIS is unavailable for this area right now. Use the plan and official maps; missing data does not establish safety.';
