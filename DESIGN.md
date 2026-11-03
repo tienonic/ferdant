@@ -18,8 +18,10 @@ not invented savings, claims, testimonials or activity counters.
 
 The previous proposal used a large question beside three numbered guide rows and a second numbered directory.
 That arrangement was repetitive, made small labels do too much work and gave the introduction too much space.
-The current version uses a shorter introduction and a three-task workspace, with one task visible at a time.
-Each task links to its full guide and sources. The directory below uses topic names and scope descriptions without arbitrary numbering.
+The current version is one directory page: five visible topic sections and three visible tool sections.
+Section buttons use native anchors. Desktop keeps the index beside the page; phones put it above the sections.
+Each topic includes its scope, common questions, public resource and community link. Tool sources and scope appear on the homepage too.
+Full guide URLs remain optional detailed reading. Primary use must not require a hub page, library visit or hidden panel.
 
 ## Tokens
 
@@ -41,9 +43,9 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
 ## Layout and components
 
 - Left aligned. Desktop content width is 1192px within 64px side gutters; phone gutters are 22px.
-- The homepage starts with a compact question and a short account-free explanation.
-- Place the three tools in one workspace with accessible tabs, so only the chosen task is visible.
-  Share the implementations with their guide pages. Static guides and cancellation records work without JavaScript.
+- The homepage starts with a compact directory introduction and eight section buttons.
+- Show all five topics and all three tools in the main document. Buttons jump to sections; they never hide the other sections.
+  Share tool implementations with their guide pages. Static content, section links and cancellation records work without JavaScript.
   Explain that matching periods matter and that a difference does not establish the reason for a charge.
 - Give each tool a useful response: an amount still to explain, a record to check next, or a copyable draft.
   Examples are opt-in and explicitly labeled. A full checklist never claims that a company canceled or refunded anything.
@@ -60,7 +62,7 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
 
 Review actual desktop and phone screenshots after layout changes, including narrow 320px screens.
 Check links, focus, forms, empty search, copy behavior, no-JavaScript reading, source dates and metadata.
-Check the demo, negative changes, credits, decimal arithmetic, invalid amounts, keyboard tab controls,
+Check the demo, negative changes, credits, decimal arithmetic, invalid amounts, native section-link focus,
 all cancellation routes, progress, safe text rendering, copying and clearing notes on the homepage and guide pages.
 Shopify remains disabled, absent from the interface and unrequested during page use.
 Do not treat a design audit, screenshots or passing code checks as audience approval, demand or a public release.

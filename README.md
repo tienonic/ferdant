@@ -1,7 +1,7 @@
 # Ferdant website
 
 A porcelain-white and cobalt resource library for the five existing practical-help communities.
-This branch contains an editorial preview: a homepage with three interactive tools, five branch hubs, three complete
+This branch contains an editorial preview: a one-page directory with five topic sections and three interactive tools, five optional branch hubs, three complete
 money-and-paperwork guides, a searchable library, about/source/privacy pages and a custom 404. Guides lead with a short answer,
 four actions and a useful tool or template; longer explanations and sources expand only when needed.
 The three guides are proposed pilot content, not a record of resolved community cases.
@@ -71,7 +71,12 @@ hosting and fee/test decisions; this preview does not create a shop or accept pa
 Read [DESIGN.md](DESIGN.md) before changing the interface. It records the audience, palette, layout,
 type scale and the decisions made using the user's Professor Glitch reference.
 Porcelain white `#fbfcfa`, cobalt `#244b84`, Newsreader headings and Public Sans reading text.
-The homepage offers one tabbed workspace and a directory of all five topics:
+The homepage puts all five topics and the three tools in visible sections. Eight section links scroll within the page;
+the index stays beside the content on desktop and appears at the top on phones. No tool is gated behind a tab or hub visit.
+Each topic shows common questions, a public resource and its Reddit link. Tool scope and source links are available inline.
+Separate guide URLs remain available for optional detail and search discovery.
+
+The three tools are:
 
 - Bill comparison with an opt-in example and a breakdown of the amount still to explain.
 - Cancellation route choices and a record checklist with progress and a next step.

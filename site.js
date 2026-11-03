@@ -17,24 +17,15 @@ if (search) {
 // Reveal enhancements only after the script has loaded. The guides remain plain HTML.
 for (const element of document.querySelectorAll('[data-enhancement]')) element.hidden = false;
 
-const tabs = [...document.querySelectorAll('[role=tab]')];
-function selectTab(tab) {
- for (const item of tabs) {
-  const selected = item === tab;
-  item.setAttribute('aria-selected', String(selected));
-  item.tabIndex = selected ? 0 : -1;
-  document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
+const sectionLinks = [...document.querySelectorAll('.directory-nav nav a')];
+function markSection() {
+ for (const link of sectionLinks) {
+  if (link.getAttribute('href') === location.hash) link.setAttribute('aria-current', 'location');
+  else link.removeAttribute('aria-current');
  }
 }
-for (const tab of tabs) {
- tab.addEventListener('click', () => selectTab(tab));
- tab.addEventListener('keydown', event => {
-  const current = tabs.indexOf(tab);
-  const next = event.key === 'ArrowRight' ? (current + 1) % tabs.length : event.key === 'ArrowLeft' ? (current + tabs.length - 1) % tabs.length : event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : null;
-  if (next === null) return;
-  event.preventDefault(); selectTab(tabs[next]); tabs[next].focus();
- });
-}
+window.addEventListener('hashchange', markSection);
+markSection();
 
 const money = cents => new Intl.NumberFormat('en-US', {style:'currency', currency:'USD'}).format(Math.abs(cents) / 100);
 const readCents = input => {
@@ -70,6 +61,7 @@ if (form) {
   detail.textContent = `Total change: ${diff < 0 ? '−' : '+'}${money(diff)}. Your entries: ${known < 0 ? '−' : '+'}${money(known)}. Remaining: ${remaining < 0 ? '−' : '+'}${money(remaining)}. ` + (remaining === 0 ? 'Matching the arithmetic does not verify the charges.' : remaining * diff < 0 || (diff === 0 && known !== 0) ? 'Your entries go beyond the total change. Recheck the signs, dates and any offsetting credits.' : 'Check this remaining amount against the bill. The bar shows how closely your entries match the total difference.');
  }
  form.addEventListener('submit', event => {event.preventDefault(); if (form.reportValidity()) compare();});
+ form.querySelector('[type=submit]').disabled = false;
  form.addEventListener('reset', event => {
   event.preventDefault();
   for (const input of [...form.querySelectorAll('input'), ...changes]) input.value = '';

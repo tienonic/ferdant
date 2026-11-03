@@ -9,12 +9,21 @@ module.exports = async function checkWidgets(page, width, base) {
   for (const [id, value] of Object.entries(values)) await page.locator(`#change-${id}`).fill(value);
  };
  try {
-  assert.equal(await page.locator('.widget-panel:visible').count(), 1);
+  assert.equal(await page.locator('.directory-topic:visible').count(), 5);
+  assert.equal(await page.locator('.directory-tool:visible').count(), 3);
+  for (const nav of ['The five communities','Quick tools']) {
+   for (const link of await page.getByRole('navigation', {name:nav}).getByRole('link').all()) {
+    const href = await link.getAttribute('href'); assert(href.startsWith('#'));
+    await link.click(); assert.equal(new URL(page.url()).pathname, '/');
+    assert(await page.locator(href).isVisible());
+    assert.equal(await page.locator(':focus').getAttribute('id'), href.slice(1));
+   }
+  }
   await page.getByRole('button', {name:'Try an example'}).click();
   assert(await page.locator('#example-note').isVisible());
   assert.equal(await gap.innerText(), '$3.00 still to check');
   assert.equal(await page.locator('#gap-fill').evaluate(el=>el.style.width), '80%');
-  await page.locator('.workbench').screenshot({path:`screenshots/widgets-bill-${width}.png`});
+  await page.locator('#compare-bill').screenshot({path:`screenshots/widgets-bill-${width}.png`});
 
   await setChanges({credits:'-5'});
   assert.equal(await gap.innerText(), '$8.00 still to check');
@@ -38,11 +47,9 @@ module.exports = async function checkWidgets(page, width, base) {
   assert.equal(await page.locator('#change-service').inputValue(), '');
   assert.equal(await page.locator('#bill-result').innerText(), 'Enter two totals to compare.');
 
-  await page.getByRole('tab', {name:'Compare a bill'}).focus();
-  await page.keyboard.press('ArrowRight');
-  assert.equal(await page.locator(':focus').getAttribute('id'), 'tab-cancel');
-  assert(await page.locator('#panel-cancel').isVisible());
-  assert(!await page.locator('#panel-bill').isVisible());
+  await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Cancel a subscription'}).click();
+  assert(page.url().endsWith('#cancel-subscription'));
+  assert(await page.locator('#compare-bill').isVisible());
   await page.getByLabel('Another platform', {exact:true}).check();
   assert((await page.locator('#cancel-route').innerText()).includes('platform named on your receipt'));
   await page.getByLabel('I’m not sure', {exact:true}).check();
@@ -53,20 +60,19 @@ module.exports = async function checkWidgets(page, width, base) {
   assert.equal(await page.locator('#cancel-progress').getAttribute('value'), '4');
   assert((await page.locator('#cancel-next').innerText()).includes('do not confirm cancellation'));
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth), `Cancellation tool overflows at ${width}`);
-  await page.locator('.workbench').screenshot({path:`screenshots/widgets-cancel-${width}.png`});
+  await page.locator('#cancel-subscription').screenshot({path:`screenshots/widgets-cancel-${width}.png`});
   await page.locator('#cancel-record input').first().uncheck();
   assert.equal(await page.locator('#cancel-count').innerText(), '3 of 4 records checked');
   assert((await page.locator('#cancel-next').innerText()).includes('identify the billing business'));
 
-  await page.getByRole('tab', {name:'Plan a cancellation'}).focus();
-  await page.keyboard.press('End');
-  assert.equal(await page.locator(':focus').getAttribute('id'), 'tab-message');
+  await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Draft a message'}).click();
+  assert(page.url().endsWith('#draft-message'));
   await page.getByLabel('What needs explaining?').fill('A new service fee');
   await page.getByLabel('Important dates or previous contact').fill('Charged November 1; contacted support November 2');
   await page.getByLabel('What would help?').selectOption('correct');
   assert((await page.locator('#built-message').innerText()).includes('correct it if it was applied in error'));
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth), `Message builder overflows at ${width}`);
-  await page.locator('.workbench').screenshot({path:`screenshots/widgets-message-${width}.png`});
+  await page.locator('#draft-message').screenshot({path:`screenshots/widgets-message-${width}.png`});
   const unsafeText = '<img src=x onerror=alert(1)>';
   await page.getByLabel('What needs explaining?').fill(unsafeText);
   assert.equal(await page.locator('#built-message img').count(), 0);
@@ -83,10 +89,10 @@ module.exports = async function checkWidgets(page, width, base) {
   assert.equal(await page.locator('.message-preview .copy-status').innerText(), '');
   assert(await page.evaluate(()=>localStorage.length===0 && sessionStorage.length===0));
   assert.deepEqual(requests, [], 'Widget interaction must not send any request');
-  await page.getByRole('tab', {name:'Draft a message'}).focus();
-  await page.keyboard.press('Home');
-  assert.equal(await page.locator(':focus').getAttribute('id'), 'tab-bill');
-  assert.equal(await page.locator('.widget-panel:visible').count(), 1);
+  await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Compare a bill'}).focus();
+  await page.keyboard.press('Enter');
+  assert.equal(await page.locator(':focus').getAttribute('id'), 'compare-bill');
+  assert.equal(await page.locator('.directory-tool:visible').count(), 3);
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth), `Widgets overflow at ${width}`);
  } finally {
   page.off('request', recordRequest);
