@@ -1515,7 +1515,7 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 /* Location comes first; the offline action stays beside its selector. */
 .location-start, .location-resources, .resource-heading { max-width: 1000px; margin: 0 auto 22px; }
 .location-start { padding: 20px 22px 15px; border: 1px solid #b9c8d5; border-top: 3px solid var(--utilities); background: #f1f7f5; }
-.location-start h2, .location-resources h2, .resource-heading h2 { font: 600 21px/1.4 var(--sans); letter-spacing: -.015em; margin: 0 0 14px; }
+.location-start h1, .location-start h2, .location-resources h2, .resource-heading h2 { font: 600 21px/1.4 var(--sans); letter-spacing: -.015em; margin: 0 0 14px; }
 .location-controls { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap: 14px 24px; align-items: start; }
 .location-controls:not(:has(.phone-actions)) { grid-template-columns: 1fr; }
 .location-controls .phone-city-control { width: 100%; margin: 0; }
@@ -1580,7 +1580,7 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 .resource-heading p { color: var(--muted); font-size: 12px; margin: 0; max-width: 48ch; }
 @media (max-width: 700px) {
  .location-start { padding: 15px 13px 12px; }
- .location-start h2 { font-size: 19px; }
+ .location-start h1, .location-start h2 { font-size: 19px; }
  .location-controls { display: block; }
  .location-controls .phone-actions { margin-top: 12px; }
  .location-start .phone-city-control select { font-size: 16px; }

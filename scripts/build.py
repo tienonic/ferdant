@@ -55,10 +55,10 @@ def directory_topic(b):
   <ul class="portal-list">{entries}</ul><p class="portal-note">{d.NOTES[b['slug']]}</p>{tools}</div>
  </details>'''
 
-def location_start(show_download=True):
+def location_start(show_download=True, heading=2):
  actions=f'<div class="location-controls"><div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><small>One file: phone numbers, maps & tools</small><p id="location-download-status" role="status"></p></div></div>' if show_download else ''
  return f'''<section class="location-start" id="location-start" aria-labelledby="location-title">
- <h2 id="location-title">Start with your location</h2>
+ <h{heading} id="location-title">Start with your location</h{heading}>
  {city_search()}
 {actions}
  <p id="location-summary" role="status">Choose a city or county for checked local contacts. You can browse general resources below.</p>
@@ -85,8 +85,8 @@ def home(local=False):
  sections=''.join(directory_topic(b) for b in c.BRANCHES)
  bill,cancel,message=c.GUIDES
  bill_tool=tool(bill,heading=3)
- intro='<h1 id="local-page-title">California resources</h1><p id="local-page-intro">Checked contacts, public resources and an offline copy.</p>' if local else '<h1>Resources & tools</h1><p>Choose your California location. Find your next step.</p>'
- start=('<details class="change-location"><summary>Change location</summary>'+location_start(show_download=False)+'</details>') if local else location_start()
+ intro='<h1 id="local-page-title">California resources</h1><p id="local-page-intro">Checked contacts, public resources and an offline copy.</p>' if local else '<p>Choose your California location. Find your next step.</p>'
+ start=('<details class="change-location"><summary>Change location</summary>'+location_start(show_download=False)+'</details>') if local else location_start(heading=1)
  page('/local/' if local else '/','Local resources' if local else 'Practical guides for everyday problems','Checked California location resources, shared support numbers, public guides and a downloadable contact-sheet infographic with a complete offline website.' if local else 'A directory of practical resources, tools and California emergency and support phone numbers, with city selection and a downloadable offline copy.',f'''
  <div class="portal-heading"{ ' data-location-page' if local else ' data-location-routing'}><div>{intro}</div></div>
  {start}
