@@ -64,6 +64,7 @@ def build_editions(home, guides, output):
         doc = home.replace('<title>Practical guides for everyday problems | Ferdant</title>', f'<title>{e(region["name"])} — Ferdant offline</title>')
         doc = doc.replace('<link rel="stylesheet" href="/styles.css">', f'<style>{css}</style>')
         doc = doc.replace('<script src="/site.js" defer></script>', '')
+        doc = re.sub(r'<a class="button offline-home-link".*?</a>', '', doc, flags=re.S)
         doc = doc.replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
         csp = "default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'"
         doc = doc.replace('<head>', f'<head><meta http-equiv="Content-Security-Policy" content="{e(csp)}">', 1)

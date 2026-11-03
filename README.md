@@ -109,7 +109,7 @@ polling process or scheduler is included. Private plans, conversations and crede
 
 ## Regional offline editions
 
-Open `/offline/` from the preparedness directory entry. Current downloads cover Davis/Yolo County and
+Use the prominent "Download for offline use" button beneath the homepage title, or the preparedness directory entry, to open `/offline/`. Current downloads cover Davis/Yolo County and
 San Francisco, with city/provider boundaries stated on each edition. Each dated HTML file under `downloads/`
 embeds its CSS, fonts, favicon assets, four tools, three full guides, regional contacts and source notes.
 Open it directly in a browser; no server, install or service worker is required. Native reading also works

@@ -455,6 +455,7 @@ input::placeholder { color: #667480; }
 .portal-heading { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: 25px 0 22px; }
 .portal-heading h1 { font-size: 35px; letter-spacing: -.025em; line-height: 1.1; margin: 0 0 8px; }
 .portal-heading p { color: var(--muted); font-size: 13px; margin: 0; }
+.portal-heading .offline-home-link { margin-top: 14px; min-height: 44px; padding: 10px 14px; font-size: 13px; }
 .portal-search { width: 410px; max-width: 100%; }
 .portal-search label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 6px; }
 .portal-search > div { display: flex; border: 1px solid var(--cobalt); padding-right: 13px; align-items: center; gap: 13px; background: white; }

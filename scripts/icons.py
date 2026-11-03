@@ -24,6 +24,7 @@ GLYPHS = {
  'external': '<path d="M14 3h7v7m0-7L10 14M10 5H4v15h15v-6"/>',
  'expand': '<path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6"/>',
  'down': '<path d="M12 3v17m-6-6 6 6 6-6"/>',
+ 'download': '<path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>',
  'right': '<path d="M3 12h17m-6-6 6 6-6 6"/>',
  'copy': '<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V3H3v13h5"/>',
  'check': '<path d="m4 12 5 5L20 6"/>',
