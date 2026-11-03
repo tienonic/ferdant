@@ -955,6 +955,17 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 @media(max-width: 359px) { .atlas-controls { grid-template-columns: repeat(3,minmax(0,1fr)); } }
 @media(forced-colors: active) { .atlas-choice-symbol,.atlas-choice-check { color: ButtonText; } .atlas-choice[aria-pressed="true"] { border: 2px solid Highlight; box-shadow: none; } }
 .atlas-action-plan { margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid #dce2e4; }
+.atlas-evacuation { margin: 12px 0 18px; padding: 14px; border: 1px solid #adc6cc; border-radius: 6px; background: #edf5f6; }
+.atlas-evacuation h4 { margin: 0 0 6px; color: #203748; font-size: 16px; }
+.atlas-evacuation nav { display: grid; gap: 4px; }
+.atlas-evacuation a { display: flex; align-items: center; min-height: 44px; padding: 7px 10px; background: #fff; border: 1px solid #cdd8de; border-radius: 4px; color: #24568d; font-size: 13px; line-height: 1.4; font-weight: 600; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.atlas-evacuation p { margin: 10px 0 6px; font-size: 12px; line-height: 1.5; color: #3f5663; }
+.atlas-evacuation small { display: block; font-size: 11px; line-height: 1.4; color: #526672; }
+.atlas-route-controls { padding: 8px 14px; border-bottom: 1px solid #dce2e4; background: #fff; }
+.atlas-route-controls label { display: flex; align-items: center; gap: 8px; min-height: 44px; font-size: 14px; font-weight: 600; color: #203748; cursor: pointer; }
+.atlas-route-controls input { width: 18px; height: 18px; accent-color: #a52b77; }
+.atlas-route-swatch { width: 32px; border-top: 4px dashed #a52b77; }
+.atlas-route-controls p { margin: 0 0 6px; font-size: 12px; line-height: 1.5; color: #506472; }
 .disaster-steps { list-style: none; margin: 12px 0 4px; padding: 0; }
 .disaster-steps li { padding: 0 0 12px 13px; border-left: 2px solid #adc6cc; }
 .disaster-steps strong { font-size: 13px; color: #245b65; }

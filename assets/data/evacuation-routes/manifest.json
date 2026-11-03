@@ -1,0 +1,20 @@
+{
+  "checked": "2026-11-03",
+  "publisher": "Yolo County GIS Cooperative",
+  "source": "https://gis.yolocounty.gov/ext/rest/services/Public/Evacuation_Planning/MapServer/2",
+  "query": "https://gis.yolocounty.gov/ext/rest/services/Public/Evacuation_Planning/MapServer/2/query?f=geojson&where=Evac_Route%3D%27Yes%27&outFields=OBJECTID%2CFULLSTREET%2CRoad_Type%2CEvac_Route&outSR=4326&returnGeometry=true&orderByFields=OBJECTID&resultRecordCount=2000",
+  "retrievedUTC": "2026-11-03T11:54:05.432071+00:00",
+  "publisherDate": null,
+  "features": 1308,
+  "sourceCount": 1310,
+  "missingGeometryIds": [
+    1044,
+    1050
+  ],
+  "filter": "Evac_Route='Yes'",
+  "metadataSHA256": "d382045311402030fe20bef39a37c573aaff75f2c868e3b69e29a409e69b823e",
+  "responseSHA256": "f7bb42f51fe144d165d75894af9a10c92a60dfbae443a78fc1e1572e175a1cb4",
+  "projectionSHA256": "e92b37cab66f88e96aafdee0c42935cec2446e2a90b3938a24909186f798fbe8",
+  "credit": "Yolo County GIS Cooperative. Includes City of West Sacramento, City of Woodland, City of Davis, City of Winters. Additional contibutions by UC Davis.",
+  "limits": "County-designated planning roads only. Excludes No and null route flags. No live Status field, closures, direction, address assignment or destination is imported. Publisher edit date was not supplied. Geometry is retained without simplification."
+}

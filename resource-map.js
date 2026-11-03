@@ -12,6 +12,42 @@
  const requested=offline?document.querySelector('meta[name="ferdant-disaster"]')?.content:new URL(location.href).searchParams.get('hazard');
  let map,initPromise,boundary,layerGroup,hazardGroup,highlight,hazardAttribution,active=disasters?.plans.has(requested)?requested:'everyday',version=0,selected,shard,cityBounds,limit=8,current=[],regionalServices=[],serviceUnavailable=false,shelterItems=[],resourceFilter='all',controller,hazardController;
  const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const routeCache=new Map(),routeSnapshot=JSON.parse(document.querySelector('#evacuation-route-snapshot')?.textContent||'{}');
+ if(routeSnapshot.county)routeCache.set(routeSnapshot.county,routeSnapshot);
+ let routeData=null,routeGroup,routeAttribution;
+ const routeControl=document.createElement('div');routeControl.className='atlas-route-controls';
+ routeControl.innerHTML='<label><input type="checkbox" id="atlas-routes-toggle" checked><span class="atlas-route-swatch" aria-hidden="true"></span>Evacuation routes</label><p id="atlas-route-status" role="status"></p>';
+ root.querySelector('.atlas-map-frame').before(routeControl);
+ const routeToggle=routeControl.querySelector('input'),routeStatus=routeControl.querySelector('p');
+ routeToggle.addEventListener('change',()=>drawRoutes());
+ async function loadRoutes(county){
+  const entry=config.evacuation?.routeLayers?.[county];if(!entry)return null;
+  if(routeCache.has(county))return routeCache.get(county);
+  if(offline)return null;
+  const response=await fetch(entry.path,{credentials:'omit'});if(!response.ok)throw Error('Route data unavailable');
+  const data=await response.json();
+  if(data.schema!==1||data.county!==county||data.checked!==entry.checked||data.source!==entry.source||data.type!=='FeatureCollection'||!Array.isArray(data.features)||!data.features.every(f=>f.properties?.Evac_Route==='Yes'&&['LineString','MultiLineString'].includes(f.geometry?.type)))throw Error('Wrong route source or edition');
+  routeCache.set(county,data);return data;
+ }
+ function drawRoutes(){
+  routeGroup?.clearLayers();if(routeAttribution&&map)map.attributionControl.removeAttribution(routeAttribution);routeAttribution=null;
+  const relevant=active==='everyday'||Boolean(config.evacuation?.events[active]);routeControl.hidden=!selected||!relevant;
+  if(!selected||!relevant)return;
+  const entry=config.evacuation?.routeLayers?.[selected.county];routeToggle.disabled=!routeData;
+  if(!entry){routeStatus.textContent='No reviewed evacuation-road geometry for this location yet. See official maps in the disaster plan.';return;}
+  if(!routeData||!map||!cityBounds){routeStatus.textContent=offline?'Evacuation roads were not saved in this copy.':'Evacuation-road data unavailable. Use the official county map.';return;}
+  if(!routeToggle.checked){routeStatus.textContent='County evacuation planning routes hidden. Turn on to show them.';return;}
+  const area=cityBounds.pad(.2),features=routeData.features.filter(f=>{
+   const points=f.geometry.type==='LineString'?f.geometry.coordinates:f.geometry.coordinates.flat();
+   return area.intersects(L.latLngBounds(points.map(p=>[p[1],p[0]])));
+  }),geo={type:'FeatureCollection',features};
+  L.geoJSON(geo,{pane:'evacuation-routes',interactive:false,style:{color:'#fff',weight:8,opacity:.95}}).addTo(routeGroup);
+  L.geoJSON(geo,{pane:'evacuation-routes',style:{className:'evacuation-route',color:'#a52b77',weight:4.5,dashArray:'10 6',opacity:1},onEachFeature:(f,layer)=>{
+   layer.bindPopup('<strong>'+escape(f.properties.FULLSTREET||'County evacuation road')+'</strong><p>County-designated evacuation planning route. Follow current official instructions; this does not confirm the road is open.</p><a href="'+escape(entry.source)+'">Yolo County route source</a><p>Checked '+escape(entry.checked)+'</p>');
+  }}).addTo(routeGroup);
+  routeAttribution='Evacuation planning roads: <a href="'+escape(entry.source)+'">'+escape(entry.publisher)+'</a>';map.attributionControl.addAttribution(routeAttribution);
+  routeStatus.textContent=features.length?'Purple dashed lines: county-designated planning roads. Not live closures or an assigned safe route. Checked '+entry.checked+'.':'The county layer has no route segments in this view. Follow current local instructions.';
+ }
  function point(key){
   const row=places.cities.find(c=>c[0]===key);
   if(row)return {key,name:row[1],county:row[2],lat:row[3],lng:row[4],city:true};
@@ -54,6 +90,7 @@
    if(!offline){const tiles=L.tileLayer(config.tileUrl,{maxZoom:19,keepBuffer:1,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);tiles.on('tileerror',()=>{root.querySelector('#resource-map').dataset.tiles='unavailable';status.textContent='Street tiles unavailable. The city outline, resource pins and list still work.';});}
    boundary=L.layerGroup().addTo(map);layerGroup=L.layerGroup().addTo(map);hazardGroup=L.layerGroup().addTo(map);highlight=L.layerGroup().addTo(map);
    map.createPane('disaster-planning');map.getPane('disaster-planning').style.zIndex=390;
+   map.createPane('evacuation-routes');map.getPane('evacuation-routes').style.zIndex=450;routeGroup=L.layerGroup().addTo(map);
    root.querySelector('#resource-map').dataset.ready='true';
   }).catch(error=>{initPromise=undefined;status.textContent='The map could not load. Use the resource list and official links here.';throw error;});
   return initPromise;
@@ -166,10 +203,22 @@
   root.querySelector('#atlas-legend').innerHTML='<span class="legend-boundary">Approximate boundary</span>'+legend+(visible.some(f=>shard?.buildings?.[f.id])?'<span>Shaded building = estimated outline</span>':'');
   root.dataset.layer=active;
  }
+ function evacuationHTML(){
+  const data=config.evacuation;if(!selected||!data?.events[active])return '';
+  const ids=[...new Set([...(data.cities[selected.key]||[]),...(data.counties[selected.county]||[])])];
+  const sources=ids.map(id=>data.sources[id]);
+  if(!sources.length)sources.push(data.sources.calalerts);
+  if(active==='tsunami')sources.push(data.sources['tsunami-maps']);
+  sources.push(data.sources.caltrans);
+  const links=[...new Map(sources.map(s=>[s.mapURL||s.url,s])).values()].map(s=>'<a href="'+escape(s.mapURL||s.url)+'">'+escape(s.mapLabel||s.title)+'</a>').join('');
+  const note=ids.length?'Look up your address for local zones and instructions. Follow the route officials give for the incident.':'No local route map has been verified for '+selected.name+' in this edition. Use your county emergency instructions.';
+  return '<section class="atlas-evacuation" aria-labelledby="atlas-evacuation-title"><h4 id="atlas-evacuation-title">Evacuation routes &amp; maps</h4><nav aria-label="Official evacuation maps">'+links+'</nav><p>'+escape(note)+(active==='tsunami'?' Tsunami shading is a planning area; follow posted evacuation signs.':'')+'</p><small>Official links · Internet required · Reviewed '+escape(data.checked)+'</small></section>';
+ }
  function guidance(){
   const plan=disasters?.plans.get(active),panel=root.querySelector('#atlas-action-plan');
   root.querySelector('#atlas-guidance').innerHTML=plan?'<strong>'+escape(plan.headline)+'</strong><span>'+escape(plan.note)+'</span>':'<strong>Find a useful place.</strong><span>Select a pin or a name for its address and service details.</span>';
   panel.hidden=!plan;panel.innerHTML=disasters?.planHTML(active)||'';
+  panel.querySelector('.disaster-steps')?.insertAdjacentHTML('beforebegin',evacuationHTML());
   const sources=root.querySelector('#atlas-hazard-sources');sources.replaceChildren();
   if(plan){for(const id of plan.layers){const s=disasters.registry.layers[id],p=document.createElement('p'),a=document.createElement('a');a.href=s.source;a.textContent=s.title;p.append(a,document.createTextNode(' · '+(s.published?s.published+' ('+s.dateMeaning+')':'Publisher date varies or is not supplied')+' · Checked '+s.checked+'. '+s.note));sources.append(p);}}
  }
@@ -208,7 +257,7 @@
    hazardAttribution=publishers.length?'Selected layer: '+[...new Set(publishers)].join(', '):null;
    if(hazardAttribution)map.attributionControl.addAttribution(hazardAttribution);
   }
-  current=staticPlaces();drawPlaces();fit();
+  current=staticPlaces();drawPlaces();fit();drawRoutes();
   if(active==='tsunami')root.querySelector('#atlas-layer-status').textContent=shard?((shard.tsunami||[]).length?'CGS saved tsunami planning areas. Follow posted evacuation signs; unshaded land is not certified safe.':'No tsunami polygons in this county dataset. This is not an all-hazards safety assessment.'):'The detailed tsunami layer is not saved or available for this area. Use the official source.';
   else if(plan)riskLayer(run,plan);
   if(hasShelters())shelters(run);
@@ -231,15 +280,16 @@
   finally{clearTimeout(timer);if(run===version)root.dataset.hazardLoading='false';}
  }
  async function update(){
-  const run=++version;controller?.abort();hazardController?.abort();selected=point(select.value);root.hidden=!selected;if(!selected)return;
+  const run=++version;controller?.abort();hazardController?.abort();selected=point(select.value);routeData=null;routeGroup?.clearLayers();root.hidden=!selected;if(!selected)return;
   controls.forEach(control=>{control.disabled=true;});root.setAttribute('aria-busy','true');
   shard=null;regionalServices=[];current=[];boundary?.clearLayers();layerGroup?.clearLayers();hazardGroup?.clearLayers();highlight?.clearLayers();list.replaceChildren();root.querySelector('#atlas-resource-options').replaceChildren();root.querySelector('#atlas-resource-filters').open=false;feedStatus.textContent='';
   root.querySelector('#resource-map-title').textContent=selected.name+' on the map';status.textContent='Loading the city outline…';
   const county=selected.county;
-  const results=await Promise.allSettled([init(),loadCounty(county),services?services.load(county):Promise.reject(Error('Service reader unavailable'))]);if(run!==version)return;
+  const results=await Promise.allSettled([init(),loadCounty(county),services?services.load(county):Promise.reject(Error('Service reader unavailable')),loadRoutes(county)]);if(run!==version)return;
   controls.forEach(control=>{control.disabled=false;});choices.forEach(button=>{button.disabled=!disasters;});root.removeAttribute('aria-busy');
   shard=results[1].status==='fulfilled'?results[1].value:null;
   regionalServices=results[2].status==='fulfilled'?results[2].value:[];serviceUnavailable=results[2].status!=='fulfilled';
+  routeData=results[3].status==='fulfilled'?results[3].value:null;
   if(!map){renderLayer();return;}
   drawBoundary();status.textContent=!shard?(offline?'Offline overview. This area’s detailed outline and hazard layer were not saved.':'Area data unavailable. The approximate location, resources and source links remain available.'):(offline?'Saved outline and planning zones. Street tiles and shelter status are unavailable offline.':'Choose a pin or a place. City view restores the full area.');
   renderLayer();
@@ -251,12 +301,21 @@
  const sourceList=root.querySelector('#atlas-source-list');
  for(const source of Object.values(config.sources)){const li=document.createElement('li'),a=document.createElement('a');a.href=source.url;a.textContent=source.title;li.append(a,document.createTextNode(' — '+(source.published?'Publisher/data date: '+source.published+'. ':'Publisher date not supplied. ')+source.note));sourceList.append(li);}
  // Export only public county geometry. Never copy map popups, private inputs or a live shelter status.
- window.FerdantResourceMap={get active(){return active;},async directory(key){
+ window.FerdantResourceMap={get active(){return active;},async routeMap(key){
+  const p=point(key||'');if(!p)return null;
+  const [data,area]=await Promise.all([loadRoutes(p.county).catch(()=>null),loadCounty(p.county).catch(()=>null)]);if(!data)return null;
+  const boundary=p.city?(area?.cities[p.key]||[]):[countyGeometry(p.county)].filter(Boolean);if(!boundary.length)return null;
+  const points=boundary.flatMap(g=>rings(g).flat(2)),xs=points.map(c=>c[0]),ys=points.map(c=>c[1]);
+  const west=Math.min(...xs),east=Math.max(...xs),south=Math.min(...ys),north=Math.max(...ys),dx=(east-west)*.2,dy=(north-south)*.2;
+  const bounds=[west-dx,south-dy,east+dx,north+dy];
+  const features=data.features.filter(f=>{const points=f.geometry.type==='LineString'?f.geometry.coordinates:f.geometry.coordinates.flat();return Math.min(...points.map(p=>p[0]))<=bounds[2]&&Math.max(...points.map(p=>p[0]))>=bounds[0]&&Math.min(...points.map(p=>p[1]))<=bounds[3]&&Math.max(...points.map(p=>p[1]))>=bounds[1];});
+  return {features,boundary,bounds,checked:data.checked,source:data.source,publisher:config.evacuation.routeLayers[p.county].publisher};
+ },async directory(key){
   const p=point(key);if(!p)throw Error('Choose a California city or county');
   const results=await Promise.allSettled([loadCounty(p.county),services?services.load(p.county):Promise.reject(Error('Service reader unavailable'))]);
   const area=results[0].status==='fulfilled'?results[0].value:null,extra=results[1].status==='fulfilled'?results[1].value:[],geoms=p.city?(area?.cities[p.key]||[]):[countyGeometry(p.county)].filter(Boolean);
   const items=[...config.facilities,...extra];
   return {place:p,items:services?services.nearby(items,p,f=>contains(geoms,f.lng,f.lat),{regional:results[1].status==='fulfilled'}):items.filter(f=>f.county===p.county),regionalAvailable:results[1].status==='fulfilled',geometryAvailable:Boolean(area)};
- },async embed(doc,key){const p=point(key),saved=p&&await loadCounty(p.county);const target=doc.querySelector('#city-map-snapshot');if(target)target.textContent=JSON.stringify(saved||{}).replace(/</g,'\\u003c');if(p)await services?.embed(doc,p.county);await disasters?.embed(doc,key,active);}};
+ },async embed(doc,key){const p=point(key),saved=p&&await loadCounty(p.county);const target=doc.querySelector('#city-map-snapshot');if(target)target.textContent=JSON.stringify(saved||{}).replace(/</g,'\\u003c');if(p){await services?.embed(doc,p.county);const routes=await loadRoutes(p.county).catch(()=>null);let node=doc.querySelector('#evacuation-route-snapshot');if(!node){node=doc.createElement('script');node.type='application/json';node.id='evacuation-route-snapshot';doc.body.prepend(node);}node.textContent=JSON.stringify(routes||{}).replace(/</g,'\\u003c');}await disasters?.embed(doc,key,active);}};
  document.addEventListener('ferdant:location',update);update();
 })();

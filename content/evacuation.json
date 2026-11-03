@@ -2,6 +2,14 @@
   "checked": "2026-11-03",
   "scope": "Reviewed official route-planning and incident-information entry points, not an address-level route assignment or a complete statewide route inventory.",
   "shared": ["calalerts", "caltrans"],
+  "routeLayers": {
+    "57": {
+      "path": "/assets/data/evacuation-routes/57.json",
+      "source": "https://gis.yolocounty.gov/ext/rest/services/Public/Evacuation_Planning/MapServer/2",
+      "publisher": "Yolo County GIS Cooperative",
+      "checked": "2026-11-03"
+    }
+  },
   "counties": {
     "12": ["humboldt"],
     "19": ["los-angeles"],
@@ -49,6 +57,8 @@
     },
     "yolo": {
       "title": "Yolo County evacuation zones and instructions",
+      "mapURL": "https://protect.genasys.com/search",
+      "mapLabel": "Open Yolo evacuation zone map",
       "url": "https://www.yolocounty.gov/government/general-government-departments/office-of-emergency-services/emergency-preparedness-resources/evacuation",
       "kind": "Local zone lookup and evacuation guidance",
       "description": "Find your address in the county-linked Genasys map, note your zone and read the zone information. Follow the route in official incident instructions; not every incident uses the map.",
@@ -58,6 +68,8 @@
     },
     "los-angeles": {
       "title": "Los Angeles County emergency information",
+      "mapURL": "https://protect.genasys.com/search",
+      "mapLabel": "Open Los Angeles evacuation zone map",
       "url": "https://lacounty.gov/emergency/",
       "kind": "Official incident updates and zone-status link",
       "description": "Read incident instructions and follow the county's Genasys link to check your address. Zone status is not a street-by-street evacuation route.",
@@ -67,6 +79,8 @@
     },
     "san-diego": {
       "title": "San Diego County emergency map",
+      "mapURL": "https://www.arcgis.com/apps/instant/basic/index.html?appid=6cc849e5b689403792acb4cfec90551b",
+      "mapLabel": "Open San Diego incident routes & map",
       "url": "https://www.alertsandiego.org/en-us/preparedness/maps.html",
       "kind": "Live incident map - internet required",
       "description": "Open Emergency Map for agency-published evacuation routes, notification areas and traffic controls when supplied for an incident. Boundaries can lag or change; follow official instructions.",
@@ -76,6 +90,8 @@
     },
     "san-mateo": {
       "title": "San Mateo County evacuation-zone status",
+      "mapURL": "https://protect.genasys.com/search",
+      "mapLabel": "Open San Mateo evacuation zone map",
       "url": "https://www.smcgov.org/dem/genasys-zonehaven",
       "kind": "Official zone-status link",
       "description": "Use the county's Genasys link to look up your address and zone. Supplement it with official alerts; a zone boundary does not specify which road to use.",
@@ -84,6 +100,8 @@
     },
     "humboldt": {
       "title": "Humboldt County evacuation mapping",
+      "mapURL": "https://protect.genasys.com/search",
+      "mapLabel": "Open Humboldt evacuation zone map",
       "url": "https://www.humboldtgov.org/3219/Evacuation-Mapping",
       "kind": "Official evacuation-zone map link",
       "description": "Find your zone through the county-linked map and check Humboldt Alert instructions. Use the route officials give; the saved book contains no active zone status.",
@@ -92,6 +110,8 @@
     },
     "santa-cruz-county": {
       "title": "Santa Cruz County evacuation information",
+      "mapURL": "https://protect.genasys.com/search",
+      "mapLabel": "Find your Santa Cruz evacuation zone",
       "url": "https://www.santacruzcountyca.gov/OR3/Response/Evacuations.aspx",
       "kind": "County evacuation planning and incident links",
       "description": "Check county evacuation information and the official zone map for your address. Do not use a neighboring city's route sheet for your location.",
@@ -100,14 +120,16 @@
     },
     "santa-cruz-city": {
       "title": "City of Santa Cruz evacuation route sheets",
+      "mapLabel": "Open Santa Cruz evacuation route sheets",
       "url": "https://www.santacruzca.gov/Services/Public-and-Environmental-Safety/Emergency-Management",
       "kind": "Advance route planning - City of Santa Cruz only",
       "description": "Look up your address, then choose its SCZ-001 to SCZ-031 PDF under Evacuation Zone Maps. The city says these show ways out for planning; responders choose routes during an emergency.",
       "checked": "2026-11-03", "published": null,
-      "review": "Official page and 31 zone-sheet links read; linked SCZ-001 PDF retrieval returned 403. No map geometry, address-to-zone match or current safe route was verified."
+      "review": "Official directory covers SCZ-001 to SCZ-031; SCZ-006 is marked coming soon, leaving 30 linked sheets on recheck. Linked SCZ-001 PDF retrieval returned 403. No map geometry, address-to-zone match or current safe route was verified."
     },
     "tsunami-maps": {
       "title": "California Geological Survey tsunami maps",
+      "mapLabel": "Open coastal tsunami planning maps",
       "url": "https://www.conservation.ca.gov/cgs/tsunami/maps",
       "kind": "Hazard planning maps, not incident routes",
       "description": "Select the coastal county and check the map date. Use local posted evacuation routes and signs; hazard shading alone does not specify a safe street or destination.",

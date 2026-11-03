@@ -22,7 +22,7 @@ The reviewed catalog is [content/evacuation.json](../content/evacuation.json). N
 | San Mateo County | [Genasys guidance](https://www.smcgov.org/dem/genasys-zonehaven) | Zone status complements alerts; not street routing |
 | Humboldt County | [Evacuation mapping](https://www.humboldtgov.org/3219/Evacuation-Mapping) | Official zone map and alert instructions |
 | Santa Cruz County | [Evacuation information](https://www.santacruzcountyca.gov/OR3/Response/Evacuations.aspx) | County planning and incident entry points |
-| City of Santa Cruz only | [Emergency management](https://www.santacruzca.gov/Services/Public-and-Environmental-Safety/Emergency-Management) | Directory of 31 advance route sheets; linked sample PDF returned 403, so geometry was not reviewed |
+| City of Santa Cruz only | [Emergency management](https://www.santacruzca.gov/Services/Public-and-Environmental-Safety/Emergency-Management) | Directory of 30 linked route sheets across 31 named zones (SCZ-006 coming soon); linked sample PDF returned 403, so geometry was not reviewed |
 | Tsunami planning | [CGS coastal maps](https://www.conservation.ca.gov/cgs/tsunami/maps), [NWS preparation](https://www.weather.gov/safety/tsunami-before) | Hazard/planning maps and local evacuation planning, not current safe roads |
 | Shared preparation | [CAL FIRE](https://www.fire.ca.gov/prepare/get-ready-to-go), [NWS flood guidance](https://www.weather.gov/safety/flood-during) | Household preparation and flood travel precautions |
 

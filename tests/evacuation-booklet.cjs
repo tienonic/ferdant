@@ -10,7 +10,7 @@ async function ready(p){await p.waitForFunction(()=>window.FerdantBooklet&&windo
  const browser=await chromium.launch({executablePath:browserPath()});const findings=[];
  try{
   const context=await browser.newContext({viewport:{width:390,height:960},acceptDownloads:true});await stubPublicMap(context);
-  const p=await context.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
+  const p=await context.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.stack||e.message));
   await p.goto(base+'/local/?place=57026');await ready(p);
   const choices=[...places.cities.map(c=>c[0]),...Object.keys(places.counties).map(c=>'county:'+c),''];
   const summaries=await p.evaluate(async keys=>{const out=[];for(const key of keys){const m=await window.FerdantBooklet.model(key);out.push({key,local:m.evacuation.localAvailable,links:m.evacuation.links.map(s=>s.id),events:m.events.map(e=>[e.id,e.evacuation])});}return out;},choices);
