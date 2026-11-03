@@ -1,14 +1,58 @@
-# Emergent search for Ferdant
+# Reusable community packets for Ferdant
 
 November 3, 2026. Proposed feature and experiment.
 
-Ferdant could discover useful combinations of resources for someone's problem, then improve those combinations through reviewed feedback. The immediate search would use straightforward matching rules. The emergent part would be the discovery of reusable patterns through many interactions over time.
+The strongest proposal is to let people copy and adapt resource packets for their communities. Useful adaptations could become reviewed starting points for other people, while their underlying resource records remain shared and maintainable.
+
+Filtering by city, updating links and generating PDFs are ordinary automation. The earlier framing put too much emphasis on calling those features emergence. The distinctive possibility is that people discover useful combinations Ferdant's creator did not anticipate. The packet adaptation experiment below is the current priority; the search examples later in this document explain supporting capabilities.
 
 This proposal applies ideas from Emergent Garden's [Emergent Complexity](https://www.youtube.com/watch?v=0HqUYpGQIfs), using the video's English captions. The video explains building blocks and their interaction rules at [3:09](https://www.youtube.com/watch?v=0HqUYpGQIfs&t=189), organized complexity producing simpler higher-level structures at [18:14](https://www.youtube.com/watch?v=0HqUYpGQIfs&t=1094), experimentation at [27:41](https://www.youtube.com/watch?v=0HqUYpGQIfs&t=1661), and unintended consequences at [30:01](https://www.youtube.com/watch?v=0HqUYpGQIfs&t=1801). The Ferdant applications below are our proposals, not claims or recommendations made by the creator.
 
+## One concrete example
+
+Imagine the following hypothetical sequence:
+
+1. Ferdant publishes a basic Davis preparedness packet containing ten reviewed resources.
+2. A housing worker copies it, removes homeowner information and adds apartment-specific instructions.
+3. A resident adapts that version for someone without a car.
+4. A librarian adds instructions for saving the information on a phone before losing internet.
+5. After review, the combination becomes a reusable apartment preparedness packet for people without a car.
+
+Ferdant supplied the resources and the ability to combine them. Other people discovered a useful product. This example is a possibility to test, not a record of contributions or a selected new audience.
+
+## The feature people would actually use
+
+The proposed feature is **Adapt this packet for my community**.
+
+A nonprofit could start from an existing packet, choose its location, remove irrelevant items, add local instructions and export its version. Shared resource references would remain connected to their sources. Local additions would have their own author, source and review status, so they would not silently overwrite shared facts. A private working copy would not automatically become a public template; publication would follow review.
+
+When a verified county contact changes, the organization could see which parts of its packet need an update and regenerate them. Printed copies would retain their edition date and a link to the current version.
+
+| Ordinary editorial approach | Proposed adaptation system |
+| --- | --- |
+| The editor anticipates each audience and writes its guide. | People adapt existing guides to needs they understand. |
+| Each guide is maintained separately. | Guides reference shared records, so one verified correction can improve several guides. |
+| Expansion requires the editor to produce each new guide. | Reviewed contributions can expand the library, with review and maintenance still required. |
+
 ## What would actually emerge
 
-The first search would be ordinary filtering and assembly. The proposed emergent behavior would appear later: people repeatedly combine resources in ways the editor did not anticipate, useful combinations become reviewed plans, and local adaptations improve the shared library. That outcome is a hypothesis to test, not an automatic consequence of adding a search box.
+The potential emergent result is an unexpected collection of specialized packets and useful practices developed through reuse. Ferdant would not know beforehand which combinations people would value. Within this proposal, participation and useful adaptation are what make that possibility interesting; without them, the feature is simply a packet builder.
+
+More combinations can also produce duplicate guides, conflicting instructions and outdated advice. Keep shared facts in common records, preserve local exceptions, and review candidate templates before others rely on them. Popularity alone does not establish accuracy or safety.
+
+The practical value is letting local knowledge accumulate into reusable products. Emergent complexity is a way to think about that possibility, not a benefit customers buy by itself.
+
+## The first experiment
+
+Give one organization an existing packet and let it adapt the contents. Observe exactly what it removes, adds, rearranges and asks to keep current. Then test whether a second organization finds any part of that adaptation useful in its own work.
+
+The output should be an original packet, an adapted version, a short explanation of each change, the second organization's reuse decisions, and the time spent preparing and reviewing both versions. This can be tried with an editable draft and the existing export process before building public collaboration features. Arranging the trial remains separate from publishing this proposal.
+
+Continue if the adaptations reveal useful combinations that were not already supplied, another organization can reuse them, and review effort remains reasonable. If both organizations only want Ferdant to prepare a standard PDF for them, prioritize a straightforward customization service. That could still be a useful business without the proposed contribution system.
+
+The earlier illustrative prices below are hypotheses for a customization service, not evidence that people will pay for adaptation software.
+
+## Supporting search and maintenance examples
 
 The following examples are hypothetical product walkthroughs. Facility names, counts, costs and reported outcomes are illustrative. They do not describe current service availability, real customers or completed experiments.
 
@@ -119,9 +163,9 @@ When a temporary status becomes stale under its source-specific rules, it return
 
 Ferdant's current recommendation form produces a local draft. The first trial could use an owner-maintained review log; collecting public submissions and deploying that workflow would be separate implementation work. No personal addresses, income figures or household health details are needed in a shared feedback log.
 
-## A first prototype with a stopping condition
+## Supporting prototype after the adaptation experiment
 
-Start with the alert signup example because Ferdant already has reviewed jurisdiction mappings and a clear task to evaluate. Use about 20 existing resource records for one county, then assemble alert signup, outage contacts and a rental welcome checklist. This would test whether the same records can serve different tasks without losing local exceptions.
+If the adaptation experiment shows useful reuse, the alert signup example offers a small technical starting point because Ferdant already has reviewed jurisdiction mappings. Use about 20 existing resource records for one county, then assemble alert signup, outage contacts and a rental welcome checklist. This would test whether the same records can serve different tasks without losing local exceptions.
 
 1. Prepare the three plans and their selection rules using existing records. Add explicit unknown values rather than invent missing details.
 2. Reuse the existing PDF and offline export paths where feasible. Check that a resource correction reaches every dependent newly generated output.
