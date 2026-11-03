@@ -12,7 +12,7 @@
  function preview(key){
   const place=location(key),name=place?.name||'California',label=name.length>28?34:name.length>19?42:52;
   const cells=config.disasters.plans.map((p,i)=>{const x=48+(i%3)*168,y=355+Math.floor(i/3)*64;const icon=document.querySelector('[data-disaster="'+p.id+'"] .atlas-choice-symbol svg')?.outerHTML||'';return '<g transform="translate('+x+','+y+')"><g color="'+blue+'">'+icon.replace(/\s(?:width|height)="[^"]*"/g,'').replace('<svg ','<svg x="0" y="0" width="25" height="25" ')+'</g><text x="0" y="43" font-size="11" fill="'+ink+'">'+esc(p.label.length>26?p.label.replace('Sea-level rise / ',''):p.label)+'</text></g>';}).join('');
-  return '<svg xmlns="http://www.w3.org/2000/svg" width="612" height="792" viewBox="0 0 612 792"><rect width="612" height="792" fill="'+paper+'"/><path d="M48 66H564M48 306H564M48 710H564" stroke="'+rule+'"/><g font-family="Arial, sans-serif"><text x="48" y="47" fill="'+blue+'" font-size="16" font-weight="700">ferdant.</text><text x="564" y="47" text-anchor="end" fill="'+muted+'" font-size="10">THE LOCAL RESOURCE BOOK</text><text x="48" y="115" font-size="12" fill="'+blue+'">'+esc(place?places.counties[place.county]+' County / California':'California / statewide edition')+'</text><g font-family="Georgia, serif" fill="'+ink+'"><text x="48" y="175" font-size="'+label+'">'+esc(name)+'</text><text x="48" y="229" font-size="42">field notes.</text></g><text x="48" y="274" font-size="14" fill="'+muted+'">Places to turn. Numbers to call. Steps to take.</text>'+cells+'<text x="48" y="744" font-size="12" fill="'+blue+'">15 events / local resources / related phone charts</text><text x="48" y="766" font-size="10" fill="'+muted+'">A dated offline reference. Follow current local instructions.</text></g></svg>';
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="612" height="792" viewBox="0 0 612 792"><rect width="612" height="792" fill="'+paper+'"/><path d="M48 66H564M48 306H564M48 710H564" stroke="'+rule+'"/><g font-family="Arial, sans-serif"><text x="48" y="47" fill="'+blue+'" font-size="16" font-weight="700">ferdant.</text><text x="564" y="47" text-anchor="end" fill="'+muted+'" font-size="10">THE LOCAL RESOURCE BOOK</text><text x="48" y="115" font-size="12" fill="'+blue+'">'+esc(place?places.counties[place.county]+' County / California':'California / statewide edition')+'</text><g font-family="Georgia, serif" fill="'+ink+'"><text x="48" y="175" font-size="'+label+'">'+esc(name)+'</text><text x="48" y="229" font-size="42">field notes.</text></g><text x="48" y="274" font-size="14" fill="'+muted+'">Places to turn. Numbers to call. Steps to take.</text>'+cells+'<text x="48" y="744" font-size="12" fill="'+blue+'">Everyday searches / 15 events / phone charts</text><text x="48" y="766" font-size="10" fill="'+muted+'">A dated offline reference. Follow current local instructions.</text></g></svg>';
  }
  function contactIds(place,event){
   const local=place?[...(phones.countyContacts[place.county]||[]),...(phones.cityContacts[place.key]||[])]:[];
@@ -61,19 +61,21 @@
   });
   const ids=[...new Set([...phones.statewide,...(place?phones.countyContacts[place.county]||[]:[]),...(place?phones.cityContacts[place.key]||[]:[])])];
   const appendix=ids.map(id=>({id,...phones.contacts[id],sourceRef:source({...phones.sources[phones.contacts[id].source],checked:phones.checked})}));
-  return {place,events,sources,appendix,evacuation,evacuationMap,regionalAvailable:directory?.regionalAvailable??false,geometryAvailable:directory?.geometryAvailable??false};
+  const searches=config.resourceSearch.groups.map(group=>({...group,resources:group.sources.map(id=>{const s=config.resourceSearch.sources[id];return {...s,sourceRef:source(s)};})}));
+  return {place,events,sources,appendix,evacuation,evacuationMap,searches,regionalAvailable:directory?.regionalAvailable??false,geometryAvailable:directory?.geometryAvailable??false};
  }
  function sourceDocument(m){
   const name=m.place?.name||'California',stem='ferdant-'+slug(name)+'-resource-book-'+config.serviceChecked;
   const text=['FERDANT / '+name+' field notes','SOURCES & EDITION','',
    'Companion PDF: '+stem+'.pdf','Location: '+name+', California',
-   'Contacts checked: '+phones.checked,'Resource directory checked: '+config.serviceChecked,'',
+   'Contacts checked: '+phones.checked,'Resource directory checked: '+config.serviceChecked,'Additional resource searches reviewed: '+config.resourceSearch.checked,'',
    'The numbered references [S1], [S2], etc. match this city and edition of the PDF. Guidance check dates and publisher dates appear with each source below.',
    'Check dates are not publication dates. Library outlets are from IMLS FY2024, published June 2026. Clinics are the checked HRSA permanent-site directory.',
    'Hours, admission and emergency use need confirmation. Specialty service coverage is incomplete. Distances are straight-line from an approximate city center, not route lengths. Official online referrals were not verified as local pickup sites.',
    'No private notes, current map filter, live alerts or shelter status enter these files. Links need internet; calls and texts need phone service.','Evacuation sources checked: '+(m.evacuation?.checked||'not available')+'. Published planning and zone maps are not incident-assigned routes. No current safe route, order, closure or evacuation destination is saved.','',
+   'Additional directory searches need internet. Their results are not imported locations, confirmed openings or available beds.',
    ...(m.evacuation?['EVACUATION SOURCE REVIEW',...[...m.evacuation.links,m.evacuation.general,m.evacuation.flood,m.evacuation.tsunami,m.evacuation.tsunamiMap].flatMap(s=>['[S'+s.sourceRef+'] '+s.title,'Type: '+s.kind,'Review: '+s.review,...(s.corroborationURL?['Corroborating source: '+s.corroborationURL]:[]),''])]:[]),
-   ...m.sources.flatMap(s=>['[S'+s.id+'] '+s.title,s.url,'Checked: '+(s.checked||'referral link; current service not verified'),'Publisher/data date: '+(s.published||'not supplied'),''])].join('\r\n');
+   ...m.sources.flatMap(s=>['[S'+s.id+'] '+s.title,s.url,'Checked: '+(s.checked||'referral link; current service not verified'),'Publisher/data date: '+(s.published||'not supplied'),...(s.evidenceURL?['Publisher evidence: '+s.evidenceURL,'Evidence date: '+(s.evidencePublished||'not supplied'),'Coverage: '+s.coverage,'Review limits: '+s.verification]:[]),''])].join('\r\n');
   return {filename:stem+'-sources.txt',pdfFilename:stem+'.pdf',text};
  }
  let pdfReady;
@@ -134,7 +136,8 @@
   const tocTop=y,toc=[];
   for(let i=0;i<m.events.length;i++){const p=m.events[i],x=40+(i%3)*181,top=tocTop+Math.floor(i/3)*54;if(hazardIcons[p.id])pdf.addImage(hazardIcons[p.id],'PNG',x,top,23,23);text(p.label,x+30,top,140,10);toc.push({event:p,x,top});}
   y=tocTop+5*54+14;line(y);y+=14;
-  y+=text('Start with the issue on each resource card. Use the phone chart at the end of that event for referrals, utilities and support. Tap an event above to jump there.',40,y,532,10)+12;
+  const searchIndexY=y;
+  y+=text('Everyday resources & directory searches start on page 3. Tap here to browse by need, or choose an event above. Related phone charts follow each event.',40,y,532,10,blue)+12;
   y+=text('Selected directory locations, not every local program. Ordinary sites may close or restrict intake. No current shelter, cooling/warming activation, capacity, safe route or evacuation destination is saved.',40,y,532,9,muted)+10;
   const coverage=!m.place?'No city selected: statewide referrals only.':!m.regionalAvailable?'Additional county service records are not available in this copy; baseline records and referrals remain.':'Local or clearly labelled nearby directory records. Confirm the current entrance, service and eligibility before travel.';
   y+=text(coverage+' Resources checked '+config.serviceChecked+'; contacts '+phones.checked+'.',40,y,532,9,muted)+8;
@@ -172,6 +175,25 @@
    y+=text('Source checked '+em.checked+'. Publisher edit date not supplied. The same planning map remains available in your saved offline copy.',40,y,532,9,muted)+8;
   }else{
    y+=text('No reviewed evacuation-road geometry is available for '+name+' in this edition. A route has not been drawn or guessed. Use the official maps in Evacuation routes & updates and follow current local instructions.',40,y,532,12,muted)+18;
+  }
+  next('Everyday resources & directory searches');
+  const searchStartPage=page();
+  y+=text('More ways to find local help',40,y,532,25,ink,'times')+12;
+  y+=text('For '+name+', California: open a directory below, then enter your city, county or your own ZIP code. These searches go beyond the saved map. Links need internet; confirm hours, eligibility and intake before visiting.',40,y,532,10)+14;
+  function searchHeight(value,width,size,style='normal'){
+   pdf.setFont('helvetica',style);pdf.setFontSize(size);return pdf.splitTextToSize(plain(value),width).length*size*1.26;
+  }
+  for(const group of m.searches){
+   const rows=group.resources.map(s=>({...s,height:searchHeight(s.title+' [S'+s.sourceRef+']',508,11,'bold')+searchHeight(s.description,508,10)+searchHeight(s.url,508,8)+23}));
+   space(35+rows[0].height,'Everyday resources / continued');
+   y+=text(group.title,40,y,532,18,ink,'times')+12;
+   for(const s of rows){
+    space(s.height,'Everyday resources / '+group.title);
+    y+=text(s.title+' [S'+s.sourceRef+']',52,y,508,11,ink,'helvetica','bold')+4;
+    y+=text(s.description,52,y,508,10,muted)+5;
+    y+=urlLabel(s.url,s.url,52,y,508,8)+14;
+   }
+   line(y-4);y+=12;
   }
   let evacuationStartPage=null;
   if(m.evacuation){
@@ -232,6 +254,8 @@
   pdf.setPage(1);
   pdf.outline.add(null,'Evacuation map',{pageNumber:2});
   if(evacuationStartPage)pdf.outline.add(null,'Evacuation routes & updates',{pageNumber:evacuationStartPage});
+  pdf.link(40,searchIndexY,532,30,{pageNumber:searchStartPage});
+  pdf.outline.add(null,'Everyday resources & searches',{pageNumber:searchStartPage});
   for(const {event:p,x,top}of toc){pdf.link(x,top,171,45,{pageNumber:p.startPage});pdf.outline.add(null,p.label,{pageNumber:p.startPage});text('p. '+p.startPage,x+30,top+27,140,8,blue);}
   pdf.outline.add(null,'Everyday phone desk',{pageNumber:m.events.at(-1).endPage+1});
   for(let n=1;n<=total;n++){pdf.setPage(n);line(749);text('FERDANT / '+name,40,758,260,8,blue);text('Sources: companion TXT / '+n+' of '+total,351,758,221,8,muted);}

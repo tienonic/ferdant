@@ -1,7 +1,12 @@
 # City resource books
 
 The city download combines all fifteen disaster sections in one small, vector PDF.
-A visual event index and PDF bookmarks jump to the relevant section. Each section
+A visual event index and PDF bookmarks jump to the relevant section. Everyday
+resource searches now follow the cover: seven categories and all 17 destinations
+from `content/resource-search.json`, with clickable and printed URLs. These are
+search links, not additional verified physical locations. The source TXT includes
+their review limits, coverage and publisher-evidence links. The cover preview and
+phone-chart footer point readers to this expanded resource content. Each section
 has an expressive title, the plain disaster name, the existing short official plan,
 issue-labelled resource cards and a related phone chart at its end. A complete
 phone appendix follows. The full source list and edition notes are downloaded

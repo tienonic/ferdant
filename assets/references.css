@@ -1,0 +1,33 @@
+/* Nested source browsing, scoped to the reference page. */
+.reference-catalog { overflow-wrap: anywhere; }
+.reference-search { margin: 0 0 1.5rem; }
+.reference-search label { display: block; margin-bottom: .5rem; font-weight: 600; }
+#reference-search { min-width: 0; width: 100%; min-height: 44px; padding: 9px 10px; font: 16px var(--sans); border: 1px solid #71808c; background: white; }
+#reference-suggestions { position: absolute; left: 0; right: 0; top: 100%; z-index: 1100; max-height: 360px; overflow-y: auto; margin: 3px 0 0; padding: 0; list-style: none; background: white; border: 1px solid #71808c; box-shadow: 0 5px 12px #1d2d3e18; }
+#reference-suggestions li { margin: 0; padding: 12px 14px; min-height: 48px; cursor: pointer; font-size: 14px; line-height: 1.5; color: var(--ink); border-bottom: 1px solid var(--rule); }
+#reference-suggestions li:last-child { border-bottom: 0; }
+#reference-suggestions li:hover, #reference-suggestions li[aria-selected=true] { background: #e8f1f6; }
+#reference-suggestions small { display: block; color: var(--muted); font-size: 12px; }
+#reference-search-status { font-size: 12px; color: var(--muted); line-height: 1.6; margin: 8px 0 0; }
+#reference-search-status:empty { display: none; }
+.reference-disclosure { border-bottom: 1px solid #ccd5dc; scroll-margin-top: 1rem; }
+.reference-disclosure > summary { display: flex; align-items: center; gap: 1rem; min-height: 52px; padding: .85rem 0; cursor: pointer; list-style: none; }
+.reference-disclosure > summary::-webkit-details-marker { display: none; }
+.reference-disclosure > summary :is(h2,h3,h4) { flex: 1; margin: 0; font: inherit; font-weight: 600; }
+.reference-disclosure > summary::after { content: ''; width: .45rem; height: .45rem; flex: 0 0 .45rem; margin-left: auto; margin-right: .4rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); }
+.reference-disclosure[open] > summary::after { transform: rotate(45deg); }
+.reference-disclosure > summary:focus-visible { outline: 3px solid #244b84; outline-offset: 3px; }
+.reference-section > summary { min-height: 64px; font-size: 18px; }
+.reference-children { margin: 0 0 .75rem .75rem; padding-left: .75rem; border-left: 2px solid #eef2f5; }
+.reference-children > .reference-disclosure:last-child { border-bottom: 0; }
+.reference-entry > summary { font-size: 15px; }
+.reference-content { padding: 0 .5rem 1rem; }
+.reference-content p { margin: .5rem 0; }
+.reference-record { margin-top: .75rem; }
+.reference-record > summary { cursor: pointer; padding: .5rem 0; }
+.reference-content code { white-space: normal; overflow-wrap: anywhere; font-size: .85em; }
+main:has(.reference-catalog) .page-intro { padding-bottom: 20px; }
+@media (max-width: 420px) {
+ .reference-children { margin-left: .35rem; padding-left: .5rem; }
+ .reference-section > summary { font-size: 16px; }
+}

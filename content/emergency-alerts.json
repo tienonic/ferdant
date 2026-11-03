@@ -1,0 +1,796 @@
+{
+  "checked": "2026-11-03",
+  "sources": {
+    "caloes": {
+      "url": "https://calalerts.org/signup.html",
+      "finalUrl": "https://calalerts.org/signup.html",
+      "sha256": "4e8fd85eb48785dbb81b91eb2ae4266802b4efa69e2ac31d8cb454d3e0db4381",
+      "checked": "2026-11-03",
+      "published": null,
+      "review": "County-to-alert link associations read from public directory; enrollment not tested"
+    },
+    "211ca": {
+      "url": "https://211ca.org/find-your-local-211/",
+      "finalUrl": "https://211ca.org/find-your-local-211/",
+      "sha256": "3bec764ccd9249ef146107690c80c64390b622986714e3ac91b048c0801a9a4a",
+      "checked": "2026-11-03",
+      "published": null,
+      "review": "County-to-alert link associations read from public directory; enrollment not tested"
+    }
+  },
+  "counties": {
+    "01": {
+      "county": "Alameda",
+      "url": "https://member.everbridge.net/453003085612570/new",
+      "source": "caloes",
+      "directory211Url": "https://www.acgov.org/emergencysite/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/453003085612570/new",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "02": {
+      "county": "Alpine",
+      "url": "https://alpinecountyca.gov/list.aspx#alertcenter",
+      "source": "caloes",
+      "directory211Url": "https://www.alpinecountyca.gov/alertcenter.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://alpinecountyca.gov/list.aspx#alertcenter",
+        "pageTitle": "Notify Me • Alpine County, CA • CivicEngage",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "03": {
+      "county": "Amador",
+      "url": "https://www.smart911.com/smart911/ref/login.action?pa=amadorgov",
+      "source": "caloes",
+      "directory211Url": "https://www.amadorgov.org/services/emergency-alert-notifications",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.smart911.com/smart911/ref/login.action?pa=amadorgov",
+        "pageTitle": "Log In - Smart911",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "04": {
+      "county": "Butte",
+      "url": "https://www.buttecounty.net/2226/Emergency-Notifications",
+      "source": "county",
+      "directory211Url": "https://www.buttecounty.net/office-of-emergency-management/emergency-notifications",
+      "checked": "2026-11-03",
+      "stateDirectoryUrl": "https://www.buttecounty.net/1757/7682/Be-Prepared",
+      "sourceUrl": "https://www.buttecounty.net/1757/7682/Be-Prepared",
+      "review": "County preparedness page links to this current RAVE/Smart911 explanation and registration route. Primary page text read; enrollment not tested.",
+      "targetCheck": {
+        "http": 403,
+        "meaning": "Target not accessible in automated check; association comes from the recorded directory or local source"
+      }
+    },
+    "05": {
+      "county": "Calaveras",
+      "url": "https://member.everbridge.net/index/892807736729028#/signup",
+      "source": "caloes",
+      "directory211Url": "https://www.calaverasgov.us/AlertCenter.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/892807736729028#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "06": {
+      "county": "Colusa",
+      "url": "https://www.getrave.com/login/colusacounty",
+      "source": "caloes",
+      "directory211Url": "https://www.countyofcolusa.org/alertcenter.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.getrave.com/login/colusacounty",
+        "pageTitle": "Rave Login - Colusa County Health & Human Services",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "07": {
+      "county": "Contra Costa",
+      "url": "https://cwsalerts.com/registration/",
+      "source": "caloes",
+      "directory211Url": "https://cwsalerts.com/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://cwsalerts.com/registration/",
+        "pageTitle": "REGISTRATION &#8211; Community Warning System",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "08": {
+      "county": "Del Norte",
+      "url": "https://member.everbridge.net/index/892807736723128#/signup",
+      "source": "caloes",
+      "directory211Url": "https://www.co.del-norte.ca.us/departments/emergency-services",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/892807736723128#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "09": {
+      "county": "El Dorado",
+      "url": "https://www.smart911.com/smart911/ref/reg.action?pa=edcgov",
+      "source": "caloes",
+      "directory211Url": "https://www.edcgov.us/Government/EmergencyManagement/Pages/alerts.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.smart911.com/smart911/ref/reg.action?pa=edcgov",
+        "pageTitle": "Smart911",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "10": {
+      "county": "Fresno",
+      "url": "https://member.everbridge.net/index/453003085614497#/signup",
+      "source": "caloes",
+      "directory211Url": "https://www.co.fresno.ca.us/departments/public-health/emergency-preparedness",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/453003085614497#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "11": {
+      "county": "Glenn",
+      "url": "https://www.countyofglenn.net/government/departments/sheriff/office-emergency-services",
+      "source": "caloes",
+      "directory211Url": "https://www.countyofglenn.net/dept/planning-community-development-services/office-emergency-services",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 403,
+        "meaning": "Target not accessible in automated check; association comes from the recorded directory or local source"
+      }
+    },
+    "12": {
+      "county": "Humboldt",
+      "url": "https://member.everbridge.net/index/453003085616405#/signup",
+      "source": "caloes",
+      "directory211Url": "https://humboldtgov.org/alerts",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/453003085616405#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "13": {
+      "county": "Imperial",
+      "url": "https://public.alertsense.com/SignUp/publicUser.aspx?RegionId=1575",
+      "source": "caloes",
+      "directory211Url": "https://www.co.imperial.ca.us/alertcenter.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://public.alertsense.com/SignUp/publicUser.aspx?RegionId=1575",
+        "pageTitle": "Public Signup",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "14": {
+      "county": "Inyo",
+      "url": "https://inyo.genasys.com/portal/en",
+      "source": "caloes",
+      "directory211Url": "https://inyo.genasys.com/portal/en",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://inyo.genasys.com/portal/en",
+        "pageTitle": "Registration Portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "15": {
+      "county": "Kern",
+      "url": "https://member.everbridge.net/index/453003085613244/#/signup",
+      "source": "caloes",
+      "directory211Url": "https://kerncountyfire.org/education-safety/ready-kern/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/453003085613244/#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "16": {
+      "county": "Kings",
+      "url": "https://www.smart911.com/smart911/ref/reg.action?pa=countyofkings",
+      "source": "caloes",
+      "directory211Url": "https://www.countyofkings.com/departments/emergency-management",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.smart911.com/smart911/ref/reg.action?pa=countyofkings",
+        "pageTitle": "Smart911",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "17": {
+      "county": "Lake",
+      "url": "https://member.everbridge.net/index/892807736729003#/signup",
+      "source": "caloes",
+      "directory211Url": "https://www.lakesheriff.com/about/emergency_communications/lakecoalerts",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/892807736729003#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "18": {
+      "county": "Lassen",
+      "url": "https://lassencountyca.genasys.com/portal/en/register",
+      "source": "caloes",
+      "directory211Url": "https://www.lassencounty.org/dept/sheriffs-office/emergency-services",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://lassencountyca.genasys.com/portal/en/register",
+        "pageTitle": "Registration Portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "19": {
+      "county": "Los Angeles",
+      "url": "https://ready.lacounty.gov/emergency-notifications/",
+      "source": "caloes",
+      "directory211Url": "https://ready.lacounty.gov/alerts/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": null,
+        "meaning": "Target check unavailable: URLError"
+      }
+    },
+    "20": {
+      "county": "Madera",
+      "url": "https://member.everbridge.net/index/1332612387831894/#/signup",
+      "source": "caloes",
+      "directory211Url": "https://www.maderacounty.com/government/emergency-preparedness",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/1332612387831894/#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "21": {
+      "county": "Marin",
+      "url": "https://emergency.marincounty.gov/sign-alertmarin",
+      "source": "county",
+      "directory211Url": "https://www.marinsheriff.org/services/emergency-services/alert-marin",
+      "checked": "2026-11-03",
+      "stateDirectoryUrl": "https://emergency.marincounty.gov/",
+      "sourceUrl": "https://www.marincounty.gov/departments/fire/office-emergency-management",
+      "review": "Official county indexed instructions identify AlertMarin registration. Replaces a general emergency-status homepage. Enrollment not tested.",
+      "targetCheck": {
+        "http": 403,
+        "meaning": "Target not accessible in automated check; association comes from the recorded directory or local source"
+      }
+    },
+    "22": {
+      "county": "Mariposa",
+      "url": "https://member.everbridge.net/892807736729447/new",
+      "source": "caloes",
+      "directory211Url": "https://www.mariposacounty.org/alertcenter.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/892807736729447/new",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "23": {
+      "county": "Mendocino",
+      "url": "https://member.everbridge.net/892807736722865/new",
+      "source": "caloes",
+      "directory211Url": "https://www.mendocinocounty.org/government/executive-office/office-of-emergency-services/mendoalert",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/892807736722865/new",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "24": {
+      "county": "Merced",
+      "url": "https://member.everbridge.net/index/1332612387831920#/signup",
+      "source": "caloes",
+      "directory211Url": "https://www.countyofmerced.com/alertcenter.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/1332612387831920#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "25": {
+      "county": "Modoc",
+      "url": "https://modoccountyca.genasys.com/portal/en/register?dc=1bojxsfsv3r",
+      "source": "caloes",
+      "directory211Url": "https://www.co.modoc.ca.us/departments/emergency_services/index.php",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://modoccountyca.genasys.com/portal/en/register?dc=1bojxsfsv3r",
+        "pageTitle": "Registration Portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "26": {
+      "county": "Mono",
+      "url": "https://monocountyca.genasys.com/portal/en",
+      "source": "caloes",
+      "directory211Url": "https://monosheriff.org/sheriff/page/codered-emergency-alert-system",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://monocountyca.genasys.com/portal/en",
+        "pageTitle": "Registration Portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "27": {
+      "county": "Monterey",
+      "url": "https://alertmontereycounty.genasys.com/portal/en",
+      "source": "caloes",
+      "directory211Url": "https://www.co.monterey.ca.us/government/departments-a-h/administrative-office/office-of-emergency-services/alert-monterey-county",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://alertmontereycounty.genasys.com/portal/en",
+        "pageTitle": "Registration Portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "28": {
+      "county": "Napa",
+      "url": "https://member.everbridge.net/337966681555213/new",
+      "source": "caloes",
+      "directory211Url": "https://www.countyofnapa.org/AlertCenter.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/337966681555213/new",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "29": {
+      "county": "Nevada",
+      "url": "https://www.nevadacountyca.gov/3780/Emergency-Alerts",
+      "source": "caloes",
+      "directory211Url": "https://www.mynevadacounty.com/1293/Emergency-Alerts",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.nevadacountyca.gov/3780/Emergency-Alerts",
+        "pageTitle": "Emergency Alerts | Nevada County, CA",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "30": {
+      "county": "Orange",
+      "url": "https://member.everbridge.net/453003085613900/new",
+      "source": "caloes",
+      "directory211Url": "https://www.alertoc.org/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/453003085613900/new",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "31": {
+      "county": "Placer",
+      "url": "https://member.everbridge.net/453003085611269/login",
+      "source": "caloes",
+      "directory211Url": "https://www.placer.ca.gov/AlertPlacer",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/453003085611269/login",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "32": {
+      "county": "Plumas",
+      "url": "https://plumasalerts.genasys.com/portal/en",
+      "source": "caloes",
+      "directory211Url": "https://www.plumascounty.us/alertcenter.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://plumasalerts.genasys.com/portal/en",
+        "pageTitle": "Registration Portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "33": {
+      "county": "Riverside",
+      "url": "https://rivcoready.org/AlertRivCo",
+      "source": "caloes",
+      "directory211Url": "https://rivcoready.org/AlertRivCo",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://emd.rivco.gov/alert-rivco",
+        "pageTitle": "Alert RivCo | County of Riverside Emergency Management Department",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "34": {
+      "county": "Sacramento",
+      "url": "https://www.smart911.com/smart911/ref/login.action?pa=sacoes",
+      "source": "caloes",
+      "directory211Url": "https://www.sacramento-alert.org/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.smart911.com/smart911/ref/login.action?pa=sacoes",
+        "pageTitle": "Log In - Smart911",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "35": {
+      "county": "San Benito",
+      "url": "https://sbcalert.genasys.com/portal/en",
+      "source": "caloes",
+      "directory211Url": "https://www.cosb.us/departments/office-of-emergency-services",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://sbcalert.genasys.com/portal/en",
+        "pageTitle": "Registration Portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "36": {
+      "county": "San Bernardino",
+      "url": "https://www.smart911.com/smart911/ref/reg.action?pa=sbcounty",
+      "source": "caloes",
+      "directory211Url": "https://www.sbcounty.gov/main/Pages/Emergency.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.smart911.com/smart911/ref/reg.action?pa=sbcounty",
+        "pageTitle": "Smart911",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "37": {
+      "county": "San Diego",
+      "url": "https://www.alertsandiego.org/en-us/preparedness/alertsandiego.html",
+      "source": "caloes",
+      "directory211Url": "https://www.readysandiego.org/alertsandiego/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.alertsandiego.org/en-us/preparedness/alertsandiego.html",
+        "pageTitle": "AlertSanDiego",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "38": {
+      "county": "San Francisco",
+      "url": "https://member.everbridge.net/453003085612609/new",
+      "source": "caloes",
+      "directory211Url": "https://sfdem.org/get-city-alerts",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/453003085612609/new",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "39": {
+      "county": "San Joaquin",
+      "url": "https://member.everbridge.net/397890065268824/new",
+      "source": "caloes",
+      "directory211Url": "https://www.sjgov.org/department/oes/alerts",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/397890065268824/new",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "40": {
+      "county": "San Luis Obispo",
+      "url": "https://www.smart911.com/smart911/ref/login.action?pa=slocounty",
+      "source": "caloes",
+      "directory211Url": "https://www.slocounty.ca.gov/Departments/Office-of-Emergency-Services/Services/Emergency-Notifications.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.smart911.com/smart911/ref/login.action?pa=slocounty",
+        "pageTitle": "Log In - Smart911",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "41": {
+      "county": "San Mateo",
+      "url": "https://www.smart911.com/smart911/ref/reg.action?pa=smcgov",
+      "source": "caloes",
+      "directory211Url": "https://www.smcgov.org/ceo/smc-alert",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.smart911.com/smart911/ref/reg.action?pa=smcgov",
+        "pageTitle": "Smart911",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "42": {
+      "county": "Santa Barbara",
+      "url": "https://member.everbridge.net/index/892807736723794#/signup",
+      "source": "caloes",
+      "directory211Url": "https://www.readysbc.org/3075/Emergency-Alerts",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/892807736723794#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "43": {
+      "county": "Santa Clara",
+      "url": "https://member.everbridge.net/index/453003085615038#/signup",
+      "source": "caloes",
+      "directory211Url": "https://emergencymanagement.sccgov.org/alertscc",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/453003085615038#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "44": {
+      "county": "Santa Cruz",
+      "url": "https://cruzaware.genasys.com/portal/en",
+      "source": "caloes",
+      "directory211Url": "https://www.scr911.org/general/page/santa-cruz-county-alerts",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://cruzaware.genasys.com/portal/en",
+        "pageTitle": "Registration Portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "45": {
+      "county": "Shasta",
+      "url": "https://alertshasta.genasys.com/portal/en",
+      "source": "caloes",
+      "directory211Url": "https://www.co.shasta.ca.us/index/drm/emergency/codered",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://alertshasta.genasys.com/portal/en",
+        "pageTitle": "Registration Portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "46": {
+      "county": "Sierra",
+      "url": "https://member.everbridge.net/431700047822970/new",
+      "source": "caloes",
+      "directory211Url": "https://www.sierracounty.ca.gov/alertcenter.aspx",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/431700047822970/new",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "47": {
+      "county": "Siskiyou",
+      "url": "https://www.smart911.com/smart911/ref/reg.action?pa=ReadySiskiyou",
+      "source": "caloes",
+      "directory211Url": "https://www.co.siskiyou.ca.us/emergencyservices/page/codered-emergency-alert-system",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.smart911.com/smart911/ref/reg.action?pa=ReadySiskiyou",
+        "pageTitle": "Smart911",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "48": {
+      "county": "Solano",
+      "url": "https://member.everbridge.net/index/453003085614570#/signup",
+      "source": "caloes",
+      "directory211Url": "https://www.solanocounty.com/depts/oes/alertsolano.asp",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/453003085614570#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "49": {
+      "county": "Sonoma",
+      "url": "https://socoemergency.org/get-ready/sign-up/socoalert/",
+      "source": "caloes",
+      "directory211Url": "https://socoemergency.org/get-ready/sign-up/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://socoemergency.org/get-ready/sign-up/socoalert/",
+        "pageTitle": "About SoCoAlert Notifications for Emergencies - Sonoma County Emergency and Preparedness Information",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "50": {
+      "county": "Stanislaus",
+      "url": "https://member.everbridge.net/892807736724101/new",
+      "source": "caloes",
+      "directory211Url": "https://www.stanoes.com/early-warning-system.shtm",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/892807736724101/new",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "51": {
+      "county": "Sutter",
+      "url": "https://www.smart911.com/smart911/ref/reg.action?pa=suttercounty",
+      "source": "caloes",
+      "directory211Url": "https://www.suttersheriff.org/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.smart911.com/smart911/ref/reg.action?pa=suttercounty",
+        "pageTitle": "Smart911",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "52": {
+      "county": "Tehama",
+      "url": "https://member.everbridge.net/index/892807736723620#/signup",
+      "source": "caloes",
+      "directory211Url": "https://tehamaso.org/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/892807736723620#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "53": {
+      "county": "Trinity",
+      "url": "https://www.smart911.com/smart911/ref/reg.action?pa=readytrinity",
+      "source": "caloes",
+      "directory211Url": "https://www.trinitycounty.org/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.smart911.com/smart911/ref/reg.action?pa=readytrinity",
+        "pageTitle": "Smart911",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "54": {
+      "county": "Tulare",
+      "url": "https://member.everbridge.net/index/1772417038942691/#/signup",
+      "source": "caloes",
+      "directory211Url": "https://alerttc.com/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/1772417038942691/#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "55": {
+      "county": "Tuolumne",
+      "url": "https://member.everbridge.net/index/1332612387832200/#/signup",
+      "source": "caloes",
+      "directory211Url": "https://www.tuolumnecounty.ca.gov/1170/Emergency-Alerts",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/index/1332612387832200/#/signup",
+        "pageTitle": "member portal",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "56": {
+      "county": "Ventura",
+      "url": "https://member.everbridge.net/1772417038942453/new",
+      "source": "caloes",
+      "directory211Url": "https://www.readyventuracounty.org/vc-alert/",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/1772417038942453/new",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "57": {
+      "county": "Yolo",
+      "url": "https://member.everbridge.net/307455233884526/login",
+      "source": "caloes",
+      "directory211Url": "https://member.everbridge.net/307455233884526/login",
+      "checked": "2026-11-03",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://member.everbridge.net/307455233884526/login",
+        "pageTitle": "",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    },
+    "58": {
+      "county": "Yuba",
+      "url": "https://www.yuba.gov/Emergency/",
+      "source": "county",
+      "directory211Url": "https://www.yuba.org/Emergency/",
+      "checked": "2026-11-03",
+      "stateDirectoryNote": "State directory authentication redirect omitted; stable county page used instead.",
+      "sourceUrl": "https://211ca.org/find-your-local-211/",
+      "review": "The 211-linked county page redirects to the county's yuba.gov domain; HTTPS emergency route checked and resolves to its emergency alerts page. Use the stable county page, not the state directory's generated authentication URL.",
+      "targetCheck": {
+        "http": 200,
+        "finalUrl": "https://www.yuba.gov/departments/office_of_emergency_services/beprepared_yuba/emergency_alerts.php",
+        "pageTitle": "Yuba County, CA",
+        "meaning": "HTTP response only; registration and delivery not tested"
+      }
+    }
+  },
+  "cities": {
+    "19050": {
+      "name": "NotifyLA",
+      "url": "https://emergency.lacity.gov/notifyla",
+      "sourceUrl": "https://ready.lacounty.gov/emergency-notifications/",
+      "checked": "2026-11-03",
+      "review": "County directory explicitly lists Los Angeles city's NotifyLA; official city indexed description corroborates it. City page fetch timed out; registration not tested."
+    },
+    "19060": {
+      "name": "Alert Long Beach",
+      "url": "https://www.longbeach.gov/disasterpreparedness/alert-long-beach/",
+      "sourceUrl": "https://ready.lacounty.gov/emergency-notifications/",
+      "checked": "2026-11-03",
+      "review": "County emergency notification page explicitly lists this Long Beach destination. Destination fetch timed out; registration not tested."
+    }
+  },
+  "scope": "County destinations listed by Cal OES. Cities inherit the county in the existing place index; city participation and address coverage must be confirmed with the provider.",
+  "limits": "No signup, account, notification delivery, accessibility certification or current operational availability is verified."
+}

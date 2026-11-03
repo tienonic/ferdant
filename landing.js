@@ -1,5 +1,5 @@
 'use strict';
-// Progressive enhancement: without JavaScript all three resource sections are readable.
+// Progressive enhancement: without JavaScript both resource sections are readable.
 (() => {
  const tabs = [...document.querySelectorAll('[data-resource-tab]')];
  const panels = [...document.querySelectorAll('[data-resource-panel]')];

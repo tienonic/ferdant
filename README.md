@@ -24,12 +24,14 @@ The deployed main branch remains the maintenance page until a fuller release is 
 
 - `content/site.py`: branch descriptions, original guide text, source links and dates.
 - `content/regions.json`: shared numbers, contact/source records and city/county references; dates never advance automatically.
+- `content/emergency-alerts.json`, `content/emergency-alert-overrides.json`: county signup links and reviewed city routes, selected automatically from the existing location. See [alert signup maintenance and verification](docs/emergency-alerts.md). Enrollment stays on the provider's site.
 - `content/california-cities.json`: official city/county index, approximate points, generalized local map and source hashes.
 - `content/resource-map.json`, `content/map-data-manifest.json`: dated public facilities, map source limits and exact geometry receipts.
 - `assets/data/city-maps/`: 58 compact county files, covering all 483 indexed city boundaries and 20 counties with official tsunami planning areas.
 - `scripts/resource_map.py`, `resource-map.js`: result-page map, everyday resources and 15 directly accessible, labelled disaster symbols. Changing a plan replaces the previous GIS overlay and resource pins. FEMA shelters are queried for applicable response plans; street tiles are online only.
 - `content/physical-services.json`, `scripts/physical_services.py`: public service categories, reviewed local visits, county-service areas and explicit unknown hours/access/capacity. Referral-only, confidential and unlocated records never become pins. Provider-checked visit details remain a Yolo subset; statewide IMLS library and HRSA clinic files augment all California city/county choices.
 - `assets/data/service-maps/`, `content/statewide-service-manifest.json`: 58 compact county files with 1,110 FY2024 library and 2,054 permanent community-clinic points, source hashes and explicit regional fallbacks. Only the selected county file loads; exports retain that county.
+- `assets/data/everyday-maps/`, `content/everyday-service-manifest.json`: 3,932 additional food, drinking-water, restroom and shower points across 55 counties, with distinct icons, source dates and public-access filters. LA food listings use May 2023 data; OSM facilities are community mapped. See [scope, sources and checks](docs/everyday-map-expansion-20261103.md) and [data licenses](assets/data/everyday-maps/README.md).
 - `service-resources.js`, `content/resource_plans.py`: local/nearby resource selection, unique SVG map symbols and resource roles for every one of the 15 disasters. Ordinary services remain distinct from current activation.
 - `scripts/recommendations.py`, `recommendations.js`: visible recommendation entry and local draft form; explicit copy/TXT download only, without collection, validation service or publication.
 - `resource-booklet.js`, `docs/resource-booklet.md`: city-specific PDF field notes, issue-based resource cards, a related phone chart at each disaster section's end and a matching source TXT. The pinned local PDF writer is embedded in complete offline HTML.
@@ -58,6 +60,7 @@ node tests/resource-map.cjs
 npm.cmd run verify:disasters
 npm.cmd run verify:services
 npm.cmd run verify:statewide
+npm.cmd run verify:everyday
 npm.cmd run verify:booklet
 npm.cmd run verify:recommendations
 ```

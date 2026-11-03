@@ -46,6 +46,33 @@
   }
   return fragment;
  }
+ function renderAlerts(doc,area,location) {
+  if(!area)return;
+  area.replaceChildren();area.classList.add('alert-signup');
+  const registry=payload.alerts,county=registry?.counties[location?.county],city=registry?.cities[location?.id];
+  const fallback=registry?.sources.caloes.url||'https://calalerts.org/signup.html';
+  const selected=city||county;
+  const label=city?`${location.name} city`:county?`${county.county} County`:'California';
+  area.append(node(doc,'h3','Get emergency alerts'));
+  area.append(node(doc,'p',selected?`${label} · Sign up on the provider’s website.`:'Choose your county on California’s official signup directory.'));
+  const link=node(doc,'a',selected?'Sign up for alerts ↗':'Find my county’s signup ↗','button');
+  link.href=selected?.url||fallback;link.dataset.alertSignup='';link.rel='noreferrer';
+  link.setAttribute('aria-label',selected?`Sign up for ${label} emergency alerts`:'Find emergency alert signup by county');
+  area.append(link);
+  const details=node(doc,'details'),summary=node(doc,'summary','How to sign up & sources');details.append(summary);
+  details.append(node(doc,'p','Follow the provider’s registration steps. Add the locations you care about, choose the contact options offered, and complete any confirmation.'));
+  details.append(node(doc,'p','Signup needs internet. Ferdant does not collect your contact details or enroll you. Cities may have additional systems; confirm coverage for your address.'));
+  if(city&&county){const extra=node(doc,'a',`${county.county} County alerts`);extra.href=county.url;extra.rel='noreferrer';details.append(extra);}
+  const existing=data.alerts[location?.id];
+  if(existing){const instructions=node(doc,'a',existing.name+' — local instructions');instructions.href=data.sources[existing.source].url;instructions.rel='noreferrer';details.append(node(doc,'p'),instructions);}
+  const source=node(doc,'a','California county signup directory');source.href=fallback;
+  const origin=node(doc,'a','211 California');origin.href=registry?.sources['211ca'].url||'https://211ca.org/find-your-local-211/';
+  const sources=node(doc,'p');sources.append(source,doc.createTextNode(' · '),origin);details.append(sources);
+  if(selected?.sourceUrl){const verified=node(doc,'a','Local source');verified.href=selected.sourceUrl;details.append(verified);}
+  details.append(node(doc,'p',`Links checked ${selected?.checked||registry?.checked||'date unavailable'}. Registration and alert delivery have not been tested.`,'source-review'));
+  const recovery=node(doc,'a','Link not working? Find your county in the state directory.');recovery.href=fallback;details.append(recovery);
+  area.append(details);
+ }
  function renderLocation(doc,location) {
   const panel=doc.querySelector('#location-resources');if(!panel)return;
   const summary=doc.querySelector('#location-summary'),list=doc.querySelector('#location-links'),alertArea=doc.querySelector('#location-alert'),notes=doc.querySelector('#location-notes');
@@ -72,8 +99,7 @@
    const methods=node(doc,'div',null,'local-contact-methods');methods.append(contactMethods(doc,contact));
    item.append(copy,methods);list.append(item);
   }
-  const alert=data.alerts[location.id];
-  if(alert){const link=node(doc,'a',alert.name+' — official instructions');link.href=data.sources[alert.source].url;alertArea.append(link);}
+  renderAlerts(doc,alertArea,location);
  }
  function render(doc,key) {
   const location=place(key),shared=doc.querySelector('.phone-directory').hasAttribute('data-shared-only');
@@ -107,7 +133,7 @@
   doc.querySelector('#phone-caption').textContent=shared?'California-wide support numbers':`${location ? location.name : 'California'} emergency and support phone numbers other than 911`;
   for(const download of doc.querySelectorAll('[data-city-download]')) download.textContent=download.closest('.infographic-download')?'Complete offline website (HTML)':location ? `Download offline for ${location.name}` : 'Download California offline copy';
   const alertArea=doc.querySelector('#phone-local-alert');
-  if(alertArea){alertArea.replaceChildren();const alert=data.alerts[location?.id];if(alert){const p=node(doc,'p',`${alert.name}: ${alert.instruction}`),link=node(doc,'a','Official alert instructions (online)');link.href=data.sources[alert.source].url;alertArea.append(p,link);}}
+  if(alertArea){alertArea.hidden=!!location&&!!doc.querySelector('#location-alert');if(alertArea.hidden)alertArea.replaceChildren();else renderAlerts(doc,alertArea,location);}
   const locationCity=doc.querySelector('[data-location-select]');if(locationCity)locationCity.value=key;
   const citySearch=doc.querySelector('#map-city-search');if(citySearch)citySearch.value=location && !location.id.startsWith('county:')?location.name:'';
   renderLocation(doc,location);

@@ -1,0 +1,296 @@
+{
+  "schema": 1,
+  "checked": "2026-11-03",
+  "sources": {
+    "findhelp": {
+      "title": "Findhelp",
+      "url": "https://www.findhelp.org/",
+      "description": "Search by ZIP code for food, housing, goods, care, transport and other assistance.",
+      "coverage": "United States",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://company.findhelp.com/products/the-findhelp-network/",
+      "verification": "Publisher network description inspected. Automated access to the public search page returned 403; no program records imported."
+    },
+    "211": {
+      "title": "Local 211 online directories",
+      "url": "https://211.org/about-us/your-local-211",
+      "description": "Find your local online resource directory using an address, ZIP code or county.",
+      "coverage": "United States",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://211.org/about-us/your-local-211",
+      "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+    },
+    "one-degree": {
+      "title": "One Degree",
+      "url": "https://www.1degree.org/",
+      "description": "Browse free or low-cost community resources. California coverage is the nine Bay Area counties and Los Angeles County.",
+      "coverage": "Bay Area and Los Angeles County in California",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://help.1degree.org/article/28-what-is-one-degree",
+      "verification": "Publisher coverage guide dated 2024-11-13 inspected; search homepage is a JavaScript application. Coverage is not statewide.",
+      "evidencePublished": "2024-11-13"
+    },
+    "feeding-america": {
+      "title": "Feeding America food-bank finder",
+      "url": "https://www.feedingamerica.org/find-your-local-foodbank",
+      "description": "Enter a ZIP code, then follow the regional food bank to pantry and meal locations. A warehouse may not offer public pickup.",
+      "coverage": "United States",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://www.feedingamerica.org/find-your-local-foodbank",
+      "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+    },
+    "cdss-food": {
+      "title": "California food-bank directory",
+      "url": "https://www.cdss.ca.gov/food-banks",
+      "description": "Choose your county and follow the provider to actual distribution sites, hours and eligibility.",
+      "coverage": "California",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://www.cdss.ca.gov/food-banks",
+      "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+    },
+    "hud": {
+      "title": "HUD Find Shelter",
+      "url": "https://www.hud.gov/findshelter",
+      "description": "Search a location for shelter, food pantries, clothing and health clinics. Confirm intake and beds directly.",
+      "coverage": "United States",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://www.hud.gov/findshelter",
+      "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+    },
+    "hrsa": {
+      "title": "HRSA Find a Health Center",
+      "url": "https://findahealthcenter.hrsa.gov/",
+      "description": "Search by city, state or ZIP code for community clinics. Check services, appointments and fees with the clinic.",
+      "coverage": "United States",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://bphc.hrsa.gov/about-health-centers/what-health-center",
+      "verification": "Official HRSA locator guidance inspected; locator itself requires JavaScript."
+    },
+    "samhsa": {
+      "title": "FindTreatment.gov",
+      "url": "https://findtreatment.gov/locator",
+      "description": "Search mental health and substance-use treatment facilities and their services. Check intake, payment and availability.",
+      "coverage": "United States and territories",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://findtreatment.gov/faqs",
+      "verification": "Official FAQ and locator listing inspected; no individual facility or clinical suitability review."
+    },
+    "va": {
+      "title": "VA facility finder",
+      "url": "https://www.va.gov/find-locations/",
+      "description": "Find VA health facilities, Vet Centers and benefits offices. Check eligibility and the services at each location.",
+      "coverage": "United States",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://developer.va.gov/explore/facilities/docs/facilities",
+      "verification": "Official facility documentation inspected; public locator requires JavaScript. API access requires a key."
+    },
+    "internet": {
+      "title": "Phone and internet assistance",
+      "url": "https://www.usa.gov/help-with-utility-bills",
+      "description": "Find official routes to Lifeline and energy assistance. Library locations and provider links are in Ferdant's local map.",
+      "coverage": "United States",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://www.usa.gov/help-with-utility-bills",
+      "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+    },
+    "csd": {
+      "title": "California local assistance providers",
+      "url": "https://www.csd.ca.gov/Pages/FindServicesInYourArea.aspx",
+      "description": "Choose your county or enter your location to find community-services and energy-assistance providers.",
+      "coverage": "California",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://www.csd.ca.gov/Pages/FindServicesInYourArea.aspx",
+      "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+    },
+    "aging": {
+      "title": "Eldercare Locator",
+      "url": "https://eldercare.acl.gov/home",
+      "description": "Search a city, county or ZIP code for aging services and local help for older adults and families.",
+      "coverage": "United States",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://eldercare.acl.gov/home",
+      "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+    },
+    "legal": {
+      "title": "Local legal-aid finders",
+      "url": "https://www.usa.gov/legal-aid",
+      "description": "Follow the Legal Services Corporation or LawHelp directory to local legal aid. Case and income rules vary.",
+      "coverage": "United States",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://www.usa.gov/legal-aid",
+      "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+    },
+    "benefits": {
+      "title": "Government benefits finder",
+      "url": "https://www.usa.gov/benefits",
+      "description": "Find official food, housing, healthcare and other benefit programs, then check eligibility and application steps.",
+      "coverage": "United States",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://www.usa.gov/benefits",
+      "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+    },
+    "listos": {
+      "title": "Listos California preparedness and recovery",
+      "url": "https://www.listoscalifornia.org/disaster-readiness/",
+      "description": "Find hazard-specific preparation, current emergency information and recovery resources.",
+      "coverage": "California",
+      "checked": "2026-11-03",
+      "published": "2026-10-05",
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://www.listoscalifornia.org/disaster-readiness/",
+      "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+    },
+    "drc": {
+      "title": "FEMA Disaster Recovery Center locator",
+      "url": "https://egateway.fema.gov/ESF6/DRCLocator",
+      "description": "Search a location or state for recovery assistance offices and schedules. These centers are not overnight shelters.",
+      "coverage": "United States after disasters",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://egateway.fema.gov/ESF6/DRCLocator",
+      "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+    },
+    "assistance": {
+      "title": "DisasterAssistance.gov",
+      "url": "https://www.disasterassistance.gov/",
+      "description": "Check disaster assistance and application options. Assistance depends on the disaster and your eligibility.",
+      "coverage": "United States",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Outbound directory or official resource search; not imported map locations",
+      "access": "Public website link; no bulk reuse assumed",
+      "evidenceURL": "https://egateway.fema.gov/ESF6/DRCLocator",
+      "verification": "FEMA links to this application portal. Automated direct access returned 403; no application submitted."
+    },
+    "sf-water-hygiene": {
+      "title": "SF public drinking water and restrooms",
+      "url": "https://www.sfpuc.gov/learning/how-you-can-help/free-drinktap-drinking-water-and-restroom-map",
+      "description": "Locate outdoor refill stations and public restrooms in San Francisco. Check posted access and water advisories.",
+      "coverage": "San Francisco; use the local 211 directory for other areas",
+      "checked": "2026-11-03",
+      "published": null,
+      "use": "Publisher locator; dated public points also appear on the map",
+      "access": "Public website; DataSF dataset published under PDDL",
+      "evidenceURL": "https://data.sf.gov/City-Infrastructure/San-Francisco-Public-Bathrooms-and-Water-Fountains/wfq4-upmv",
+      "verification": "Publisher purpose and dataset inspected; individual fixtures are not checked for current operation."
+    }
+  },
+  "groups": [
+    {
+      "id": "broad",
+      "title": "Start with a broad search",
+      "sources": [
+        "findhelp",
+        "211",
+        "one-degree"
+      ]
+    },
+    {
+      "id": "food",
+      "title": "Food & everyday supplies",
+      "sources": [
+        "feeding-america",
+        "cdss-food",
+        "hud"
+      ]
+    },
+    {
+      "id": "water",
+      "title": "Water & hygiene",
+      "sources": [
+        "sf-water-hygiene",
+        "211"
+      ]
+    },
+    {
+      "id": "housing",
+      "title": "Shelter & housing",
+      "sources": [
+        "hud",
+        "findhelp"
+      ]
+    },
+    {
+      "id": "health",
+      "title": "Healthcare & treatment",
+      "sources": [
+        "hrsa",
+        "samhsa",
+        "va"
+      ]
+    },
+    {
+      "id": "internet",
+      "title": "Libraries & internet",
+      "sources": [
+        "internet",
+        "211"
+      ]
+    },
+    {
+      "id": "support",
+      "title": "Bills, legal aid & practical support",
+      "sources": [
+        "csd",
+        "aging",
+        "legal",
+        "benefits"
+      ]
+    },
+    {
+      "id": "emergency",
+      "title": "Disaster preparation & recovery",
+      "sources": [
+        "listos",
+        "drc",
+        "assistance"
+      ]
+    }
+  ],
+  "scope": "Central directories complement the existing map. These links are not new facility records, activation evidence, or confirmation of available services."
+}

@@ -44,13 +44,13 @@
   const right=column(statewide.slice(half),pad+col+gap,'','#244b84');
   let foot=Math.max(left,right)+18;
   const info=textBlock('Immediate danger: call 911. Calls and texts need phone service. This is a dated directory, without live dispatch, outages or shelter availability.',pad,foot,W-pad*2,18,'#1d2d3e');parts.push(info.markup);foot+=info.height+17;
-  const dates=textBlock('Contacts checked '+data.checked+'. Publisher dates are not stated unless shown. Source dates and full guidance are included in the complete offline website.',pad,foot,W-pad*2,16);parts.push(dates.markup);foot+=dates.height+14;
-  const sourceLink='Full sources, coverage and guides: ferdant.com/local/'+(location?'?place='+location.id:'');
+  const dates=textBlock('Contacts checked '+data.checked+'. Publisher dates are not stated unless shown. Source dates and additional resource searches are included in the resource book and complete offline website.',pad,foot,W-pad*2,16);parts.push(dates.markup);foot+=dates.height+14;
+  const sourceLink='Full sources, coverage and resources: ferdant.com/local/'+(location?'?place='+location.id:'');
   const sourceNote=textBlock(sourceLink,pad,foot,W-pad*2,16);parts.push(sourceNote.markup);foot+=sourceNote.height+30;
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${Math.ceil(foot)}" viewBox="0 0 ${W} ${Math.ceil(foot)}"><rect width="100%" height="100%" fill="#fbfcfa"/><g font-family="Arial, sans-serif">${parts.join('')}</g></svg>`;
   return {svg,width:W,height:Math.ceil(foot),location};
  }
- function embed(doc,key){const preview=doc.querySelector('#infographic-preview');if(!preview)return;const sheet=build(key);preview.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(window.FerdantBooklet?.preview(key)||sheet.svg);preview.alt=window.FerdantBooklet?`Resource book for ${sheet.location?.name||'California'}: 15 events, local resources and related phone charts.`:`Contact sheet for ${sheet.location?.name||'California'}: local help and California-wide support.`;}
+ function embed(doc,key){const preview=doc.querySelector('#infographic-preview');if(!preview)return;const sheet=build(key);preview.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(window.FerdantBooklet?.preview(key)||sheet.svg);preview.alt=window.FerdantBooklet?`Resource book for ${sheet.location?.name||'California'}: everyday resource searches, 15 events and related phone charts.`:`Contact sheet for ${sheet.location?.name||'California'}: local help and California-wide support.`;}
  window.FerdantInfographic={embed,build};
  const button=document.querySelector('#download-infographic');if(!button)return;
  let key=document.querySelector('#phone-city')?.value||document.querySelector('meta[name="ferdant-city"]')?.content||'';

@@ -1,0 +1,41 @@
+{
+  "counties": {
+    "04": {
+      "url": "https://www.buttecounty.net/2226/Emergency-Notifications",
+      "source": "county",
+      "sourceUrl": "https://www.buttecounty.net/1757/7682/Be-Prepared",
+      "checked": "2026-11-03",
+      "review": "County preparedness page links to this current RAVE/Smart911 explanation and registration route. Primary page text read; enrollment not tested."
+    },
+    "21": {
+      "url": "https://emergency.marincounty.gov/sign-alertmarin",
+      "source": "county",
+      "sourceUrl": "https://www.marincounty.gov/departments/fire/office-emergency-management",
+      "checked": "2026-11-03",
+      "review": "Official county indexed instructions identify AlertMarin registration. Replaces a general emergency-status homepage. Enrollment not tested."
+    },
+    "58": {
+      "url": "https://www.yuba.gov/Emergency/",
+      "source": "county",
+      "sourceUrl": "https://211ca.org/find-your-local-211/",
+      "checked": "2026-11-03",
+      "review": "The 211-linked county page redirects to the county's yuba.gov domain; HTTPS emergency route checked and resolves to its emergency alerts page. Use the stable county page, not the state directory's generated authentication URL."
+    }
+  },
+  "cities": {
+    "19050": {
+      "name": "NotifyLA",
+      "url": "https://emergency.lacity.gov/notifyla",
+      "sourceUrl": "https://ready.lacounty.gov/emergency-notifications/",
+      "checked": "2026-11-03",
+      "review": "County directory explicitly lists Los Angeles city's NotifyLA; official city indexed description corroborates it. City page fetch timed out; registration not tested."
+    },
+    "19060": {
+      "name": "Alert Long Beach",
+      "url": "https://www.longbeach.gov/disasterpreparedness/alert-long-beach/",
+      "sourceUrl": "https://ready.lacounty.gov/emergency-notifications/",
+      "checked": "2026-11-03",
+      "review": "County emergency notification page explicitly lists this Long Beach destination. Destination fetch timed out; registration not tested."
+    }
+  }
+}

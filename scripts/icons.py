@@ -1,6 +1,9 @@
 """Original inline line icons. Text labels carry the accessible names."""
 
 GLYPHS = {
+ 'resource-water': '<path d="M12 2C9 7 5 11 5 15a7 7 0 0 0 14 0c0-4-4-8-7-13ZM8 15a4 4 0 0 0 4 4"/>',
+ 'resource-restroom': '<path d="M5 3h7v8H5V3Zm0 8h15a8 8 0 0 1-8 8H8l-3-8Zm4 8-1 3h9l-2-4M8 6h1"/>',
+ 'resource-shower': '<path d="M5 21V7a4 4 0 0 1 8 0v1m-4 4a4 4 0 0 1 8 0H9Zm1 3v2m3-2v2m3-2v2m-7 3v1m4-1v1m4-1v1"/>',
  'resource-hospital': '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 6v8m-4-4h8M9 21v-4h6v4"/>',
  'resource-clinic': '<path d="M5 3v6a4 4 0 0 0 8 0V3M4 3h2m6 0h2M9 13v3a5 5 0 0 0 10 0v-2"/><circle cx="19" cy="11" r="3"/>',
  'resource-food': '<path d="M4 3v6m3-6v6m3-6v6M4 7h6M7 9v12M19 21V3c-4 2-5 6-5 9h5"/>',

@@ -55,6 +55,9 @@ def add_physical_services(data, catalog=None):
     manifest = json.loads((ROOT/'content/statewide-service-manifest.json').read_text(encoding='utf-8'))
     data['sources'].update(manifest['sources'])
     data['serviceDirectory'] = {k:manifest[k] for k in ('schema','edition','checked','fields','defaults','counties','count','byKind')}
+    everyday = json.loads((ROOT/'content/everyday-service-manifest.json').read_text(encoding='utf-8'))
+    data['sources'].update(everyday['sources'])
+    data['everydayDirectory'] = {k:everyday[k] for k in ('schema','edition','checked','fields','defaults','counties','count','byKind')}
     spec = importlib.util.spec_from_file_location('resource_plans', ROOT/'content/resource_plans.py')
     plans = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(plans)

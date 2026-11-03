@@ -1,0 +1,39 @@
+{
+  "title": "Homepage stock photography",
+  "photos": [
+    {
+      "title": "Family playing in a park",
+      "photographer": "Nataliya Vaitkevich",
+      "publisher": "Pexels",
+      "url": "https://www.pexels.com/photo/happy-family-on-a-picnic-blanket-5290393/",
+      "license": "Pexels License",
+      "licenseURL": "https://www.pexels.com/license/",
+      "downloadURL": "https://images.pexels.com/photos/5290393/pexels-photo-5290393.jpeg?auto=compress&fm=webp&w=960&q=78",
+      "published": "2020-09-06",
+      "checked": "2026-11-03",
+      "file": "assets/photos/family-park.webp",
+      "width": 960,
+      "height": 640,
+      "sha256": "eadfe2a12f5a3d704db6a268f9033a5df6a4217db676392872b2a95f7798900d",
+      "use": "Homepage welcome photography",
+      "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
+    },
+    {
+      "title": "Family sharing a picnic",
+      "photographer": "RDNE Stock project",
+      "publisher": "Pexels",
+      "url": "https://www.pexels.com/photo/a-family-having-picnic-in-the-park-8208755/",
+      "license": "Pexels License",
+      "licenseURL": "https://www.pexels.com/license/",
+      "downloadURL": "https://images.pexels.com/photos/8208755/pexels-photo-8208755.jpeg?auto=compress&fm=webp&w=640&q=78",
+      "published": "2021-06-04",
+      "checked": "2026-11-03",
+      "file": "assets/photos/family-picnic.webp",
+      "width": 640,
+      "height": 427,
+      "sha256": "a3d1ce63315d455c99758c3aaa389b2e37c2211e891e6afd5326ee3e931240d0",
+      "use": "Homepage welcome photography",
+      "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
+    }
+  ]
+}

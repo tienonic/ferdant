@@ -1,0 +1,686 @@
+{
+  "schema": 1,
+  "edition": "ca-everyday-20261103",
+  "checked": "2026-11-03",
+  "fields": [
+    "id",
+    "name",
+    "kind",
+    "address",
+    "city",
+    "county",
+    "lat",
+    "lng",
+    "source",
+    "url",
+    "detail",
+    "visit"
+  ],
+  "defaults": {},
+  "sources": {
+    "sf-basic-needs": {
+      "title": "SF public drinking-water and restroom directory",
+      "url": "https://data.sf.gov/City-Infrastructure/San-Francisco-Public-Bathrooms-and-Water-Fountains/wfq4-upmv",
+      "checked": "2026-11-03",
+      "note": "Publicly accessible human water points and restrooms only. Record dates are separate from November 1, 2026 ingestion; no live operational guarantee.",
+      "license": "PDDL",
+      "evidence": "https://www.sfpuc.gov/learning/how-you-can-help/free-drinktap-drinking-water-and-restroom-map"
+    },
+    "la-food-distribution": {
+      "title": "LA County DPH food distribution sites (May 2023 data)",
+      "url": "https://services.arcgis.com/RmCCgQtiZLDCtblq/arcgis/rest/services/Food_Distribution_chp/FeatureServer/0",
+      "checked": "2026-11-03",
+      "published": "2023-05",
+      "note": "211LA food-distribution data published in Community Health Profiles. Older directory, not current provider verification. School/university/warehouse-name records excluded.",
+      "evidence": "https://www.arcgis.com/sharing/rest/content/items/dd4d0483c6104a19ba3217d054848ace?f=json"
+    },
+    "osm-basic-needs": {
+      "title": "© OpenStreetMap contributors — everyday public facilities",
+      "url": "https://www.openstreetmap.org/copyright",
+      "checked": "2026-11-03",
+      "license": "https://opendatacommons.org/licenses/odbl/1-0/",
+      "note": "ODbL 1.0. Community-mapped, explicitly public/permissive access. No confirmed paid, conditional, private or inactive listings. Edit dates do not verify present operation. Separate downloadable derived database: /assets/data/everyday-maps/openstreetmap-projection.json",
+      "evidence": "https://wiki.openstreetmap.org/wiki/Tag:amenity=drinking_water"
+    }
+  },
+  "counties": {
+    "01": {
+      "path": "/assets/data/everyday-maps/01.json",
+      "count": 142,
+      "byKind": {
+        "restroom": 81,
+        "water": 61
+      },
+      "bytes": 87132,
+      "sha256": "a2a8521130e076344559533e2b6887189c892a13702dad40183809bed80e3e4f"
+    },
+    "02": {
+      "path": "/assets/data/everyday-maps/02.json",
+      "count": 16,
+      "byKind": {
+        "water": 2,
+        "restroom": 14
+      },
+      "bytes": 9286,
+      "sha256": "825f3e52bd45e96655a6cb1c07593542b5e1db116f8eb646a5f038cc5ff92dfa"
+    },
+    "03": {
+      "path": "/assets/data/everyday-maps/03.json",
+      "count": 5,
+      "byKind": {
+        "restroom": 5
+      },
+      "bytes": 2759,
+      "sha256": "05acb8b46ee70d299783aeabf4f92802e280b30f258c3ad4611c38e1e711b0c8"
+    },
+    "04": {
+      "path": "/assets/data/everyday-maps/04.json",
+      "count": 27,
+      "byKind": {
+        "restroom": 15,
+        "water": 12
+      },
+      "bytes": 16073,
+      "sha256": "6b8d15b63300296564ff2bd6e4ff47f28c5e46303bf77e43c6223a0a71f5c865"
+    },
+    "05": {
+      "path": "/assets/data/everyday-maps/05.json",
+      "count": 8,
+      "byKind": {
+        "restroom": 8
+      },
+      "bytes": 4413,
+      "sha256": "60066d12e52c3e839e3b7539e4540001310fcefad3a55666e2c6dfaad0a824e8"
+    },
+    "06": {
+      "path": "/assets/data/everyday-maps/06.json",
+      "count": 14,
+      "byKind": {
+        "restroom": 14
+      },
+      "bytes": 8204,
+      "sha256": "01a3a74380de19e8b4eeb99c3a7dbf65683620bc1205d1534c15b96e98f17ea3"
+    },
+    "07": {
+      "path": "/assets/data/everyday-maps/07.json",
+      "count": 91,
+      "byKind": {
+        "restroom": 62,
+        "water": 29
+      },
+      "bytes": 55155,
+      "sha256": "d7676a49ecdcc8e27af309730a79d4d83882ad1df13073128a9fa95c061451f1"
+    },
+    "08": {
+      "path": "/assets/data/everyday-maps/08.json",
+      "count": 5,
+      "byKind": {
+        "restroom": 5
+      },
+      "bytes": 3037,
+      "sha256": "accbe7a152ffc59580ed23885406b008fa3fd461755060796fa3d6f438b3bdc1"
+    },
+    "09": {
+      "path": "/assets/data/everyday-maps/09.json",
+      "count": 23,
+      "byKind": {
+        "water": 3,
+        "restroom": 20
+      },
+      "bytes": 13405,
+      "sha256": "7dd8f77a70fbb9283d051a65e01e2581c15ea13b79ef842ce6182b462b989ed1"
+    },
+    "10": {
+      "path": "/assets/data/everyday-maps/10.json",
+      "count": 21,
+      "byKind": {
+        "restroom": 19,
+        "water": 2
+      },
+      "bytes": 12043,
+      "sha256": "b7c702e90002a049f4d0b572ac3e2333ae1bc111f549937384a4f8b3ea7f7b23"
+    },
+    "11": {
+      "path": "/assets/data/everyday-maps/11.json",
+      "count": 8,
+      "byKind": {
+        "restroom": 7,
+        "water": 1
+      },
+      "bytes": 4889,
+      "sha256": "843fa9e12ab962ff59d656e168f7d3781e0c1e123dd383a7ef48001eb7eb102f"
+    },
+    "12": {
+      "path": "/assets/data/everyday-maps/12.json",
+      "count": 54,
+      "byKind": {
+        "restroom": 44,
+        "water": 10
+      },
+      "bytes": 31162,
+      "sha256": "949306077daf1f1bfd4b30567f52630df2640a3138ce6b669d3bfeb8bde5698b"
+    },
+    "13": {
+      "path": "/assets/data/everyday-maps/13.json",
+      "count": 3,
+      "byKind": {
+        "restroom": 3
+      },
+      "bytes": 1796,
+      "sha256": "4a778899864dd45a2e103adf713f93f5cf9540e11ea5ab8a61a9ffa7aeaa7fce"
+    },
+    "14": {
+      "path": "/assets/data/everyday-maps/14.json",
+      "count": 29,
+      "byKind": {
+        "restroom": 28,
+        "water": 1
+      },
+      "bytes": 16116,
+      "sha256": "0c30f5bc4da032088929e6acc00c71cc0dc5e589a2b0d5e20cd55253690afffc"
+    },
+    "15": {
+      "path": "/assets/data/everyday-maps/15.json",
+      "count": 29,
+      "byKind": {
+        "water": 5,
+        "restroom": 24
+      },
+      "bytes": 16959,
+      "sha256": "7cb8368ce13c2d09278b0fe13473d44a1bf7b145db76791022fc4109b5be556c"
+    },
+    "16": {
+      "path": "/assets/data/everyday-maps/16.json",
+      "count": 0,
+      "byKind": {},
+      "bytes": 73,
+      "sha256": "97c8c773d1f2928a370a10fcc3093501be4e19ade351216e621382564de1aaee"
+    },
+    "17": {
+      "path": "/assets/data/everyday-maps/17.json",
+      "count": 7,
+      "byKind": {
+        "restroom": 7
+      },
+      "bytes": 3926,
+      "sha256": "7984f387704cfa7e8eb6eb36665074509610159e9bcb9edf17648373c099f91c"
+    },
+    "18": {
+      "path": "/assets/data/everyday-maps/18.json",
+      "count": 1,
+      "byKind": {
+        "restroom": 1
+      },
+      "bytes": 611,
+      "sha256": "b3a3df36820fbefb1e0d03dac196b45f09b3a46c0cb1972ca44cd074be3a6002"
+    },
+    "19": {
+      "path": "/assets/data/everyday-maps/19.json",
+      "count": 626,
+      "byKind": {
+        "food": 215,
+        "restroom": 258,
+        "water": 146,
+        "shower": 7
+      },
+      "bytes": 412570,
+      "sha256": "ef6f5cf52e8c2467a66a9cb7e7f8ca3bae35c59ab2817ad9c7dfc4d4c23b930a"
+    },
+    "20": {
+      "path": "/assets/data/everyday-maps/20.json",
+      "count": 2,
+      "byKind": {
+        "restroom": 2
+      },
+      "bytes": 1144,
+      "sha256": "2064570de3079091924ac3b92178efc45b9b34e1716c2d1f57bbb6a1d1563d6f"
+    },
+    "21": {
+      "path": "/assets/data/everyday-maps/21.json",
+      "count": 99,
+      "byKind": {
+        "water": 32,
+        "restroom": 63,
+        "shower": 4
+      },
+      "bytes": 58903,
+      "sha256": "3c53ea63cc0cc540b22ccfcffd63d7edeaa6401470ec6ab1afb7cb58079249f8"
+    },
+    "22": {
+      "path": "/assets/data/everyday-maps/22.json",
+      "count": 20,
+      "byKind": {
+        "restroom": 17,
+        "water": 3
+      },
+      "bytes": 11563,
+      "sha256": "560f65bd67a952b7bd718386cad4cb9673232d3e2d07939abffde94d3e856c3b"
+    },
+    "23": {
+      "path": "/assets/data/everyday-maps/23.json",
+      "count": 15,
+      "byKind": {
+        "restroom": 14,
+        "water": 1
+      },
+      "bytes": 8419,
+      "sha256": "3eb51d52c4344ecacfbd183078f377c1ea3111384c5d6939b4214625afeeccbd"
+    },
+    "24": {
+      "path": "/assets/data/everyday-maps/24.json",
+      "count": 9,
+      "byKind": {
+        "restroom": 7,
+        "water": 2
+      },
+      "bytes": 5238,
+      "sha256": "9267794055cc5176f015e034596ee0449dd96a7513856c52d5844cfe3787077e"
+    },
+    "25": {
+      "path": "/assets/data/everyday-maps/25.json",
+      "count": 0,
+      "byKind": {},
+      "bytes": 73,
+      "sha256": "20772397169915c79f760a77eeec7a08f6928afd76ea0afcf3f84ef994b7f9aa"
+    },
+    "26": {
+      "path": "/assets/data/everyday-maps/26.json",
+      "count": 25,
+      "byKind": {
+        "restroom": 24,
+        "water": 1
+      },
+      "bytes": 13793,
+      "sha256": "5cded3afccdd2a27dd29efa5f2de15f0a6efcd7985aee34ae68c99b4efa41244"
+    },
+    "27": {
+      "path": "/assets/data/everyday-maps/27.json",
+      "count": 29,
+      "byKind": {
+        "restroom": 25,
+        "water": 4
+      },
+      "bytes": 16908,
+      "sha256": "ea732bb3ac3b12b5fd964a540be25ab9fbd954d3f4bdcce1edd4387507c31b11"
+    },
+    "28": {
+      "path": "/assets/data/everyday-maps/28.json",
+      "count": 16,
+      "byKind": {
+        "restroom": 14,
+        "water": 1,
+        "shower": 1
+      },
+      "bytes": 8920,
+      "sha256": "5f77ed55a59db7098c084edd9eb5c4298384189b46f1438cb750070db6ce4af6"
+    },
+    "29": {
+      "path": "/assets/data/everyday-maps/29.json",
+      "count": 8,
+      "byKind": {
+        "restroom": 7,
+        "shower": 1
+      },
+      "bytes": 4528,
+      "sha256": "b20a26f75e3aded39b2ba36f939c3805e3307c612c94104ab47feb2722c660ca"
+    },
+    "30": {
+      "path": "/assets/data/everyday-maps/30.json",
+      "count": 178,
+      "byKind": {
+        "water": 75,
+        "restroom": 96,
+        "shower": 7
+      },
+      "bytes": 107408,
+      "sha256": "e855287281944ad43538ffce598d3588f85a196089feb975c8251791ca477e04"
+    },
+    "31": {
+      "path": "/assets/data/everyday-maps/31.json",
+      "count": 81,
+      "byKind": {
+        "water": 27,
+        "restroom": 54
+      },
+      "bytes": 47963,
+      "sha256": "016dd81bd1cc4d775128e885a7e5f50d627e5e089dd5b86f23705ec9f4893575"
+    },
+    "32": {
+      "path": "/assets/data/everyday-maps/32.json",
+      "count": 3,
+      "byKind": {
+        "restroom": 3
+      },
+      "bytes": 1681,
+      "sha256": "b04f1a12e0f06f20eed4a321ecd80b8ae0f791bf57b205267f4a1a2c2d4a8280"
+    },
+    "33": {
+      "path": "/assets/data/everyday-maps/33.json",
+      "count": 161,
+      "byKind": {
+        "restroom": 73,
+        "water": 88
+      },
+      "bytes": 99534,
+      "sha256": "38a067351653c430960d51d341ceb27a348e327b651bb6bd605460d89293b8fe"
+    },
+    "34": {
+      "path": "/assets/data/everyday-maps/34.json",
+      "count": 60,
+      "byKind": {
+        "water": 27,
+        "restroom": 33
+      },
+      "bytes": 36783,
+      "sha256": "e64c9ddab5a61b72790a131cdcaaa24c7f71b751dcdaf6b4954536db3d913bad"
+    },
+    "35": {
+      "path": "/assets/data/everyday-maps/35.json",
+      "count": 7,
+      "byKind": {
+        "water": 2,
+        "restroom": 5
+      },
+      "bytes": 4280,
+      "sha256": "36418cf6841f932a6291ee4667d98180f66c03c2e1a276ab8f38752b82528aaa"
+    },
+    "36": {
+      "path": "/assets/data/everyday-maps/36.json",
+      "count": 81,
+      "byKind": {
+        "restroom": 56,
+        "water": 25
+      },
+      "bytes": 48024,
+      "sha256": "592c574df253a086ee592418bd7977aed5f118c3fad3906ad040d8f67b1cd8e1"
+    },
+    "37": {
+      "path": "/assets/data/everyday-maps/37.json",
+      "count": 256,
+      "byKind": {
+        "water": 47,
+        "shower": 12,
+        "restroom": 197
+      },
+      "bytes": 149397,
+      "sha256": "c79ce87a8cf83315c749129fa84502514559c01a4a77a49b6d8d675306aa314c"
+    },
+    "38": {
+      "path": "/assets/data/everyday-maps/38.json",
+      "count": 536,
+      "byKind": {
+        "restroom": 257,
+        "water": 279
+      },
+      "bytes": 354092,
+      "sha256": "b36fabc5d701a42be34f9768f916c4e2029b59ecce2e6cc7bad807761be31942"
+    },
+    "39": {
+      "path": "/assets/data/everyday-maps/39.json",
+      "count": 13,
+      "byKind": {
+        "water": 5,
+        "restroom": 8
+      },
+      "bytes": 7647,
+      "sha256": "9989532aa74a6629b0769dfae97c0b4e3dad1ac03b92e754ed323a4d25ea1c1f"
+    },
+    "40": {
+      "path": "/assets/data/everyday-maps/40.json",
+      "count": 59,
+      "byKind": {
+        "restroom": 29,
+        "shower": 1,
+        "water": 29
+      },
+      "bytes": 37751,
+      "sha256": "61de25fb290c8e9e79fa864090a047362a60485f3dcf46f8ad2a7c5a56a21058"
+    },
+    "41": {
+      "path": "/assets/data/everyday-maps/41.json",
+      "count": 208,
+      "byKind": {
+        "water": 80,
+        "restroom": 127,
+        "shower": 1
+      },
+      "bytes": 126616,
+      "sha256": "1e2d43252e41b155578c2eb6721b92e508afd0ffbf4e8f8b047833329ed47eb3"
+    },
+    "42": {
+      "path": "/assets/data/everyday-maps/42.json",
+      "count": 133,
+      "byKind": {
+        "water": 20,
+        "restroom": 106,
+        "shower": 7
+      },
+      "bytes": 81282,
+      "sha256": "3086e5b15a0ca63d240e5fa19fbd7a49c553dfccd53a30025722a7bbaf4d8eac"
+    },
+    "43": {
+      "path": "/assets/data/everyday-maps/43.json",
+      "count": 232,
+      "byKind": {
+        "water": 112,
+        "restroom": 119,
+        "shower": 1
+      },
+      "bytes": 145199,
+      "sha256": "d7c0dde4c1728f6396f733b0e1bc02afe6dcf85999021808b78f587e170a8489"
+    },
+    "44": {
+      "path": "/assets/data/everyday-maps/44.json",
+      "count": 191,
+      "byKind": {
+        "restroom": 178,
+        "water": 10,
+        "shower": 3
+      },
+      "bytes": 112323,
+      "sha256": "7a12a732c1cd25d00a837795384d2f59e6cfcdc6ff6aa03e24f0002ff301385b"
+    },
+    "45": {
+      "path": "/assets/data/everyday-maps/45.json",
+      "count": 23,
+      "byKind": {
+        "water": 3,
+        "restroom": 20
+      },
+      "bytes": 13100,
+      "sha256": "d7736b9a788a2cf26bf0bab74c98b4253499afa83d449aefb7648f8ecf7bab6b"
+    },
+    "46": {
+      "path": "/assets/data/everyday-maps/46.json",
+      "count": 6,
+      "byKind": {
+        "shower": 1,
+        "water": 1,
+        "restroom": 4
+      },
+      "bytes": 3670,
+      "sha256": "9082fcb797db6fa68a23825b8db371afaa7e4f139ee798bd14263bfa54e13b15"
+    },
+    "47": {
+      "path": "/assets/data/everyday-maps/47.json",
+      "count": 25,
+      "byKind": {
+        "water": 6,
+        "restroom": 19
+      },
+      "bytes": 15325,
+      "sha256": "9ed13a399d8d1fd7877ba50bc25c1dc7516f53a371d84ab79eca27e4e75e5d34"
+    },
+    "48": {
+      "path": "/assets/data/everyday-maps/48.json",
+      "count": 16,
+      "byKind": {
+        "water": 5,
+        "restroom": 11
+      },
+      "bytes": 9460,
+      "sha256": "4981e1f2333de4dcade456d2b203d1f9ac5218ee42389de9585df1170db54858"
+    },
+    "49": {
+      "path": "/assets/data/everyday-maps/49.json",
+      "count": 118,
+      "byKind": {
+        "restroom": 80,
+        "water": 35,
+        "shower": 3
+      },
+      "bytes": 70824,
+      "sha256": "d25809b652cecf78c93bd633503f2c98b9eca7c8b660db7f6b95632cfa1f7317"
+    },
+    "50": {
+      "path": "/assets/data/everyday-maps/50.json",
+      "count": 32,
+      "byKind": {
+        "water": 11,
+        "restroom": 21
+      },
+      "bytes": 19555,
+      "sha256": "4f568663336f174f944370ebd03c0bb6c48c80db739d6a6daf31082b3b50faf5"
+    },
+    "51": {
+      "path": "/assets/data/everyday-maps/51.json",
+      "count": 1,
+      "byKind": {
+        "restroom": 1
+      },
+      "bytes": 610,
+      "sha256": "678e0fdf3cbcf7a869d102b5eeca74937783b02f50c042c5feb2c809e3e17ed4"
+    },
+    "52": {
+      "path": "/assets/data/everyday-maps/52.json",
+      "count": 13,
+      "byKind": {
+        "restroom": 12,
+        "water": 1
+      },
+      "bytes": 7620,
+      "sha256": "f49988bbd9bb527687560d4d974c03a12b13e7a43d4655385f3a8fef8265132d"
+    },
+    "53": {
+      "path": "/assets/data/everyday-maps/53.json",
+      "count": 17,
+      "byKind": {
+        "restroom": 17
+      },
+      "bytes": 9803,
+      "sha256": "e36c09b2d049e8d63d0c1528848ccf4d6d25156e1ece5e33b40364347b0ca26c"
+    },
+    "54": {
+      "path": "/assets/data/everyday-maps/54.json",
+      "count": 49,
+      "byKind": {
+        "water": 5,
+        "restroom": 44
+      },
+      "bytes": 27529,
+      "sha256": "057771827f297bf88f1039fa42f3721e2694dd6d67cc135f1d4f17bd77e0bc18"
+    },
+    "55": {
+      "path": "/assets/data/everyday-maps/55.json",
+      "count": 14,
+      "byKind": {
+        "water": 1,
+        "restroom": 13
+      },
+      "bytes": 8080,
+      "sha256": "ff3a686f6ad103c772367e6256e407f8d209975617febfae63ebbce4c796b7bf"
+    },
+    "56": {
+      "path": "/assets/data/everyday-maps/56.json",
+      "count": 81,
+      "byKind": {
+        "restroom": 61,
+        "water": 15,
+        "shower": 5
+      },
+      "bytes": 46574,
+      "sha256": "3600105b22e590c33f163e31b5804dc23cffcfa4007f847734984eaabb6a9b4f"
+    },
+    "57": {
+      "path": "/assets/data/everyday-maps/57.json",
+      "count": 6,
+      "byKind": {
+        "water": 2,
+        "restroom": 4
+      },
+      "bytes": 3626,
+      "sha256": "40caa79bbef9233d78b9478107baf81d2881dd19e6b226bc110c987cfad48660"
+    },
+    "58": {
+      "path": "/assets/data/everyday-maps/58.json",
+      "count": 0,
+      "byKind": {},
+      "bytes": 73,
+      "sha256": "a2f850329cb8cbe4c49e2ada05ccf6cd4c4945b0d08a832d75f956b4a34253ac"
+    }
+  },
+  "count": 3932,
+  "byKind": {
+    "food": 215,
+    "water": 1227,
+    "restroom": 2436,
+    "shower": 54
+  },
+  "bySource": {
+    "la-food-distribution": 215,
+    "osm-basic-needs": 3298,
+    "sf-basic-needs": 419
+  },
+  "excluded": {
+    "sf_outside_county": 23,
+    "sf_restricted_or_unknown_access": 72,
+    "la_restricted_or_warehouse_name": 4,
+    "la_outside_county": 1,
+    "osm_access_unconfirmed_restricted_or_paid": 4490,
+    "osm_near_official_same_service": 83,
+    "osm_inactive_or_conditional": 90,
+    "outside_generalized_county_boundary": 12,
+    "osm_inactive_or_unsuitable_note": 4,
+    "osm_food_requires_provider_review": 10,
+    "identical_duplicate": 7
+  },
+  "inputReceipts": {
+    "sf-water-restrooms.json": {
+      "bytes": 370004,
+      "sha256": "40d0fdb293a3600ca5272191dc7e6638a0b00100ff286e9ce356b16611312f6a",
+      "url": "https://data.sf.gov/resource/wfq4-upmv.json?$limit=5000",
+      "retrieved": "2026-11-03"
+    },
+    "sf-metadata.json": {
+      "bytes": 39360,
+      "sha256": "645d42ff802e1760c22bb8a7116c76a9627d85d78ae44462eba76b800d60183f",
+      "url": "https://data.sf.gov/api/views/wfq4-upmv.json",
+      "retrieved": "2026-11-03"
+    },
+    "la-food.json": {
+      "bytes": 84853,
+      "sha256": "abf0dd0a99ce1f19d96b38f658c8bde96c14d2854b7d8b8cea611762bd1f2a5a",
+      "url": "https://services.arcgis.com/RmCCgQtiZLDCtblq/arcgis/rest/services/Food_Distribution_chp/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson&resultRecordCount=2000",
+      "retrieved": "2026-11-03"
+    },
+    "osm-everyday.json": {
+      "bytes": 2850678,
+      "sha256": "004e449c202e98c940ca66a1ae51ae2579d182df38d6f5e8a4177f1e2230a3eb",
+      "url": "https://overpass-api.de/api/interpreter",
+      "retrieved": "2026-11-03",
+      "method": "POST; query preserved in manifest",
+      "dataTimestamp": "2026-11-03T11:33:02Z"
+    },
+    "osm-query.txt": {
+      "bytes": 315,
+      "sha256": "d46bf99e6bc1125c267078f8e29a8d149b7d7bada7d6da1cd0ed499e576bdbaf"
+    }
+  },
+  "osmProjection": {
+    "path": "/assets/data/everyday-maps/openstreetmap-projection.json",
+    "bytes": 1976777,
+    "sha256": "7349aa6c84dfb00d1a4174a36ac7d28a69ab3d3d75764045894c4e1f10e07f24"
+  },
+  "query": "[out:json][timeout:90];area[\"ISO3166-2\"=\"US-CA\"][\"admin_level\"=\"4\"]->.ca;(nwr[\"amenity\"=\"drinking_water\"](area.ca);nwr[\"amenity\"=\"toilets\"][\"access\"=\"yes\"](area.ca);nwr[\"amenity\"=\"shower\"][\"access\"=\"yes\"](area.ca);nwr[\"social_facility\"=\"soup_kitchen\"](area.ca);nwr[\"amenity\"=\"food_bank\"](area.ca););out center meta;",
+  "coverage": "Partial directory coverage, not all providers or current opening. Only actual mapped places; no referral offices inferred as pickup points."
+}

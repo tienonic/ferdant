@@ -7,6 +7,7 @@ from icons import icon
 ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / 'content/regions.json').read_text(encoding='utf-8'))
 CITIES = json.loads((ROOT / 'content/california-cities.json').read_text(encoding='utf-8'))
+ALERTS = json.loads((ROOT / 'content/emergency-alerts.json').read_text(encoding='utf-8'))
 DOWNLOAD = '/downloads/ferdant-california-' + DATA['checked'] + '.html'
 e = lambda value: html.escape(str(value), quote=True)
 
@@ -34,7 +35,7 @@ def city_map(include_search=True):
 
 
 def phone_chart(expanded=False, include_map=True, show_download=True, show_picker=True, shared_only=False):
-    payload = json.dumps({'directory': DATA, 'places': CITIES, 'download': DOWNLOAD}, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
+    payload = json.dumps({'directory': DATA, 'places': CITIES, 'alerts': ALERTS, 'download': DOWNLOAD}, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
     rows = ''.join(phone_row(key) for key in DATA['statewide'])
     actions=f'<div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><p id="phone-download-status" role="status"></p></div>' if show_download else ''
     return f'''<details class="phone-directory" id="local-essentials"{' open' if expanded else ''}{' data-shared-only' if shared_only else ''}>
@@ -47,6 +48,7 @@ def phone_chart(expanded=False, include_map=True, show_download=True, show_picke
       <table class="phone-table"><caption class="visually-hidden" id="phone-caption">California emergency and support phone numbers other than 911</caption><thead><tr><th scope="col">Help with</th><th scope="col">Phone number</th></tr></thead><tbody id="phone-rows">{rows}</tbody></table>
       <p id="phone-no-matches" class="phone-coverage" hidden>No saved contacts match that search. Clear “Find a service” to see all saved numbers for this location.</p>
       <p class="phone-footnote">Contacts checked {DATA['checked']}. Phone service is needed to call or text. This is a saved directory, with no live dispatch, outage or shelter feed. Immediate danger still needs 911.</p>
-      <details class="phone-source-details"><summary>When to use these numbers & sources</summary><p>Contacts checked {DATA['checked']}. Availability and eligibility can change; this is not every possible local resource.</p><div id="phone-local-alert"></div><div id="phone-sources"></div><noscript><ul>{''.join(f'<li>{e(DATA["contacts"][key]["title"])}: {e(DATA["contacts"][key]["detail"])} <a href="{e(DATA["sources"][DATA["contacts"][key]["source"]]["url"])}">Publisher source (online)</a></li>' for key in DATA['statewide'])}</ul></noscript></details>
+      <div id="phone-local-alert"></div><noscript><p><a href="https://calalerts.org/signup.html">Find emergency alert signup for your county</a> (online).</p></noscript>
+      <details class="phone-source-details"><summary>When to use these numbers & sources</summary><p>Contacts checked {DATA['checked']}. Availability and eligibility can change; this is not every possible local resource.</p><div id="phone-sources"></div><noscript><ul>{''.join(f'<li>{e(DATA["contacts"][key]["title"])}: {e(DATA["contacts"][key]["detail"])} <a href="{e(DATA["sources"][DATA["contacts"][key]["source"]]["url"])}">Publisher source (online)</a></li>' for key in DATA['statewide'])}</ul></noscript></details>
       </div><script type="application/json" id="phone-data">{payload}</script><script src="/phone.js" defer></script><script src="/resource-booklet.js" defer></script><script src="/infographic.js" defer></script>
     </details>'''
