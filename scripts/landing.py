@@ -25,7 +25,7 @@ def landing_resources(branches, directory, entry, phones, tools):
       <summary>{branch['label']}</summary><p>{branch['description']}</p>
       <ul class="portal-list">{''.join(entry(title, url, publisher, branch['label']) for title, url, publisher, _ in directory.LINKS[branch['slug']])}</ul>
       <p class="portal-note">{directory.NOTES[branch['slug']]}</p></details>''' for branch in branches)
-    communities = ''.join(f'''<a class="community-resource" href="/{branch['slug']}/">
+    communities = ''.join(f'''<a class="community-resource" href="https://www.reddit.com/r/{branch['name']}/">
       {icon(CATEGORY[branch['slug']])}<span><strong>{branch['name']}</strong><span>{branch['description']}</span></span>{icon('right')}</a>''' for branch in branches)
     return f'''<section class="landing-library" aria-labelledby="library-title">
       <header class="library-heading"><h2 id="library-title">Useful across California</h2>
