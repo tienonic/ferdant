@@ -11,8 +11,10 @@
  function location(key){const row=places.cities.find(r=>r[0]===key);if(row)return {key,name:row[1],county:row[2],city:true};const county=key?.startsWith('county:')?key.slice(7):null;return places.counties[county]?{key,name:places.counties[county]+' County',county,city:false}:null;}
  function preview(key){
   const place=location(key),name=place?.name||'California',label=name.length>28?34:name.length>19?42:52;
-  const cells=config.disasters.plans.map((p,i)=>{const x=48+(i%3)*168,y=355+Math.floor(i/3)*64;const icon=document.querySelector('[data-disaster="'+p.id+'"] .atlas-choice-symbol svg')?.outerHTML||'';return '<g transform="translate('+x+','+y+')"><g color="'+blue+'">'+icon.replace(/\s(?:width|height)="[^"]*"/g,'').replace('<svg ','<svg x="0" y="0" width="25" height="25" ')+'</g><text x="0" y="43" font-size="11" fill="'+ink+'">'+esc(p.label.length>26?p.label.replace('Sea-level rise / ',''):p.label)+'</text></g>';}).join('');
-  return '<svg xmlns="http://www.w3.org/2000/svg" width="612" height="792" viewBox="0 0 612 792"><rect width="612" height="792" fill="'+paper+'"/><path d="M48 66H564M48 306H564M48 710H564" stroke="'+rule+'"/><g font-family="Arial, sans-serif"><text x="48" y="47" fill="'+blue+'" font-size="16" font-weight="700">ferdant.</text><text x="564" y="47" text-anchor="end" fill="'+muted+'" font-size="10">THE LOCAL RESOURCE BOOK</text><text x="48" y="115" font-size="12" fill="'+blue+'">'+esc(place?places.counties[place.county]+' County / California':'California / statewide edition')+'</text><g font-family="Georgia, serif" fill="'+ink+'"><text x="48" y="175" font-size="'+label+'">'+esc(name)+'</text><text x="48" y="229" font-size="42">field notes.</text></g><text x="48" y="274" font-size="14" fill="'+muted+'">Places to turn. Numbers to call. Steps to take.</text>'+cells+'<text x="48" y="744" font-size="12" fill="'+blue+'">Everyday searches / 15 events / phone charts</text><text x="48" y="766" font-size="10" fill="'+muted+'">A dated offline reference. Follow current local instructions.</text></g></svg>';
+  const ranked=window.FerdantRisk.ordered(key),profile=window.FerdantRisk.profile(key);
+  const cells=ranked.map((p,i)=>{const x=48+(i%3)*172,y=355+Math.floor(i/3)*64;const icon=document.querySelector('[data-disaster="'+p.id+'"] .atlas-choice-symbol svg')?.outerHTML||'';return '<g transform="translate('+x+','+y+')"><rect width="164" height="60" rx="4" fill="'+p.risk.fill+'"/><g color="'+p.risk.color+'">'+icon.replace(/\s(?:width|height)="[^"]*"/g,'').replace('<svg ','<svg x="7" y="5" width="22" height="22" ')+'</g><text x="35" y="19" font-size="10" font-weight="700" fill="'+p.risk.color+'">'+esc(p.risk.label)+'</text><text x="7" y="46" font-size="10" fill="'+ink+'">'+esc(p.id==='coastal'?'Coastal flooding':p.label)+'</text></g>';}).join('');
+  const scope=!profile.record?'Choose a location for a risk ranking.':profile.record.scope==='county'?'FEMA county ratings / December 2025':'City tract screening / highest overlapping-tract risk / '+profile.record.coverage+'% area coverage';
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="612" height="792" viewBox="0 0 612 792"><rect width="612" height="792" fill="'+paper+'"/><path d="M48 66H564M48 306H564M48 710H564" stroke="'+rule+'"/><g font-family="Arial, sans-serif"><text x="48" y="47" fill="'+blue+'" font-size="16" font-weight="700">ferdant.</text><text x="564" y="47" text-anchor="end" fill="'+muted+'" font-size="10">THE LOCAL RESOURCE BOOK</text><text x="48" y="115" font-size="12" fill="'+blue+'">'+esc(place?places.counties[place.county]+' County / California':'California / statewide edition')+'</text><g font-family="Georgia, serif" fill="'+ink+'"><text x="48" y="175" font-size="'+label+'">'+esc(name)+'</text><text x="48" y="229" font-size="42">field notes.</text></g><text x="48" y="274" font-size="14" fill="'+muted+'">Places to turn. Numbers to call. Steps to take.</text><text x="48" y="331" font-size="13" font-weight="700" fill="'+ink+'">Long-term relative risk / highest first</text>'+cells+'<text x="48" y="690" font-size="9" fill="'+muted+'">'+esc(scope)+'</text><text x="48" y="704" font-size="9" fill="'+muted+'">Not event probability. Low is not safe; gray means unassessed.</text><text x="48" y="744" font-size="12" fill="'+blue+'">Everyday searches / 15 events / phone charts</text><text x="48" y="766" font-size="10" fill="'+muted+'">FEMA NRI / December 2025. Follow current local instructions.</text></g></svg>';
  }
  function contactIds(place,event){
   const local=place?[...(phones.countyContacts[place.county]||[]),...(phones.cityContacts[place.key]||[])]:[];
@@ -40,13 +42,14 @@
  async function model(key){
   const place=location(key),directory=place&&await window.FerdantResourceMap.directory(key),items=directory?.items||[],sources=[],bySource=new Map();
   function source(s){const id=[s.url,s.title,s.checked,s.published].join('|');if(!bySource.has(id)){bySource.set(id,sources.length+1);sources.push({...s,id:sources.length+1});}return bySource.get(id);}
+  const riskProfile=window.FerdantRisk.profile(key),riskSource=source(config.hazardRisk.source),riskTractSource=source(config.hazardRisk.tractSource);
   function physical(f,issue){const s=config.sources[f.source],outside=place?.city&&!f.within?(f.servesCounty?'Serves '+places.counties[place.county]+' County; office outside city.':'Outside city / '+(places.counties[f.county]||'nearby')+' County / '+(f.km<10?f.km.toFixed(1):Math.round(f.km))+' km straight-line.') : '';
    return {issue,title:f.name,detail:f.address+', '+f.city+'. '+outside,access:f.visit?.hours?'Regular hours: '+f.visit.hours:'Hours and intake not confirmed; check with the provider.',kind:f.kind,url:f.url||s.url,source:source(s),physicalId:f.id};}
   function referral(issue,title,detail,url,kind='support'){return {issue,title,detail,access:'Referral link; confirm a visit first.',kind,url,source:source({title,url,checked:null,published:url==='https://www.news.caloes.ca.gov/cooling-centers-and-resources-3/'?'2026-03':null}),referral:true};}
   const evacuation=evacuationPlan(place,source);
   const evacuationMap=await window.FerdantResourceMap.routeMap?.(key)||null;
   if(evacuationMap)evacuationMap.sourceRef=source({title:evacuationMap.publisher+' evacuation planning roads',url:evacuationMap.source,checked:evacuationMap.checked,published:null});
-  const events=config.disasters.plans.map(p=>{
+  const events=window.FerdantRisk.ordered(key).map(p=>{
    const policy=config.resourcePlans[p.id],cards=[],used=new Set();
    function pick(kinds,issue){const f=kinds.map(kind=>items.find(f=>!used.has(f.id)&&(f.categories||[f.kind]).includes(kind))).find(Boolean);if(f){used.add(f.id);cards.push(physical(f,issue));}return Boolean(f);}
    pick(['hospital'],'I need urgent medical care');if(!pick(['clinic'],'I need a clinic or follow-up care'))cards.push(referral('I need a clinic or follow-up care','Find a community health center','HRSA health-center locator. Confirm services, appointments, enrollment and fees. Not a hospital emergency department.','https://findahealthcenter.hrsa.gov/','clinic'));
@@ -62,7 +65,7 @@
   const ids=[...new Set([...phones.statewide,...(place?phones.countyContacts[place.county]||[]:[]),...(place?phones.cityContacts[place.key]||[]:[])])];
   const appendix=ids.map(id=>({id,...phones.contacts[id],sourceRef:source({...phones.sources[phones.contacts[id].source],checked:phones.checked})}));
   const searches=config.resourceSearch.groups.map(group=>({...group,resources:group.sources.map(id=>{const s=config.resourceSearch.sources[id];return {...s,sourceRef:source(s)};})}));
-  return {place,events,sources,appendix,evacuation,evacuationMap,searches,regionalAvailable:directory?.regionalAvailable??false,geometryAvailable:directory?.geometryAvailable??false};
+  return {place,events,sources,appendix,evacuation,evacuationMap,searches,riskProfile,riskSource,riskTractSource,regionalAvailable:directory?.regionalAvailable??false,geometryAvailable:directory?.geometryAvailable??false};
  }
  function sourceDocument(m){
   const name=m.place?.name||'California',stem='ferdant-'+slug(name)+'-resource-book-'+config.serviceChecked;
@@ -74,6 +77,10 @@
    'Hours, admission and emergency use need confirmation. Specialty service coverage is incomplete. Distances are straight-line from an approximate city center, not route lengths. Official online referrals were not verified as local pickup sites.',
    'No private notes, current map filter, live alerts or shelter status enter these files. Links need internet; calls and texts need phone service.','Evacuation sources checked: '+(m.evacuation?.checked||'not available')+'. Published planning and zone maps are not incident-assigned routes. No current safe route, order, closure or evacuation destination is saved.','',
    'Additional directory searches need internet. Their results are not imported locations, confirmed openings or available beds.',
+   '','LONG-TERM RELATIVE HAZARD RISK',m.riskProfile.scope,'Release: '+m.riskProfile.release,m.riskProfile.method,
+   'High combines FEMA Very High and Relatively High. Moderate is Relatively Moderate. Low combines Relatively Low and Very Low. Missing, insufficient, not-applicable and unsupported hazards stay Not assessed. These are relative national ratings for each hazard, not probabilities or absolute loss comparisons.',
+   ...m.events.map(p=>p.label+': '+p.risk.label+'; highest source rating: '+p.risk.sourceRating+'; rated components '+p.risk.ratedComponents+'/'+p.risk.totalComponents+'. Scope: '+p.risk.scopeNote),
+   ...(m.riskProfile.record?.tracts?['Intersecting census tracts: '+m.riskProfile.record.tracts.join(', ')]:[]),'',
    ...(m.evacuation?['EVACUATION SOURCE REVIEW',...[...m.evacuation.links,m.evacuation.general,m.evacuation.flood,m.evacuation.tsunami,m.evacuation.tsunamiMap].flatMap(s=>['[S'+s.sourceRef+'] '+s.title,'Type: '+s.kind,'Review: '+s.review,...(s.corroborationURL?['Corroborating source: '+s.corroborationURL]:[]),''])]:[]),
    ...m.sources.flatMap(s=>['[S'+s.id+'] '+s.title,s.url,'Checked: '+(s.checked||'referral link; current service not verified'),'Publisher/data date: '+(s.published||'not supplied'),...(s.evidenceURL?['Publisher evidence: '+s.evidenceURL,'Evidence date: '+(s.evidencePublished||'not supplied'),'Coverage: '+s.coverage,'Review limits: '+s.verification]:[]),''])].join('\r\n');
   return {filename:stem+'-sources.txt',pdfFilename:stem+'.pdf',text};
@@ -132,15 +139,16 @@
   const nh=text(name,40,116,520,name.length>28?32:44,ink,'times');text('field notes.',40,124+nh,532,42,ink,'times');
   const introY=136+nh+53;const introHeight=text('Places to turn. Numbers to call. Steps to take.',40,introY,532,14,muted);
   text('Evacuation map / page 2',40,introY+introHeight+5,532,9,blue);pdf.link(40,introY+introHeight+3,532,18,{pageNumber:2});
-  y=introY+introHeight+25;y+=text('Find your event',40,y,532,19,ink,'times')+19;
+  y=introY+introHeight+25;y+=text('Long-term risk / highest first',40,y,532,19,ink,'times')+19;
   const tocTop=y,toc=[];
-  for(let i=0;i<m.events.length;i++){const p=m.events[i],x=40+(i%3)*181,top=tocTop+Math.floor(i/3)*54;if(hazardIcons[p.id])pdf.addImage(hazardIcons[p.id],'PNG',x,top,23,23);text(p.label,x+30,top,140,10);toc.push({event:p,x,top});}
+  for(let i=0;i<m.events.length;i++){const p=m.events[i],x=40+(i%3)*181,top=tocTop+Math.floor(i/3)*54;pdf.setFillColor(p.risk.fill);pdf.rect(x-2,top-3,174,49,'F');if(hazardIcons[p.id])pdf.addImage(hazardIcons[p.id],'PNG',x,top,23,23);text(p.label,x+30,top,140,10);text(p.risk.label,x+30,top+28,108,8,p.risk.color,'helvetica','bold');toc.push({event:p,x,top});}
   y=tocTop+5*54+14;line(y);y+=14;
   const searchIndexY=y;
-  y+=text('Everyday resources & directory searches start on page 3. Tap here to browse by need, or choose an event above. Related phone charts follow each event.',40,y,532,10,blue)+12;
+  y+=text('Risk summary: page 3. Everyday resource searches follow it. Tap here to browse resources, or choose an event above. Related phone charts follow each event.',40,y,532,10,blue)+12;
   y+=text('Selected directory locations, not every local program. Ordinary sites may close or restrict intake. No current shelter, cooling/warming activation, capacity, safe route or evacuation destination is saved.',40,y,532,9,muted)+10;
   const coverage=!m.place?'No city selected: statewide referrals only.':!m.regionalAvailable?'Additional county service records are not available in this copy; baseline records and referrals remain.':'Local or clearly labelled nearby directory records. Confirm the current entrance, service and eligibility before travel.';
-  y+=text(coverage+' Resources checked '+config.serviceChecked+'; contacts '+phones.checked+'.',40,y,532,9,muted)+8;
+  const riskScope=m.place?.city?'City tract screening, not an official city rating. Mapped-area coverage: '+m.riskProfile.record.coverage+'% (includes water where present).':m.place?'FEMA county-level risk ratings.':'No location selected: risk remains unassessed.';
+  y+=text(riskScope+' FEMA NRI December 2025. Low does not mean safe; see page 3 for scope.',40,y,532,9,muted)+8;
   text('Companion sources: '+companion.filename,40,y,532,8,muted);
   next('Evacuation map');
   y+=text(name+' evacuation roads',40,y,532,25,ink,'times')+8;
@@ -176,6 +184,20 @@
   }else{
    y+=text('No reviewed evacuation-road geometry is available for '+name+' in this edition. A route has not been drawn or guessed. Use the official maps in Evacuation routes & updates and follow current local instructions.',40,y,532,12,muted)+18;
   }
+  next('Long-term relative hazard risk');const riskStartPage=page();
+  y+=text('Your planning priorities',40,y,532,25,ink,'times')+8;
+  y+=text(m.riskProfile.scope,40,y,532,10,muted)+7;
+  y+=text('FEMA NRI / '+m.riskProfile.release+'. Relative risk, not event probability or a current forecast. Low does not mean safe. [S'+m.riskSource+'; S'+m.riskTractSource+']',40,y,532,9,muted)+12;
+  for(const band of config.hazardRisk.bands){
+   const entries=m.events.filter(p=>p.risk.id===band.id);if(!entries.length)continue;
+   space(55,'Long-term risk / continued');pdf.setFillColor(band.fill);pdf.rect(40,y,532,23,'F');text(band.label,49,y+5,510,11,band.color,'helvetica','bold');y+=30;
+   for(const p of entries){
+    const detail=p.risk.order===3?p.risk.sourceRating+(p.risk.sourceRating==='Not included'?' in FEMA NRI':''):p.risk.sourceRating+' / '+p.risk.scopeNote;
+    pdf.setFont('helvetica','normal');pdf.setFontSize(8);const height=Math.max(20,pdf.splitTextToSize(plain(detail),310).length*10.08+7);space(height,'Long-term risk / continued');
+    text(p.label,48,y,195,9,ink);text(detail,250,y,310,8,muted);y+=height;
+   }y+=7;
+  }
+  y+=text('High combines Relatively High and Very High; Low combines Relatively Low and Very Low. City bands screen the highest overlapping-tract rating and can include exposure outside city limits. Weather plans use the highest available component. Dam failure, levee failure and subsidence are unassessed; coastal flooding does not rate future sea-level rise. Gray never means low risk.',40,y,532,8,muted)+9;
   next('Everyday resources & directory searches');
   const searchStartPage=page();
   y+=text('More ways to find local help',40,y,532,25,ink,'times')+12;
@@ -217,6 +239,7 @@
   for(const p of m.events){
    currentEvent=p;next();p.startPage=page();if(hazardIcons[p.id])pdf.addImage(hazardIcons[p.id],'PNG',537,67,30,30);
    y+=text(p.artTitle,40,y,480,25,ink,'times')+7;y+=text(p.label+' / '+name,40,y,532,11,blue,'helvetica','bold')+12;
+   y+=text(p.risk.label+' / '+(m.place?.city?'city tract screening':'county context')+' / not a forecast',40,y,532,9,p.risk.color,'helvetica','bold')+9;
    pdf.setFillColor('#edf3f7');const headHeight=(()=>{pdf.setFont('helvetica','bold');pdf.setFontSize(11);return pdf.splitTextToSize(plain(p.headline),508).length*13.86+20;})();pdf.rect(40,y,532,headHeight,'F');text(p.headline,52,y+9,508,11,ink,'helvetica','bold');y+=headHeight+12;
    for(const s of p.steps)y+=text(s.label+': '+s.text,40,y,532,9.5,ink)+4;
    y+=urlLabel('Official guidance [S'+p.guidanceRef+']',p.guidance.url,40,y,532,9)+10;
@@ -256,7 +279,8 @@
   if(evacuationStartPage)pdf.outline.add(null,'Evacuation routes & updates',{pageNumber:evacuationStartPage});
   pdf.link(40,searchIndexY,532,30,{pageNumber:searchStartPage});
   pdf.outline.add(null,'Everyday resources & searches',{pageNumber:searchStartPage});
-  for(const {event:p,x,top}of toc){pdf.link(x,top,171,45,{pageNumber:p.startPage});pdf.outline.add(null,p.label,{pageNumber:p.startPage});text('p. '+p.startPage,x+30,top+27,140,8,blue);}
+  pdf.outline.add(null,'Long-term relative hazard risk',{pageNumber:riskStartPage});
+  for(const {event:p,x,top}of toc){pdf.link(x,top,171,45,{pageNumber:p.startPage});pdf.outline.add(null,p.risk.label+' / '+p.label,{pageNumber:p.startPage});text('p. '+p.startPage,x+139,top+28,30,8,blue);}
   pdf.outline.add(null,'Everyday phone desk',{pageNumber:m.events.at(-1).endPage+1});
   for(let n=1;n<=total;n++){pdf.setPage(n);line(749);text('FERDANT / '+name,40,758,260,8,blue);text('Sources: companion TXT / '+n+' of '+total,351,758,221,8,muted);}
   for(const item of layout)if(item.top+item.height>(item.top>=750?776:744)||item.x+item.width>573)throw Error('Booklet layout overflow: '+JSON.stringify(item));

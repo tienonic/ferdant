@@ -93,6 +93,10 @@ def compile_references():
         source(record, 'maps', 'Physical service: ' + key, 'content/physical-services.json', physical['checked'])
     statewide = read('content/statewide-service-manifest.json')
     everyday = read('content/everyday-service-manifest.json')
+    risk = read('content/hazard-risk.json')
+    for key in ('source', 'tractSource'):
+        source(risk[key], 'disasters', 'Long-term hazard risk ranking: ' + key,
+               'content/hazard-risk.json', risk['checked'])
     for key, record in everyday['sources'].items():
         source(record, 'maps', 'Everyday physical directory: ' + key,
                'content/everyday-service-manifest.json', everyday['checked'])
@@ -178,6 +182,7 @@ def compile_references():
                         ('content/physical-service-manifest.json', 'maps'),
                         ('content/statewide-service-manifest.json', 'maps'),
                         ('content/everyday-service-manifest.json', 'maps'),
+                        ('content/hazard-risk-manifest.json', 'disasters'),
                         ('content/disaster-source-manifest.json', 'disasters'),
                         ('assets/fonts/provenance.json', 'assets'),
                         ('assets/photos/provenance.json', 'assets'),

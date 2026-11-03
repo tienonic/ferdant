@@ -1,8 +1,12 @@
 # City resource books
 
 The city download combines all fifteen disaster sections in one small, vector PDF.
+The cover and chapters are ordered High, Moderate, Low, then Not assessed using
+the source-linked [long-term risk method](hazard-risk-ranking-20261103.md).
+Page 2 remains the evacuation map; page 3 explains ratings and geographic scope.
+The PNG download also includes the risk groups before the existing contact chart.
 A visual event index and PDF bookmarks jump to the relevant section. Everyday
-resource searches now follow the cover: seven categories and all 17 destinations
+resource searches follow the risk overview: eight categories and all 18 destinations
 from `content/resource-search.json`, with clickable and printed URLs. These are
 search links, not additional verified physical locations. The source TXT includes
 their review limits, coverage and publisher-evidence links. The cover preview and

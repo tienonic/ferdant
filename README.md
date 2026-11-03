@@ -60,6 +60,7 @@ node tests/resource-map.cjs
 npm.cmd run verify:disasters
 npm.cmd run verify:services
 npm.cmd run verify:statewide
+npm.cmd run verify:risk
 npm.cmd run verify:everyday
 npm.cmd run verify:booklet
 npm.cmd run verify:recommendations

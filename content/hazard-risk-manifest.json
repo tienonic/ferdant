@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "checked": "2026-11-03",
+  "release": "December 2025 / v1.20",
+  "source": {
+    "title": "FEMA National Risk Index v1.20 — December 2025",
+    "url": "https://www.arcgis.com/home/item.html?id=39485e8035d446a5bff03259508ae355",
+    "checked": "2026-11-03",
+    "published": "2025-12",
+    "note": "Relative risk includes expected losses, social vulnerability and community resilience. It is not event probability or a forecast."
+  },
+  "tractSource": {
+    "title": "FEMA National Risk Index Census Tracts",
+    "url": "https://www.arcgis.com/home/item.html?id=9da4eeb936544335a6db0cd7a8448a51",
+    "checked": "2026-11-03",
+    "published": "2025-12"
+  },
+  "countyCount": 58,
+  "cityCount": 483,
+  "tractCount": 9106,
+  "inputReceipts": {
+    "ca-counties.json": {
+      "bytes": 104230,
+      "sha256": "95473c8229b4354bc6d9a1f3626422202b04656753b7f09f40998f47dd671755"
+    },
+    "ca-tracts-0.json": {
+      "bytes": 3997169,
+      "sha256": "12f5f8a5c71cfc54782ac37ab936dadb7d7d12015ad21fcb35d08b3956ad233e"
+    },
+    "ca-tracts-1500.json": {
+      "bytes": 1572817,
+      "sha256": "415811493144f55484e93a7ed0ffb4d867816145a12dedfa31db0936b7fc1a72"
+    },
+    "ca-tracts-3000.json": {
+      "bytes": 3560457,
+      "sha256": "93cd84a948b0072b83a14f50158e2b0a74fdf88cd52ea33651abb360635534c5"
+    },
+    "ca-tracts-4500.json": {
+      "bytes": 2306904,
+      "sha256": "3d054df394fc5947f7d645c3b2d2f918cd8bf5190b1b5a68b7d9a4cecfb1897c"
+    },
+    "ca-tracts-6000.json": {
+      "bytes": 2588536,
+      "sha256": "97a2b9eba233420102f7fc880ae55946e38c384ccfee0d148c14b08fa6324de0"
+    },
+    "ca-tracts-7500.json": {
+      "bytes": 4349491,
+      "sha256": "87502fbaeb64f282b7a47e47cf11be50dd4cf43752d5e104b4a57cc7b16353f1"
+    },
+    "ca-tracts-9000.json": {
+      "bytes": 280561,
+      "sha256": "327e9389f8d607c78764b1f7c590be6aa58f5e43eb81caf3e255a869d912b14e"
+    },
+    "county-item.json": {
+      "bytes": 38248,
+      "sha256": "d2f84f9ea0d26a9a5cc1646dbb31f281c485d67748a7240fc2b8858e5bd96bbe"
+    },
+    "county-metadata.json": {
+      "bytes": 233504,
+      "sha256": "a7c29603e37422f8f8d5bad524ea6c88d2c9cef6bdcda7c01857b2d7c437ed9b"
+    },
+    "tract-metadata.json": {
+      "bytes": 247978,
+      "sha256": "5d179b99b0447341d2a96be46b05ebd5f033662e55ee5fb87e782f195d3eb9ba"
+    },
+    "tract-query.json": {
+      "bytes": 625,
+      "sha256": "c4f9d56406ab94f3ce5bb468e8475d8d20dc450b6e13f8b095f8f66364ee149f"
+    }
+  },
+  "geometrySimplificationDegrees": 0.0001,
+  "tractQuery": {
+    "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Census_Tracts/FeatureServer/0/query",
+    "params": {
+      "f": "geojson",
+      "where": "STATEABBRV='CA'",
+      "outFields": "NRI_ID,COUNTY,STCOFIPS,TRACTFIPS,NRI_VER,AVLN_RISKR,CFLD_RISKR,CWAV_RISKR,DRGT_RISKR,ERQK_RISKR,HAIL_RISKR,HWAV_RISKR,HRCN_RISKR,ISTM_RISKR,LNDS_RISKR,LTNG_RISKR,IFLD_RISKR,SWND_RISKR,TRND_RISKR,TSUN_RISKR,VLCN_RISKR,WFIR_RISKR,WNTW_RISKR",
+      "outSR": 4326,
+      "returnGeometry": "true",
+      "maxAllowableOffset": 0.0001,
+      "resultOffset": 9000,
+      "resultRecordCount": 1500,
+      "orderByFields": "OBJECTID"
+    },
+    "count": 9106,
+    "pageSize": 1500
+  },
+  "countyService": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0",
+  "boundaryInputs": {
+    "content/california-cities.json": "3c7eed83b6103ba8df4fc2d2bd45cc961fa9bc011bf40d065f2e36279b9fcd86",
+    "assets/data/city-maps/01.json": "fd387a03566547e65f9692944e270fc6e9d0642dec14c85fcfcc671987e9c37f",
+    "assets/data/city-maps/02.json": "9c279b4ed714d1ff16b876608875c6eb99444703dc3622cff751d2be3a390448",
+    "assets/data/city-maps/03.json": "46361495e81cff248e59abfcdb58412ae697c51a69f385660a23996138951e20",
+    "assets/data/city-maps/04.json": "1d6cd020db2fa32ae96210069de825287aab293b3fb6c0665fe7561a901b8f68",
+    "assets/data/city-maps/05.json": "c246dde279c77ec0f6abe504d8b52246e925ee390cc0f69557c341c1f02cb86b",
+    "assets/data/city-maps/06.json": "ed0fe2140634ce171d10812d495c1b34b2a0abd266dd9ea089eed2d67c5807fd",
+    "assets/data/city-maps/07.json": "f957a0b7f3e2a2a27e70d755b93936c03b911a04f6f443353bb96966d7928a9b",
+    "assets/data/city-maps/08.json": "321d590f58d05580b24d863bd33e695472a85d29bcf406ec04e645f2f7fce2a5",
+    "assets/data/city-maps/09.json": "9e26ddf105a2eec093e467899cc7184a15fb22d0dd1832d8ffab168919a9cb07",
+    "assets/data/city-maps/10.json": "3cdb099c8427dc25a0ae93257a1be8648fe61e5cba75e75bb71b5d1f55e1573a",
+    "assets/data/city-maps/11.json": "86a4fe5cfa252685e42b440a5557121acf34483bb446d91aa11f7914b20d7826",
+    "assets/data/city-maps/12.json": "f5f68c845b8cb333545334fe9fd2a6767afb32c1c3082cb2b4321dd5d54da058",
+    "assets/data/city-maps/13.json": "ffa589754d93d607e4d8438d7691abc10f8560bf0cfa12e4a4aedfaa1183f725",
+    "assets/data/city-maps/14.json": "cbaf99828d80789f37fc95cd541245d31c14b5c1ef399e2d34325104dfc3c4aa",
+    "assets/data/city-maps/15.json": "6c91a953546bf27df008759dfd748968f751fc06371fbcd4581c893212a225c1",
+    "assets/data/city-maps/16.json": "da817b8e6eb0bc10b08792983152258c7172db51a746e33f6ff4f7bd00d9d918",
+    "assets/data/city-maps/17.json": "d8c86a3949003a7342813000f6bdf7c88a33053d5d19fe0b2a74a838ec4ab90a",
+    "assets/data/city-maps/18.json": "db45f37dc4e352453414254c7b115f2830b2a0b26c16b3a759d88db62676d39c",
+    "assets/data/city-maps/19.json": "1f9774e5532d8ded4e0e464a458d666f6a8c588efd5976a3e81b5d2f1a84981a",
+    "assets/data/city-maps/20.json": "8de03ff54467a19cea83d8ef1e269f661cb55f24dd06ae35e8291443fb2a3042",
+    "assets/data/city-maps/21.json": "d45c449b58255f9106251e85c718f55c5bf2d4a6a5b190762a81b42b0aa59580",
+    "assets/data/city-maps/22.json": "92d38c8bc00ab430a9a86c8a7619182130c1c655dd8e1b50ef9dad4f0b95735e",
+    "assets/data/city-maps/23.json": "60f8abd3175648e71e27e7d292fa27e8145739e12a6344f32b83a00734942a51",
+    "assets/data/city-maps/24.json": "86288e783497efd63324ea11f4e8f26836dc39d5c5f1f11f7b185026af203a94",
+    "assets/data/city-maps/25.json": "af6aee41a71d0429908820b47cd306c5e9f1fe4749dee969306b7953a87877d0",
+    "assets/data/city-maps/26.json": "67fd5627b6d9f9355f417e641812d204a6f8f39e4f69b0138d775f9cae9afeac",
+    "assets/data/city-maps/27.json": "e4465f3150e63edd2cbbd5c5bd3e53026b6a88cfce91d15e287c8706c36da7e1",
+    "assets/data/city-maps/28.json": "5954dc9329d9af2438c0223ecbc88a549aae4cb9c2ae78e7f5c3a49682a1bd9f",
+    "assets/data/city-maps/29.json": "7c08ec5f08189e966b2151719ca7dfe5bcec3edcfac91ff166f341f5a7e25f2a",
+    "assets/data/city-maps/30.json": "628930d9c3a7e38a1d5fe8c576686f715c8c9945c297e6397f10a907575ee4e9",
+    "assets/data/city-maps/31.json": "1e5748bee4432283c6789276efc32dd42818ae233d5f7db420f880246894c541",
+    "assets/data/city-maps/32.json": "2b4da0072383299fe65d949da67628e28938eca606e39655d96caa46bbe617e3",
+    "assets/data/city-maps/33.json": "adb534cfbb94ec1584ddcdc8870bac58828506d714457f0553e2eb9971c54fe3",
+    "assets/data/city-maps/34.json": "32e89fdaa570628b2829467468cce9fc33e8d9503de2767d9da74398cb313e57",
+    "assets/data/city-maps/35.json": "54c1b266ac499a6a3dddccf99994719908deb0e93c98eb594121a61693e7efda",
+    "assets/data/city-maps/36.json": "4e16bd141ebb8e6c80e511dba7cb031a3668c3a4e0f83084d66a29df433c7d36",
+    "assets/data/city-maps/37.json": "bda32e804248acc8bc1b4c482fc5ceb6d2b46762667b14ebe7101ebe3642ac18",
+    "assets/data/city-maps/38.json": "b75f6e192d98bc311733701c174334fc42121949f2fd0b15bd7965d86db42e8b",
+    "assets/data/city-maps/39.json": "5334a1c3eca208e6b0d4a5de433dfaa11c26296f29af21d8865b61beacc662f2",
+    "assets/data/city-maps/40.json": "dac918b3d87a4171712cd0eed76c4183c5a902326070d6ade8cf25ca75e61c0b",
+    "assets/data/city-maps/41.json": "d21d74aea5d7ed12694ba891a4199ba114dbc1f8028a15077c70a42958905e22",
+    "assets/data/city-maps/42.json": "163c0db7cd5159b9582593248099f45309b7535b59a56269fb9839eb3fbea81e",
+    "assets/data/city-maps/43.json": "2d138e1dc58adf2f5fdbdde19b863126bb771c95308637402ae4679d8e977cf6",
+    "assets/data/city-maps/44.json": "99a231a1326dbb13b656a72c05cc70a4e2d90e5aee5ea86a195b90691b6d52e4",
+    "assets/data/city-maps/45.json": "d29f44f5f5ae046921f9880b571dc9661d0a697600cd1079772254dfd6607326",
+    "assets/data/city-maps/46.json": "00da4aa8877608cfcb4344570632149c8ff1db4d353959b7f838ed3f5cfcb09f",
+    "assets/data/city-maps/47.json": "03af5d463c59a296da6791fe3008f0e6c46857540c6826884fd8b71f7d73cc8b",
+    "assets/data/city-maps/48.json": "1927491a3256e7d0b7ea4b187191cf14df6e4464023b105d188ad46fc5f772da",
+    "assets/data/city-maps/49.json": "b867673f6eb06c26372dc99c42cce2b931874cd9b96f056f8c875dae3a58305f",
+    "assets/data/city-maps/50.json": "8b40913b66086bf9cbca615fadcbe7d7dbe0452cad3c3177d79ee383b0b22bc6",
+    "assets/data/city-maps/51.json": "ad9f7f176987aad30bf3c89ac5b8c6769083516f4a19ca0121d64a2c32ceb10f",
+    "assets/data/city-maps/52.json": "dd377a4a64248fd3251825422f10472c4050b0cddb018f43629be4ff8925f8ac",
+    "assets/data/city-maps/53.json": "ec7121f38192cb5385e547f77fa3346f3803af285224a9041ca29bdd6df2cb70",
+    "assets/data/city-maps/54.json": "d770e61be67f5270f8c7311777d2666c9e97445e549166caa68438cbb67dd593",
+    "assets/data/city-maps/55.json": "62d0c470afc1ac74886f5a0a514cbeb416893ce94e8a2781a5008c6cdf43117d",
+    "assets/data/city-maps/56.json": "158e74667c073d377aac46acaaf8e91b38df993d2cf3780c92844e9e29c0485b",
+    "assets/data/city-maps/57.json": "bc245fd4cb985fb3f3264a4af27d164f6f2961ba7b95d69f72a2d2e2d5f657a1",
+    "assets/data/city-maps/58.json": "980cfe3017da4940448eaa80fdea98c8bc8a68f883e780ef8030c4c4a92eac60"
+  },
+  "outputSha256": "b043e0e500a4483c1bafae072b07bfe136409a41407406002842766409f80fff",
+  "method": "County views use FEMA county ratings. City views use the highest rated overlapping census tract for each hazard component; these are derived screening bands, not official city ratings. Overlap must cover at least 1% of either the city or the tract. Boundaries are generalized. Combined weather plans use the highest available component; unrated components remain unknown. Low is not safe or zero risk; missing and not-applicable ratings are not Low.",
+  "limits": [
+    "Not a likelihood estimate, current warning or address assessment.",
+    "Risk ratings are relative to other US communities for each hazard, not a comparison of absolute losses between hazards.",
+    "City screening can include risk in the part of a tract outside the city. A highest-tract band does not describe every neighborhood.",
+    "Coastal flooding does not rate future sea-level rise. Dam failure, levee failure and subsidence are not assessed."
+  ]
+}

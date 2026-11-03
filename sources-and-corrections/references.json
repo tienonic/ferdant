@@ -11,9 +11,9 @@
     "Census geocoding receipts include unsuccessful candidates; a query is not proof that a point was accepted or mapped."
   ],
   "inputSha256": {
-    ".github/workflows/check-site.yml": "c407f4d90b648fffc5a087c8cbde4819fff58f3f539e668ee935538d1e0761b7",
+    ".github/workflows/check-site.yml": "ccb53f14fdae2ed539abcaa5fd076a97d0343f8220dc8af4b864af640e77ee20",
     "DESIGN.md": "5c07a65e2ad3aa75afb9f3faf16eb14bce9e376fbca542ff21868deb4a0e84c9",
-    "README.md": "b997f433890c1216eab7c1be7f6822ee1c395e6298c49abe8fd84343a54bf2a6",
+    "README.md": "f8e707af812f8dcd078b7f9e5eb544eef0af049678c3655e16971509b012c986",
     "assets/data/city-maps/BUILDINGS-LICENSE.txt": "1e4162322549351e6ce131d66c3c6c6cb56755db58e0475138e3f41cd94c4b3c",
     "assets/data/city-maps/README.md": "346247e7e378991bcd18e3602eb7ca91b08f38a71aa9f7ac232eab8877cd8bde",
     "assets/data/everyday-maps/README.md": "7f0f956a461fc1b499e3ee052312e612a1f5f5c2d50e0a0c994d260b0b233fff",
@@ -95,6 +95,8 @@
     "content/emergency-alerts.json": "7f65138b779eb1870a3bd5e6e454df39b07630686b47e481af12d60c17110b21",
     "content/evacuation.json": "8df541625adae084a4a4a2dd1d83937332727842c26fbbb65a07ff3f762c04b8",
     "content/everyday-service-manifest.json": "9a3c86a55eb3e85e53a9c4378ae0bfce489f0e3537ad3183a99d954f2eda2107",
+    "content/hazard-risk-manifest.json": "59d3da3d6a75418c37263b30f2691c85807e8812153aef1de8f9ea47044c06e4",
+    "content/hazard-risk.json": "b043e0e500a4483c1bafae072b07bfe136409a41407406002842766409f80fff",
     "content/map-data-manifest.json": "b779ca6ee472019ac8dd95ca5159a4be366e329236985d2d7ba7281ecad3cb08",
     "content/physical-service-manifest.json": "862e2398dd2ac064bb740f33b8c83e097cc59f9aa5ced5ebbdfae4c9718a1f16",
     "content/physical-services.json": "29a0f84ccdd4687dace5a0b470e9d2704f304f74445091af2d75148df561af9d",
@@ -113,41 +115,44 @@
     "docs/evacuation-resources-20261103.md": "6a9a44f0dd4c50123517f5bac2dfcdb8637d9a13ece6cf80c2a4bb8f58ea0942",
     "docs/everyday-map-expansion-20261103.md": "fc13e4d07752aebc6b574e2ec96f8da8acafe4867ccb847f48fdec8839c83d1e",
     "docs/everyday-map-visibility-20261103.md": "67009df381ab266888caa71d721d469f35b2faa2ec7fab1b5c463ac9f0973938",
+    "docs/hazard-risk-ranking-20261103.md": "4876122b6030a19599e27e604c22f76ac24f1909d2dfb2834b4ea37effa2b597",
     "docs/landing-flow-20261103.md": "769d86ba3cf61e0b56467851b0a253ed140261d31d2563d1575b127e1f15d5cc",
     "docs/outreach-buyers-and-income-findings-20261103.md": "2377d04566882beb6e10d362831c957e86ce8176b1dfe0eccc126639d55ae8f8",
     "docs/physical-services.md": "27302ec47f59878322120034f0fdb987bfc7a2499d632b8a6d2616b18afb221e",
     "docs/recommendations.md": "629a6e4997716de962faa8502a8ca6384b60db167a7625d1eb9f792bdd86ec03",
-    "docs/resource-booklet.md": "72d38daff471cd86d3d9ad6fe03563905f04d9b76afa0127dad402944eebcfa9",
+    "docs/resource-booklet.md": "a88adafe2718e5297734dae36fa8cd05c010dd88b00472b8db49663624e02714",
     "docs/resource-directory-research-20261103.md": "aa6926eeafcca63b1adbe5cd5e6020d7ffa0d081dfd768bb34de9c4714fb79be",
     "docs/website-references.md": "c25aa51f2c19d02c177454a4ff417abfa93f2e8b6530d23afc48d3c6848f44ea",
-    "infographic.js": "496b10db7c60b9084a69aa0de8a2e33826e5191e8bdfd6e19c0eb48b1c3da570",
+    "hazard-risk.js": "f17dcd3360644dfbbdf488ac203a337925a3e2c6aecffea4fb6366af2bc610ff",
+    "infographic.js": "f3ab28fe67ecfe4cc3d9434e0e31187b29c6fbd5435a5d18d5c88c034c65faca",
     "integrations/README.md": "bd2afdbdd8e272ec623c479aba0b700bea5b449e872cd6295f163e73506e133a",
     "integrations/shopify.mjs": "06b43fa4f3c823fdb1372918e3ce881d4ec42d384e830697afbb66e08c12cf72",
     "landing.js": "9f5d4b58e93e901e16e6fcee4b187cdb0d5f7d3de467a9d411e03dd2a4c994fc",
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
     "phone.js": "d01c5de02e86c03119569de6a2033fb9615fa45e8109b936079cfb663dd87739",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
-    "resource-booklet.js": "377274b2fb0800701767c67b2ad833c9a2230bd559b639f41413314da91dc971",
+    "resource-booklet.js": "854d63e23c3aad272dde842f3f00b2eb6fe1b96bb932d9a67b61a30dc798c9a8",
     "resource-map.js": "2a75db8d89ed58a8ad7c6112e74117baaf7f246627e92810d11b392823e66065",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
-    "scripts/build.py": "21d30fa36a8e67fd81bf6835217036a60ee3d4154ed54f96b9a667f1e74815b5",
+    "scripts/build.py": "d0d5aee45d731050abaa2814a52e85b89f18086a8d89b501b4c1ad77e71a6096",
     "scripts/check-content.py": "912019aebb7a4ae61dfac2ec6772c1e1a30ffd15d1185bcb4412dc808f27e643",
     "scripts/cost_tool.py": "71f3ff17044114405286e328aabfec51bed9d6536fd357214648a4d48c45af69",
     "scripts/graphics.py": "5fc8aac8d4e418e5f575749505b3d4e679cb98d3afadcb68d231c020f85f1557",
     "scripts/icons.py": "1bd04e25fa9377f22667316bbefaf1eac3a4daa0f52767b41d1a2d4072988aa2",
     "scripts/import-alert-links.py": "14fa1c157000de895f634327e7b94620830b33694ac0f604e505c168ef950a4a",
     "scripts/import-evacuation-routes.py": "30865e3f3d3e51f5b587618153b1a66b7f1cf7f7296241d908836f1aee497807",
-    "scripts/landing.py": "a984c796cea30e59f327bc9b0f568407b057ca4c0ae949e6b4c801d3d093ebb1",
-    "scripts/offline.py": "7926a5db1ececaeaf6c8b5ab0074b49f639a48891b1d9830cc4c2b341f0915b1",
+    "scripts/landing.py": "8eda862eaf27696c23ff5f8c02ca97bab7dafbc1a959a5f7f5091816189f98b8",
+    "scripts/offline.py": "2f81c19a2566a85a91789f36aeac5d6895fedf1f89f3b57e0e3a019de8831d93",
     "scripts/phone_chart.py": "c148f7b8ec172183551a7bb3450413658b81f02289c493741a0e1b2d22509afd",
     "scripts/physical_services.py": "57961a7a681ca0cb840de47c431d7acf02f9a04c0e9c5aceacfc6c952223da8f",
     "scripts/project-building-outlines.py": "c9b573683aa5449a45660ee7d296475f5489dbe7288c43b0f5e7c8fa1f048347",
     "scripts/project-everyday-services.py": "497de5f704494b2f90c957c2917cfdf486d32ee5f87d20b592e449dbdc33887e",
+    "scripts/project-hazard-risk.py": "9f83a4e7627d6d864d0c8cc664df42c899923ac2255f388a5b00354cf464f784",
     "scripts/project-statewide-services.py": "5610d54aee6d2e4a4c73f51b8381552c208f6967d82583248c23d1915bc87f37",
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
-    "scripts/references.py": "a2cbea2565214d260f9429ef47aed5bddefab547df7f06e387854e00ea395c3e",
+    "scripts/references.py": "4f96e4bbd2fb293e1fafe4cf04289c6ad358e68d238031abffc001c14ecd7ff9",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
-    "scripts/resource_map.py": "9e4303752a93036b7376020ce8597c49f490c9bdd52e907b216d3c819fe3d99b",
+    "scripts/resource_map.py": "bc3751be06c36bcf6397276d3f4d273b6a1fb56af887043029962dab0f6252de",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
     "service-resources.js": "efbaa68b9bb20649644f58e0f62b8e9776eb4eaa1267650af80b5b5fa05392ea",
@@ -10606,6 +10611,53 @@
       ]
     },
     {
+      "title": "FEMA National Risk Index Census Tracts",
+      "url": "https://www.arcgis.com/home/item.html?id=9da4eeb936544335a6db0cd7a8448a51",
+      "category": "disasters",
+      "uses": [
+        "Long-term hazard risk ranking: tractSource",
+        "content / tractSource"
+      ],
+      "recordedIn": [
+        "content/hazard-risk-manifest.json",
+        "content/hazard-risk.json",
+        "docs/hazard-risk-ranking-20261103.md",
+        "scripts/project-hazard-risk.py"
+      ],
+      "records": [
+        {
+          "title": "FEMA National Risk Index Census Tracts",
+          "url": "https://www.arcgis.com/home/item.html?id=9da4eeb936544335a6db0cd7a8448a51",
+          "checked": "2026-11-03",
+          "published": "2025-12"
+        }
+      ]
+    },
+    {
+      "title": "FEMA National Risk Index v1.20 — December 2025",
+      "url": "https://www.arcgis.com/home/item.html?id=39485e8035d446a5bff03259508ae355",
+      "category": "disasters",
+      "uses": [
+        "Long-term hazard risk ranking: source",
+        "content / source"
+      ],
+      "recordedIn": [
+        "content/hazard-risk-manifest.json",
+        "content/hazard-risk.json",
+        "docs/hazard-risk-ranking-20261103.md",
+        "scripts/project-hazard-risk.py"
+      ],
+      "records": [
+        {
+          "title": "FEMA National Risk Index v1.20 — December 2025",
+          "url": "https://www.arcgis.com/home/item.html?id=39485e8035d446a5bff03259508ae355",
+          "checked": "2026-11-03",
+          "published": "2025-12",
+          "note": "Relative risk includes expected losses, social vulnerability and community resilience. It is not event probability or a forecast."
+        }
+      ]
+    },
+    {
       "title": "Flood guidance",
       "url": "https://www.weather.gov/safety/flood",
       "category": "disasters",
@@ -11267,6 +11319,51 @@
           "published": "2010",
           "dateMeaning": "Map edition; tile publication date not supplied",
           "capabilities": null
+        }
+      ]
+    },
+    {
+      "title": "content / tractQuery — url",
+      "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Census_Tracts/FeatureServer/0/query",
+      "category": "disasters",
+      "uses": [
+        "content / tractQuery"
+      ],
+      "recordedIn": [
+        "content/hazard-risk-manifest.json"
+      ],
+      "records": [
+        {
+          "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Census_Tracts/FeatureServer/0/query",
+          "count": 9106,
+          "pageSize": 1500
+        }
+      ]
+    },
+    {
+      "title": "content — countyService",
+      "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0",
+      "category": "disasters",
+      "uses": [
+        "content"
+      ],
+      "recordedIn": [
+        "content/hazard-risk-manifest.json",
+        "docs/hazard-risk-ranking-20261103.md",
+        "scripts/project-hazard-risk.py"
+      ],
+      "records": [
+        {
+          "schema": 1,
+          "checked": "2026-11-03",
+          "release": "December 2025 / v1.20",
+          "countyCount": 58,
+          "cityCount": 483,
+          "tractCount": 9106,
+          "geometrySimplificationDegrees": 0.0001,
+          "countyService": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0",
+          "outputSha256": "b043e0e500a4483c1bafae072b07bfe136409a41407406002842766409f80fff",
+          "method": "County views use FEMA county ratings. City views use the highest rated overlapping census tract for each hazard component; these are derived screening bands, not official city ratings. Overlap must cover at least 1% of either the city or the tract. Boundaries are generalized. Combined weather plans use the highest available component; unrated components remain unknown. Low is not safe or zero risk; missing and not-applicable ratings are not Low."
         }
       ]
     },
@@ -16287,7 +16384,8 @@
         "Supporting link recorded in DESIGN.md; role follows its original context."
       ],
       "recordedIn": [
-        "DESIGN.md"
+        "DESIGN.md",
+        "docs/hazard-risk-ranking-20261103.md"
       ],
       "records": []
     },
@@ -16939,6 +17037,18 @@
       "records": []
     },
     {
+      "title": "services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Census_Tracts/FeatureServer/0",
+      "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Census_Tracts/FeatureServer/0",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in docs/hazard-risk-ranking-20261103.md; role follows its original context."
+      ],
+      "recordedIn": [
+        "docs/hazard-risk-ranking-20261103.md"
+      ],
+      "records": []
+    },
+    {
       "title": "services1.arcgis.com/jUJYIo9tSA7EHvfZ/arcgis/rest/services/",
       "url": "https://services1.arcgis.com/jUJYIo9tSA7EHvfZ/arcgis/rest/services/",
       "category": "links",
@@ -17343,6 +17453,18 @@
       "recordedIn": [
         "infographic.js",
         "resource-booklet.js"
+      ],
+      "records": []
+    },
+    {
+      "title": "www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in docs/hazard-risk-ranking-20261103.md; role follows its original context."
+      ],
+      "recordedIn": [
+        "docs/hazard-risk-ranking-20261103.md"
       ],
       "records": []
     },

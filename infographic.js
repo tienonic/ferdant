@@ -24,6 +24,17 @@
   let top=114+heading.height+8;
   const coverage=location?(data.cityNotes[location.id]||(location.id.startsWith('county:')?'County-level contacts. City agency coverage is not implied.':'City agency contacts have not been checked here. Statewide and any saved county help remain available.')):'Shared California support and referral lines.';
   const note=textBlock(coverage,pad+18,top+29,W-pad*2-36,18);parts.push(`<rect x="${pad}" y="${top}" width="${W-pad*2}" height="${note.height+34}" rx="4" fill="#e9f5f1"/>`,note.markup);top+=note.height+78;
+  if(window.FerdantRisk){
+   const profile=window.FerdantRisk.profile(key),ranked=window.FerdantRisk.ordered(key);
+   const heading=textBlock('Long-term relative hazard risk / highest first',pad,top,W-pad*2,26,'#203748',700);parts.push(heading.markup);top+=heading.height+10;
+   for(const copy of [profile.scope,'FEMA NRI / '+profile.release+'. Not event probability. Low does not mean safe; gray is unassessed.']){const line=textBlock(copy,pad,top,W-pad*2,17);parts.push(line.markup);top+=line.height+9;}
+   for(const band of window.FerdantRisk.data.bands){
+    const events=ranked.filter(p=>p.risk.id===band.id);if(!events.length)continue;
+    const names=textBlock(events.map(p=>p.id==='coastal'?'Coastal flooding (not future sea-level rise)':p.label).join(' / '),pad+226,top+27,W-pad*2-244,19,'#203748');
+    const h=Math.max(54,names.height+25);parts.push(`<rect x="${pad}" y="${top}" width="${W-pad*2}" height="${h}" rx="5" fill="${band.fill}"/><rect x="${pad}" y="${top}" width="5" height="${h}" fill="${band.color}"/><text x="${pad+18}" y="${top+28}" fill="${band.color}" font-size="20" font-weight="700">${escape(band.label)}</text>`,names.markup);top+=h+10;
+   }
+   const method=textBlock('City bands use the highest rated overlapping tract; they are not official city scores. Dam failure, levee failure and subsidence are not included. Full method and tract references: matching resource book and Sources (TXT).',pad,top+14,W-pad*2,16);parts.push(method.markup);top+=method.height+50;
+  }
   function column(ids,x,title,color){
    let y=top;parts.push(`<text x="${x}" y="${y}" font-size="24" font-weight="700" fill="${color}">${escape(title)}</text>`);y+=22;
    for(const id of ids){
@@ -50,20 +61,20 @@
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${Math.ceil(foot)}" viewBox="0 0 ${W} ${Math.ceil(foot)}"><rect width="100%" height="100%" fill="#fbfcfa"/><g font-family="Arial, sans-serif">${parts.join('')}</g></svg>`;
   return {svg,width:W,height:Math.ceil(foot),location};
  }
- function embed(doc,key){const preview=doc.querySelector('#infographic-preview');if(!preview)return;const sheet=build(key);preview.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(window.FerdantBooklet?.preview(key)||sheet.svg);preview.alt=window.FerdantBooklet?`Resource book for ${sheet.location?.name||'California'}: everyday resource searches, 15 events and related phone charts.`:`Contact sheet for ${sheet.location?.name||'California'}: local help and California-wide support.`;}
+ function embed(doc,key){const preview=doc.querySelector('#infographic-preview');if(!preview)return;const sheet=build(key);preview.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(window.FerdantBooklet?.preview(key)||sheet.svg);preview.alt=window.FerdantBooklet?`Resource book for ${sheet.location?.name||'California'}: 15 disaster sections ranked by long-term relative risk, everyday searches and phone charts.`:`Contact sheet for ${sheet.location?.name||'California'}: local help and California-wide support.`;}
  window.FerdantInfographic={embed,build};
  const button=document.querySelector('#download-infographic');if(!button)return;
  let key=document.querySelector('#phone-city')?.value||document.querySelector('meta[name="ferdant-city"]')?.content||'';
  function update(next){key=next;embed(document,key);document.querySelector('#infographic-status').textContent='';}
  let pending;document.addEventListener('ferdant:location',event=>{key=event.detail.key;cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>update(key));});update(key);
  button.addEventListener('click',async()=>{
-  const status=document.querySelector('#infographic-status');status.textContent='Preparing your contact sheet…';button.disabled=true;
+  const status=document.querySelector('#infographic-status');status.textContent='Preparing your risk and contact sheet…';button.disabled=true;
   try{
    const sheet=build(key),img=new Image();img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sheet.svg);await img.decode();
    const canvas=document.createElement('canvas'),scale=1.5;canvas.width=sheet.width*scale;canvas.height=sheet.height*scale;canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(!blob)throw Error('Image unavailable');
    const url=URL.createObjectURL(blob),link=document.createElement('a'),slug=(sheet.location?.name||'california').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-');
-   link.href=url;link.download=`ferdant-${slug}-contacts-${data.checked}.png`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);status.textContent='Contact sheet ready. Save it in Photos or Files for offline use.';
+   link.href=url;link.download=`ferdant-${slug}-contacts-${data.checked}.png`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);status.textContent='Risk and contact sheet ready. Save it in Photos or Files for offline use.';
   }catch{status.textContent='The image could not be prepared. Try again, or download the complete offline website below.';}finally{button.disabled=false;}
  });
 })();

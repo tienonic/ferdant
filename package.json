@@ -13,6 +13,7 @@
     "verify:statewide": "node tests/statewide-services.cjs",
     "verify:everyday": "node tests/everyday-services.cjs && node tests/everyday-visibility.cjs",
     "verify:booklet": "node tests/resource-booklet.cjs",
+    "verify:risk": "node tests/hazard-risk.cjs",
     "verify:recommendations": "node tests/recommendations.cjs"
   },
   "devDependencies": {
