@@ -4,7 +4,7 @@
   "timezone": "America/Los_Angeles",
   "retrievedUTC": "2026-11-03T07:53:57.802244+00:00",
   "planCount": 15,
-  "layerCount": 15,
+  "layerCount": 16,
   "taxonomy": {
     "title": "Cal OES 2023 State Hazard Mitigation Plan",
     "published": "2023-11-10",
@@ -314,12 +314,58 @@
         "GlobalID"
       ],
       "capabilities": "Query,Extract,Sync"
+    },
+    {
+      "url": "https://gis.conservation.ca.gov/server/rest/services/CGS/FaultActivityMapCA/MapServer",
+      "sha256": "e4dee1a79f9d9e495d0b96d8aff798181080d7bf6d7be90bf212e585de143e3d",
+      "bytes": 10961,
+      "name": "Layers",
+      "serviceItemId": "14079e011e774f9e80b6bec8ce468509",
+      "dataLastEditUTC": null,
+      "timeInfo": null,
+      "fields": [],
+      "capabilities": "Map,Query,Data",
+      "checkedLocalDate": "2026-11-03",
+      "retrievedUTC": "2026-11-03T11:37:54.712435+00:00",
+      "published": "2010",
+      "dateMeaning": "Map edition, not service check or earthquake date"
+    },
+    {
+      "url": "https://gis.conservation.ca.gov/server/rest/services/CGS/FaultActivityMapCA/MapServer/21",
+      "sha256": "082770e64f3a4e5242a59b978d99f49022fd4868fc59b8c9d460acdcb8a0adef",
+      "bytes": 11426,
+      "name": "Quaternary Faults",
+      "serviceItemId": "14079e011e774f9e80b6bec8ce468509",
+      "dataLastEditUTC": null,
+      "timeInfo": null,
+      "fields": [
+        "OBJECTID",
+        "Shape",
+        "FLT_NAME",
+        "QFLT_ID",
+        "ZN_NAME",
+        "FLT_AGE",
+        "LTYPE",
+        "JEN_ID",
+        "SECT_NO",
+        "SECT_NAME",
+        "FLT_SOURCE",
+        "RuleID",
+        "Override",
+        "Shape.STLength()"
+      ],
+      "capabilities": "Map,Query,Data",
+      "checkedLocalDate": "2026-11-03",
+      "retrievedUTC": "2026-11-03T11:37:55.019624+00:00",
+      "published": "2010",
+      "dateMeaning": "Map edition, not service check or earthquake date"
     }
   ],
   "notes": [
     "Metadata only; no raw statewide GIS or infrastructure database is published.",
     "Dates below are service data edit dates, not necessarily publication, effective, observation or forecast dates.",
     "CGS modified report figures retain the specified credit. New CGS extracts are excluded from offline exports.",
-    "Live forecast and warning validity are checked in the browser; this receipt is not a current warning."
+    "Live forecast and warning validity are checked in the browser; this receipt is not a current warning.",
+    "Fault map and layer 21 metadata added November 3, 2026; earlier receipts retain their original dates. 2010 map edition. Rendering uses one 800x600 server image for the selected area; no statewide fault geometry enters the browser. Online only, consistent with the existing CGS extract rule."
   ]
 }

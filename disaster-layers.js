@@ -63,13 +63,21 @@
   return image(id,source,bounds,signal,{mosaicRule:JSON.stringify({mosaicMethod:'esriMosaicLockRaster',lockRasterIds:[objectid],mosaicOperation:'MT_FIRST'}),renderingRule:JSON.stringify({rasterFunction:'heatrisk.rft'})},{valid:new Date(valid).toISOString(),issued:new Date(issued).toISOString()});
  }
  async function image(id,source,bounds,signal,extra={},dates={}){
-  const params=new URLSearchParams({f:'json',bbox:bounds.join(','),bboxSR:'4326',imageSR:'3857',size:'800,600',format:'png32',transparent:'true',...extra});
+  // Some planning services hide data at street scale. Include local context
+  // without loading more pixels or doing any client-side geometry processing.
+  const [w,s,e,n]=bounds,dx=Math.max(0,(source.minSpan||0)-(e-w))/2,dy=Math.max(0,(source.minSpan||0)-(n-s))/2;
+  const params=new URLSearchParams({f:'json',bbox:[w-dx,s-dy,e+dx,n+dy].join(','),bboxSR:'4326',imageSR:'3857',size:'800,600',format:'png32',transparent:'true',...extra});
   if(source.mapLayers)params.set('layers',source.mapLayers);
+  if(source.dynamicLayers)params.set('dynamicLayers',JSON.stringify(source.dynamicLayers));
   const exported=await json(source.service+(source.kind==='map-image'?'/export?':'/exportImage?')+params,signal),url=new URL(exported.href||'',source.service),extent=exported.extent;
   if(url.origin!==new URL(source.service).origin||!url.pathname.startsWith('/'))throw Error('Unexpected image provider');
   if(!extent||![3857,102100].includes(extent.spatialReference?.latestWkid||extent.spatialReference?.wkid)||![extent.xmin,extent.ymin,extent.xmax,extent.ymax].every(Number.isFinite))throw Error('Invalid forecast extent');
-  const response=await fetch(url.href,{credentials:'omit',signal});if(!response.ok||!response.headers.get('content-type')?.startsWith('image/'))throw Error('Heat image unavailable');
-  const blob=await response.blob();if(blob.size>3500000)throw Error('Heat image too large');
+  const response=await fetch(url.href,{credentials:'omit',signal});if(!response.ok||!response.headers.get('content-type')?.startsWith('image/'))throw Error('Map image unavailable');
+  // Stop oversized responses while reading, before decoding or retaining them.
+  const maxBytes=source.maxImageBytes||3500000,reader=response.body.getReader(),chunks=[];let bytes=0;
+  if(Number(response.headers.get('content-length'))>maxBytes){await reader.cancel();throw Error('Map image too large');}
+  while(true){const {done,value}=await reader.read();if(done)break;bytes+=value.byteLength;if(bytes>maxBytes){await reader.cancel();throw Error('Map image too large');}chunks.push(value);}
+  const blob=new Blob(chunks,{type:response.headers.get('content-type')});
   const dataUrl=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(blob);});
   return {id,type:'image',dataUrl,extent,...dates};
  }
@@ -100,7 +108,7 @@
    const source=registry.layers[part.id];if(!source)continue;
    if(part.type==='image'){
     const e=part.extent,sw=L.CRS.EPSG3857.unproject(L.point(e.xmin,e.ymin)),ne=L.CRS.EPSG3857.unproject(L.point(e.xmax,e.ymax));
-    L.imageOverlay(part.dataUrl,L.latLngBounds(sw,ne),{pane:'disaster-planning',opacity:.5,interactive:false,alt:source.title+'; see the source description and key below.'}).addTo(group);
+    L.imageOverlay(part.dataUrl,L.latLngBounds(sw,ne),{pane:'disaster-planning',className:'disaster-image disaster-'+part.id,opacity:source.opacity??.5,zIndex:source.zIndex??1,interactive:false,alt:source.title+'; see the source description and key below.'}).addTo(group);
     legend.push({label:source.kind==='heat-image'?'HeatRisk: 0 Minimal · 1 Minor · 2 Moderate · 3 Major · 4 Extreme':source.title,color:source.color});
    }else{
     polygons+=part.data.features.length;
@@ -117,7 +125,7 @@
   const count=entry.parts.reduce((n,p)=>n+(p.data?.features.length||0),0),image=entry.parts.find(p=>p.type==='image'),forecast=entry.parts.find(p=>p.forecast)?.forecast;
   const time=value=>new Date(value).toLocaleString(undefined,{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'});
   const partial=entry.issues.length||entry.parts.some(p=>p.truncated);
-  return (offline?'Saved planning overlay · '+time(entry.retrieved)+' · ':'Map checked '+time(entry.retrieved)+' · ')+(image?(image.valid?'Forecast valid time: '+time(image.valid)+'; issued '+time(image.issued)+'.':'NOAA planning image for this city area. Blank areas may be outside mapped coverage.'):count?'Mapped areas are shown for this city view.':entry.live?'No current alert or forecast areas could be mapped; this does not establish safe conditions.':'No mapped areas returned for this view; coverage may be incomplete.')+(forecast?' Monthly outlook: '+forecast.target+'; issued '+time(forecast.issued)+'.':'')+(partial?' Partial coverage: one or more layers are missing or incomplete.':'')+(entry.live?' Issued/forecast data at the check time; not continuous monitoring.':' Planning information, not a current warning.');
+  return (offline?'Saved planning overlay · '+time(entry.retrieved)+' · ':'Map checked '+time(entry.retrieved)+' · ')+(image?(image.valid?'Forecast valid time: '+time(image.valid)+'; issued '+time(image.issued)+'.':registry.layers[image.id].imageDescription||'NOAA planning image for this city area. Blank areas may be outside mapped coverage.'):count?'Mapped areas are shown for this city view.':entry.live?'No current alert or forecast areas could be mapped; this does not establish safe conditions.':'No mapped areas returned for this view; coverage may be incomplete.')+(forecast?' Monthly outlook: '+forecast.target+'; issued '+time(forecast.issued)+'.':'')+(partial?' Partial coverage: one or more layers are missing or incomplete.':'')+(entry.live?' Issued/forecast data at the check time; not continuous monitoring.':' Planning information, not a current warning.');
  }
  async function embed(doc,key,active){
   const entries=[];

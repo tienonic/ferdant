@@ -12,7 +12,7 @@ function collection(ids,extra={}){return {type:'FeatureCollection',features:ids.
  assert.equal(data.plans.length,15);assert.equal(new Set(data.plans.map(p=>p.id)).size,15);
  assert(data.plans.every(p=>p.steps.length===3&&p.guidance.url.startsWith('https://')&&(p.id==='tsunami'||p.layers.length)));
  assert(data.plans.every(p=>p.layers.every(id=>data.layers[id])));
- for(const s of Object.values(data.layers))assert(/^(https:\/\/)(hazards\.fema\.gov|services[12]?\.arcgis\.com|mapservices\.weather\.noaa\.gov|coast\.noaa\.gov)\//.test(s.service));
+ for(const s of Object.values(data.layers))assert(/^(https:\/\/)(hazards\.fema\.gov|services[12]?\.arcgis\.com|mapservices\.weather\.noaa\.gov|coast\.noaa\.gov|gis\.conservation\.ca\.gov)\//.test(s.service));
  const browser=await chromium.launch({executablePath:executable()}),findings=[];
  try{
   for(const width of [320,390,768,1440]){
@@ -27,6 +27,7 @@ function collection(ids,extra={}){return {type:'FeatureCollection',features:ids.
     assert.equal(await p.locator('#atlas-everyday').getAttribute('aria-pressed'),'false');
     if(plan.id==='heat'){assert.equal(await p.locator('.leaflet-disaster-planning-pane .leaflet-image-layer').count(),1);assert((await p.locator('#atlas-layer-status').innerText()).includes('Forecast valid time'));}
     else if(plan.id==='coastal'){assert.equal(await p.locator('.leaflet-disaster-planning-pane .leaflet-image-layer').count(),1);assert((await p.locator('#atlas-layer-status').innerText()).includes('NOAA planning image'));}
+    else if(plan.id==='earthquake'){assert.equal(await p.locator('.disaster-faults').count(),1);assert((await p.locator('.leaflet-disaster-planning-pane path').count())>0);assert((await p.locator('#atlas-layer-status').innerText()).includes('Fault lines'));assert((await p.locator('#atlas-hazard-legend').innerText()).includes('fault lines'));}
     else if(plan.id!=='tsunami'){assert((await p.locator('.leaflet-disaster-planning-pane path').count())>0,plan.id);assert.equal(await p.locator('.leaflet-disaster-planning-pane .leaflet-image-layer').count(),0);}
     assert(await p.locator('#resource-atlas,.atlas-controls,#resource-map-panel').evaluateAll(els=>els.every(el=>el.scrollWidth<=el.clientWidth+1&&el.scrollLeft===0)),plan.id+' must fit without sideways clipping');
    }

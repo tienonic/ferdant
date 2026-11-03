@@ -15,7 +15,7 @@ attribution and offline rules. The builder embeds this registry without networki
 
 | Plan | GIS shown |
 | --- | --- |
-| Earthquake | CGS liquefaction and earthquake-landslide investigation zones |
+| Earthquake | CGS mapped fault lines plus liquefaction and earthquake-landslide investigation zones |
 | Tsunami | Existing saved CGS/Cal OES county planning areas |
 | Flood | FEMA effective Special Flood Hazard Areas, 1% annual-chance planning zones |
 | Wildfire | CAL FIRE SRA severity effective April 2024 and recommended LRA severity from the 2025 rollout |
@@ -71,6 +71,35 @@ distinct from an absence of hazard.
   Official Map of Seismic Hazard Zones (2025)”. New CGS extracts are excluded from
   offline files. Existing tsunami projection provenance stays unchanged.
 
+## Fault lines and performance
+
+The earthquake view adds the California Geological Survey's Quaternary fault
+traces from layer 21 of the [2010 Fault Activity Map](https://maps.conservation.ca.gov/cgs/fam/).
+The map edition is 2010; the service was checked November 3, 2026. Faults appear
+as red lines above the investigation-zone shading. Styling is simplified and
+does not encode age or location certainty. These are approximate planning
+locations, not parcel boundaries, a complete inventory or earthquake predictions.
+
+The CGS server renders one transparent 800 by 600 pixel PNG for the selected
+city/county area, with a minimum 0.2-degree context box for small places. This
+avoids the service's street-scale display cutoff; returned image bounds retain
+the actual georeferencing. The browser receives that image, never the statewide line
+geometry. Only selecting Earthquake requests it (or opening an earthquake deep
+link); other views do not preload it. There is one export-metadata request and
+one image request. Switching away removes it, and successful repeat selections
+reuse the existing bounded in-memory cache. Pan and zoom reuse the image without
+queries or geometry calculations; zooming therefore does not add mapping detail.
+
+Images have a 512,000-byte limit enforced while streaming, before decoding.
+The final live Berkeley browser check returned a roughly 9 KB image, with no
+page errors; broader Bay Area and Los Angeles probes were about 17 and 19 KB.
+Those are sample results, not a guarantee for every view. Existing request
+cancellation, timeout and partial-source handling remain in effect. A failed
+fault layer does not erase successful investigation-zone layers, and missing
+lines never establish safety. The source metadata hashes are in
+`content/disaster-source-manifest.json`. Like the existing CGS investigation-zone
+extracts, the fault image is online only and excluded from saved offline files.
+
 ## Offline copies
 
 All 15 short plans are embedded. The chosen county outline, existing tsunami
@@ -94,7 +123,9 @@ editorial dates or importing geometry. It does not run during a build or on a
 schedule. `content/disaster-source-manifest.json` holds its latest reviewed receipt.
 
 Run the normal build/content/responsive checks, `npm run verify:maps` and
-`npm run verify:disasters`. Repeatable browser checks simulate external GIS
+`npm run verify:disasters` and `node tests/fault-lines.cjs`. The fault checks cover
+lazy loading, bounded image requests, cache reuse, pan/zoom, removal, failure
+recovery and size rejection. Repeatable browser checks simulate external GIS
 responses; separate live-browser checks are necessary to establish provider
 availability. Tests are not agency approval, a safety audit or complete local
 service coverage. Keep the public-release and maintenance-owner review boundaries.
