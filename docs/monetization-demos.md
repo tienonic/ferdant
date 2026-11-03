@@ -22,8 +22,12 @@ including branch hubs, guides, sources, privacy, offline-download page and 404:
 - A distinct community sponsor card beside the affiliate card.
 
 All placements say Demo. Each link opens a keyboard-accessible explanation;
-without JavaScript it leads to the visible demo disclosure. Product/business
-illustrations are generic, drawn in local SVG. They represent no real seller,
+without JavaScript it leads to the visible demo disclosure. The finished creative
+uses a fictional Alder Supply document-pouch campaign, a $24 illustrative price,
+generated product photography and a fictional Morrow Hardware sponsorship.
+Brand typography and storefront artwork are local HTML/SVG. The photograph's
+origin and checksum are in `assets/ads/provenance.json`. The demo links open
+sample product or shop details, with no purchase flow. They represent no real seller,
 advertiser, sponsor, paid agreement or commission. There is no checkout, network
 ad request, tracking, cookie, analytics or stored visitor input in this feature.
 The existing dormant Shopify integration stays dormant.
@@ -54,3 +58,8 @@ production builds; content checks; all 11 dormant Shopify tests; and the full
 existing responsive/navigation/tool/no-script/privacy/offline/PNG suite.
 Map services were stubbed in repeatable UI checks; this work makes no new
 live provider, location coverage or revenue claim.
+
+The later November 3 creative revision replaces all placeholder headlines and
+icons with finished ad/affiliate/sponsor designs. All-page four-width checks now
+also verify loaded product photos and sample offer details. Original family
+photos and the before-monetization tag remain unchanged.

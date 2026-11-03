@@ -30,15 +30,18 @@ function executable() {
      assert.equal(await box.count(),1,`${type} on ${url}`);
      assert(await box.isVisible());
      assert((await box.locator('.demo-label').innerText()).includes('DEMO'));
+     assert(!/Local business ad|A reserved space|Community sponsor space/.test(await box.innerText()),'Placeholder copy must be replaced by finished creative');
      const link=box.locator('[data-monetization-open]');
      await link.focus();await page.keyboard.press('Enter');
      assert(await page.locator('#monetization-demo-dialog').isVisible());
      assert((await page.locator('#monetization-demo-title').innerText()).toLowerCase().includes(type==='ad'?'advertisement':type==='sponsor'?'sponsorship':type));
      assert.equal(await page.locator('#monetization-demo-dialog :focus').getAttribute('aria-label'),'Close placement demo');
+     assert.equal(await page.locator('#monetization-demo-offer dt').count(),3);
      await page.keyboard.press('Escape');
      assert.equal(await page.locator(':focus').getAttribute('data-monetization-open'),type);
     }
     assert((await page.locator('[data-monetization-open="affiliate"]').getAttribute('rel')).includes('sponsored'));
+    await page.waitForFunction(()=>[...document.querySelectorAll('[data-monetization] img')].length===2&&[...document.querySelectorAll('[data-monetization] img')].every(img=>img.complete&&img.naturalWidth>0));
     assert.equal(await page.locator('h1').count(),1);
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${url} ${width} overflow`);
     assert(await page.locator('[id]').evaluateAll(els=>new Set(els.map(e=>e.id)).size===els.length));
@@ -59,7 +62,7 @@ function executable() {
    assert.equal(await page.locator('.demo-ad').isVisible(),false);
    assert.equal(await page.locator('.demo-partners').isVisible(),false);
    assert.deepEqual(unexpected,[]);assert.deepEqual(errors,[]);
-   checks.push({width,pages:urls.length,disclosures:true,keyboardDialogFocus:true,clickRequests:0,storage:0,cookies:0,printPlacements:false});
+   checks.push({width,pages:urls.length,disclosures:true,finishedCreatives:true,productPhotosLoaded:true,sampleOfferDetails:true,keyboardDialogFocus:true,clickRequests:0,storage:0,cookies:0,printPlacements:false});
    await context.close();
    console.log(`${width}px: ${urls.length} pages; all three demo types, keyboard, focus, privacy and print passed`);
   }

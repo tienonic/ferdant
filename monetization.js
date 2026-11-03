@@ -4,9 +4,9 @@
  const dialog = document.getElementById('monetization-demo-dialog');
  if (!dialog || typeof dialog.showModal !== 'function') return;
  const examples = {
-  ad: ['Advertisement demo', 'This box shows where a clearly labeled local business advertisement could appear. No advertiser is connected, no ad is served and this example does not send you to a business.'],
-  affiliate: ['Affiliate link demo', 'This sample product link shows how an affiliate placement could look. There is no seller, checkout, affiliate account or commission attached. A real affiliate link would disclose any commission before you follow it.'],
-  sponsor: ['Sponsorship demo', 'This card shows a possible community sponsor acknowledgment. It represents no existing business or paid agreement. It does not change which resources appear on the map or their order.']
+  ad: ['Alder Supply — Advertisement demo', 'The Everyday Pouch keeps printed contacts and household paperwork together in a simple zip organizer. This is a finished sample advertisement for a fictional brand, with generated product photography.', [['Sample price', '$24.00'], ['Sample material', 'Indigo cotton canvas with a brass zipper'], ['Availability', 'Concept product; not for sale']]],
+  affiliate: ['Alder Supply — Affiliate demo', 'A sample product detail view for The Everyday Pouch. The displayed price and product are illustrative. No seller, checkout or affiliate account is connected, and no commission is earned.', [['Sample price', '$24.00'], ['Intended use', 'Organizing printed contacts and document copies'], ['Affiliate status', 'Demonstration only; no purchase link']]],
+  sponsor: ['Morrow Hardware — Sponsorship demo', 'An independent hardware-and-home shop concept, shown as a realistic sponsor creative. Morrow Hardware is a fictional advertiser in this preview, not an existing sponsor of Ferdant.', [['Sample shop range', 'Tools, housewares and garden supplies'], ['Sample hours', 'Mon–Sat 8–6 · Sun 9–5 (illustrative only)'], ['Partnership status', 'No paid agreement or real store represented']]]
  };
  document.addEventListener('click', event => {
   const link = event.target.closest('a[data-monetization-open]');
@@ -16,6 +16,13 @@
   event.preventDefault();
   dialog.querySelector('#monetization-demo-title').textContent = example[0];
   dialog.querySelector('#monetization-demo-description').textContent = example[1];
+  const offer = dialog.querySelector('#monetization-demo-offer');
+  offer.replaceChildren();
+  example[2].forEach(([label, value]) => {
+   const term = document.createElement('dt'), detail = document.createElement('dd');
+   term.textContent = label; detail.textContent = value;
+   offer.append(term, detail);
+  });
   dialog.showModal();
  });
 })();
