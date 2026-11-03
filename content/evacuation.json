@@ -1,0 +1,139 @@
+{
+  "checked": "2026-11-03",
+  "scope": "Reviewed official route-planning and incident-information entry points, not an address-level route assignment or a complete statewide route inventory.",
+  "shared": ["calalerts", "caltrans"],
+  "counties": {
+    "12": ["humboldt"],
+    "19": ["los-angeles"],
+    "37": ["san-diego"],
+    "41": ["san-mateo"],
+    "44": ["santa-cruz-county"],
+    "57": ["yolo"]
+  },
+  "cities": {
+    "44051": ["santa-cruz-city"]
+  },
+  "events": {
+    "earthquake": "shared",
+    "tsunami": "tsunami",
+    "flood": "flood",
+    "wildfire": "shared",
+    "heat": null,
+    "cold": null,
+    "storms": null,
+    "coastal": "flood",
+    "landslide": "shared",
+    "drought": null,
+    "dam": "flood",
+    "levee": "flood",
+    "avalanche": null,
+    "subsidence": null,
+    "volcano": "shared"
+  },
+  "sources": {
+    "calalerts": {
+      "title": "Cal OES county alert directory",
+      "url": "https://calalerts.org/signup.html",
+      "kind": "Alert signup directory",
+      "description": "Choose your county to find its alert program before an emergency. This is a signup directory, not a current evacuation order or route map.",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official directory read; enrollment not attempted. County registration links may require an account."
+    },
+    "caltrans": {
+      "title": "Caltrans current highway conditions",
+      "url": "https://roads.dot.ca.gov/",
+      "kind": "Live road information - internet required",
+      "description": "Check a state highway number for reported restrictions and closures, or call 1-800-427-7623. Road information does not assign an evacuation route or cover every local street.",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official highway lookup and recorded-information number read. No current road state is embedded."
+    },
+    "yolo": {
+      "title": "Yolo County evacuation zones and instructions",
+      "url": "https://www.yolocounty.gov/government/general-government-departments/office-of-emergency-services/emergency-preparedness-resources/evacuation",
+      "kind": "Local zone lookup and evacuation guidance",
+      "description": "Find your address in the county-linked Genasys map, note your zone and read the zone information. Follow the route in official incident instructions; not every incident uses the map.",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official publisher indexed text read; direct retrieval returned 403. West Sacramento's official Evacuation Routes page corroborates zone-specific planning routes. No active route verified.",
+      "corroborationURL": "https://www.cityofwestsacramento.org/residents/evacuation-routes"
+    },
+    "los-angeles": {
+      "title": "Los Angeles County emergency information",
+      "url": "https://lacounty.gov/emergency/",
+      "kind": "Official incident updates and zone-status link",
+      "description": "Read incident instructions and follow the county's Genasys link to check your address. Zone status is not a street-by-street evacuation route.",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official page and June 9, 2026 county notice identify Genasys for status. The emergency page includes inactive template text; no displayed status or incident is copied.",
+      "corroborationURL": "https://lacounty.gov/2026/06/09/la-county-encourages-residents-visitors-and-fifa-world-cup-26-attendees-to-sign-up-for-emergency-alerts-and-notifications/"
+    },
+    "san-diego": {
+      "title": "San Diego County emergency map",
+      "url": "https://www.alertsandiego.org/en-us/preparedness/maps.html",
+      "kind": "Live incident map - internet required",
+      "description": "Open Emergency Map for agency-published evacuation routes, notification areas and traffic controls when supplied for an incident. Boundaries can lag or change; follow official instructions.",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official Maps page explicitly lists evacuation routes. County service metadata warns of approximate boundaries and reporting delays. No current route geometry or active order is saved.",
+      "corroborationURL": "https://gis-public.sandiegocounty.gov/arcgis/rest/services/OES/EmergencyOutputMap/MapServer"
+    },
+    "san-mateo": {
+      "title": "San Mateo County evacuation-zone status",
+      "url": "https://www.smcgov.org/dem/genasys-zonehaven",
+      "kind": "Official zone-status link",
+      "description": "Use the county's Genasys link to look up your address and zone. Supplement it with official alerts; a zone boundary does not specify which road to use.",
+      "checked": "2026-11-03", "published": null,
+      "review": "Primary county guidance read. County distinguishes mapping information from its alert-and-warning system."
+    },
+    "humboldt": {
+      "title": "Humboldt County evacuation mapping",
+      "url": "https://www.humboldtgov.org/3219/Evacuation-Mapping",
+      "kind": "Official evacuation-zone map link",
+      "description": "Find your zone through the county-linked map and check Humboldt Alert instructions. Use the route officials give; the saved book contains no active zone status.",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official publisher guidance read; current status and available routes are not imported."
+    },
+    "santa-cruz-county": {
+      "title": "Santa Cruz County evacuation information",
+      "url": "https://www.santacruzcountyca.gov/OR3/Response/Evacuations.aspx",
+      "kind": "County evacuation planning and incident links",
+      "description": "Check county evacuation information and the official zone map for your address. Do not use a neighboring city's route sheet for your location.",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official county evacuation page read. City-specific route sheets are selected separately."
+    },
+    "santa-cruz-city": {
+      "title": "City of Santa Cruz evacuation route sheets",
+      "url": "https://www.santacruzca.gov/Services/Public-and-Environmental-Safety/Emergency-Management",
+      "kind": "Advance route planning - City of Santa Cruz only",
+      "description": "Look up your address, then choose its SCZ-001 to SCZ-031 PDF under Evacuation Zone Maps. The city says these show ways out for planning; responders choose routes during an emergency.",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official page and 31 zone-sheet links read; linked SCZ-001 PDF retrieval returned 403. No map geometry, address-to-zone match or current safe route was verified."
+    },
+    "tsunami-maps": {
+      "title": "California Geological Survey tsunami maps",
+      "url": "https://www.conservation.ca.gov/cgs/tsunami/maps",
+      "kind": "Hazard planning maps, not incident routes",
+      "description": "Select the coastal county and check the map date. Use local posted evacuation routes and signs; hazard shading alone does not specify a safe street or destination.",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official statewide county index read. County map dates differ; no current warning or safe area is inferred."
+    },
+    "tsunami-guidance": {
+      "title": "NWS: Before a tsunami",
+      "url": "https://www.weather.gov/safety/tsunami-before",
+      "kind": "Hazard-specific safety guidance",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official evacuation planning guidance read: local assembly areas or inland/high ground outside the zone; plan on foot when possible because of road damage, closures and traffic."
+    },
+    "flood-guidance": {
+      "title": "NWS: During a flood",
+      "url": "https://www.weather.gov/safety/flood-during",
+      "kind": "Flood travel guidance",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official evacuation, flooded-road and barricade guidance read."
+    },
+    "general-guidance": {
+      "title": "CAL FIRE: Get Ready to Go",
+      "url": "https://www.fire.ca.gov/prepare/get-ready-to-go",
+      "kind": "Evacuation preparation",
+      "checked": "2026-11-03", "published": null,
+      "review": "Official household preparation and early evacuation guidance read; not an active route assignment."
+    }
+  }
+}

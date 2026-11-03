@@ -15,6 +15,7 @@ def resource_map():
     disasters = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(disasters)
     data['disasters'] = disasters.DATA
+    data['evacuation'] = json.loads((ROOT / 'content/evacuation.json').read_text(encoding='utf-8'))
     payload = json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
     short_labels = {'heat':'Heat', 'cold':'Cold / freeze', 'storms':'Wind / storms',
                     'coastal':'Coastal flooding', 'landslide':'Landslide',
