@@ -1203,5 +1203,9 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 .location-kind-switch { display: inline-flex; padding: 3px; border: 1px solid #b9c8cd; background: #fff; border-radius: 5px; margin-bottom: 12px; }
 .location-kind-switch button { min-height: 44px; min-width: 86px; padding: 8px 22px; border: 0; border-radius: 3px; background: transparent; color: var(--muted); font-size: 14px; }
 .location-kind-switch button[aria-pressed="true"] { color: #fff; background: #27695f; font-weight: 600; }
+.county-preview { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 16px; margin: 10px 0; padding: 12px; border: 1px solid #98b9dc; background: #edf4fc; }
+.county-preview strong { color: #195caa; font-size: 14px; }
+.county-preview .button { min-height: 44px; font-size: 13px; }
+@media print { .county-preview { display: none !important; } }
 @media(max-width: 700px) { .resource-levels { gap: 14px 20px; } .resource-levels > div { min-width: 90px; } .resource-levels dd { font-size: 14px; } }
 @media(forced-colors: active) { .resource-scope-badge, .resource-levels > div { border-color: CanvasText; } .location-kind-switch button[aria-pressed="true"] { outline: 2px solid Highlight; outline-offset: -3px; } }

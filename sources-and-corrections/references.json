@@ -111,6 +111,7 @@
     "docs/comparable-websites-20261103.md": "9e29b7a9e190a788eaf91484370f3b6f15f42c96f56f6ca45e7c5dc995dc39c6",
     "docs/disaster-maps.md": "96a60699db1d9152d27372cb44b958b544237cb82b0fe306d8d221c76e152902",
     "docs/emergency-alerts.md": "f1068c717b8fd2c2321e6efd282df91c6af20a8e55cbca7eb0fcd5faf200acbb",
+    "docs/emergent-search-20261103.md": "16531a88f808b48f42386a01915b711b023d16e5fbb3d63b15791ec413edfb81",
     "docs/evacuation-map-20261103.md": "d7132b11603e629c58d09106418c8e5b93cf73d9089c699cfe74199f48b5bb45",
     "docs/evacuation-resources-20261103.md": "6a9a44f0dd4c50123517f5bac2dfcdb8637d9a13ece6cf80c2a4bb8f58ea0942",
     "docs/everyday-map-expansion-20261103.md": "fc13e4d07752aebc6b574e2ec96f8da8acafe4867ccb847f48fdec8839c83d1e",
@@ -122,7 +123,7 @@
     "docs/recommendations.md": "629a6e4997716de962faa8502a8ca6384b60db167a7625d1eb9f792bdd86ec03",
     "docs/resource-booklet.md": "a88adafe2718e5297734dae36fa8cd05c010dd88b00472b8db49663624e02714",
     "docs/resource-directory-research-20261103.md": "aa6926eeafcca63b1adbe5cd5e6020d7ffa0d081dfd768bb34de9c4714fb79be",
-    "docs/resource-levels.md": "b7f151414a957286ca92f6b39786f931e1cb0f6f8a19f3506466a94aff51c371",
+    "docs/resource-levels.md": "58b20aa93920cb8889470474132afbfde0aa053bf0af21b6b4ecde3113260dbf",
     "docs/website-references.md": "c25aa51f2c19d02c177454a4ff417abfa93f2e8b6530d23afc48d3c6848f44ea",
     "hazard-risk.js": "f17dcd3360644dfbbdf488ac203a337925a3e2c6aecffea4fb6366af2bc610ff",
     "infographic.js": "f3ab28fe67ecfe4cc3d9434e0e31187b29c6fbd5435a5d18d5c88c034c65faca",
@@ -130,7 +131,7 @@
     "integrations/shopify.mjs": "06b43fa4f3c823fdb1372918e3ce881d4ec42d384e830697afbb66e08c12cf72",
     "landing.js": "9f5d4b58e93e901e16e6fcee4b187cdb0d5f7d3de467a9d411e03dd2a4c994fc",
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
-    "phone.js": "6461af2e9b30d45f12b2b3784275f353313d58dd7f634801cdfadb16a7e5c409",
+    "phone.js": "39b52df07b68a427267c159f9267b36602fbb44c738b30b50af27dde61477c17",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
     "resource-booklet.js": "854d63e23c3aad272dde842f3f00b2eb6fe1b96bb932d9a67b61a30dc798c9a8",
     "resource-map.js": "06d7747e326af72a678f4b4b4475a23a0473659eb62084c6d65b5ebaa95f4a18",
@@ -158,7 +159,7 @@
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
     "service-resources.js": "efbaa68b9bb20649644f58e0f62b8e9776eb4eaa1267650af80b5b5fa05392ea",
     "site.js": "9fbad56eb918ca1acb66f9221a712f78ddd3a512358c1ca2f00778b68960a6b7",
-    "styles.css": "5cd76f1cdae00bfa24da3388a2eacbbd4b34968be985a87d4f2c480217aafe95"
+    "styles.css": "a2bf3c19883771ab57af2075c76e476162e2218f6363a17c269134602cef654d"
   },
   "references": [
     {
@@ -17518,6 +17519,66 @@
       "recordedIn": [
         "content/evacuation.json",
         "docs/evacuation-resources-20261103.md"
+      ],
+      "records": []
+    },
+    {
+      "title": "www.youtube.com/watch",
+      "url": "https://www.youtube.com/watch?v=0HqUYpGQIfs",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in docs/emergent-search-20261103.md; role follows its original context."
+      ],
+      "recordedIn": [
+        "docs/emergent-search-20261103.md"
+      ],
+      "records": []
+    },
+    {
+      "title": "www.youtube.com/watch",
+      "url": "https://www.youtube.com/watch?v=0HqUYpGQIfs&t=1094",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in docs/emergent-search-20261103.md; role follows its original context."
+      ],
+      "recordedIn": [
+        "docs/emergent-search-20261103.md"
+      ],
+      "records": []
+    },
+    {
+      "title": "www.youtube.com/watch",
+      "url": "https://www.youtube.com/watch?v=0HqUYpGQIfs&t=1661",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in docs/emergent-search-20261103.md; role follows its original context."
+      ],
+      "recordedIn": [
+        "docs/emergent-search-20261103.md"
+      ],
+      "records": []
+    },
+    {
+      "title": "www.youtube.com/watch",
+      "url": "https://www.youtube.com/watch?v=0HqUYpGQIfs&t=1801",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in docs/emergent-search-20261103.md; role follows its original context."
+      ],
+      "recordedIn": [
+        "docs/emergent-search-20261103.md"
+      ],
+      "records": []
+    },
+    {
+      "title": "www.youtube.com/watch",
+      "url": "https://www.youtube.com/watch?v=0HqUYpGQIfs&t=189",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in docs/emergent-search-20261103.md; role follows its original context."
+      ],
+      "recordedIn": [
+        "docs/emergent-search-20261103.md"
       ],
       "records": []
     },

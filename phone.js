@@ -9,6 +9,11 @@
  let cityMap, cityMarkers, mapPromise, mapBounds, selectedMarker, selectedCounty;
  const modeButtons=[...document.querySelectorAll('[data-location-kind]')];
  let selectionKind='city';
+ let hoveredCounty=null,touchedCounty=null,lastTouchCounty=null,lastTouchTime=0;
+ const countyPreview=document.createElement('div');countyPreview.id='county-preview';countyPreview.className='county-preview';countyPreview.hidden=true;countyPreview.setAttribute('aria-live','polite');
+ const countyPreviewName=document.createElement('strong'),countyPreviewAction=document.createElement('button');countyPreviewAction.type='button';countyPreviewAction.className='button';countyPreviewAction.textContent='View county resources';
+ countyPreview.append(countyPreviewName,countyPreviewAction);mapRoot?.after(countyPreview);
+ countyPreviewAction.addEventListener('click',()=>{if(touchedCounty)chooseCounty(touchedCounty);});
  const markers=new Map(), countyLayers=new Map();
  const select = document.querySelector('#phone-city');
  const options = document.createDocumentFragment();
@@ -220,24 +225,46 @@
  });
  function chooseCity(key){select.value=key;select.dispatchEvent(new Event('change'));}
  function setSelectionKind(kind,reset=false){
+  clearCountyPreview();
   selectionKind=kind;
   modeButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.locationKind===kind)));
   if(mapRoot)mapRoot.dataset.selectionKind=kind;
   const field=document.querySelector('#map-city-search');if(field)field.placeholder=kind==='county'?'County, e.g. Yolo':'City, e.g. Davis';
+  if(cityMap){if(kind==='county')cityMap.doubleClickZoom.disable();else cityMap.doubleClickZoom.enable();}
   if(cityMap&&cityMarkers){if(kind==='county'){if(cityMap.hasLayer(cityMarkers))cityMap.removeLayer(cityMarkers);}else if(!cityMap.hasLayer(cityMarkers))cityMap.addLayer(cityMarkers);}
   if(reset){field.value='';closeSuggestions();searchStatus.textContent='';}
   if(cityMap)syncMap(place(select.value));
  }
  modeButtons.forEach(button=>button.addEventListener('click',()=>setSelectionKind(button.dataset.locationKind,true)));
+ function paintCounty(id){
+  const layer=countyLayers.get(id);if(!layer)return;
+  const blue=id===hoveredCounty||id===touchedCounty;
+  layer.setStyle(blue?{color:'#195caa',fillColor:'#4289d6',fillOpacity:.65,weight:2.5}:layer===selectedCounty?{color:'#126c68',fillColor:'#dcebe7',fillOpacity:.8,weight:2}:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1});
+  if(blue)layer.bringToFront();
+ }
+ function clearCountyPreview(){
+  const previous=[hoveredCounty,touchedCounty];hoveredCounty=null;touchedCounty=null;countyPreview.hidden=true;
+  previous.forEach(paintCounty);
+ }
+ function previewCounty(id){
+  const previous=[touchedCounty,hoveredCounty];touchedCounty=id;hoveredCounty=null;previous.forEach(paintCounty);paintCounty(id);
+  countyPreviewName.textContent=places.counties[id]+' County';countyPreview.hidden=false;
+  countyLayers.get(id)?.closeTooltip();
+ }
+ function chooseCounty(id){
+  const key='county:'+id;clearCountyPreview();
+  if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(key);else chooseCity(key);
+ }
  function syncMap(location) {
   if(!cityMap)return;
   selectedMarker?.closeTooltip();selectedMarker?.setStyle({radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1});
-  selectedCounty?.setStyle({color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1});
+  const oldCounty=selectedCounty;
   selectedMarker=location?markers.get(location.id):undefined;
   selectedCounty=location?countyLayers.get(location.county):undefined;
-  selectedCounty?.setStyle({color:'#126c68',fillColor:'#dcebe7',fillOpacity:.8,weight:2});
+  if(oldCounty)paintCounty(oldCounty.feature.properties.county);
+  if(selectedCounty)paintCounty(selectedCounty.feature.properties.county);
   if(selectedMarker){selectedMarker.setStyle({radius:8,color:'#126c68',fillColor:'#126c68',fillOpacity:1,weight:2});selectedMarker.bringToFront();}
-  mapStatus.textContent=location?`${location.name} selected. ${selectionKind==='county'?'Click a county area or search a county to change it.':'Click a city marker or search a city to change it.'}`:selectionKind==='county'?'County mode. Click a county area or search its name.':'City mode. Click a city marker or search its name.';
+  mapStatus.textContent=location?`${location.name} selected. ${selectionKind==='county'?'Point to or tap a county to preview it, or search its name.':'Click a city marker or search a city to change it.'}`:selectionKind==='county'?'County mode. Point to or tap a county to preview it, or search its name.':'City mode. Click a city marker or search its name.';
   if(!mapDisclosure || mapDisclosure.open) {
    cityMap.invalidateSize(false);
    if(location && selectedMarker && selectionKind==='city')cityMap.setView([location.lat,location.lng],9,{animate:false});
@@ -264,9 +291,19 @@
    const boundaries=L.geoJSON(places.map.geometry,{style:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1},onEachFeature:(feature,layer)=>{
     countyLayers.set(feature.properties.county,layer);
     const label=document.createElement('span');label.textContent=feature.properties.name+' County';layer.bindTooltip(label);
-    layer.on('add',()=>{const element=layer.getElement();if(element)element.dataset.countyId=feature.properties.county;});
-    layer.on('click',()=>{if(selectionKind!=='county')return;const key='county:'+feature.properties.county;if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(key);else chooseCity(key);});
+    const id=feature.properties.county;
+    layer.on('add',()=>{const element=layer.getElement();if(element){element.dataset.countyId=id;element.addEventListener('pointerdown',event=>{if(event.pointerType==='touch'||event.pointerType==='pen'){lastTouchCounty=id;lastTouchTime=Date.now();}});}});
+    layer.on('mouseover',()=>{if(Date.now()-lastTouchTime<800)return;if(touchedCounty)clearCountyPreview();const old=hoveredCounty;hoveredCounty=id;if(old)paintCounty(old);paintCounty(id);});
+    layer.on('mouseout',()=>{if(hoveredCounty===id){hoveredCounty=null;paintCounty(id);}});
+    layer.on('click',event=>{
+     if(selectionKind!=='county')return;
+     const pointer=event.originalEvent?.pointerType;
+     const touch=pointer?pointer==='touch'||pointer==='pen':event.originalEvent?.sourceCapabilities?.firesTouchEvents||lastTouchCounty===id&&Date.now()-lastTouchTime<800;
+     if(touch)previewCounty(id);else chooseCounty(id);
+    });
    }}).addTo(cityMap);mapBounds=boundaries.getBounds();
+   cityMap.on('dragstart',clearCountyPreview);
+   cityMap.on('click',event=>{if(event.originalEvent?.target===cityMap.getContainer())clearCountyPreview();});
    cityMarkers=L.layerGroup().addTo(cityMap);
    for(const city of cities.values()){
     const marker=L.circleMarker([city.lat,city.lng],{radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1,bubblingMouseEvents:false}).addTo(cityMarkers);

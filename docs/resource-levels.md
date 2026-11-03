@@ -8,8 +8,12 @@ monetization experiment remains on its existing preview branch.
 
 The starting map has City and County buttons. City mode shows 483 city markers
 and searches city names. County mode removes those markers, shows 58 county
-areas and searches county names. Clicking a county area selects its county
-resources. Keyboard search remains available in both modes. Changing modes
+areas and searches county names. On desktop, hovering turns a county blue and
+clicking selects its resources. On touch screens, tapping previews a blue county
+and its name; View county resources confirms the choice. Moving away restores
+the normal or selected color, and panning clears a touch preview. Quick taps
+between counties keep the zoom steady; pinch and zoom buttons remain available.
+Keyboard search remains available in both modes. Changing modes
 changes the selection interface; a resource location changes only after a map
 choice or a confirmed search. The same switch works in the Change location
 control and in the complete offline HTML.
@@ -57,3 +61,8 @@ python -m http.server 4177 --bind 127.0.0.1
 
 Open http://127.0.0.1:4177/ . This remains an editorial preview. Public main
 stays the maintenance page; Ronnie retains T36 review and RM-Q18 remains open.
+
+The later hover/touch check (`tests/county-preview.cjs`) covers all 58 polygon
+entry/exit handlers, actual pointer hover, selected-color restoration, actual
+mobile touch preview/confirmation, switching between counties, panning without
+navigation, mode changes and a real offline download with zero HTTP requests.
