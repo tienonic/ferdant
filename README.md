@@ -163,3 +163,20 @@ npm.cmd run test:commerce
 
 For future commerce, hosting and merchant-readiness flags require owner review, not just a config edit.
 Keep private/Admin credentials out of browser files and Git. The current GitHub Pages deployment is not approved for e-commerce.
+
+## Service-button preview and preserved version
+
+The homepage now uses five closed service dropdowns matching the Reddit communities, plus separate
+Phone numbers & city map and Download for offline use controls. Billing tools sit inside Bills & paperwork.
+The offline city chooser and phone city chooser stay in sync; downloading from the first works without loading the map.
+Resource search reveals matching sections, and clearing restores their prior states. Native dropdowns work without JavaScript.
+
+The version before this structure is preserved by annotated tag `preview-before-service-buttons-20261102`
+at `5c93d5e435a8ab59635d81ea97e32099109d6614`. To inspect it without altering current work:
+
+```powershell
+git worktree add --detach ../ferdant-preserved-20261102 preview-before-service-buttons-20261102
+```
+
+Serve that directory separately for comparison. The current preview stays on `website-preview-20261102`;
+public main remains the maintenance page. See `DESIGN.md` for the color evidence and its limits.

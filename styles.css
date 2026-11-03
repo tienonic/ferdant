@@ -777,6 +777,63 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
  .directory-sketch .sketch-guide { stroke-opacity: 1; }
 }
 
+/* Service buttons share one calm, readable directory. Color is a redundant category cue. */
+.service-directory { display: grid; gap: 9px; max-width: 900px; margin: 0 auto 28px; }
+.service-row, .service-directory > .phone-directory { margin: 0; padding: 0; border: 1px solid #b9c8d5; border-left: 4px solid var(--category-color, var(--utilities)); border-radius: 5px; background: white; min-width: 0; }
+#keep-us-connected { --category-wash: #edf4fc; }
+#who-can-fix-this { --category-wash: #fcf0e9; }
+#keep-the-basics-on { --category-wash: #e9f5f1; }
+#what-am-i-paying-for { --category-wash: #f3effb; }
+#plan-for-disruption { --category-wash: #edf4e9; }
+#offline-download { --category-color: var(--tools-accent); --category-wash: #f0f1fa; }
+.service-directory > .phone-directory { --category-color: var(--utilities); --category-wash: #e9f5f1; }
+.service-toggle, .service-directory .phone-toggle { display: flex; align-items: center; gap: 15px; min-height: 70px; padding: 11px 20px; margin: 0; list-style: none; cursor: pointer; background: var(--category-wash, #f1f5f8); color: var(--ink); border-radius: 3px; }
+.service-toggle::-webkit-details-marker { display: none; }
+.service-toggle > .ui-icon:first-child, .service-directory .phone-toggle > .ui-icon:first-child { width: 25px; height: 25px; flex-shrink: 0; color: var(--category-color, var(--utilities)); }
+.service-toggle > span, .service-directory .phone-toggle > span { flex: 1; min-width: 0; font: 600 17px/1.45 var(--sans); }
+.service-toggle strong { font-weight: 600; }
+.service-toggle small, .service-directory .phone-toggle small { display: block; font: 400 12px/1.5 var(--sans); color: #46576a; overflow-wrap: anywhere; }
+.service-toggle > .ui-icon:last-child, .service-directory .phone-toggle > .ui-icon:last-child { width: 18px; height: 18px; flex-shrink: 0; color: var(--ink); }
+.service-row[open] > .service-toggle > .ui-icon:last-child { transform: rotate(180deg); }
+.service-toggle:hover, .service-directory .phone-toggle:hover { box-shadow: inset 0 0 0 1px var(--category-color, var(--utilities)); }
+.service-toggle:focus-visible, .service-directory .phone-toggle:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.service-panel, .service-directory .phone-panel { padding: 4px 22px 18px; }
+.service-panel .portal-overview { margin: 8px 0 12px; }
+.service-panel .portal-list { max-width: 720px; }
+.service-panel .portal-destination { padding: 12px 0; }
+.service-panel .portal-destination small { max-width: 160px; }
+.service-panel .portal-tools { border-top: 1px solid var(--rule); margin-top: 20px; padding-top: 16px; }
+.service-panel .portal-tools h3 { font: 600 16px/1.5 var(--sans); margin: 0 0 6px; }
+.service-panel .phone-city-control { margin-top: 16px; width: 440px; }
+.service-directory .phone-controls { flex-wrap: wrap; }
+.service-directory .phone-heading { display: block; margin-top: 16px; }
+.service-directory .phone-controls { margin-top: 16px; }
+.service-directory .phone-query-control { width: 240px; }
+.service-directory .cost-preview { grid-template-columns: 1fr 1fr 1.2fr; }
+.service-directory .cost-preview-heading { grid-column: 1 / -1; }
+.service-directory .cost-preview .cost-scope { grid-column: 1 / 3; }
+.portal-status { max-width: 900px; margin: 0 auto; padding-top: 0; }
+.portal-heading { max-width: 900px; margin: 0 auto; }
+.directory-about-section { max-width: 900px; margin: 0 auto; }
+@media (max-width: 700px) {
+ .service-toggle, .service-directory .phone-toggle { gap: 12px; padding: 11px 13px; min-height: 74px; }
+ .service-toggle > span, .service-directory .phone-toggle > span { font-size: 16px; }
+ .service-toggle small, .service-directory .phone-toggle small { font-size: 12px; }
+ .service-panel, .service-directory .phone-panel { padding: 4px 13px 15px; }
+ .service-panel .portal-destination small { max-width: 85px; }
+ .service-directory .phone-query-control { width: 100%; }
+ .service-directory .cost-preview { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); }
+ .service-directory .cost-preview-controls, .service-directory .cost-total { grid-column: 1 / -1; }
+ .service-directory .cost-amount input { min-width: 80px; }
+ .service-directory .cost-preview .cost-scope { grid-column: 1; }
+}
+@media (forced-colors: active) {
+ .service-row, .service-directory > .phone-directory { border-color: CanvasText; }
+ .service-toggle, .service-directory .phone-toggle { background: Canvas; color: CanvasText; }
+ .service-toggle small, .service-directory .phone-toggle small { color: CanvasText; }
+ .service-toggle:focus-visible, .service-directory .phone-toggle:focus-visible { outline-color: Highlight; }
+}
+
 @media print {
   .site-header, .site-footer, .preview-note, .copy-button { display: none; }
   .page { padding: 0; }

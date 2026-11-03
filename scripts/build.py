@@ -6,7 +6,7 @@ from icons import icon, destination_icon, copy_icons, CATEGORY
 from graphics import directory_graphic
 from cost_tool import cost_preview
 from offline import build_editions
-from phone_chart import phone_chart
+from phone_chart import phone_chart, DOWNLOAD
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('content',ROOT/'content/site.py')
 c=importlib.util.module_from_spec(spec); spec.loader.exec_module(c)
@@ -42,33 +42,39 @@ def portal_entry(title,url,publisher,context):
 
 def directory_topic(b):
  context=b['name']+' '+b['label']+' '+b['description']
+ labels={'keep-us-connected':'Internet & phone','who-can-fix-this':'Repairs & services','keep-the-basics-on':'Power & water','what-am-i-paying-for':'Bills & paperwork','plan-for-disruption':'Prepare & recover'}
  entries=''.join(portal_entry(title,url,publisher,context) for title,url,publisher,_ in d.LINKS[b['slug']])
  entries+=portal_entry('r/'+b['name'],'https://www.reddit.com/r/'+b['name']+'/', 'Reddit',context)
  if b['slug']=='plan-for-disruption': entries+=portal_entry('Download an offline edition','/offline/','Choose city','offline download local regional city contacts phone emergency preparedness')
- return f'''<section class="directory-topic portal-card" id="{b['slug']}" tabindex="-1" aria-labelledby="title-{b['slug']}" data-portal-card>
-  <header><h2 id="title-{b['slug']}">{icon(CATEGORY[b["slug"]])}<span>{b['label']}</span></h2></header>
-  <div class="portal-overview">{directory_graphic(b["slug"])}<p class="portal-description">{b['description']}</p></div>
-  <ul class="portal-list">{entries}</ul><p class="portal-note">{d.NOTES[b['slug']]}</p>
- </section>'''
+ tools=''
+ if b['slug']=='what-am-i-paying-for':
+  tools=f'''<section class="portal-tools" id="tools" tabindex="-1"><h3>Tools you can use here</h3><nav aria-label="Quick tools"><ul class="portal-list">{portal_entry('Cost over time','#cost-preview','On this page','monthly recurring annual yearly cost subscription')}{portal_entry('Compare a bill','#compare-bill','Calculator','bill price cost money charges')}{portal_entry('Plan a cancellation','#cancel-subscription','Checklist','subscription renewal cancel money')}{portal_entry('Draft a billing message','#draft-message','Message builder','write question complaint bill money')}</ul></nav><details class="cost-workspace" data-enhancement hidden><summary>Cost over time worksheet</summary>{cost_preview()}</details><p class="portal-note">Your inputs stay in this open page.</p></section>'''
+ return f'''<details class="directory-topic portal-card service-row" id="{b['slug']}" data-portal-card>
+  <summary class="service-toggle">{icon(CATEGORY[b["slug"]])}<span><strong>{labels[b['slug']]}</strong><small>r/{b['name']}</small></span>{icon('chevron')}</summary>
+  <div class="service-panel"><div class="portal-overview">{directory_graphic(b["slug"])}<p class="portal-description">{b['description']}</p></div>
+  <ul class="portal-list">{entries}</ul><p class="portal-note">{d.NOTES[b['slug']]}</p>{tools}</div>
+ </details>'''
+
+def offline_button():
+ return f'''<details class="offline-download-panel service-row" id="offline-download">
+ <summary class="service-toggle">{icon('download')}<span><strong>Download for offline use</strong><small>Phone numbers, guides & tools · California</small></span>{icon('chevron')}</summary>
+ <div class="service-panel"><p class="portal-description">Choose your city and save one file. Open it in a browser whenever you need it, even without internet.</p>
+ <div class="phone-city-control" data-enhancement hidden><label for="offline-city">City for your offline copy</label><select id="offline-city"><option value="">California-wide numbers</option></select></div>
+ <div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><a href="/offline/">What is included?</a><p id="offline-download-status" role="status"></p></div>
+ <p class="portal-note">Contacts checked November 2, 2026. Includes shared hotlines and checked local contacts; city coverage is incomplete. Calls need phone service. Website links need internet. No live alerts.</p></div></details>'''
 
 def inline_sources(g):
  sources=''.join(f'<li><a href="{e(url)}">{e(name)}</a><span>{e(date)}</span></li>' for name,url,date in g['sources'])
  return f'<div class="inline-sources"><p>{g["scope"]}</p><ul>{sources}</ul><p>Sources checked November 2, 2026. <a href="/sources-and-corrections/">Corrections</a>.</p></div>'
 
 def home():
- topic_labels=['Connections','Repairs','Utilities','Bills & forms','Preparedness']
- topic_links=''.join(f'<a href="#{b["slug"]}">{label}</a>' for b,label in zip(c.BRANCHES,topic_labels))
- tool_links=''.join(f'<a href="{gp(g)}{fragment}" data-open-tool="{key}" aria-haspopup="dialog">{label}</a>' for key,g,fragment,label in zip(['compare-bill','cancel-subscription','draft-message'],c.GUIDES,['#quick-tool','#quick-tool','#message-template'],['Compare a bill','Cancel subscription','Draft a message']))
  sections=''.join(directory_topic(b) for b in c.BRANCHES)
  bill,cancel,message=c.GUIDES
  bill_tool=tool(bill,heading=3)
  page('/','Practical guides for everyday problems','A directory of practical resources, tools and California emergency and support phone numbers, with city selection and a downloadable offline copy.',f'''
  <div class="portal-heading"><div><h1>Resources & tools</h1><p>Find a useful place to start.</p></div><div class="portal-search" role="search" data-enhancement hidden><label for="portal-query">Find a resource or tool</label><div><label class="portal-search-glyph" for="portal-query" aria-hidden="true">{icon("search")}</label><input id="portal-query" type="search" autocomplete="off" placeholder="Try internet, repair or bills"><button class="quiet-button" type="button" data-clear-portal aria-label="Clear search" title="Clear search">{icon("close")}<span class="visually-hidden">Clear</span></button></div></div></div>
- {phone_chart()}
- <div id="communities" tabindex="-1" class="portal-nav"><nav aria-label="The five communities">{topic_links}</nav><nav aria-label="Quick tools">{tool_links}</nav></div>
- <details class="cost-workspace" data-enhancement hidden><summary>Cost over time</summary>{cost_preview()}</details>
- <div class="portal-status" data-enhancement hidden><p id="portal-status" role="status" aria-live="polite">Choose a category or open a tool.</p><span>Public resources, communities & local tools</span></div>
- <div class="portal-grid">{sections}<section class="portal-card portal-tools" id="tools" tabindex="-1" data-portal-card><header><h2>{icon("tools")}<span>Quick tools</span></h2></header><div class="portal-overview">{directory_graphic("tools")}<p class="portal-description">Use these here, without an account.</p></div><ul class="portal-list">{portal_entry('Cost over time','#cost-preview','On this page','monthly recurring annual yearly cost subscription')}{portal_entry('Compare a bill','#compare-bill','Calculator','bill price cost money charges')}{portal_entry('Plan a cancellation','#cancel-subscription','Checklist','subscription renewal cancel money')}{portal_entry('Draft a billing message','#draft-message','Message builder','write question complaint bill money')}</ul><p class="portal-note">Your inputs stay in this open page.</p></section></div>
+ <div class="portal-status" data-enhancement hidden><p id="portal-status" role="status" aria-live="polite">Choose a service to see useful links.</p><span>Open only what you need</span></div>
+ <div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{sections}{phone_chart()}{offline_button()}</div>
  <div id="portal-empty" data-enhancement hidden><p>No matching links. Try another word, or clear the search.</p><button class="quiet-button" type="button" data-clear-portal>Show all links</button></div>
  <dialog id="tool-dialog" aria-labelledby="tool-dialog-title"><div class="tool-dialog-header"><div class="tool-dialog-name"><span id="tool-dialog-icon" aria-hidden="true">{icon("tools")}</span><h2 id="tool-dialog-title">Quick tools</h2></div><button type="button" class="tool-dialog-close" data-close-tool aria-label="Close tool">{icon("close")}<span>Close</span></button></div><div class="tool-dialog-body">
    <section id="compare-bill" class="directory-tool" data-dialog-tool data-tool-title="Compare a bill" hidden tabindex="-1" aria-labelledby="compare-title"><div class="directory-tool-heading"><h2 id="compare-title">Compare a bill</h2><button class="quiet-button" id="bill-example" data-enhancement hidden>Try an example</button></div><p>{bill['intro']}</p><p id="example-note" class="example-note" role="status" hidden>Example figures. Replace these with your own totals and changes.</p>{bill_tool}<p class="quick-note">{bill['briefNote']}</p><a class="widget-guide-link" href="{gp(bill)}">Full bill-checking guide</a><details class="tool-source-details"><summary>Sources & scope</summary>{inline_sources(bill)}</details><button type="button" class="quiet-button" data-close-tool>Back to directory</button></section>

@@ -11,14 +11,15 @@ module.exports = async function checkWidgets(page, width, base) {
  try {
   assert.equal(await page.locator('.directory-topic:visible').count(), 5);
   assert.equal(await page.locator('.directory-tool:visible').count(), 0);
-  for (const nav of ['The five communities']) {
-   for (const link of await page.getByRole('navigation', {name:nav}).getByRole('link').all()) {
-    const href = await link.getAttribute('href'); assert(href.startsWith('#'));
-    await link.click(); assert.equal(new URL(page.url()).pathname, '/');
-    assert(await page.locator(href).isVisible());
-    assert.equal(await page.locator(':focus').getAttribute('id'), href.slice(1));
-   }
+  for (const row of await page.locator('[data-portal-card]').all()) {
+   const summary=row.locator(':scope > summary');
+   if(await row.evaluate(el=>el.open))await summary.click();
+   await summary.focus();await page.keyboard.press('Enter');
+   assert(await row.evaluate(el=>el.open));
+   assert(await row.locator('.portal-list').first().isVisible());
+   await page.keyboard.press('Space');assert(!await row.evaluate(el=>el.open));
   }
+  await page.locator('#what-am-i-paying-for > summary').click();
   const directoryHeight = await page.evaluate(()=>document.documentElement.scrollHeight);
   const launcher = page.locator('.portal-tools [data-open-tool="compare-bill"]');
   await launcher.scrollIntoViewIfNeeded();
@@ -62,7 +63,7 @@ module.exports = async function checkWidgets(page, width, base) {
   await page.keyboard.press('Escape');
   assert(!await page.locator('#tool-dialog').isVisible());
   assert(await launcher.evaluate(el=>el===document.activeElement));
-  await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Cancel subscription'}).click();
+  await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Plan a cancellation'}).click();
   assert(await page.getByRole('dialog',{name:'Cancel a subscription',exact:true}).isVisible());
   assert(!await page.locator('#compare-bill').isVisible());
   await page.getByLabel('Another platform', {exact:true}).check();
@@ -81,7 +82,7 @@ module.exports = async function checkWidgets(page, width, base) {
   assert((await page.locator('#cancel-next').innerText()).includes('identify the billing business'));
 
   await page.getByRole('button',{name:'Close tool',exact:true}).click();
-  await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Draft a message'}).click();
+  await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Draft a billing message'}).click();
   assert(await page.getByRole('dialog',{name:'Draft a billing message',exact:true}).isVisible());
   await page.getByLabel('What needs explaining?').fill('A new service fee');
   await page.getByLabel('Important dates or previous contact').fill('Charged November 1; contacted support November 2');

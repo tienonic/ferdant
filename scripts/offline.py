@@ -41,6 +41,7 @@ def build_editions(home, guides, output):
     doc = doc.replace('<script src="/site.js" defer></script>', '')
     doc = doc.replace('<script src="/phone.js" defer></script>', '')
     doc = doc.replace('<details class="phone-directory" id="local-essentials">', '<details class="phone-directory" id="local-essentials" open>')
+    doc = re.sub(r'<details class="offline-download-panel service-row".*?</details>', '', doc, flags=re.S)
     doc = re.sub(r'<div class="phone-actions">.*?</div>', '', doc, flags=re.S)
     doc = doc.replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
     csp = "default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'"
@@ -67,7 +68,7 @@ def build_editions(home, guides, output):
     print_js = '''
 let detailsBeforePrint = [];
 window.addEventListener('beforeprint', () => {
- detailsBeforePrint = [...document.querySelectorAll('.offline-detail:not(.font-licenses), .phone-source-details, .phone-directory')].filter(el => !el.open);
+ detailsBeforePrint = [...document.querySelectorAll('.offline-detail:not(.font-licenses), .phone-source-details, .phone-directory, .service-row')].filter(el => !el.open);
  detailsBeforePrint.forEach(el => {el.open = true;});
 });
 window.addEventListener('afterprint', () => {
@@ -76,6 +77,7 @@ window.addEventListener('afterprint', () => {
     leaflet_js=(ROOT / 'assets/vendor/leaflet/leaflet.js').read_text(encoding='utf-8')
     phone_js = leaflet_js + '\n' + (ROOT / 'phone.js').read_text(encoding='utf-8')
     doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{print_js}</script></body>')
+    doc = re.sub(r'(?m)^[ \t]+$', '', doc)
     (output / Path(DOWNLOAD).name).write_text(doc, encoding='utf-8')
     # Superseded preview exports; one shared edition replaces per-region copies.
     for legacy in ['ferdant-davis-yolo-2026-11-02.html', 'ferdant-san-francisco-2026-11-02.html']:

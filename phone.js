@@ -20,6 +20,8 @@
   const option = document.createElement('option');option.value = `county:${id}`;option.textContent = `${name} County — county-level contacts`;countyGroup.append(option);
  }
  options.append(countyGroup);select.append(options);
+ const offlineSelect=document.querySelector('#offline-city');
+ if(offlineSelect){offlineSelect.replaceChildren(...[...select.children].map(child=>child.cloneNode(true)));offlineSelect.addEventListener('change',()=>{select.value=offlineSelect.value;select.dispatchEvent(new Event('change'));});}
 
  function place(key) {
   if (cities.has(key)) return cities.get(key);
@@ -66,10 +68,10 @@
   }
   doc.querySelector('#phone-coverage').textContent=coverage;
   doc.querySelector('#phone-caption').textContent=`${location ? location.name : 'California'} emergency and support phone numbers other than 911`;
-  const download=doc.querySelector('[data-city-download]');
-  if(download) download.textContent=location ? `Download for ${location.name}` : 'Download California offline copy';
+  for(const download of doc.querySelectorAll('[data-city-download]')) download.textContent=location ? `Download for ${location.name}` : 'Download California offline copy';
   const alertArea=doc.querySelector('#phone-local-alert');
   if(alertArea){alertArea.replaceChildren();const alert=data.alerts[location?.id];if(alert){const p=node(doc,'p',`${alert.name}: ${alert.instruction}`),link=node(doc,'a','Official alert instructions (online)');link.href=data.sources[alert.source].url;alertArea.append(p,link);}}
+  const offlineCity=doc.querySelector('#offline-city');if(offlineCity)offlineCity.value=key;
   filter(doc);if(doc===document)syncMap(location);return location;
  }
  function filter(doc) {
@@ -82,7 +84,7 @@
  select.value=place(saved) ? saved : '';render(document,select.value);
  select.addEventListener('change',()=>{
   render(document,select.value);
-  const status=document.querySelector('#phone-download-status');if(status)status.textContent='';
+  for(const status of document.querySelectorAll('.phone-actions [role="status"]'))status.textContent='';
  });
  document.querySelector('#phone-query').addEventListener('input',()=>filter(document));
 
@@ -146,11 +148,10 @@
  disclosure.addEventListener('toggle',()=>{if(disclosure.open)ensureMap();});
  if(disclosure.open)ensureMap();
  let template;
- const download=document.querySelector('[data-city-download]');
- if(download)download.addEventListener('click',async event=>{
+ for(const download of document.querySelectorAll('[data-city-download]'))download.addEventListener('click',async event=>{
   if(event.button!==0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || !select.value)return;
   event.preventDefault();
-  const key=select.value,location=place(key),status=document.querySelector('#phone-download-status');
+  const key=select.value,location=place(key),status=download.closest('.phone-actions').querySelector('[role="status"]');
   status.textContent='Preparing your city copy…';
   try {
    if(!template)template=fetch(download.href,{credentials:'omit'}).then(response=>{if(!response.ok)throw Error('Download failed');return response.text();});

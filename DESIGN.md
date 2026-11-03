@@ -18,12 +18,19 @@ not invented savings, claims, testimonials or activity counters.
 
 The previous proposal used a large question beside three numbered guide rows and a second numbered directory.
 That arrangement was repetitive, made small labels do too much work and gave the introduction too much space.
-The current version follows the user's Bored.com structure reference: a compact, browse-first category portal.
-Five topic panels and a tool panel expose short destination lists in a three-column grid, two on tablets and one on phones.
-Search filters the directory in the browser. Omit corner count badges; numbers need a direct task meaning, such as a bill amount, checked record or active search result.
-Category links use native anchors. Tool entries open the chosen tool in an on-page dialog, with source/scope notes inside it.
-Do not append all tool forms below the directory. Closing returns focus and preserves the directory position. Without scripts, tool links lead to the existing guide.
-Full guide URLs remain optional detailed reading. Primary use must not require a hub page, library visit or hidden panel.
+The current version keeps the user's Bored.com directory idea in one list of service buttons.
+Five native, initially closed dropdowns use short everyday labels beside the exact Reddit community names.
+Each opens its existing scope, public links and community link in place. Bills & paperwork also holds the four local tools.
+Phone numbers & city map and Download for offline use are separate, initially closed rows in the same list.
+The offline chooser works without opening or loading the phone map; both selectors use the same city choice.
+Search reveals matching links and opens their section; clearing restores the previous section states.
+Omit corner count badges; numbers need a direct task meaning, such as a bill amount, checked record or active search result.
+Tools open in a dialog or local worksheet. Closing returns focus and preserves directory position.
+Without scripts, native service dropdowns work and tool links lead to the existing guides.
+Full guide URLs remain optional detailed reading. Core use stays on the directory.
+
+The previous grid is preserved at tag `preview-before-service-buttons-20261102` (commit
+`5c93d5e435a8ab59635d81ea97e32099109d6614`). Preserve it as an inspectable version rather than overwriting history.
 
 ## Tokens
 
@@ -117,3 +124,22 @@ Do not treat a design audit, screenshots or passing code checks as audience appr
 
 These informed the choices above. Their copy, brand and page layout are not reproduced.
 No third-party skill installer, hook or scanner is required by this project.
+
+## Color evidence for the service buttons — November 2, 2026
+
+Use light category washes, dark text and the existing stronger icon/edge colors. Blue, rust, teal,
+purple and green keep the branches distinct while the porcelain page stays quiet. These are design choices,
+not a scientifically established ranking of button attractiveness. Repeated labels, icons and chevrons carry
+meaning even when hues are indistinguishable. Do not promise conversion, emotion or demand from color alone.
+
+- [W3C contrast guidance](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum) supports
+  normal-text contrast of at least 4.5:1. Focused rendered checks measured a minimum of 6.36:1 for sampled
+  directory text and 5.36:1 for sampled icons at four widths. This is not a full accessibility certification.
+- [W3C use-of-color guidance](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html) supports
+  visible text/shape alternatives to category colors. Native disclosure state and focus outlines remain visible.
+- [Jonauskaite et al., 2016](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0152194)
+  studied 88 participants choosing colors in general, wall and T-shirt contexts. Individual and context variation
+  limits transferring general favorites to this website. It did not test these buttons, visitors or task outcomes.
+
+Attractiveness and ease of locating services still need feedback from the intended audience. The palette
+is informed by readability standards and context-sensitive research, not a universal color formula.

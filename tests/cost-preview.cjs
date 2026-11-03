@@ -5,6 +5,7 @@ module.exports = async function checkCostPreview(page, width) {
  const listener = request => requests.push(request.url());
  page.on('request', listener);
  try {
+  if(!await page.locator('#what-am-i-paying-for').evaluate(el=>el.open))await page.locator('#what-am-i-paying-for > summary').click();
   await page.getByRole('link', {name:'Cost over time On this page',exact:false}).click();
   assert(page.url().endsWith('#cost-preview'));
   assert.equal(await page.locator(':focus').getAttribute('id'),'cost-preview');

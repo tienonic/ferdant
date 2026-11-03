@@ -8,7 +8,7 @@ module.exports = async function checkFormPrivacy(browser, base) {
   try {
    for (const url of ['/', '/what-am-i-paying-for/guides/why-did-my-bill-go-up/']) {
     await page.goto(base+url);
-    if(url==='/') await page.getByRole('navigation',{name:'Quick tools'}).getByRole('link',{name:'Compare a bill'}).click();
+    if(url==='/') {await page.locator('#what-am-i-paying-for > summary').click();await page.getByRole('navigation',{name:'Quick tools'}).getByRole('link',{name:'Compare a bill'}).click();}
     await page.evaluate(()=>document.fonts.ready);
     const currentUrl = page.url();
     const requests = [];
