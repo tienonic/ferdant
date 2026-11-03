@@ -11,9 +11,9 @@
     "Census geocoding receipts include unsuccessful candidates; a query is not proof that a point was accepted or mapped."
   ],
   "inputSha256": {
-    ".github/workflows/check-site.yml": "ccb53f14fdae2ed539abcaa5fd076a97d0343f8220dc8af4b864af640e77ee20",
+    ".github/workflows/check-site.yml": "3966861ddc8c6bc5ce0eb364bdfaf29c5404a69e3d0054caf1ba177e3a299b1b",
     "DESIGN.md": "5c07a65e2ad3aa75afb9f3faf16eb14bce9e376fbca542ff21868deb4a0e84c9",
-    "README.md": "f8e707af812f8dcd078b7f9e5eb544eef0af049678c3655e16971509b012c986",
+    "README.md": "a73adeaf4a2ae0e731d67219f95a8425be12f44a3054df1a4a918b6a2441862e",
     "assets/data/city-maps/BUILDINGS-LICENSE.txt": "1e4162322549351e6ce131d66c3c6c6cb56755db58e0475138e3f41cd94c4b3c",
     "assets/data/city-maps/README.md": "346247e7e378991bcd18e3602eb7ca91b08f38a71aa9f7ac232eab8877cd8bde",
     "assets/data/everyday-maps/README.md": "7f0f956a461fc1b499e3ee052312e612a1f5f5c2d50e0a0c994d260b0b233fff",
@@ -87,6 +87,7 @@
     "assets/vendor/leaflet/README.md": "3c3d2d6ef268185b416e077f5428043753e1caa83b415302dd0611bcb915573e",
     "assets/vendor/leaflet/provenance.json": "d917712fb683c3dd56ffbf9d09e7a07e303f4a4d75a76e8ac9112a131d24fc23",
     "config/commerce.json": "1170fe3a9c9727e1827f0c35069369620e0db2b20c2261d7d83ba41c547f83b2",
+    "config/monetization.json": "eb86f99b075889dee113f818a6f8cdee39165c63b11db3bc6dacc2e0b8b8ce70",
     "content/california-cities.json": "3c7eed83b6103ba8df4fc2d2bd45cc961fa9bc011bf40d065f2e36279b9fcd86",
     "content/directory.py": "b6e9ac2cf636dca5f73cccabe699d63f345b107cf2a19e5a499d3786ee435cf9",
     "content/disaster-source-manifest.json": "269678370101851e075c2d62f21a0cad9c5d3a5b808f61afafda82cb32b24256",
@@ -117,6 +118,7 @@
     "docs/everyday-map-visibility-20261103.md": "67009df381ab266888caa71d721d469f35b2faa2ec7fab1b5c463ac9f0973938",
     "docs/hazard-risk-ranking-20261103.md": "4876122b6030a19599e27e604c22f76ac24f1909d2dfb2834b4ea37effa2b597",
     "docs/landing-flow-20261103.md": "769d86ba3cf61e0b56467851b0a253ed140261d31d2563d1575b127e1f15d5cc",
+    "docs/monetization-demos.md": "a328cd0da31d0650dbdaf997ddd7626fdd5375be1ff02b68e62bb50ac8e84e02",
     "docs/outreach-buyers-and-income-findings-20261103.md": "2377d04566882beb6e10d362831c957e86ce8176b1dfe0eccc126639d55ae8f8",
     "docs/physical-services.md": "27302ec47f59878322120034f0fdb987bfc7a2499d632b8a6d2616b18afb221e",
     "docs/recommendations.md": "629a6e4997716de962faa8502a8ca6384b60db167a7625d1eb9f792bdd86ec03",
@@ -128,13 +130,14 @@
     "integrations/README.md": "bd2afdbdd8e272ec623c479aba0b700bea5b449e872cd6295f163e73506e133a",
     "integrations/shopify.mjs": "06b43fa4f3c823fdb1372918e3ce881d4ec42d384e830697afbb66e08c12cf72",
     "landing.js": "9f5d4b58e93e901e16e6fcee4b187cdb0d5f7d3de467a9d411e03dd2a4c994fc",
+    "monetization.js": "9275869d03800f417188239f78b36f8b4bcfa2f33d9e4fb8d70d216e6dc9dbcf",
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
     "phone.js": "d01c5de02e86c03119569de6a2033fb9615fa45e8109b936079cfb663dd87739",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
     "resource-booklet.js": "854d63e23c3aad272dde842f3f00b2eb6fe1b96bb932d9a67b61a30dc798c9a8",
     "resource-map.js": "2a75db8d89ed58a8ad7c6112e74117baaf7f246627e92810d11b392823e66065",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
-    "scripts/build.py": "d0d5aee45d731050abaa2814a52e85b89f18086a8d89b501b4c1ad77e71a6096",
+    "scripts/build.py": "29aecb9e188ee55ce3e6033d808d8a38b2160de176c30776d0519a690a1367f6",
     "scripts/check-content.py": "912019aebb7a4ae61dfac2ec6772c1e1a30ffd15d1185bcb4412dc808f27e643",
     "scripts/cost_tool.py": "71f3ff17044114405286e328aabfec51bed9d6536fd357214648a4d48c45af69",
     "scripts/graphics.py": "5fc8aac8d4e418e5f575749505b3d4e679cb98d3afadcb68d231c020f85f1557",
@@ -142,7 +145,8 @@
     "scripts/import-alert-links.py": "14fa1c157000de895f634327e7b94620830b33694ac0f604e505c168ef950a4a",
     "scripts/import-evacuation-routes.py": "30865e3f3d3e51f5b587618153b1a66b7f1cf7f7296241d908836f1aee497807",
     "scripts/landing.py": "8eda862eaf27696c23ff5f8c02ca97bab7dafbc1a959a5f7f5091816189f98b8",
-    "scripts/offline.py": "2f81c19a2566a85a91789f36aeac5d6895fedf1f89f3b57e0e3a019de8831d93",
+    "scripts/monetization.py": "d37a5abd94ce5577bd61127ad0e1e5fa78b809f59254528cf1768e2ea5b8bc46",
+    "scripts/offline.py": "bde4ad434d4540d292e3624224831013981a3e91824156fb6652ede92d6852b5",
     "scripts/phone_chart.py": "c148f7b8ec172183551a7bb3450413658b81f02289c493741a0e1b2d22509afd",
     "scripts/physical_services.py": "57961a7a681ca0cb840de47c431d7acf02f9a04c0e9c5aceacfc6c952223da8f",
     "scripts/project-building-outlines.py": "c9b573683aa5449a45660ee7d296475f5489dbe7288c43b0f5e7c8fa1f048347",
@@ -16873,6 +16877,30 @@
         "scripts/audit-disaster-sources.py",
         "scripts/project-building-outlines.py",
         "scripts/refresh-map-data.py"
+      ],
+      "records": []
+    },
+    {
+      "title": "github.com/tienonic/ferdant/archive/refs/tags/before-monetization.zip",
+      "url": "https://github.com/tienonic/ferdant/archive/refs/tags/before-monetization.zip",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in docs/monetization-demos.md; role follows its original context."
+      ],
+      "recordedIn": [
+        "docs/monetization-demos.md"
+      ],
+      "records": []
+    },
+    {
+      "title": "github.com/tienonic/ferdant/tree/before-monetization",
+      "url": "https://github.com/tienonic/ferdant/tree/before-monetization",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in docs/monetization-demos.md; role follows its original context."
+      ],
+      "recordedIn": [
+        "docs/monetization-demos.md"
       ],
       "records": []
     },

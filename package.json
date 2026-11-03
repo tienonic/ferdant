@@ -14,7 +14,8 @@
     "verify:everyday": "node tests/everyday-services.cjs && node tests/everyday-visibility.cjs",
     "verify:booklet": "node tests/resource-booklet.cjs",
     "verify:risk": "node tests/hazard-risk.cjs",
-    "verify:recommendations": "node tests/recommendations.cjs"
+    "verify:recommendations": "node tests/recommendations.cjs",
+    "verify:monetization": "node tests/monetization.cjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0"

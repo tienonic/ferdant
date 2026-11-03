@@ -6,6 +6,9 @@ money-and-paperwork guides, a searchable library, about/source/privacy pages and
 four actions and a useful tool or template; longer explanations and sources expand only when needed.
 The three guides are proposed pilot content, not a record of resolved community cases.
 Dormant Shopify infrastructure is included in the source, with no commerce UI or page-load requests.
+The monetization experiment adds clearly labeled ad, affiliate and sponsor demos
+to all pages, without live commercial services. The exact earlier version is
+saved as `before-monetization`; see [snapshot and demo controls](docs/monetization-demos.md).
 
 ## Preview locally
 
@@ -56,6 +59,7 @@ The deployed main branch remains the maintenance page until a fuller release is 
 npm.cmd ci --ignore-scripts
 npm.cmd run build
 npm.cmd run verify:responsive
+npm.cmd run verify:monetization
 node tests/resource-map.cjs
 npm.cmd run verify:disasters
 npm.cmd run verify:services
@@ -87,6 +91,7 @@ correction/maintenance responsibility and measurement limits. Then create the pr
 python scripts/build.py --mode production
 $env:SITE_MODE = 'production'
 npm.cmd run verify:responsive
+npm.cmd run verify:monetization
 ```
 
 Production mode removes the preview notice and enables indexing for content pages. It does not

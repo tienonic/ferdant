@@ -25,7 +25,8 @@ def build_editions(home, output):
     js = (ROOT / 'site.js').read_text(encoding='utf-8')
     output = output / 'downloads'
     output.mkdir(parents=True, exist_ok=True)
-    doc = re.sub(r'<title>.*?</title>', '<title>California — Ferdant offline</title>', home, count=1)
+    doc = re.sub(r'<!--monetization-demo:start-->.*?<!--monetization-demo:end-->', '', home, flags=re.S)
+    doc = re.sub(r'<title>.*?</title>', '<title>California — Ferdant offline</title>', doc, count=1)
     doc = doc.replace('<link rel="stylesheet" href="/styles.css">', f'<style>{css}</style>')
     doc = doc.replace('<script src="/site.js" defer></script>', '').replace('<script src="/recommendations.js" defer></script>', '')
     doc = doc.replace('<script src="/phone.js" defer></script>', '').replace('<script src="/infographic.js" defer></script>', '')

@@ -34,7 +34,7 @@ jobs:
           git diff --exit-code
       - name: Prepare browser
         run: npx playwright install --with-deps chromium
-      - name: Test reading, tools and invisible commerce
+      - name: Test reading, tools, demo placements and dormant Shopify
         run: |
           python -m http.server 4173 --bind 127.0.0.1 > /tmp/ferdant-preview.log 2>&1 &
           for attempt in 1 2 3 4 5; do
@@ -42,6 +42,7 @@ jobs:
             sleep 1
           done
           npm run verify:responsive
+          npm run verify:monetization
           npm run verify:recommendations
           npm run verify:maps
           npm run verify:services

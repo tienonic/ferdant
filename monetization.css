@@ -1,0 +1,45 @@
+/* Isolated preview placements; never injected into resource lists or downloads. */
+.demo-ad, .demo-partners { max-width: 1000px; margin: 20px auto; }
+.demo-ad { display: grid; grid-template-columns: 60px minmax(0,1fr) auto; align-items: center; gap: 20px; padding: 16px 24px; border: 1px solid #ccd7df; background: #f0f4f6; border-radius: 4px; }
+.demo-store { width: 60px; height: 56px; color: #526d84; }
+.demo-label { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 8px; color: #526170; font: 600 10px/1.5 var(--sans); letter-spacing: .06em; text-transform: uppercase; }
+.demo-label > span { color: #526170; padding: 1px 5px; border: 1px solid #aebdc8; border-radius: 3px; font-weight: 400; }
+.demo-ad-copy p { margin: 4px 0 0; font: 600 16px/1.4 var(--sans); }
+.demo-ad-copy small { display: block; font-size: 12px; line-height: 1.5; color: var(--muted); margin-top: 3px; }
+.demo-text-link { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--cobalt); font-size: 13px; font-weight: 600; text-decoration-thickness: 1px; }
+.demo-partners { margin-top: 42px; margin-bottom: 32px; border-top: 1px solid var(--rule); padding-top: 24px; }
+.demo-partners-heading h2 { font: 600 16px/1.5 var(--sans); margin: 0 0 4px; letter-spacing: 0; }
+.demo-partners-heading > p { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+.demo-partner-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+.demo-partner { display: grid; grid-template-columns: 112px minmax(0,1fr); gap: 20px; border: 1px solid #ccd7df; border-radius: 4px; padding: 22px; align-items: start; background: #fff; }
+.demo-product-art { background: #edf2f7; border-radius: 4px; padding: 4px; align-self: center; }
+.demo-product-art svg { width: 100%; display: block; }
+.demo-partner h3 { margin: 10px 0 8px; font: 25px/1.12 var(--serif); letter-spacing: -.02em; }
+.demo-partner p { color: var(--muted); font-size: 13px; line-height: 1.65; margin: 0 0 4px; }
+.demo-partner-copy { min-width: 0; }
+.demo-partner-copy > small { display: block; color: var(--muted); font-size: 11px; line-height: 1.6; margin-top: 4px; }
+.demo-sponsor { background: #f3f5ee; border-color: #cbd3c1; }
+.demo-sponsor-mark { width: 92px; height: 92px; border: 1px solid #adbba4; border-radius: 50%; display: grid; place-items: center; color: #526346; align-self: center; }
+.demo-sponsor-mark svg { width: 58px; height: 58px; }
+.demo-disclosure { font-size: 11px; line-height: 1.65; color: var(--muted); margin: 14px 0 0; scroll-margin-top: 24px; }
+.demo-dialog { background: var(--paper); color: var(--ink); border: 1px solid var(--rule); border-radius: 6px; width: min(520px,calc(100% - 32px)); max-height: calc(100dvh - 40px); padding: 28px; }
+.demo-dialog::backdrop { background: rgb(29 45 62 / .4); }
+.demo-dialog form { display: flex; justify-content: flex-end; margin: -10px -10px 16px 0; }
+.demo-close { min-width: 80px; min-height: 44px; background: transparent; border: 1px solid var(--rule); border-radius: 4px; font-size: 13px; }
+.demo-close span { margin-left: 10px; font-size: 18px; }
+.demo-dialog h2 { font-size: 32px; margin: 14px 0; }
+.demo-dialog p { font-size: 15px; line-height: 1.7; }
+.demo-dialog .demo-dialog-note { border-top: 1px solid var(--rule); padding-top: 16px; margin-bottom: 0; color: var(--muted); font-size: 12px; }
+@media(max-width: 1000px) { .demo-partner { grid-template-columns: 80px minmax(0,1fr); gap: 14px; padding: 18px; } .demo-sponsor-mark { width: 74px; height: 74px; } }
+@media(max-width: 700px) {
+ .demo-ad { grid-template-columns: 46px minmax(0,1fr); gap: 12px; padding: 14px 16px; }
+ .demo-store { width: 46px; height: 46px; }
+ .demo-ad > .demo-text-link { grid-column: 2; margin-top: -6px; }
+ .demo-partner-grid { grid-template-columns: minmax(0,1fr); gap: 12px; }
+ .demo-partner { grid-template-columns: 84px minmax(0,1fr); }
+ .demo-partners { margin-top: 28px; }
+ .demo-dialog { padding: 22px; }
+}
+@media(max-width: 360px) { .demo-partner { grid-template-columns: 58px minmax(0,1fr); gap: 12px; padding: 14px; } .demo-sponsor-mark { width: 56px; height: 56px; } .demo-sponsor-mark svg { width: 40px; height: 40px; } .demo-partner h3 { font-size: 23px; } }
+@media print { .demo-ad, .demo-partners, .demo-dialog { display: none !important; } }
+@media(forced-colors: active) { .demo-ad, .demo-partner, .demo-label > span, .demo-sponsor-mark { border-color: CanvasText; } }
