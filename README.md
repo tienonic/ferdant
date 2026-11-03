@@ -73,6 +73,10 @@ hosting and fee/test decisions; this preview does not create a shop or accept pa
 Read [DESIGN.md](DESIGN.md) before changing the interface. It records the audience, palette, layout,
 type scale and the decisions made using the user's Professor Glitch reference.
 Porcelain white `#fbfcfa`, cobalt `#244b84`, Newsreader headings and Public Sans reading text.
+Category icons use consistent blue, rust, teal, violet, green and indigo accents alongside labels and distinct shapes.
+Primary directory links and shortcuts have 44px-high targets; phone shortcuts wrap, and keyboard focus has a strong outline.
+The browser suite checks rendered contrast, text spacing, primary targets and one forced-colors view, saving `screenshots/accessibility.json`.
+This is focused verification, not a full accessibility certification.
 The homepage follows the user's Bored.com structure reference: five category panels and one tool panel, with short direct-link rows.
 There are 14 public resources, five communities and three tools. Category corners have no count badges; active search shows actual matching results.
 Search filters the directory locally and clears when a section link is chosen. The layout uses three columns on desktop,

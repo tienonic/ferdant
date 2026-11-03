@@ -561,6 +561,59 @@ html.tool-open { overflow: hidden; }
  .tool-dialog-body { padding: 19px; }
 }
 
+/* Color supports the directory's labels and shapes; it never carries meaning alone. */
+:root { --connectivity: #215aa0; --repairs: #a04a28; --utilities: #126c68; --money: #6543a0; --preparedness: #3d6b3f; --tools-accent: #4b51a3; }
+#keep-us-connected, .portal-nav a[href="#keep-us-connected"] { --category-color: var(--connectivity); }
+#who-can-fix-this, .portal-nav a[href="#who-can-fix-this"] { --category-color: var(--repairs); }
+#keep-the-basics-on, .portal-nav a[href="#keep-the-basics-on"] { --category-color: var(--utilities); }
+#what-am-i-paying-for, .portal-nav a[href="#what-am-i-paying-for"] { --category-color: var(--money); }
+#plan-for-disruption, .portal-nav a[href="#plan-for-disruption"] { --category-color: var(--preparedness); }
+.portal-tools { --category-color: var(--tools-accent); }
+[data-open-tool="compare-bill"], #tool-dialog[data-active-tool="compare-bill"] { --category-color: var(--connectivity); }
+[data-open-tool="cancel-subscription"], #tool-dialog[data-active-tool="cancel-subscription"] { --category-color: var(--utilities); }
+[data-open-tool="draft-message"], #tool-dialog[data-active-tool="draft-message"] { --category-color: var(--money); }
+.portal-grid .portal-card { border-top-color: var(--category-color, var(--cobalt)); }
+.portal-card header h2 > .ui-icon { width: 25px; height: 25px; color: var(--category-color, var(--cobalt)); }
+.destination-label > .ui-icon { width: 19px; height: 19px; margin-top: 2px; color: var(--category-color, var(--cobalt)); }
+.destination-label > span { overflow-wrap: anywhere; }
+.portal-destination { min-height: 46px; padding: 11px 0; font-size: 15px; line-height: 1.55; align-items: start; }
+.portal-destination small { font-size: 12px; max-width: 95px; }
+.portal-destination:hover, .portal-destination:focus-visible { background: #f1f5f8; }
+.portal-destination:hover .destination-label > span, .portal-destination:focus-visible .destination-label > span { text-decoration: underline; text-underline-offset: 4px; }
+.portal-description { font-size: 14px; }
+.portal-note { font-size: 12px; }
+.portal-search label { font-size: 13px; }
+.portal-nav { padding: 8px 0; gap: 8px 24px; }
+.portal-nav nav { flex-wrap: wrap; overflow: visible; gap: 4px 18px; }
+.portal-nav a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; font-size: 13px; }
+.portal-nav nav[aria-label="The five communities"] a::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--category-color); flex-shrink: 0; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid #1d2d3e; outline-offset: 3px; box-shadow: 0 0 0 2px white; }
+input[type=number], #message-builder input, #message-builder select, #message-builder textarea { border-color: #71808c; }
+.tool-dialog-name { display: flex; align-items: center; gap: 11px; min-width: 0; }
+#tool-dialog-icon { color: var(--category-color, var(--tools-accent)); display: flex; flex-shrink: 0; }
+#tool-dialog-icon .ui-icon { width: 25px; height: 25px; }
+.copy-button, .quiet-button, .mobile-menu summary { min-height: 44px; }
+.desktop-nav a, .site-footer nav a, .directory-about-section > div a { display: inline-flex; align-items: center; min-height: 44px; }
+.tool-source-details summary { min-height: 44px; padding: 9px 0; }
+#cancel-record label { min-height: 44px; }
+@media (max-width: 700px) {
+ .portal-nav nav { flex-wrap: wrap; overflow: visible; padding: 0; gap: 3px 17px; }
+ .portal-nav nav + nav { margin-top: 5px; border-top: 1px solid var(--rule); padding-top: 5px; }
+ .portal-nav a { flex-shrink: 1; font-size: 13px; }
+ .portal-description, .portal-destination { font-size: 15px; }
+ .portal-destination small { font-size: 12px; max-width: 78px; }
+ .portal-destination:has(.ui-icon[data-icon="users"]) { grid-template-columns: 1fr; gap: 2px; }
+ .portal-destination:has(.ui-icon[data-icon="users"]) small { margin-left: 28px; max-width: none; justify-self: start; }
+ .portal-card header h2 > .ui-icon { width: 24px; height: 24px; }
+ .tool-dialog-header h2 { font-size: 25px; }
+}
+@media (forced-colors: active) {
+ .ui-icon { color: LinkText !important; }
+ .portal-card { border-color: CanvasText !important; }
+ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline-color: Highlight; box-shadow: none; }
+ .portal-nav nav[aria-label="The five communities"] a::before { background: LinkText; }
+}
+
 @media print {
   .site-header, .site-footer, .preview-note, .copy-button { display: none; }
   .page { padding: 0; }

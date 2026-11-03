@@ -62,7 +62,7 @@ module.exports = async function checkWidgets(page, width, base) {
   await page.keyboard.press('Escape');
   assert(!await page.locator('#tool-dialog').isVisible());
   assert(await launcher.evaluate(el=>el===document.activeElement));
-  await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Cancel a subscription'}).click();
+  await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Cancel subscription'}).click();
   assert(await page.getByRole('dialog',{name:'Cancel a subscription',exact:true}).isVisible());
   assert(!await page.locator('#compare-bill').isVisible());
   await page.getByLabel('Another platform', {exact:true}).check();

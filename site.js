@@ -62,6 +62,9 @@ if (toolDialog && typeof toolDialog.showModal === 'function') {
   returnTo = link;
   for (const tool of toolDialog.querySelectorAll('[data-dialog-tool]')) tool.hidden = tool !== panel;
   document.querySelector('#tool-dialog-title').textContent = panel.dataset.toolTitle;
+  toolDialog.dataset.activeTool = panel.id;
+  const sourceIcon = [...document.querySelectorAll('.portal-tools [data-open-tool]')].find(entry => entry.dataset.openTool === panel.id)?.querySelector('.destination-label .ui-icon');
+  if (sourceIcon) document.querySelector('#tool-dialog-icon').replaceChildren(sourceIcon.cloneNode(true));
   toolDialog.showModal();
   document.documentElement.classList.add('tool-open');
   toolDialog.querySelector('.tool-dialog-body').scrollTop = 0;
@@ -69,8 +72,9 @@ if (toolDialog && typeof toolDialog.showModal === 'function') {
  });
  for (const button of toolDialog.querySelectorAll('[data-close-tool]')) button.addEventListener('click', () => toolDialog.close());
  toolDialog.addEventListener('close', () => {
+  if (toolDialog.open) return;
   document.documentElement.classList.remove('tool-open');
-  returnTo?.focus({preventScroll:true});
+  if (document.activeElement === document.body || toolDialog.contains(document.activeElement)) returnTo?.focus({preventScroll:true});
  });
  toolDialog.addEventListener('keydown', event => {
   if (event.key !== 'Tab') return;

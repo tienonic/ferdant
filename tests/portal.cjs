@@ -19,13 +19,13 @@ module.exports = async function checkPortal(page) {
   await query.fill('zzzz');
   assert(await page.locator('#portal-empty').isVisible());
   assert.equal(await page.locator('[data-portal-card]:visible').count(), 0);
-  await page.getByRole('navigation', {name:'The five communities'}).getByRole('link', {name:'Energy & water'}).click();
+  await page.getByRole('navigation', {name:'The five communities'}).getByRole('link', {name:'Utilities'}).click();
   assert.equal(await query.inputValue(), '');
   assert(page.url().endsWith('#keep-the-basics-on'));
   assert(await page.locator('#keep-the-basics-on').isVisible());
   await query.fill('message builder');
   assert.equal(await page.locator('[data-portal-entry]:visible').count(), 1);
-  await page.getByRole('button', {name:'Clear',exact:true}).click();
+  await page.getByRole('button', {name:'Clear search',exact:true}).click();
   assert.equal(await query.inputValue(), '');
   assert.equal(await page.locator('[data-portal-card]:visible').count(), 6);
   assert(await page.evaluate(()=>localStorage.length===0 && sessionStorage.length===0));

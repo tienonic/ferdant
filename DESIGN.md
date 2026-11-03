@@ -36,6 +36,11 @@ Full guide URLs remain optional detailed reading. Primary use must not require a
 | Dividers | `#CCD5DC` |
 | Worksheet surface | `#EEF2F5` |
 
+Category icon accents: connectivity `#215AA0`, repairs `#A04A28`, utilities `#126C68`, money `#6543A0`,
+preparedness `#3D6B3F`, tools `#4B51A3`. Match each category's icon, thin top rule and navigation dot.
+Tool launchers and dialog headings share their task icon/color. Keep titles, visible labels and different shapes;
+users must be able to find the same destination without distinguishing the hues.
+
 Newsreader regular is for the wordmark and headings; Public Sans regular, medium and semibold are for reading,
 labels and controls. Both are self-hosted with their SIL Open Font License notices. Use `font-display: swap`,
 system fallbacks and optical sizing. Do not add an external font service or third typeface.
@@ -57,19 +62,22 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
 - Give each tool a useful response: an amount still to explain, a record to check next, or a copyable draft.
   Examples are opt-in and explicitly labeled. A full checklist never claims that a company canceled or refunded anything.
   Keep notes in the open page; no storage, network request, background scheduling or automatic submission.
-- Use cobalt panel headers and restrained borders to distinguish groups. Do not add the reference site's branding, trivia ticker, ads or fake activity.
+- Use category-colored icons and thin rules with restrained borders to distinguish groups. Keep cobalt for the brand and general controls.
+  Do not add the reference site's branding, trivia ticker, ads or fake activity.
 - The five-topic directory pairs familiar labels with the exact community names and a concise full-scope description.
 - Guide pages show actions and tools first. Longer explanations and sources use native expandable details.
 - Use sentence case. Skip decorative eyebrows, meaningless serial numbers and arrows appended to every action.
 - State exactly what buttons do. Keep calculator wording and behavior consistent across pages.
 - Use the original inline SVG set in `scripts/icons.py` for category, destination and action cues.
-  Keep the 24-unit grid and rounded 1.7-unit strokes. Icons sit beside labels rather than in decorative tiles.
+  Keep the 24-unit grid and rounded 1.9-unit strokes. Icons sit beside labels rather than in decorative tiles.
   Outbound links use the external marker; same-page tools use an expand cue. Labels carry the accessible names;
   SVGs are hidden from assistive technology and cannot receive focus. The search magnifier focuses its field.
   Copy changes to a checkmark only after successful copying and resets when a draft changes or clears.
   Do not add an icon font, fetched favicons, tracking or third-party logo requests.
 - No gradients, stock feature icons, nested cards, promotional closing blocks or scroll reveal animations.
 - Keep visible keyboard focus, native mobile navigation and reduced-motion support. Core reading works without JavaScript.
+- Primary directory links and section shortcuts have 44px-high hit areas. Wrap phone shortcuts instead of hiding them in a sideways strip.
+  Use 15px destination text and clearer publisher labels. Keep focus outlines distinct from color cues.
 
 ## Verification
 
@@ -78,6 +86,8 @@ Check links, focus, forms, empty search, copy behavior, no-JavaScript reading, s
 Check the demo, negative changes, credits, decimal arithmetic, invalid amounts, native section-link focus,
 all cancellation routes, progress, safe text rendering, copying and clearing notes on the homepage and guide pages.
 Shopify remains disabled, absent from the interface and unrequested during page use.
+Check rendered text/icon contrast, primary target sizes, increased text spacing and forced-colors rendering.
+These checks do not establish full WCAG conformance or replace assistive-technology and user testing.
 Do not treat a design audit, screenshots or passing code checks as audience approval, demand or a public release.
 
 ## References and boundaries
