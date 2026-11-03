@@ -8,9 +8,9 @@
  const status=root.querySelector('#atlas-map-status'),feedStatus=root.querySelector('#atlas-feed-status');
  const shards=new Map(),requests=new Map(),snapshots=JSON.parse(document.querySelector('#city-map-snapshot').textContent);
  if(snapshots.county)shards.set(snapshots.county,snapshots);
- const colors={hospital:'#23569a',food:'#28735b',support:'#735597',shelter:'#ac4b29'};
+ const types=config.serviceTypes,colors=Object.fromEntries(Object.entries(types).map(([id,t])=>[id,t.color]));
  const requested=offline?document.querySelector('meta[name="ferdant-disaster"]')?.content:new URL(location.href).searchParams.get('hazard');
- let map,initPromise,boundary,layerGroup,hazardGroup,highlight,hazardAttribution,active=disasters?.plans.has(requested)?requested:'everyday',version=0,selected,shard,cityBounds,limit=8,current=[],controller,hazardController;
+ let map,initPromise,boundary,layerGroup,hazardGroup,highlight,hazardAttribution,active=disasters?.plans.has(requested)?requested:'everyday',version=0,selected,shard,cityBounds,limit=8,current=[],resourceFilter='all',controller,hazardController;
  const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function point(key){
   const row=places.cities.find(c=>c[0]===key);
@@ -24,7 +24,7 @@
  function inRing(x,y,ring){let inside=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const a=ring[i],b=ring[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])inside=!inside;}return inside;}
  function contains(geometries,lng,lat){return geometries.some(g=>rings(g).some(p=>inRing(lng,lat,p[0])&&!p.slice(1).some(h=>inRing(lng,lat,h))));}
  function distance(a,b){const r=Math.PI/180,dlat=(a.lat-b.lat)*r,dlng=(a.lng-b.lng)*r;return 12742*Math.asin(Math.min(1,Math.sqrt(Math.sin(dlat/2)**2+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dlng/2)**2)));}
- function label(kind){return {hospital:'Emergency hospital',food:'Food-bank referral',support:'Community help',shelter:'FEMA-listed shelter'}[kind];}
+ function label(kind){return types[kind].label;}
  async function loadLeaflet(){
   if(window.L)return;
   // Both city maps share this promise, including the delayed Change location map.
@@ -78,17 +78,26 @@
  }
  function nearby(items){
   const geoms=geometries();
-  const candidates=items.map(f=>({...f,within:contains(geoms,f.lng,f.lat),km:selected.city?distance(f,selected):null}))
-   .filter(f=>selected.city?(f.within||f.km<=25):f.county===selected.county)
-   .sort((a,b)=>Number(b.within)-Number(a.within)||(a.km??0)-(b.km??0)||a.name.localeCompare(b.name));
-  const local=candidates.filter(f=>f.within);return selected.city&&local.length?local:candidates;
+  const candidates=items.map(f=>({...f,within:contains(geoms,f.lng,f.lat),servesCounty:(f.servesCounties||[]).includes(selected.county),km:selected.city?distance(f,selected):null}))
+   .filter(f=>selected.city?(f.within||f.servesCounty||f.km<=25):f.county===selected.county||f.servesCounty)
+   .sort((a,b)=>Number(b.within)-Number(a.within)||Number(b.servesCounty)-Number(a.servesCounty)||(a.km??0)-(b.km??0)||a.name.localeCompare(b.name));
+  const local=candidates.filter(f=>f.within);return selected.city&&local.length?candidates.filter(f=>f.within||f.servesCounty):candidates;
  }
  function info(f){
   const box=document.createElement('div');box.className='atlas-popup';
   const title=document.createElement('strong');title.textContent=f.name;box.append(title);
   const addr=document.createElement('p');addr.textContent=f.address+', '+f.city;box.append(addr);
   const note=document.createElement('p');note.textContent=f.detail;box.append(note);
-  const a=document.createElement('a');a.href=config.sources[f.source].url;a.textContent='Check source & service';box.append(a);return box;
+  const visit=document.createElement('dl');visit.className='atlas-visit-details';
+  const unknown=[];
+  for(const [key,name] of Object.entries({hours:'Regular hours',eligibility:'Intake / eligibility',cost:'Cost',accessibility:'Accessibility',activation:'Emergency activation',capacity:'Available space / supplies'})){
+   if(!f.visit?.[key]){unknown.push(name);continue;}
+   const term=document.createElement('dt'),value=document.createElement('dd');term.textContent=name;value.textContent=f.visit[key];visit.append(term,value);
+  }
+  box.append(visit);
+  if(unknown.length){const p=document.createElement('p');p.textContent='Not confirmed: '+unknown.join('; ')+'. Check with the provider.';box.append(p);}
+  const source=config.sources[f.source],a=document.createElement('a');a.href=source.url;a.textContent='Check source & service';box.append(a);
+  const date=document.createElement('p');date.className='atlas-source-date';date.textContent='Source checked '+source.checked+(source.published?' · Publisher/data date '+source.published:' · Publisher date not supplied')+'. Approximate location; confirm the entrance.';box.append(date);return box;
  }
  function focus(f,marker){
   highlight?.clearLayers();
@@ -103,7 +112,18 @@
  function drawPlaces(){
   layerGroup?.clearLayers();highlight?.clearLayers();list.replaceChildren();
   root.querySelector('#resource-map').dataset.layer=active;
-  let visible=current.slice(0,limit);
+  const filtered=active==='everyday'&&resourceFilter!=='all'?current.filter(f=>(f.categories||[f.kind]).some(id=>types[id].group===resourceFilter)):current;
+  let visible=filtered.slice(0,limit);
+  const filters=root.querySelector('#atlas-resource-filters'),options=root.querySelector('#atlas-resource-options');filters.hidden=active!=='everyday';options.replaceChildren();
+  filters.querySelector('summary').textContent='Everyday type: '+config.resourceGroups[resourceFilter];
+  if(active==='everyday'){
+   const available=new Set(current.flatMap(f=>(f.categories||[f.kind]).map(id=>types[id].group)));
+   for(const [id,name] of Object.entries(config.resourceGroups))if(id==='all'||available.has(id)){
+    const b=document.createElement('button');b.type='button';b.textContent=name;b.dataset.resourceGroup=id;b.setAttribute('aria-pressed',String(id===resourceFilter));
+    b.addEventListener('click',()=>{resourceFilter=id;limit=8;filters.open=false;drawPlaces();filters.querySelector('summary').focus({preventScroll:true});});options.append(b);
+   }
+  }
+  const coverage=root.querySelector('#atlas-service-coverage');coverage.hidden=active!=='everyday';coverage.textContent=config.serviceCoverage.localServiceCounties.includes(selected.county)?'Checked local-service subset. Other resource types still need checking. Regular hours do not confirm admission or available space.':'Local service collection is pending for this county. The dated hospital directory and referral links remain available; missing places are not evidence that services do not exist.';
   if(active==='tsunami'){
    const hazard=shard?.tsunami||[];
    if(map&&hazard.length)L.geoJSON(collection(hazard),{style:{color:'#a04d20',weight:1,fillColor:'#e6a650',fillOpacity:.38,interactive:false}}).addTo(layerGroup);
@@ -113,17 +133,17 @@
    const outline=shard?.buildings?.[f.id]?.geometry;
    if(map&&outline)L.geoJSON(collection([outline]),{style:{color:colors[f.kind],weight:1.5,fillOpacity:.15,interactive:false}}).addTo(layerGroup);
    let marker;
-   if(map){marker=L.marker([f.lat,f.lng],{icon:L.divIcon({className:'atlas-pin '+f.kind,html:'<span aria-hidden="true">'+({hospital:'+',food:'F',support:'i',shelter:'S'}[f.kind])+'</span>',iconSize:[44,48],iconAnchor:[22,48],popupAnchor:[0,-40]}),keyboard:true,title:f.name,alt:f.name}).addTo(layerGroup);marker.bindPopup(info(f),{maxWidth:270});marker.on('click',()=>focus(f,marker));marker.getElement().dataset.resourceId=f.id;}
+   if(map){marker=L.marker([f.lat,f.lng],{icon:L.divIcon({className:'atlas-pin '+f.kind,html:'<span aria-hidden="true" data-symbol="'+escape(types[f.kind].pin)+'" style="--pin-color:'+colors[f.kind]+'"></span>',iconSize:[44,48],iconAnchor:[22,48],popupAnchor:[0,-40]}),keyboard:true,title:f.name,alt:f.name}).addTo(layerGroup);marker.bindPopup(info(f),{maxWidth:270,maxHeight:260});marker.on('click',()=>focus(f,marker));marker.getElement().dataset.resourceId=f.id;}
    const li=document.createElement('li');li.dataset.resourceId=f.id;
    const button=document.createElement('button');button.type='button';button.className='atlas-place-button';
-   button.innerHTML='<span class="atlas-place-type '+f.kind+'">'+escape(label(f.kind))+'</span><strong>'+escape(f.name)+'</strong><span>'+escape(f.address+', '+f.city)+'</span>';
+   button.innerHTML='<span class="atlas-place-type '+f.kind+'" style="color:'+colors[f.kind]+'">'+escape(f.typeLabel||label(f.kind))+'</span><strong>'+escape(f.name)+'</strong><span>'+escape(f.address+', '+f.city)+'</span>'+(f.servesCounty&&!f.within?'<span class="atlas-county-service">Serves '+escape(places.counties[selected.county])+' County · outside this city</span>':'');
    button.addEventListener('click',()=>focus(f,marker));li.append(button);
    const detail=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Service details';detail.append(summary,info(f));li.append(detail);list.append(li);
   }
-  const more=root.querySelector('#atlas-more');more.hidden=active==='tsunami'||limit>=current.length;more.textContent=`Show ${Math.min(8,current.length-limit)} more places`;
+  const more=root.querySelector('#atlas-more');more.hidden=active==='tsunami'||limit>=filtered.length;more.textContent=`Show ${Math.min(8,filtered.length-limit)} more places`;
   const note=root.querySelector('#atlas-list-note');
   if(active==='tsunami')note.textContent=shard?((shard.tsunami||[]).length?'Orange areas are the official county tsunami planning zones. Zoom in on the coast. Follow posted evacuation signs inland or uphill.':'This county has no polygons in this CGS tsunami dataset. This is not an all-hazards safety assessment.'):'The saved hazard layer is unavailable for this area. Open the official map below when online.';
-  else note.textContent=current.length?`${visible.length} of ${current.length} mapped places ${current.some(f=>f.kind==='shelter')?'in the queried map area':selected.city?(current.every(f=>f.within)?'inside the approximate city boundary':'near the city, within 25 km of its approximate center'):'in this county'}. Check service details before travelling.`:'No matching physical locations in this saved directory. Use your local contact list below for referrals.';
+  else note.textContent=filtered.length?`${visible.length} of ${filtered.length} mapped places ${filtered.some(f=>f.kind==='shelter')?'in the queried map area':selected.city?(filtered.every(f=>f.within)?'inside the approximate city boundary':filtered.some(f=>f.servesCounty&&!f.within)?'inside the city or at an office serving this county':'near the city, within 25 km of its approximate center'):'in this county'}. Check service details before travelling.`:'No checked physical locations in this category for this view. Use the separate referral and phone resources below.';
   const plan=disasters?.plans.get(active),showPlaces=active==='everyday'||plan?.resources||plan?.shelters;
   if(plan?.shelters&&!plan.resources&&!current.length)note.textContent='Open shelter locations appear when FEMA returns mappable records. Check local instructions and the status below before travelling.';
   list.hidden=!showPlaces;note.hidden=!showPlaces;root.querySelector('#atlas-list-title').hidden=!showPlaces;
@@ -131,8 +151,7 @@
    const li=document.createElement('li');li.className='atlas-shelter-link';li.innerHTML='<a href="https://www.redcross.org/get-help/disaster-relief-and-recovery-services/find-an-open-shelter.html">Red Cross open-shelter map</a>';list.append(li);
   }
   root.querySelector('#atlas-list-title').textContent=active==='everyday'?'Places on this map':'Response locations';
-  const keys={hospital:'+ Emergency hospital',food:'F Food-bank referral',support:'i Community help',shelter:'S FEMA-listed shelter'};
-  const legend=active==='tsunami'?'<span class="legend-tsunami">Tsunami hazard area</span>':[...new Set(visible.map(f=>f.kind))].map(kind=>'<span class="legend-'+kind+'">'+keys[kind]+'</span>').join('');
+  const legend=active==='tsunami'?'<span class="legend-tsunami">Tsunami hazard area</span>':[...new Set(visible.map(f=>f.kind))].map(kind=>'<span style="color:'+colors[kind]+'">'+escape(types[kind].pin+' '+label(kind))+'</span>').join('');
   root.querySelector('#atlas-legend').innerHTML='<span class="legend-boundary">Approximate boundary</span>'+legend+(active!=='tsunami'&&visible.some(f=>shard?.buildings?.[f.id])?'<span>Shaded building = estimated outline</span>':'');
   root.dataset.layer=active;
  }
@@ -167,7 +186,7 @@
   finally{clearTimeout(timer);}
  }
  function renderLayer(){
-  controller?.abort();hazardController?.abort();hazardGroup?.clearLayers();const run=++version;limit=active==='everyday'?8:4;feedStatus.textContent='';
+  controller?.abort();hazardController?.abort();hazardGroup?.clearLayers();const run=++version;limit=active==='everyday'?8:4;resourceFilter='all';feedStatus.textContent='';
   everyday.setAttribute('aria-pressed',String(active==='everyday'));choices.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.disaster===active)));
   root.querySelector('#atlas-hazard-legend').replaceChildren();root.querySelector('#atlas-layer-status').textContent='';root.querySelector('#atlas-layer-credit').textContent='';root.dataset.hazardLoading='false';
   const plan=disasters?.plans.get(active);guidance();
@@ -202,7 +221,7 @@
  async function update(){
   const run=++version;controller?.abort();hazardController?.abort();selected=point(select.value);root.hidden=!selected;if(!selected)return;
   controls.forEach(control=>{control.disabled=true;});root.setAttribute('aria-busy','true');
-  shard=null;current=[];boundary?.clearLayers();layerGroup?.clearLayers();hazardGroup?.clearLayers();highlight?.clearLayers();list.replaceChildren();feedStatus.textContent='';
+  shard=null;current=[];boundary?.clearLayers();layerGroup?.clearLayers();hazardGroup?.clearLayers();highlight?.clearLayers();list.replaceChildren();root.querySelector('#atlas-resource-options').replaceChildren();root.querySelector('#atlas-resource-filters').open=false;feedStatus.textContent='';
   root.querySelector('#resource-map-title').textContent=selected.name+' on the map';status.textContent='Loading the city outline…';
   const county=selected.county;
   const results=await Promise.allSettled([init(),loadCounty(county)]);if(run!==version)return;

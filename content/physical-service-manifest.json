@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "checked": "2026-11-03",
+  "sources": {
+    "meals": {
+      "url": "https://daviscommunitymeals.org/meals-program/",
+      "resolvedUrl": "https://daviscommunitymeals.org/meals-program/",
+      "bytes": 165317,
+      "sha256": "ca0f9f9cd5b37c719f29bcf7a930a237dd6db1fe90147c227f9957ba1061a9aa",
+      "retrievedUTC": "2026-11-03T08:33:39.737287+00:00",
+      "status": 200
+    },
+    "day-center": {
+      "url": "https://daviscommunitymeals.org/resource-center/",
+      "resolvedUrl": "https://daviscommunitymeals.org/resource-center/",
+      "bytes": 169200,
+      "sha256": "2ace7613ab7df4b67d60feb56dfbbb37c8df92dac3f9e4820147166d5b2526b7",
+      "retrievedUTC": "2026-11-03T08:33:39.736950+00:00",
+      "status": 200
+    },
+    "empower": {
+      "url": "https://empoweryolo.org/services-by-location/",
+      "resolvedUrl": "https://empoweryolo.org/services-by-location/",
+      "bytes": 666998,
+      "sha256": "6e65b1511ea68756f7309897e7726a26fd9a5fb4956dff5a8ade2a82dcf9b5c7",
+      "retrievedUTC": "2026-11-03T08:33:40.286824+00:00",
+      "status": 200
+    },
+    "legal": {
+      "url": "https://lsnc.net/office/woodland",
+      "resolvedUrl": "https://lsnc.net/office/woodland",
+      "bytes": 31159,
+      "sha256": "521943b98498bb8689ef859b5ad12e12e0b8cadecefe305c04c019abc019a8e7",
+      "retrievedUTC": "2026-11-03T08:33:39.685856+00:00",
+      "status": 200
+    },
+    "clinic": {
+      "url": "https://olehealth.org/location/davis-community-clinic/",
+      "resolvedUrl": "https://olehealth.org/location/davis-community-clinic/",
+      "bytes": 305215,
+      "sha256": "2a3add3506d52f17417bcf1990bc66e4bcb80ad4015fa48241dafc3ff0354f3c",
+      "retrievedUTC": "2026-11-03T08:33:40.355180+00:00",
+      "status": 200
+    },
+    "shelter": {
+      "url": "https://www.cityofwoodland.gov/1046/Homeless-Shelter-Services",
+      "resolvedUrl": "https://www.cityofwoodland.gov/1046/Homeless-Shelter-Services",
+      "bytes": 100534,
+      "sha256": "f308eddfb76545f92ec3302cba730cdcc0833908147e806da0777215d30ac5f5",
+      "retrievedUTC": "2026-11-03T08:33:40.941470+00:00",
+      "status": 200
+    },
+    "library": {
+      "url": "https://yoloda.org/community-resources/",
+      "resolvedUrl": "https://yoloda.org/community-resources/",
+      "bytes": 218381,
+      "sha256": "992fc320d8625c6b087b380d7debb90883fd15e3cab4a6d9b2d6af240e3f35df",
+      "retrievedUTC": "2026-11-03T08:33:40.741929+00:00",
+      "status": 200
+    },
+    "library-branch": {
+      "url": "https://yolocountylibrary.org/locations/davis",
+      "resolvedUrl": "https://yolocountylibrary.org/locations/davis/",
+      "bytes": 162449,
+      "sha256": "134845ff99b450a8ddb126ff42f479227023dccbc6b6bb28b92963b2b935ccd4",
+      "retrievedUTC": "2026-11-03T08:33:41.315334+00:00",
+      "status": 200
+    },
+    "senior": {
+      "url": "https://www.cityofdavis.org/city-hall/parks-and-community-services/senior-services/",
+      "error": "HTTP Error 403: Forbidden"
+    }
+  },
+  "geocoding": [
+    {
+      "id": "yolo-davis-library",
+      "query": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=315+East+14th+Street%2C+Davis%2C+CA&benchmark=Public_AR_Current&format=json",
+      "sha256": "2148e1bd5d22b5c702f9de13f17f35340cca132a37997e9a2dcbbb8a1edcce80",
+      "matchedAddress": "315 E 14TH ST, DAVIS, CA, 95616",
+      "lat": 38.556186,
+      "lng": -121.747409
+    },
+    {
+      "id": "yolo-davis-clinic",
+      "query": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=2051+John+Jones+Road%2C+Davis%2C+CA&benchmark=Public_AR_Current&format=json",
+      "sha256": "d1ec080b4dc09af14a83ad80bd78a0757470454b54daac8334879cce210772ef",
+      "matches": 0
+    },
+    {
+      "id": "yolo-lsnc-woodland",
+      "query": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=619+North+Street%2C+Woodland%2C+CA&benchmark=Public_AR_Current&format=json",
+      "sha256": "644880bc33e88ab19a29d96caa7887af992dd1f3c88d35413f5d5ea48760eb4d",
+      "matchedAddress": "619 NORTH ST, WOODLAND, CA, 95695",
+      "lat": 38.679984,
+      "lng": -121.772384
+    },
+    {
+      "id": "yolo-empower-davis",
+      "query": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=441+D+Street%2C+Davis%2C+CA&benchmark=Public_AR_Current&format=json",
+      "sha256": "2cff1b1e1f65268efad9fc3e10cfaa662a9dc539d4f26be33b8fc4a63a3df3e8",
+      "matchedAddress": "441 D ST, DAVIS, CA, 95616",
+      "lat": 38.546155,
+      "lng": -121.743109
+    },
+    {
+      "id": "yolo-empower-knights",
+      "query": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=9586+Mill+Street%2C+Knights+Landing%2C+CA&benchmark=Public_AR_Current&format=json",
+      "sha256": "0178172cc3cd8277cdd7a77b29f103c35ca65318c188770095d06c77ce8d6f8c",
+      "matches": 0
+    },
+    {
+      "id": "yolo-fourth-hope",
+      "query": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=1901+East+Beamer+Street%2C+Woodland%2C+CA&benchmark=Public_AR_Current&format=json",
+      "sha256": "54355a26080ef86e2277f51603210847f704576c6c82ead80c52e541cc63f5cf",
+      "matches": 0
+    },
+    {
+      "id": "yolo-davis-clinic",
+      "query": "https://gisportal.hrsa.gov/server/rest/services/HealthCareFacilities/PrimaryHealthCareFacilities_FS/MapServer/0/query?f=geojson&where=SITE_STATE_ABBR%3D%27CA%27+AND+UPPER%28SITE_ADDRESS%29+LIKE+%272051%25%27+AND+UPPER%28SITE_CITY%29%3D%27DAVIS%27&outFields=SITE_SOURCE_ID%2CSITE_NM%2CSITE_ADDRESS%2CSITE_CITY%2CSITE_STATE_ABBR&returnGeometry=true&outSR=4326",
+      "sha256": "8feeaedb5d73f8eaea37970b4453f6f6f96efe593b352a5b4c31dd887b47c772",
+      "point": [
+        -121.76961424799998,
+        38.563894480000044
+      ]
+    }
+  ],
+  "pending": [
+    "senior/disability centers",
+    "transport pickup sites",
+    "utility-assistance offices",
+    "currently confirmed cooling/warming spaces"
+  ],
+  "rawSourceFiles": "Local temporary review files; not committed"
+}

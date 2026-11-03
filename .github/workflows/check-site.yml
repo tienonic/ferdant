@@ -43,6 +43,7 @@ jobs:
           done
           npm run verify:responsive
           npm run verify:maps
+          npm run verify:services
           npm run verify:disasters
       - name: Save preview checks
         if: always()
