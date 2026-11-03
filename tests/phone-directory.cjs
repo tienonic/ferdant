@@ -5,7 +5,8 @@ module.exports = async function checkPhoneDirectory(page, width) {
  const disclosure=page.locator('.phone-directory');
  assert.equal(await disclosure.getAttribute('open'),null,'Home phone dropdown starts closed');
  assert(!await page.locator('.phone-table').isVisible());
- assert.equal(await page.locator('script[src$="leaflet.js"]').count(),0,'Closed dropdown must not load Leaflet');
+ assert.equal(await page.locator('#location-start #city-map').count(),1,'The map belongs to the location box');
+ assert.equal(await page.locator('.phone-directory #city-map').count(),0);
  await page.locator('.phone-toggle').click();
  await page.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');
  assert.equal(await page.evaluate(()=>L.version),'1.9.4');
@@ -18,15 +19,15 @@ module.exports = async function checkPhoneDirectory(page, width) {
   assert.equal(await page.locator('.phone-table a[href="tel:911"]').count(),0);
   assert(await page.locator('.phone-table a[href="tel:988"]').isVisible());
   assert(await page.locator('.phone-table a[href="tel:+18002221222"]').isVisible());
-  await page.getByLabel('Find a city on the map',{exact:true}).fill('Davis');
+  await page.getByLabel('Search for your city',{exact:true}).fill('Davis');
   await page.getByRole('button',{name:'Find city',exact:true}).click();
   assert.equal(await city.inputValue(),'57026');
   assert.equal(await page.locator('#location-city').inputValue(),'57026');
   await city.selectOption('county:57');
   await page.locator('#city-map [data-city-id="57026"]').click();
   assert.equal(await city.inputValue(),'57026','A real map marker click selects the named city');
-  await page.getByLabel('Find a city on the map',{exact:true}).fill('San');
-  await page.getByLabel('Find a city on the map',{exact:true}).press('Enter');
+  await page.getByLabel('Search for your city',{exact:true}).fill('San');
+  await page.getByLabel('Search for your city',{exact:true}).press('Enter');
   assert((await page.locator('#city-map-status').innerText()).includes('No city changed'));
   assert.equal(await city.inputValue(),'57026');
   await city.selectOption('57026');

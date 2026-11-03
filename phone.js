@@ -4,7 +4,7 @@
  if (!dataNode) return;
  const payload = JSON.parse(dataNode.textContent), data = payload.directory, places = payload.places;
  const cities = new Map(places.cities.map(([id,name,county,lat,lng])=>[id,{id,name,county,lat,lng}]));
- const disclosure=document.querySelector('.phone-directory');
+ const mapDisclosure=document.querySelector('#city-map').closest('details');
  let cityMap, mapPromise, mapBounds, selectedMarker, selectedCounty;
  const markers=new Map(), countyLayers=new Map();
  const select = document.querySelector('#phone-city');
@@ -106,6 +106,7 @@
   const alertArea=doc.querySelector('#phone-local-alert');
   if(alertArea){alertArea.replaceChildren();const alert=data.alerts[location?.id];if(alert){const p=node(doc,'p',`${alert.name}: ${alert.instruction}`),link=node(doc,'a','Official alert instructions (online)');link.href=data.sources[alert.source].url;alertArea.append(p,link);}}
   const locationCity=doc.querySelector('[data-location-select]');if(locationCity)locationCity.value=key;
+  const citySearch=doc.querySelector('#map-city-search');if(citySearch)citySearch.value=location && !location.id.startsWith('county:')?location.name:'';
   renderLocation(doc,location);
   filter(doc);if(doc===document)syncMap(location);return location;
  }
@@ -145,7 +146,7 @@
   if(selectedMarker){selectedMarker.setStyle({radius:8,color:'#126c68',fillColor:'#126c68',fillOpacity:1,weight:2});selectedMarker.bringToFront();}
   mapSearch.value=location && !location.id.startsWith('county:')?location.name:'';
   mapStatus.textContent=location?`${location.name} selected. The phone chart and offline download use this location.`:'Click a city marker or type a city name. Clicking a county selects county-level contacts.';
-  if(disclosure.open) {
+  if(!mapDisclosure || mapDisclosure.open) {
    cityMap.invalidateSize(false);
    if(location && selectedMarker)cityMap.setView([location.lat,location.lng],9,{animate:false});
    else if(selectedCounty)cityMap.fitBounds(selectedCounty.getBounds(),{padding:[15,15],animate:false});
@@ -180,8 +181,8 @@
   }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. The city selector and phone numbers still work.';});
   return mapPromise;
  }
- disclosure.addEventListener('toggle',()=>{if(disclosure.open)ensureMap();});
- if(disclosure.open)ensureMap();
+ if(mapDisclosure)mapDisclosure.addEventListener('toggle',()=>{if(mapDisclosure.open)ensureMap();});
+ if(!mapDisclosure || mapDisclosure.open)ensureMap();
  let template;
  for(const download of document.querySelectorAll('[data-city-download]'))download.addEventListener('click',async event=>{
   if(event.button!==0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || !select.value)return;

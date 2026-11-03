@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 
 module.exports = async function checkLocationFlow(page,width) {
+ await page.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');
  const data=JSON.parse(fs.readFileSync('content/regions.json','utf8'));
  const places=JSON.parse(fs.readFileSync('content/california-cities.json','utf8'));
  const city=page.getByLabel('City or county in California',{exact:true});
@@ -32,12 +33,23 @@ module.exports = async function checkLocationFlow(page,width) {
     assert.deepEqual(await item.locator('a[href^="tel:"]').evaluateAll(links=>links.map(link=>link.getAttribute('href'))),data.contacts[id].phones.map(ref=>'tel:'+data.numbers[ref.number].tel));
    }
    assert.equal(await page.locator('.phone-directory[open]').count(),0);
-   assert.equal(await page.locator('script[src*="leaflet"]').count(),0,'Selecting a location must not load the map');
+   assert.equal(await page.locator('#city-map .leaflet-control-zoom').count(),1,'Selections must reuse the location map');
    assert((await page.locator('#location-start [data-city-download]').innerText()).includes('offline'));
    if(!data.cityContacts[key] && row)assert((await page.locator('#location-coverage').innerText()).includes('not been checked'));
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Local contacts overflow at ${width}`);
   }
-  await city.selectOption('57026');
+  await page.getByLabel('Search for your city',{exact:true}).fill('Davis');
+  await page.getByRole('button',{name:'Find city',exact:true}).click();
+  assert.equal(await city.inputValue(),'57026');
+  await page.getByLabel('Search for your city',{exact:true}).fill('San');
+  await page.getByLabel('Search for your city',{exact:true}).press('Enter');
+  assert.equal(await city.inputValue(),'57026','Ambiguous search must not change the selection');
+  assert((await page.locator('#city-map-status').innerText()).includes('No city changed'));
+  await city.selectOption('county:57');
+  await page.locator('#city-map [data-city-id="57026"]').click();
+  assert.equal(await city.inputValue(),'57026');
+  assert.equal(await page.getByLabel('Search for your city',{exact:true}).inputValue(),'Davis');
+
   assert((await page.locator('[data-local-contact="davis-water"]').innerText()).includes('After hours'));
   assert((await page.locator('[data-local-contact="pge-outage"]').innerText()).includes('PG&E customers only'));
   await page.locator('.location-notes > summary').click();

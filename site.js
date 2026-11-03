@@ -21,46 +21,17 @@ function revealSection(target) {
  if(!target)return;
  for(let node=target;node;node=node.parentElement)if(node.tagName==='DETAILS')node.open=true;
 }
-const portalQuery = document.querySelector('#portal-query');
-let clearPortal = () => {};
-if (portalQuery) {
- const entries = [...document.querySelectorAll('[data-portal-entry]')];
- const categories = [...document.querySelectorAll('[data-portal-card]')];
- let beforeSearch;
- function filterPortal() {
-  const words = portalQuery.value.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
-  if(words.length && !beforeSearch)beforeSearch=new Map(categories.map(card=>[card,card.open]));
-  let links = 0;
-  for (const entry of entries) {
-   entry.hidden = !words.every(word => entry.dataset.search.toLocaleLowerCase().includes(word));
-   if (!entry.hidden) links++;
-  }
-  for (const card of categories) {
-   const count = [...card.querySelectorAll('[data-portal-entry]')].filter(entry => !entry.hidden).length;
-   card.hidden = count === 0;
-   if(words.length)card.open=count>0;
-   else if(beforeSearch)card.open=beforeSearch.get(card);
-  }
-  if(!words.length)beforeSearch=undefined;
-  document.querySelector('#portal-status').textContent = words.length ? `${links} matching ${links === 1 ? 'link' : 'links'}` : 'Choose a service to see useful links.';
-  document.querySelector('#portal-empty').hidden = links !== 0;
- }
- clearPortal = () => {portalQuery.value = ''; filterPortal();};
- portalQuery.addEventListener('input', filterPortal);
- for (const button of document.querySelectorAll('[data-clear-portal]')) button.addEventListener('click', () => {clearPortal(); portalQuery.focus();});
- filterPortal();
-}
 function revealHash() {
  let id;try{id=decodeURIComponent(location.hash.slice(1));}catch{return;}
  if(!id)return;
- clearPortal();revealSection(document.getElementById(id));
+ revealSection(document.getElementById(id));
 }
 window.addEventListener('hashchange',revealHash);
 for(const link of document.querySelectorAll('a[href^="#"], a[href^="/#"]'))link.addEventListener('click',()=>{
  if(link.hasAttribute('data-open-tool'))return;
  const href=link.getAttribute('href').replace(/^\//,'');
  const target=document.getElementById(href.slice(1));
- if(target){clearPortal();revealSection(target);}
+ if(target)revealSection(target);
 });
 revealHash();
 

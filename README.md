@@ -136,7 +136,7 @@ browser for interactive tools. Calls/texts need phone service; website links and
 There are no live dispatch, outage, road-status or shelter feeds. Tool inputs do not persist after closing.
 The tests cover every city/county mapping, jurisdiction changes, filtering, actual personalized/standard downloads,
 disconnected local-file reading/tools, no-JavaScript selected-city rows, private-note exclusion and failure handling.
-Leaflet is served locally and loaded on first opening the online disclosure. The map uses no external tile or
+Leaflet is served locally. The homepage loads its visible location map immediately; the separate offline chooser loads its map when its disclosure opens. The map uses no external tile or
 geocoding service, account, API key or location permission. Type a city, click its marker, or click a county for
 county-level contacts. The native selector stays available as a keyboard/failure fallback. Points come from
 the largest CDTFA city boundary-piece centroid; county geometry is generalized Census BAS 2026 data. Both are
@@ -172,8 +172,9 @@ coverage gaps and an expandable source section stay with the results. County gap
 General resources remain available and are distinguished from checked local coverage.
 Six icon tiles use four columns on desktop and two on phones/tablets. Phone numbers leads the grid; the other five
 dropdowns match the Reddit communities. Expanded information uses the directory width, with billing tools inside Bills & paperwork.
-The location selector, phone picker, map and download share one choice. The top selector/download work without loading the map.
-Resource search reveals matching sections, and clearing restores their prior states. Native dropdowns work without JavaScript.
+City search, the city/county selector and offline download share the Start with your location box, with the map underneath
+inside that container. The location controls, phone picker, map and export share one choice. Exact city names and unique
+prefixes select a city; ambiguous text leaves the choice unchanged. The separate resource/tool search has been removed. Native dropdowns work without JavaScript.
 
 The version before this structure is preserved by annotated tag `preview-before-service-buttons-20261102`
 at `5c93d5e435a8ab59635d81ea97e32099109d6614`. To inspect it without altering current work:
@@ -192,3 +193,7 @@ retain their original built files; the latest preview is on `website-preview-202
 The icon-grid edition before the location-first flow is preserved at `preview-before-location-flow-20261102`
 (`01b0d9a7b3e07bd307b3a22c7d657f6ca3e643ab`). The top selector is hidden without scripts; statewide numbers
 and the standard download remain available. Personalized saved copies include the selected local summary even without scripts.
+
+The version before consolidating location search and map is preserved at `preview-before-unified-location-20261102`
+(`8fce3ccdfa55941013962a9a39bbf69e214f454f`). The map remains usable without opening Phone numbers; a map-library
+failure retains working city search and the native picker. Guide-library search and the phone service filter remain available.

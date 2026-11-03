@@ -6,7 +6,7 @@ from icons import icon, destination_icon, copy_icons, CATEGORY
 from graphics import directory_graphic
 from cost_tool import cost_preview
 from offline import build_editions
-from phone_chart import phone_chart, DOWNLOAD
+from phone_chart import phone_chart, city_search, city_map, DOWNLOAD
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('content',ROOT/'content/site.py')
 c=importlib.util.module_from_spec(spec); spec.loader.exec_module(c)
@@ -58,9 +58,11 @@ def directory_topic(b):
 def location_start():
  return f'''<section class="location-start" id="location-start" aria-labelledby="location-title">
  <h2 id="location-title">Start with your location</h2>
+ {city_search()}
  <div class="location-controls"><div class="phone-city-control" data-enhancement hidden><label for="location-city">City or county in California</label><select id="location-city" data-location-select aria-describedby="location-summary"><option value="">California-wide resources</option></select></div>
  <div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><small>One file: phone numbers, guides & tools</small><p id="location-download-status" role="status"></p></div></div>
  <p id="location-summary" role="status">Choose a city or county for checked local contacts. You can browse general resources below.</p>
+ {city_map(include_search=False)}
  <noscript><p>City selection needs JavaScript. California-wide phone numbers and the standard offline copy remain available below.</p></noscript>
  </section>
  <section class="location-resources" id="location-resources" aria-labelledby="location-results-title" hidden>
@@ -80,10 +82,8 @@ def home():
  page('/','Practical guides for everyday problems','A directory of practical resources, tools and California emergency and support phone numbers, with city selection and a downloadable offline copy.',f'''
  <div class="portal-heading"><div><h1>Resources & tools</h1><p>Choose your location. Find your next step.</p></div></div>
  {location_start()}
- <div class="resource-heading"><div><h2>Browse by need</h2><p>General guides & public services. Eligibility and service areas vary.</p></div><div class="portal-search" role="search" data-enhancement hidden><label for="portal-query">Find a resource or tool</label><div><label class="portal-search-glyph" for="portal-query" aria-hidden="true">{icon("search")}</label><input id="portal-query" type="search" autocomplete="off" placeholder="Try internet, repair or bills"><button class="quiet-button" type="button" data-clear-portal aria-label="Clear search" title="Clear search">{icon("close")}<span class="visually-hidden">Clear</span></button></div></div></div>
- <div class="portal-status" data-enhancement hidden><p id="portal-status" role="status" aria-live="polite">Choose a service to see useful links.</p><span>Open only what you need</span></div>
- <div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{phone_chart()}{sections}</div>
- <div id="portal-empty" data-enhancement hidden><p>No matching links. Try another word, or clear the search.</p><button class="quiet-button" type="button" data-clear-portal>Show all links</button></div>
+ <div class="resource-heading"><div><h2>Browse by need</h2><p>General guides & public services. Eligibility and service areas vary.</p></div></div>
+ <div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{phone_chart(include_map=False)}{sections}</div>
  <dialog id="tool-dialog" aria-labelledby="tool-dialog-title"><div class="tool-dialog-header"><div class="tool-dialog-name"><span id="tool-dialog-icon" aria-hidden="true">{icon("tools")}</span><h2 id="tool-dialog-title">Quick tools</h2></div><button type="button" class="tool-dialog-close" data-close-tool aria-label="Close tool">{icon("close")}<span>Close</span></button></div><div class="tool-dialog-body">
    <section id="compare-bill" class="directory-tool" data-dialog-tool data-tool-title="Compare a bill" hidden tabindex="-1" aria-labelledby="compare-title"><div class="directory-tool-heading"><h2 id="compare-title">Compare a bill</h2><button class="quiet-button" id="bill-example" data-enhancement hidden>Try an example</button></div><p>{bill['intro']}</p><p id="example-note" class="example-note" role="status" hidden>Example figures. Replace these with your own totals and changes.</p>{bill_tool}<p class="quick-note">{bill['briefNote']}</p><a class="widget-guide-link" href="{gp(bill)}">Full bill-checking guide</a><details class="tool-source-details"><summary>Sources & scope</summary>{inline_sources(bill)}</details><button type="button" class="quiet-button" data-close-tool>Back to directory</button></section>
    <section id="cancel-subscription" class="directory-tool" data-dialog-tool data-tool-title="Cancel a subscription" hidden tabindex="-1" aria-labelledby="cancel-title"><h2 id="cancel-title">Cancel a subscription</h2><p>{cancel['intro']}</p>{cancellation_planner(heading=3,tool_id='cancel-tool')}<a class="widget-guide-link" href="{gp(cancel)}">Full cancellation guide</a><details class="tool-source-details"><summary>Sources & scope</summary>{inline_sources(cancel)}</details><button type="button" class="quiet-button" data-close-tool>Back to directory</button></section>

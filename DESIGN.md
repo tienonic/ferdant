@@ -28,10 +28,11 @@ Each opens its existing scope, public links and community link in place. Bills &
 Phone numbers is an initially closed tile; offline download is a direct button beside the location selector.
 If a county has no saved alternate referral line, show the existing statewide ZIP-code routing contact with its statewide scope.
 Each opened tile uses the full directory width for its information, with a compact horizontal summary.
-The top location selector works without opening or loading the phone map. It shares one choice with the phone picker,
-map and offline export. Clearing removes stale local results. General resources remain accessible before selection.
+City search, the city/county selector and the offline action share the Start with your location container.
+The visible map sits underneath those controls inside the same border. All share one choice with the phone picker and offline export. Clearing removes stale local results. General resources remain accessible before selection.
 Without scripts, hide the inactive city selector and retain statewide numbers plus the standard offline download.
-Search reveals matching links and opens their section; clearing restores the previous section states.
+The separate resource/tool search is removed. City search supports exact names and unique prefixes; ambiguous text
+must leave the location unchanged. Guide-library search and the phone service filter remain in their own contexts.
 Omit corner count badges; numbers need a direct task meaning, such as a bill amount, checked record or active search result.
 Tools open in a dialog or local worksheet. Closing returns focus and preserves directory position.
 Without scripts, native service dropdowns work and tool links lead to the existing guides.
@@ -87,7 +88,8 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
   and city download action. Keep numbers visible without opening a detail panel. Distinguish crisis, referral,
   non-emergency and utility contacts; keep 911 outside the chart. City listing does not imply local-agency coverage.
   Use a local vector map and approximate city points, with visible attribution and no repeating motion.
-  Keep the native selector as an alternative; maps load on demand and work in the offline file.
+  Keep the native selector as an alternative. The homepage location map loads immediately from local assets;
+  the separate offline-chooser page can initialize its map when the enclosing disclosure opens. Both work in the offline file.
   A single offline template carries the same shared city/contact dataset, map, tools and guides. A city download
   carries only the selected location and all its saved contacts; never carry private tool notes or the service filter.
   Preserve jurisdiction/provider limits and visible coverage gaps. Use explicit choice, with no inferred location.
@@ -161,3 +163,7 @@ The service-list edition immediately before the icon grid is preserved at tag
 
 The icon-grid edition immediately before the location-first flow is preserved at tag
 `preview-before-location-flow-20261102` (`01b0d9a7b3e07bd307b3a22c7d657f6ca3e643ab`).
+
+The version before unifying city search and map is preserved at `preview-before-unified-location-20261102`
+(`8fce3ccdfa55941013962a9a39bbf69e214f454f`). The shared map/search helpers must render one map and one
+search form per page. Keep search forms separate from private financial forms.

@@ -37,7 +37,7 @@ module.exports = async function checkOffline(browser, base) {
    assert.equal(await p.locator('#phone-city').inputValue(),region.key);
    assert.equal(await p.locator('#location-city').inputValue(),region.key);
    assert.deepEqual(await p.locator('#phone-rows tr').evaluateAll(rows=>rows.map(row=>row.dataset.contactId)),expected);
-   await p.getByLabel('Find a city on the map',{exact:true}).fill('San Diego');
+   await p.getByLabel('Search for your city',{exact:true}).fill('San Diego');
    await p.getByRole('button',{name:'Find city',exact:true}).click();
    assert.equal(await p.locator('#phone-city').inputValue(),'37060');
    await p.getByLabel('Your city in California',{exact:true}).selectOption('37060');
@@ -104,7 +104,8 @@ module.exports = async function checkOffline(browser, base) {
  await directPage.getByLabel('City or county in California',{exact:true}).selectOption('57026');
  assert.equal(await directPage.locator('#phone-city').inputValue(),'57026');
  assert(!await directPage.locator('.phone-directory').evaluate(el=>el.open));
- assert.equal(await directPage.locator('script[src*="leaflet"]').count(),0);
+ await directPage.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');
+ assert.equal(await directPage.locator('#location-start #city-map').count(),1);
  const directDownload=directPage.waitForEvent('download');await directPage.locator('#location-start [data-city-download]').click();
  const directFile=await directDownload;assert.equal(directFile.suggestedFilename(),'ferdant-davis-ca-2026-11-02.html');
  const directPath=path.resolve('screenshots','direct-city-download.html');await directFile.saveAs(directPath);
@@ -137,8 +138,10 @@ module.exports = async function checkOffline(browser, base) {
  assert.equal(failedDownloads,0,'A failed city export must not silently save the wrong edition');await failure.close();
  const mapFailure=await browser.newContext();const noMap=await mapFailure.newPage();
  await noMap.route('**/assets/vendor/leaflet/leaflet.js',route=>route.fulfill({status:503,body:'Unavailable'}));
- await noMap.goto(base+'/offline/');await noMap.waitForFunction(()=>document.querySelector('#city-map-status').textContent.includes('could not load'));
- await noMap.getByLabel('Your city in California',{exact:true}).selectOption('57026');
- assert(await noMap.locator('[data-contact-id="davis-nonemergency"]').isVisible());await mapFailure.close();
+ await noMap.goto(base+'/');await noMap.waitForFunction(()=>document.querySelector('#city-map-status').textContent.includes('could not load'));
+ await noMap.getByLabel('Search for your city',{exact:true}).fill('Davis');
+ await noMap.getByRole('button',{name:'Find city',exact:true}).click();
+ assert.equal(await noMap.locator('#location-city').inputValue(),'57026');
+ assert(await noMap.locator('[data-local-contact="davis-nonemergency"]').isVisible());await mapFailure.close();
  fs.writeFileSync('screenshots/offline-verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'chosen city contacts and saved guides passed',downloads:'actual city and standard downloads saved',privateInputsExported:false,filterDoesNotLimitDownload:true,failureHandling:'passed',liveAlerts:false},null,2));
 };

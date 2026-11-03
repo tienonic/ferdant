@@ -862,6 +862,12 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 .location-controls .phone-actions [role=status] { margin-top: 7px; }
 #location-summary { margin: 10px 0 0; font-size: 12px; color: var(--muted); line-height: 1.6; }
 .location-start noscript p { font-size: 13px; margin: 10px 0 0; }
+.location-start #map-city-form { max-width: none; margin-bottom: 14px; }
+.location-start #map-city-form label { font-size: 12px; }
+.location-start .city-map-workspace { margin: 16px 0 0; padding-top: 12px; border-top: 1px solid var(--rule); }
+.location-start #city-map { height: 280px; }
+.location-start #city-map-status { margin-top: 0; }
+.location-start .city-map-note { margin-bottom: 0; }
 .location-resources { border-bottom: 1px solid var(--rule); padding: 0 0 18px; }
 .location-resources header { display: flex; align-items: center; justify-content: space-between; gap: 10px 20px; flex-wrap: wrap; }
 .location-resources h2 { margin: 0; }
@@ -889,6 +895,7 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
  .location-controls { display: block; }
  .location-controls .phone-actions { margin-top: 12px; }
  .location-start .phone-city-control select { font-size: 16px; }
+ .location-start #city-map { height: 240px; }
  .resource-heading { display: block; }
  .resource-heading .portal-search { margin-top: 12px; }
  #location-links li { grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); gap: 8px; }
@@ -910,6 +917,6 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
   .offline-detail:not(.font-licenses) > * { display: block !important; }
   .offline-detail:not(.font-licenses) > summary { list-style: none; }
   .font-licenses { display: none; }
-  .city-map-workspace, .phone-toggle { display: none; }
+  .city-map-workspace, .city-search, .phone-toggle { display: none; }
   .phone-table tr { break-inside: avoid; }
 }

@@ -25,13 +25,21 @@ def phone_row(key):
     return f'<tr data-contact-id="{key}"><th scope="row">{e(contact["title"])}<small>{e(scope)}</small></th><td>{phones}</td></tr>'
 
 
-def phone_chart(expanded=False):
+def city_search():
+    return '''<div class="city-search" data-enhancement hidden><form id="map-city-form"><label for="map-city-search">Search for your city</label><div><input id="map-city-search" type="search" list="map-city-names" placeholder="Type a city, e.g. Davis" autocomplete="off"><button type="submit" class="quiet-button">Find city</button></div><datalist id="map-city-names"></datalist></form></div>'''
+
+
+def city_map(include_search=True):
+    return f'''<div class="city-map-workspace" data-enhancement hidden>{city_search() if include_search else ''}<p id="city-map-status" role="status">Type a city name or choose a city marker. Use the city selector above as an alternative.</p><div id="city-map" role="region" aria-label="California city selection map"></div><p class="city-map-note">City locations and county lines are approximate. Choose a named city; this is not an address lookup or a route map.</p></div>'''
+
+
+def phone_chart(expanded=False, include_map=True):
     payload = json.dumps({'directory': DATA, 'places': CITIES, 'download': DOWNLOAD}, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
     rows = ''.join(phone_row(key) for key in DATA['statewide'])
     return f'''<details class="phone-directory" id="local-essentials"{' open' if expanded else ''}>
-      <summary class="phone-toggle">{icon('phone')}<span><strong>Phone numbers</strong><small>City map & local contacts</small></span>{icon('chevron')}</summary><div class="phone-panel">
+      <summary class="phone-toggle">{icon('phone')}<span><strong>Phone numbers</strong><small>Emergency & local contacts</small></span>{icon('chevron')}</summary><div class="phone-panel">
       <div class="phone-heading"><div><h2 id="phone-title">Emergency & support numbers</h2><p>California · Choose your city for local contacts.</p></div><div class="phone-controls" data-enhancement hidden><div class="phone-city-control"><label for="phone-city">Your city in California</label><select id="phone-city" aria-describedby="phone-coverage"><option value="">California-wide numbers</option></select></div><div class="phone-query-control"><label for="phone-query">Find a service</label><input id="phone-query" type="search" placeholder="Poison, police, water…" autocomplete="off"></div></div></div>
-      <div class="city-map-workspace" data-enhancement hidden><form id="map-city-form"><label for="map-city-search">Find a city on the map</label><div><input id="map-city-search" type="search" list="map-city-names" placeholder="Type a city, e.g. Davis" autocomplete="off"><button type="submit" class="quiet-button">Find city</button></div><datalist id="map-city-names"></datalist></form><p id="city-map-status" role="status">Type a city name or choose a city marker. Use the city selector above as an alternative.</p><div id="city-map" role="region" aria-label="California city selection map"></div><p class="city-map-note">City locations and county lines are approximate. Choose a named city; this is not an address lookup or a route map.</p></div>
+{city_map() if include_map else ''}
       <p class="phone-coverage" id="phone-coverage" role="status">Showing California-wide support. City and county coverage is added when you choose a location.</p>
       <noscript><p>California-wide numbers are below. Enable JavaScript to choose a city; the downloaded file still includes these numbers and the saved guides without JavaScript.</p></noscript>
       <div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><a href="/offline/">About the offline version</a><p id="phone-download-status" role="status"></p></div>
