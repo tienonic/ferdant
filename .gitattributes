@@ -5,3 +5,8 @@
 
 # Preserve the exact bytes used by the public service-directory hashes.
 assets/data/service-maps/*.json text eol=lf
+
+/assets/vendor/jspdf/* text eol=lf
+
+# Retain the pinned upstream license comments byte for byte.
+/assets/vendor/jspdf/jspdf.umd.min.js whitespace=-blank-at-eol

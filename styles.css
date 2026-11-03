@@ -1081,3 +1081,12 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
   .city-map-workspace, .city-search, .phone-toggle, .infographic-download, .change-location { display: none; }
   .phone-table tr { break-inside: avoid; }
 }
+
+/* The saved resource book keeps its index visible without a long image strip. */
+.infographic-download { background: #f3f6f8; border-left-color: #24568d; }
+.booklet-eyebrow { color: #24568d; text-transform: uppercase; letter-spacing: .08em; font-size: 11px !important; }
+.infographic-download h2 { font: 30px/1.15 var(--serif); max-width: 440px; }
+.infographic-download img { max-height: 350px; box-shadow: 0 5px 16px #20374812; }
+.booklet-secondary { display: inline-flex; align-items: center; min-height: 44px; padding: 0; background: transparent; border: 0; color: #24568d; font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.booklet-secondary:disabled { cursor: wait; opacity: .6; }
+#booklet-status { margin: 8px 0; }

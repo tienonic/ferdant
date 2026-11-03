@@ -50,7 +50,7 @@
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${Math.ceil(foot)}" viewBox="0 0 ${W} ${Math.ceil(foot)}"><rect width="100%" height="100%" fill="#fbfcfa"/><g font-family="Arial, sans-serif">${parts.join('')}</g></svg>`;
   return {svg,width:W,height:Math.ceil(foot),location};
  }
- function embed(doc,key){const preview=doc.querySelector('#infographic-preview');if(!preview)return;const sheet=build(key);preview.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sheet.svg);preview.alt=`Contact sheet for ${sheet.location?.name||'California'}: local help and California-wide support.`;}
+ function embed(doc,key){const preview=doc.querySelector('#infographic-preview');if(!preview)return;const sheet=build(key);preview.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(window.FerdantBooklet?.preview(key)||sheet.svg);preview.alt=window.FerdantBooklet?`Resource book for ${sheet.location?.name||'California'}: 15 events, local resources and related phone charts.`:`Contact sheet for ${sheet.location?.name||'California'}: local help and California-wide support.`;}
  window.FerdantInfographic={embed,build};
  const button=document.querySelector('#download-infographic');if(!button)return;
  let key=document.querySelector('#phone-city')?.value||document.querySelector('meta[name="ferdant-city"]')?.content||'';

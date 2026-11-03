@@ -31,7 +31,7 @@ def build_editions(home, output):
     doc = doc.replace('<script src="/phone.js" defer></script>', '').replace('<script src="/infographic.js" defer></script>', '')
     doc = doc.replace('<script src="/resource-map.js" defer></script>', '')
     doc = doc.replace('<script src="/disaster-layers.js" defer></script>', '')
-    doc = doc.replace('<script src="/service-resources.js" defer></script>', '')
+    doc = doc.replace('<script src="/service-resources.js" defer></script>', '').replace('<script src="/resource-booklet.js" defer></script>', '')
     doc = re.sub(r'(<details class="phone-directory" id="local-essentials")([^>]*)(>)', lambda m: m[1]+m[2]+('' if re.search(r'\bopen\b',m[2]) else ' open')+m[3], doc)
     doc = re.sub(r'<div class="phone-actions">.*?</div>', '', doc, flags=re.S)
     doc = doc.replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
@@ -52,6 +52,8 @@ def build_editions(home, output):
     # All fonts, icons and tools are embedded; there are no network subresources or service workers.
     licenses = ''.join(f'<h3>{e(p.name)}</h3><pre>{e(p.read_text(encoding="utf-8"))}</pre>' for p in sorted((ROOT / 'assets/fonts').glob('*OFL*')))
     leaflet_license=e((ROOT / 'assets/vendor/leaflet/LICENSE').read_text(encoding='utf-8'))
+    pdf_license=e((ROOT / 'assets/vendor/jspdf/LICENSE').read_text(encoding='utf-8'))
+    licenses += f'<h3>jsPDF 4.2.1 - MIT</h3><pre>{pdf_license}</pre>'
     licenses += f'<h3>Leaflet 1.9.4 — BSD-2-Clause</h3><pre>{leaflet_license}</pre>'
     buildings_license=e((ROOT / 'assets/data/city-maps/BUILDINGS-LICENSE.txt').read_text(encoding='utf-8'))
     licenses += f'<h3>Microsoft extracted building geometry — ODbL 1.0</h3><pre>{buildings_license}</pre>'
@@ -71,7 +73,10 @@ window.addEventListener('afterprint', () => {
     map_js=(ROOT / 'resource-map.js').read_text(encoding='utf-8')
     disaster_js=(ROOT / 'disaster-layers.js').read_text(encoding='utf-8')
     services_js=(ROOT / 'service-resources.js').read_text(encoding='utf-8')
-    doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{infographic_js}\n{disaster_js}\n{services_js}\n{map_js}\n{print_js}</script></body>')
+    booklet_js=(ROOT / 'resource-booklet.js').read_text(encoding='utf-8')
+    pdf_js=(ROOT / 'assets/vendor/jspdf/jspdf.umd.min.js').read_text(encoding='utf-8').replace('</script', '<\\/script')
+    pdf_js='\n'.join(line.rstrip() for line in pdf_js.splitlines())
+    doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{disaster_js}\n{services_js}\n{pdf_js}\n{booklet_js}\n{infographic_js}\n{map_js}\n{print_js}</script></body>')
     doc = re.sub(r'(?m)^[ \t]+$', '', doc)
     (output / Path(DOWNLOAD).name).write_text(doc, encoding='utf-8')
     # Superseded preview exports; one shared edition replaces per-region copies.

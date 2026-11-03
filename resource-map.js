@@ -250,6 +250,12 @@
  const sourceList=root.querySelector('#atlas-source-list');
  for(const source of Object.values(config.sources)){const li=document.createElement('li'),a=document.createElement('a');a.href=source.url;a.textContent=source.title;li.append(a,document.createTextNode(' — '+(source.published?'Publisher/data date: '+source.published+'. ':'Publisher date not supplied. ')+source.note));sourceList.append(li);}
  // Export only public county geometry. Never copy map popups, private inputs or a live shelter status.
- window.FerdantResourceMap={get active(){return active;},async embed(doc,key){const p=point(key),saved=p&&await loadCounty(p.county);const target=doc.querySelector('#city-map-snapshot');if(target)target.textContent=JSON.stringify(saved||{}).replace(/</g,'\\u003c');if(p)await services?.embed(doc,p.county);await disasters?.embed(doc,key,active);}};
+ window.FerdantResourceMap={get active(){return active;},async directory(key){
+  const p=point(key);if(!p)throw Error('Choose a California city or county');
+  const results=await Promise.allSettled([loadCounty(p.county),services?services.load(p.county):Promise.reject(Error('Service reader unavailable'))]);
+  const area=results[0].status==='fulfilled'?results[0].value:null,extra=results[1].status==='fulfilled'?results[1].value:[],geoms=p.city?(area?.cities[p.key]||[]):[countyGeometry(p.county)].filter(Boolean);
+  const items=[...config.facilities,...extra];
+  return {place:p,items:services?services.nearby(items,p,f=>contains(geoms,f.lng,f.lat),{regional:results[1].status==='fulfilled'}):items.filter(f=>f.county===p.county),regionalAvailable:results[1].status==='fulfilled',geometryAvailable:Boolean(area)};
+ },async embed(doc,key){const p=point(key),saved=p&&await loadCounty(p.county);const target=doc.querySelector('#city-map-snapshot');if(target)target.textContent=JSON.stringify(saved||{}).replace(/</g,'\\u003c');if(p)await services?.embed(doc,p.county);await disasters?.embed(doc,key,active);}};
  document.addEventListener('ferdant:location',update);update();
 })();

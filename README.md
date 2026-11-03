@@ -31,6 +31,7 @@ The deployed main branch remains the maintenance page until a fuller release is 
 - `content/physical-services.json`, `scripts/physical_services.py`: public service categories, reviewed local visits, county-service areas and explicit unknown hours/access/capacity. Referral-only, confidential and unlocated records never become pins. Provider-checked visit details remain a Yolo subset; statewide IMLS library and HRSA clinic files augment all California city/county choices.
 - `assets/data/service-maps/`, `content/statewide-service-manifest.json`: 58 compact county files with 1,110 FY2024 library and 2,054 permanent community-clinic points, source hashes and explicit regional fallbacks. Only the selected county file loads; exports retain that county.
 - `service-resources.js`, `content/resource_plans.py`: local/nearby resource selection, unique SVG map symbols and resource roles for every one of the 15 disasters. Ordinary services remain distinct from current activation.
+- `resource-booklet.js`, `docs/resource-booklet.md`: city-specific PDF field notes, issue-based resource cards, a related phone chart at each disaster section's end and a linked source appendix. The pinned local PDF writer is embedded in complete offline HTML.
 - `scripts/project-statewide-services.py`: manual projection from local official raw inputs; never runs in builds or on a schedule.
 - `content/physical-service-manifest.json`: source and coordinate receipts, with unmatched and pending categories preserved.
 - `content/disasters.py`, `disaster-layers.js`: three-step plans, primary-source GIS registry, bounded on-demand queries, valid-time checks and eligible offline planning snapshots. Weather and shelter status are never frozen as current in an offline copy.
@@ -56,6 +57,7 @@ node tests/resource-map.cjs
 npm.cmd run verify:disasters
 npm.cmd run verify:services
 npm.cmd run verify:statewide
+npm.cmd run verify:booklet
 ```
 
 Keep the local server running for browser checks. They test all 16 pages at 320, 390, 768 and
