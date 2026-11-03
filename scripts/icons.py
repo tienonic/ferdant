@@ -25,6 +25,8 @@ GLYPHS = {
  'expand': '<path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6"/>',
  'down': '<path d="M12 3v17m-6-6 6 6 6-6"/>',
  'download': '<path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>',
+ 'phone': '<path d="m7 3 3 5-3 3c2 3 3 4 6 6l3-3 5 3v3c-8 3-20-9-17-17h3Z"/>',
+ 'chevron': '<path d="m6 9 6 6 6-6"/>',
  'right': '<path d="M3 12h17m-6-6 6 6-6 6"/>',
  'copy': '<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V3H3v13h5"/>',
  'check': '<path d="m4 12 5 5L20 6"/>',

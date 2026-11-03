@@ -3,7 +3,10 @@
  const dataNode = document.querySelector('#phone-data');
  if (!dataNode) return;
  const payload = JSON.parse(dataNode.textContent), data = payload.directory, places = payload.places;
- const cities = new Map(places.cities.map(([id,name,county])=>[id,{id,name,county}]));
+ const cities = new Map(places.cities.map(([id,name,county,lat,lng])=>[id,{id,name,county,lat,lng}]));
+ const disclosure=document.querySelector('.phone-directory');
+ let cityMap, mapPromise, mapBounds, selectedMarker, selectedCounty;
+ const markers=new Map(), countyLayers=new Map();
  const select = document.querySelector('#phone-city');
  const options = document.createDocumentFragment();
  const cityGroup = document.createElement('optgroup');cityGroup.label = 'California cities';
@@ -67,7 +70,7 @@
   if(download) download.textContent=location ? `Download for ${location.name}` : 'Download California offline copy';
   const alertArea=doc.querySelector('#phone-local-alert');
   if(alertArea){alertArea.replaceChildren();const alert=data.alerts[location?.id];if(alert){const p=node(doc,'p',`${alert.name}: ${alert.instruction}`),link=node(doc,'a','Official alert instructions (online)');link.href=data.sources[alert.source].url;alertArea.append(p,link);}}
-  filter(doc);return location;
+  filter(doc);if(doc===document)syncMap(location);return location;
  }
  function filter(doc) {
   const words=doc.querySelector('#phone-query').value.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
@@ -82,6 +85,66 @@
   const status=document.querySelector('#phone-download-status');if(status)status.textContent='';
  });
  document.querySelector('#phone-query').addEventListener('input',()=>filter(document));
+
+ const mapStatus=document.querySelector('#city-map-status'), mapSearch=document.querySelector('#map-city-search');
+ const names=document.querySelector('#map-city-names');
+ for(const city of cities.values()){const option=document.createElement('option');option.value=city.name;names.append(option);}
+ const normalize=value=>value.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().trim();
+ document.querySelector('#map-city-form').addEventListener('submit',event=>{
+  event.preventDefault();const query=normalize(mapSearch.value);
+  const exact=[...cities.values()].find(city=>normalize(city.name)===query);
+  const matches=exact?[exact]:query?[...cities.values()].filter(city=>normalize(city.name).startsWith(query)):[];
+  if(matches.length!==1){mapStatus.textContent=matches.length?'Several cities match. Choose the full city name from the suggestions. No city changed.':'Choose a city name from the suggestions, or use the city selector. No city changed.';return;}
+  chooseCity(matches[0].id);
+ });
+ function chooseCity(key){select.value=key;select.dispatchEvent(new Event('change'));}
+ function syncMap(location) {
+  if(!cityMap)return;
+  selectedMarker?.closeTooltip();selectedMarker?.setStyle({radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1});
+  selectedCounty?.setStyle({color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1});
+  selectedMarker=location?markers.get(location.id):undefined;
+  selectedCounty=location?countyLayers.get(location.county):undefined;
+  selectedCounty?.setStyle({color:'#126c68',fillColor:'#dcebe7',fillOpacity:.8,weight:2});
+  if(selectedMarker){selectedMarker.setStyle({radius:8,color:'#126c68',fillColor:'#126c68',fillOpacity:1,weight:2});selectedMarker.bringToFront();}
+  mapSearch.value=location && !location.id.startsWith('county:')?location.name:'';
+  mapStatus.textContent=location?`${location.name} selected. The phone chart and offline download use this location.`:'Click a city marker or type a city name. Clicking a county selects county-level contacts.';
+  if(disclosure.open) {
+   cityMap.invalidateSize(false);
+   if(location && selectedMarker)cityMap.setView([location.lat,location.lng],9,{animate:false});
+   else if(selectedCounty)cityMap.fitBounds(selectedCounty.getBounds(),{padding:[15,15],animate:false});
+   else cityMap.fitBounds(mapBounds,{padding:[15,15],animate:false});
+   selectedMarker?.openTooltip();
+  }
+ }
+ function loadLeaflet() {
+  if(window.L)return Promise.resolve();
+  const css=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/assets/vendor/leaflet/leaflet.css';link.onload=resolve;link.onerror=reject;document.head.append(link);});
+  const js=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='/assets/vendor/leaflet/leaflet.js';script.onload=resolve;script.onerror=reject;document.head.append(script);});
+  return Promise.all([css,js]);
+ }
+ function ensureMap() {
+  if(cityMap){syncMap(place(select.value));return Promise.resolve();}
+  if(mapPromise)return mapPromise;
+  mapPromise=loadLeaflet().then(()=>{
+   cityMap=L.map('city-map',{scrollWheelZoom:false,minZoom:4,maxZoom:12,zoomAnimation:false,fadeAnimation:false}).setView([37.2,-120],5);
+   cityMap.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
+   cityMap.attributionControl.addAttribution('Map data: <a href="https://publish.data.ca.gov/dataset/boe-citycounty">CDTFA</a> · <a href="https://tigerweb.geo.census.gov/">U.S. Census Bureau</a>');
+   const boundaries=L.geoJSON(places.map.geometry,{style:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1},onEachFeature:(feature,layer)=>{
+    countyLayers.set(feature.properties.county,layer);
+    const label=document.createElement('span');label.textContent=feature.properties.name+' County';layer.bindTooltip(label);
+    layer.on('click',()=>chooseCity('county:'+feature.properties.county));
+   }}).addTo(cityMap);mapBounds=boundaries.getBounds();
+   for(const city of cities.values()){
+    const marker=L.circleMarker([city.lat,city.lng],{radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1,bubblingMouseEvents:false}).addTo(cityMap);
+    markers.set(city.id,marker);const label=document.createElement('span');label.textContent=city.name;marker.bindTooltip(label);
+    marker.on('click',()=>chooseCity(city.id));const element=marker.getElement();if(element)element.dataset.cityId=city.id;
+   }
+   document.querySelector('#city-map').dataset.ready='true';syncMap(place(select.value));
+  }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. The city selector and phone numbers still work.';});
+  return mapPromise;
+ }
+ disclosure.addEventListener('toggle',()=>{if(disclosure.open)ensureMap();});
+ if(disclosure.open)ensureMap();
  let template;
  const download=document.querySelector('[data-city-download]');
  if(download)download.addEventListener('click',async event=>{

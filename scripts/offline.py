@@ -28,7 +28,9 @@ def data_url(url):
 
 
 def build_editions(home, guides, output):
-    css = (ROOT / 'styles.css').read_text(encoding='utf-8')
+    leaflet_css=(ROOT / 'assets/vendor/leaflet/leaflet.css').read_text(encoding='utf-8')
+    leaflet_css=leaflet_css.replace('url(images/', 'url(/assets/vendor/leaflet/images/')
+    css = leaflet_css + '\n' + (ROOT / 'styles.css').read_text(encoding='utf-8')
     css = re.sub(r"url\(['\"]?(/assets/[^)'\"]+)['\"]?\)", lambda m: f'url("{data_url(m[1])}")', css)
     js = (ROOT / 'site.js').read_text(encoding='utf-8')
     output = output / 'downloads'
@@ -38,6 +40,7 @@ def build_editions(home, guides, output):
     doc = doc.replace('<link rel="stylesheet" href="/styles.css">', f'<style>{css}</style>')
     doc = doc.replace('<script src="/site.js" defer></script>', '')
     doc = doc.replace('<script src="/phone.js" defer></script>', '')
+    doc = doc.replace('<details class="phone-directory" id="local-essentials">', '<details class="phone-directory" id="local-essentials" open>')
     doc = re.sub(r'<div class="phone-actions">.*?</div>', '', doc, flags=re.S)
     doc = doc.replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
     csp = "default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'"
@@ -58,17 +61,20 @@ def build_editions(home, guides, output):
     doc = re.sub(r'href="(/[^"\s]*)"', local_link, doc)
     # All fonts, icons and tools are embedded; there are no network subresources or service workers.
     licenses = ''.join(f'<h3>{e(p.name)}</h3><pre>{e(p.read_text(encoding="utf-8"))}</pre>' for p in sorted((ROOT / 'assets/fonts').glob('*OFL*')))
-    doc = doc.replace('</main>', f'<details class="offline-detail font-licenses"><summary>Embedded font licenses</summary>{licenses}</details></main>')
+    leaflet_license=e((ROOT / 'assets/vendor/leaflet/LICENSE').read_text(encoding='utf-8'))
+    licenses += f'<h3>Leaflet 1.9.4 — BSD-2-Clause</h3><pre>{leaflet_license}</pre>'
+    doc = doc.replace('</main>', f'<details class="offline-detail font-licenses"><summary>Embedded software & font licenses</summary>{licenses}</details></main>')
     print_js = '''
 let detailsBeforePrint = [];
 window.addEventListener('beforeprint', () => {
- detailsBeforePrint = [...document.querySelectorAll('.offline-detail:not(.font-licenses), .phone-source-details')].filter(el => !el.open);
+ detailsBeforePrint = [...document.querySelectorAll('.offline-detail:not(.font-licenses), .phone-source-details, .phone-directory')].filter(el => !el.open);
  detailsBeforePrint.forEach(el => {el.open = true;});
 });
 window.addEventListener('afterprint', () => {
  detailsBeforePrint.forEach(el => {el.open = false;}); detailsBeforePrint = [];
 });'''
-    phone_js = (ROOT / 'phone.js').read_text(encoding='utf-8')
+    leaflet_js=(ROOT / 'assets/vendor/leaflet/leaflet.js').read_text(encoding='utf-8')
+    phone_js = leaflet_js + '\n' + (ROOT / 'phone.js').read_text(encoding='utf-8')
     doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{print_js}</script></body>')
     (output / Path(DOWNLOAD).name).write_text(doc, encoding='utf-8')
     # Superseded preview exports; one shared edition replaces per-region copies.

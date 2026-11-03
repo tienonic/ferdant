@@ -67,10 +67,13 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
   Keep notes in the open page; no storage, network request, background scheduling or automatic submission.
 - Use category-colored icons and thin rules with restrained borders to distinguish groups. Keep cobalt for the brand and general controls.
   Do not add the reference site's branding, trivia ticker, ads or fake activity.
-- Put the California phone chart near the homepage top, with a native city selector, optional service filter
+- Put a phone-icon disclosure near the homepage top, closed on first load. Open it for the California
+  phone chart, a Leaflet city map, typed city search, native city selector and optional service filter
   and city download action. Keep numbers visible without opening a detail panel. Distinguish crisis, referral,
   non-emergency and utility contacts; keep 911 outside the chart. City listing does not imply local-agency coverage.
-  A single offline template carries the same shared city/contact dataset, tools and guides. A city download
+  Use a local vector map and approximate city points, with visible attribution and no repeating motion.
+  Keep the native selector as an alternative; maps load on demand and work in the offline file.
+  A single offline template carries the same shared city/contact dataset, map, tools and guides. A city download
   carries only the selected location and all its saved contacts; never carry private tool notes or the service filter.
   Preserve jurisdiction/provider limits and visible coverage gaps. Use explicit choice, with no inferred location.
 - The five-topic directory pairs familiar labels with the exact community names and a concise full-scope description.

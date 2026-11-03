@@ -24,7 +24,8 @@ The deployed main branch remains the maintenance page until a fuller release is 
 
 - `content/site.py`: branch descriptions, original guide text, source links and dates.
 - `content/regions.json`: shared numbers, contact/source records and city/county references; dates never advance automatically.
-- `content/california-cities.json`: compact official city/county index, with source hash and edit-date provenance.
+- `content/california-cities.json`: official city/county index, approximate points, generalized local map and source hashes.
+- `assets/vendor/leaflet/`: pinned Leaflet 1.9.4 release files, BSD license and download hashes.
 - `scripts/phone_chart.py`, `phone.js`: shared city phone chart, local filtering and city-only offline export.
 - `scripts/offline.py`: self-contained regional downloads, including fonts, icons, tools and saved guides.
 - `content/directory.py`: directory link labels, publishers and separate source/check dates.
@@ -111,15 +112,15 @@ polling process or scheduler is included. Private plans, conversations and crede
 
 ## California phone chart and offline copy
 
-The homepage and `/offline/` share a city-selectable phone chart. The official CDTFA attribute snapshot supplies
+The homepage phone-icon disclosure starts closed. Open it for a city-selectable phone chart and local Leaflet map; `/offline/` opens the chooser directly. The official CDTFA attribute snapshot supplies
 483 incorporated cities and 58 county choices for unlisted/unincorporated communities. Listing a city is distinct
 from checking its agencies: this edition has municipal contacts for 11 cities and alternate referral numbers for
 41 counties. Other selections retain California-wide hotlines and any checked county information, with explicit gaps.
 The chart excludes 911 rows; crisis, referral, non-emergency and utility contacts retain their different purposes.
 
 The registry stores 59 distinct numbers once and references them from 58 contact records. Counties and cities
-reference contact IDs; shared hotlines are not copied per city. The official city index is about 15 KB and contains
-no geometry or address data. The build minifies the data embedded on chart pages; changing a city or service filter
+reference contact IDs; shared hotlines are not copied per city. The shared place index is about 54 KB, including 483 approximate city points and a generalized 58-county map.
+It contains no addresses or street tiles. The build minifies the data embedded on chart pages; changing a city or service filter
 makes no request, detects no location and saves nothing to browser storage. Publisher dates, check dates and
 primary-page versus indexed-excerpt review limits are preserved. Missing numbers are never inferred.
 
@@ -127,14 +128,21 @@ One generated HTML file under `downloads/` replaces per-region exports. With a c
 fetches that clean shared template once per page, adds only the selected city and readable chart rows, and saves a
 local file. Subsequent city downloads reuse the template in memory. Tool notes and service filters are not copied.
 The saved file retains the city even with JavaScript disabled; with scripts enabled, its full city selector works
-without a connection. Fonts, favicon assets, four tools and three full guides are embedded, with font licenses.
+without a connection. The vector map, pinned Leaflet 1.9.4 library, styles, fonts, favicon assets, four tools and
+three full guides are embedded, with the required software/font licenses.
 
 Open the file in a browser; no server, install or service worker is required. Phone file previews may require a
 browser for interactive tools. Calls/texts need phone service; website links and alert registration need internet.
 There are no live dispatch, outage, road-status or shelter feeds. Tool inputs do not persist after closing.
 The tests cover every city/county mapping, jurisdiction changes, filtering, actual personalized/standard downloads,
 disconnected local-file reading/tools, no-JavaScript selected-city rows, private-note exclusion and failure handling.
-Builds never refresh factual review dates or restart collection. Add municipal numbers only after checking sources.
+Leaflet is served locally and loaded on first opening the online disclosure. The map uses no external tile or
+geocoding service, account, API key or location permission. Type a city, click its marker, or click a county for
+county-level contacts. The native selector stays available as a keyboard/failure fallback. Points come from
+the largest CDTFA city boundary-piece centroid; county geometry is generalized Census BAS 2026 data. Both are
+approximate selection aids, not address, route or exact-jurisdiction maps. Provenance is in the place index
+and `assets/vendor/leaflet/`. Tests include typed search, real marker clicks, repeated opening, offline maps
+and a failed-library fallback. Builds never refresh factual review dates or restart collection. Add municipal numbers only after checking sources.
 
 ## Background infrastructure and low-maintenance updates
 

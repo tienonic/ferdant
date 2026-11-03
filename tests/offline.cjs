@@ -30,9 +30,14 @@ module.exports = async function checkOffline(browser, base) {
    p.on('pageerror', error=>errors.push(error.message));
    await p.goto(pathToFileURL(saved).href);
    await p.evaluate(()=>document.fonts.ready);
+   await p.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');
+   assert.equal(await p.evaluate(()=>L.version),'1.9.4');
    assert((await p.locator('h1').innerText()).includes(region.name));
    assert.equal(await p.locator('#phone-city').inputValue(),region.key);
    assert.deepEqual(await p.locator('#phone-rows tr').evaluateAll(rows=>rows.map(row=>row.dataset.contactId)),expected);
+   await p.getByLabel('Find a city on the map',{exact:true}).fill('San Diego');
+   await p.getByRole('button',{name:'Find city',exact:true}).click();
+   assert.equal(await p.locator('#phone-city').inputValue(),'37060');
    await p.getByLabel('Your city in California',{exact:true}).selectOption('37060');
    assert(await p.locator('[data-contact-id="sd-nonemergency"]').isVisible());
    await p.reload();
@@ -89,6 +94,7 @@ module.exports = async function checkOffline(browser, base) {
  await context.close();
  const privacy=await browser.newContext({acceptDownloads:true,reducedMotion:'reduce'});
  const privatePage=await privacy.newPage();await privatePage.goto(base+'/');
+ await privatePage.locator('.phone-toggle').click();
  await privatePage.getByRole('navigation',{name:'Quick tools'}).getByRole('link',{name:'Draft a message'}).click();
  await privatePage.getByLabel('What needs explaining?').fill('PRIVATE-NOTE-NOT-FOR-EXPORT');
  await privatePage.getByRole('button',{name:'Close tool',exact:true}).click();
@@ -105,5 +111,10 @@ module.exports = async function checkOffline(browser, base) {
  let failedDownloads=0;failurePage.on('download',()=>failedDownloads++);await failurePage.locator('[data-city-download]').click();
  await failurePage.waitForFunction(()=>document.querySelector('#phone-download-status').textContent.includes('could not be prepared'));
  assert.equal(failedDownloads,0,'A failed city export must not silently save the wrong edition');await failure.close();
+ const mapFailure=await browser.newContext();const noMap=await mapFailure.newPage();
+ await noMap.route('**/assets/vendor/leaflet/leaflet.js',route=>route.fulfill({status:503,body:'Unavailable'}));
+ await noMap.goto(base+'/offline/');await noMap.waitForFunction(()=>document.querySelector('#city-map-status').textContent.includes('could not load'));
+ await noMap.getByLabel('Your city in California',{exact:true}).selectOption('57026');
+ assert(await noMap.locator('[data-contact-id="davis-nonemergency"]').isVisible());await mapFailure.close();
  fs.writeFileSync('screenshots/offline-verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'chosen city contacts and saved guides passed',downloads:'actual city and standard downloads saved',privateInputsExported:false,filterDoesNotLimitDownload:true,failureHandling:'passed',liveAlerts:false},null,2));
 };

@@ -41,6 +41,8 @@ city_ids = {row[0] for row in cities['cities']}
 assert len(city_ids) == len(cities['cities'])
 assert len(cities['counties']) == 58
 assert all(row[2] in cities['counties'] for row in cities['cities'])
+assert all(len(row)==5 and 32<row[3]<43 and -125<row[4]<-113 for row in cities['cities'])
+assert {f['properties']['county'] for f in cities['map']['geometry']['features']} == set(cities['counties'])
 assert set(regional['cityContacts']) <= city_ids
 assert set(regional['countyContacts']) == set(cities['counties'])
 assert '911' not in regional['numbers']

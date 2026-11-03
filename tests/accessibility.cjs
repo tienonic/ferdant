@@ -19,7 +19,7 @@ module.exports = async function checkAccessibility(page, width) {
   const visible = element => element.getClientRects().length>0;
   const text=[...document.querySelectorAll('.portal-card h2, .destination-label > span, .portal-description, .portal-note, .portal-destination small, .portal-nav a, .phone-heading h2, .phone-coverage, .phone-table th, .phone-table th > small, .phone-method a, .phone-footnote, .phone-controls label')].filter(visible);
   const icons=[...document.querySelectorAll('.portal-card h2 > .ui-icon, .destination-label > .ui-icon')].filter(visible);
-  const targets=[...document.querySelectorAll('.portal-destination, .portal-nav a, .portal-search button, .phone-method a, #phone-city, #phone-query, .phone-actions a')].filter(visible);
+  const targets=[...document.querySelectorAll('.portal-destination, .portal-nav a, .portal-search button, .phone-method a, #phone-city, #phone-query, .phone-actions a, .phone-toggle, #map-city-search, #map-city-form button, .leaflet-control-zoom a')].filter(visible);
   return {
    textMinimum:Math.min(...text.map(el=>ratio(getComputedStyle(el).color,background(el)))),
    iconMinimum:Math.min(...icons.map(el=>ratio(getComputedStyle(el).color,background(el)))),

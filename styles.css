@@ -619,6 +619,26 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 
 /* Regional downloads keep the directory small; each saved file carries its own local details. */
 .phone-directory { margin: 8px 0 22px; padding: 18px 0; border-top: 2px solid var(--utilities); border-bottom: 1px solid var(--rule); }
+.phone-toggle { display: flex; align-items: center; gap: 12px; min-height: 48px; cursor: pointer; list-style: none; color: var(--cobalt); }
+.phone-toggle::-webkit-details-marker { display: none; }
+.phone-toggle > .ui-icon:first-child { width: 24px; height: 24px; color: var(--utilities); }
+.phone-toggle > span { flex: 1; font-size: 16px; font-weight: 600; line-height: 1.5; }
+.phone-toggle small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.phone-toggle > .ui-icon:last-child { width: 18px; height: 18px; }
+.phone-directory[open] > .phone-toggle > .ui-icon:last-child { transform: rotate(180deg); }
+.phone-panel { padding-top: 20px; }
+.city-map-workspace { margin: 14px 0; }
+#map-city-form { max-width: 550px; }
+#map-city-form label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+#map-city-form > div { display: flex; gap: 12px; align-items: center; }
+#map-city-search { min-width: 0; width: 100%; min-height: 44px; padding: 9px 10px; font: 15px var(--sans); border: 1px solid #71808c; background: white; }
+#map-city-form button { flex-shrink: 0; min-height: 44px; font-size: 13px; }
+#city-map-status, .city-map-note { font-size: 12px; color: var(--muted); line-height: 1.7; margin: 9px 0; }
+#city-map { height: 340px; width: 100%; border: 1px solid #b9c8d5; background: #edf3f5; z-index: 0; }
+#city-map:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+#city-map .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; color: var(--cobalt); }
+#city-map .leaflet-control-attribution { font: 11px/1.5 var(--sans); background: #fffffff2; color: var(--ink); }
+#city-map .leaflet-tooltip { font: 13px/1.4 var(--sans); color: var(--ink); border-color: var(--rule); box-shadow: none; }
 .phone-heading { display: flex; justify-content: space-between; align-items: start; gap: 20px; }
 .phone-heading h2 { font: 600 21px/1.4 var(--sans); margin: 0 0 5px; }
 .phone-heading p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0; }
@@ -658,6 +678,8 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 .cost-workspace .cost-preview { border-bottom: 0; }
 @media (max-width: 1050px) { .phone-controls { display: block; } .phone-query-control { width: 340px; max-width: 100%; margin-top: 12px; } }
 @media (max-width: 700px) {
+ #city-map { height: 300px; }
+ #map-city-search { font-size: 16px; }
  .phone-heading { display: block; }
  .phone-city-control { width: 100%; margin-top: 16px; }
  .phone-query-control { width: 100%; }
@@ -765,5 +787,6 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
   .offline-detail:not(.font-licenses) > * { display: block !important; }
   .offline-detail:not(.font-licenses) > summary { list-style: none; }
   .font-licenses { display: none; }
+  .city-map-workspace, .phone-toggle { display: none; }
   .phone-table tr { break-inside: avoid; }
 }
