@@ -8,6 +8,7 @@ from cost_tool import cost_preview
 from offline import build_editions
 from phone_chart import phone_chart, city_search, city_map, DOWNLOAD
 from resource_map import resource_map
+from landing import landing_resources
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('content',ROOT/'content/site.py')
 c=importlib.util.module_from_spec(spec); spec.loader.exec_module(c)
@@ -30,7 +31,7 @@ def page(path,title,description,body,crumbs=None):
  robots='noindex,follow' if args.mode=='preview' or path=='/404.html' else 'index,follow'
  pages[path]=f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{e(title)} | Ferdant</title><meta name="description" content="{e(description)}"><meta name="robots" content="{robots}"><meta name="theme-color" content="#fbfcfa"><link rel="canonical" href="{DOMAIN}{path}"><link rel="icon" href="/assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" href="/styles.css"><meta property="og:type" content="website"><meta property="og:title" content="{e(title)} | Ferdant"><meta property="og:description" content="{e(description)}"><meta property="og:url" content="{DOMAIN}{path}"><meta property="og:site_name" content="Ferdant"><script type="application/ld+json">{json.dumps(schema,ensure_ascii=False)}</script><script src="/site.js" defer></script></head>
-<body><a class="skip" href="#main">Skip to content</a>{preview}<div class="page"><header class="site-header"><a class="wordmark" href="/" aria-label="Ferdant home">ferdant<span>.</span></a><nav class="desktop-nav" aria-label="Main navigation"><a href="/#communities">Topics</a><a href="/#tools">Tools</a><a href="/#about">About</a></nav><span class="header-note">Practical help for everyday problems</span><details class="mobile-menu"><summary>Menu</summary><nav aria-label="Mobile navigation"><a href="/#communities">Topics</a><a href="/#tools">Tools</a><a href="/#about">About</a></nav></details></header><main id="main" tabindex="-1">{crumb}{body}</main><footer class="site-footer"><div><a class="wordmark" href="/">ferdant<span>.</span></a><p>Guides & practical-help communities</p></div><nav aria-label="Footer navigation"><a href="/sources-and-corrections/">Sources & corrections</a><a href="/privacy/">Privacy</a></nav><p class="footer-note">Keep personal account details private.</p></footer></div></body></html>'''
+<body><a class="skip" href="#main">Skip to content</a>{preview}<div class="page"><header class="site-header"><a class="wordmark" href="/" aria-label="Ferdant home">ferdant<span>.</span></a><nav class="desktop-nav" aria-label="Main navigation"><a href="/#location-start">Find local help</a><a href="/#california-resources">California resources</a><a href="/#tools">Guides & tools</a></nav><span class="header-note">Practical help for everyday problems</span><details class="mobile-menu"><summary>Menu</summary><nav aria-label="Mobile navigation"><a href="/#location-start">Find local help</a><a href="/#california-resources">California resources</a><a href="/#tools">Guides & tools</a></nav></details></header><main id="main" tabindex="-1">{crumb}{body}</main><footer class="site-footer"><div><a class="wordmark" href="/">ferdant<span>.</span></a><p>Guides & practical-help communities</p></div><nav aria-label="Footer navigation"><a href="/about/">About Ferdant</a><a href="/sources-and-corrections/">Sources & corrections</a><a href="/privacy/">Privacy</a></nav><p class="footer-note">Keep personal account details private.</p></footer></div></body></html>'''
 def portal_entry(title,url,publisher,context):
  search=e(title+' '+publisher+' '+context)
  tool_key=url[1:] if url in ['#compare-bill','#cancel-subscription','#draft-message'] else None
@@ -41,6 +42,9 @@ def portal_entry(title,url,publisher,context):
  marker='expand' if tool_key else 'down' if url.startswith('#') else 'external' if url.startswith('https://') else 'right'
  return f'<li data-portal-entry{enhancement} data-search="{search}"><a class="portal-destination" href="{e(target)}"{launch}><span class="destination-label">{destination_icon(url)}<span>{e(title)}</span></span><small>{e(publisher)}{icon(marker)}</small></a></li>'
 
+def quick_tools():
+ return f'''<section class="portal-tools" id="tools" tabindex="-1"><h3>Tools you can use here</h3><nav aria-label="Quick tools"><ul class="portal-list">{portal_entry('Cost over time','#cost-preview','On this page','monthly recurring annual yearly cost subscription')}{portal_entry('Compare a bill','#compare-bill','Calculator','bill price cost money charges')}{portal_entry('Plan a cancellation','#cancel-subscription','Checklist','subscription renewal cancel money')}{portal_entry('Draft a billing message','#draft-message','Message builder','write question complaint bill money')}</ul></nav><details class="cost-workspace" data-enhancement hidden><summary>Cost over time worksheet</summary>{cost_preview()}</details><p class="portal-note">Your inputs stay in this open page.</p></section>'''
+
 def directory_topic(b):
  context=b['name']+' '+b['label']+' '+b['description']
  labels={'keep-us-connected':'Internet & phone','who-can-fix-this':'Repairs & services','keep-the-basics-on':'Power & water','what-am-i-paying-for':'Bills & paperwork','plan-for-disruption':'Prepare & recover'}
@@ -48,7 +52,7 @@ def directory_topic(b):
  entries+=portal_entry('r/'+b['name'],'https://www.reddit.com/r/'+b['name']+'/', 'Reddit',context)
  tools=''
  if b['slug']=='what-am-i-paying-for':
-  tools=f'''<section class="portal-tools" id="tools" tabindex="-1"><h3>Tools you can use here</h3><nav aria-label="Quick tools"><ul class="portal-list">{portal_entry('Cost over time','#cost-preview','On this page','monthly recurring annual yearly cost subscription')}{portal_entry('Compare a bill','#compare-bill','Calculator','bill price cost money charges')}{portal_entry('Plan a cancellation','#cancel-subscription','Checklist','subscription renewal cancel money')}{portal_entry('Draft a billing message','#draft-message','Message builder','write question complaint bill money')}</ul></nav><details class="cost-workspace" data-enhancement hidden><summary>Cost over time worksheet</summary>{cost_preview()}</details><p class="portal-note">Your inputs stay in this open page.</p></section>'''
+  tools=quick_tools()
  return f'''<details class="directory-topic portal-card service-row" id="{b['slug']}" data-portal-card>
   <summary class="service-toggle">{icon(CATEGORY[b["slug"]])}<span><strong>{labels[b['slug']]}</strong><small>r/{b['name']}</small></span>{icon('chevron')}</summary>
   <div class="service-panel"><div class="portal-overview">{directory_graphic(b["slug"])}<p class="portal-description">{b['description']}</p></div>
@@ -86,19 +90,23 @@ def home(local=False):
  bill,cancel,message=c.GUIDES
  bill_tool=tool(bill,heading=3)
  intro='<h1 id="local-page-title">California resources</h1><p id="local-page-intro">Checked contacts, public resources and an offline copy.</p>' if local else '<p>Choose your California location. Find your next step.</p>'
- start=('<details class="change-location"><summary>Change location</summary>'+location_start(show_download=False)+'</details>') if local else location_start(heading=1)
+ start=('<details class="change-location"><summary>Change location</summary>'+location_start(show_download=False)+'</details>') if local else location_start(show_download=False, heading=1)
+ phones=phone_chart(include_map=False, show_download=False, show_picker=False, shared_only=True)
+ resources=(f'<div class="resource-heading" id="california-resources"><div><h2>Browse by need</h2><p>General guides & public services. Eligibility and service areas vary.</p></div></div><div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{phones}{sections}</div>' if local else landing_resources(c.BRANCHES, d, portal_entry, phones, quick_tools().replace(' id="tools"', '')))
+ about_section='<section id="about" class="directory-about-section" tabindex="-1"><h2>About Ferdant</h2><p>Ferdant connects five practical-help communities. Read the resources here or take a specific question to the relevant Reddit community. Replies and outcomes aren’t guaranteed.</p><p>AggieBillHelp is the separate UC Davis campus community. Ferdant does not imply a university affiliation.</p></section>'
+ assets='' if local else '<link rel="stylesheet" href="/landing.css"><script src="/landing.js" defer></script>'
  page('/local/' if local else '/','Local resources' if local else 'Practical guides for everyday problems','Checked California location resources, shared support numbers, public guides and a downloadable contact-sheet infographic with a complete offline website.' if local else 'A directory of practical resources, tools and California emergency and support phone numbers, with city selection and a downloadable offline copy.',f'''
+{assets}
  <div class="portal-heading"{ ' data-location-page' if local else ' data-location-routing'}><div>{intro}</div></div>
  {start}
 {resource_map()+infographic_panel()+local_results() if local else ""}
- <div class="resource-heading"><div><h2>Browse by need</h2><p>General guides & public services. Eligibility and service areas vary.</p></div></div>
- <div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{phone_chart(include_map=False, show_download=False, show_picker=False, shared_only=True)}{sections}</div>
+ {resources}
  <dialog id="tool-dialog" aria-labelledby="tool-dialog-title"><div class="tool-dialog-header"><div class="tool-dialog-name"><span id="tool-dialog-icon" aria-hidden="true">{icon("tools")}</span><h2 id="tool-dialog-title">Quick tools</h2></div><button type="button" class="tool-dialog-close" data-close-tool aria-label="Close tool">{icon("close")}<span>Close</span></button></div><div class="tool-dialog-body">
    <section id="compare-bill" class="directory-tool" data-dialog-tool data-tool-title="Compare a bill" hidden tabindex="-1" aria-labelledby="compare-title"><div class="directory-tool-heading"><h2 id="compare-title">Compare a bill</h2><button class="quiet-button" id="bill-example" data-enhancement hidden>Try an example</button></div><p>{bill['intro']}</p><p id="example-note" class="example-note" role="status" hidden>Example figures. Replace these with your own totals and changes.</p>{bill_tool}<p class="quick-note">{bill['briefNote']}</p><a class="widget-guide-link" href="{gp(bill)}">Full bill-checking guide</a><details class="tool-source-details"><summary>Sources & scope</summary>{inline_sources(bill)}</details></section>
    <section id="cancel-subscription" class="directory-tool" data-dialog-tool data-tool-title="Cancel a subscription" hidden tabindex="-1" aria-labelledby="cancel-title"><h2 id="cancel-title">Cancel a subscription</h2><p>{cancel['intro']}</p>{cancellation_planner(heading=3,tool_id='cancel-tool')}<a class="widget-guide-link" href="{gp(cancel)}">Full cancellation guide</a><details class="tool-source-details"><summary>Sources & scope</summary>{inline_sources(cancel)}</details></section>
    <section id="draft-message" class="directory-tool" data-dialog-tool data-tool-title="Draft a billing message" hidden tabindex="-1" aria-labelledby="draft-title"><h2 id="draft-title">Draft a billing message</h2><p>{message['intro']}</p>{message_builder(heading=3,tool_id='message-tool')}<noscript><blockquote class="static-message">{e(message['template'])}</blockquote></noscript><a class="widget-guide-link" href="{gp(message)}">Full billing-question guide</a><details class="tool-source-details"><summary>Sources & scope</summary>{inline_sources(message)}</details></section>
   </div></dialog>
-   <section id="about" class="directory-about-section" tabindex="-1"><h2>About Ferdant</h2><p>Ferdant connects five practical-help communities. Read the resources here or take a specific question to the relevant Reddit community. Replies and outcomes aren’t guaranteed.</p><p>AggieBillHelp is the separate UC Davis campus community. Ferdant does not imply a university affiliation.</p></section>
+{about_section if local else ''}
 ''')
 def hubs():
  for b in c.BRANCHES:
@@ -135,7 +143,7 @@ if __name__=='__main__':
  (args.output/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>{DOMAIN}{u}</loc></url>' for u in pages if u!='/404.html')+'</urlset>\n',encoding='utf-8')
  (args.output/'robots.txt').write_text('User-agent: *\nAllow: /\n'+('Sitemap: '+DOMAIN+'/sitemap.xml\n' if args.mode=='production' else '# Preview pages carry noindex; allow crawlers to see it.\n'),encoding='utf-8')
  if args.output.resolve()!=ROOT:
-  for name in ['styles.css','site.js','phone.js','infographic.js','resource-map.js','disaster-layers.js','service-resources.js','CNAME','.nojekyll']:
+  for name in ['landing.css','landing.js','styles.css','site.js','phone.js','infographic.js','resource-map.js','disaster-layers.js','service-resources.js','CNAME','.nojekyll']:
    shutil.copy2(ROOT/name,args.output/name)
   shutil.copytree(ROOT/'assets',args.output/'assets',dirs_exist_ok=True)
   for name in ['integrations','config']:

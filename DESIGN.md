@@ -2,6 +2,16 @@
 
 Read this before changing the interface. This is a project-specific design brief, not a downloaded theme.
 
+## Current landing flow ? November 3
+
+The [location-first revision](docs/landing-flow-20261103.md) supersedes the older
+homepage tile layout below. Preserve the location search and map. The library
+beneath them has three tabs: California resources (default), Guides & tools, and
+Communities. Use compact link rows, keep statewide and local applicability clear,
+and retain all five branch names and scopes. Downloads follow location selection
+or the Guides & tools path. About is in the footer. Existing city-page map, resource
+controls and downloads remain owned by their existing templates.
+
 ## Job and audience
 
 Help someone with limited time take a concrete household or administrative step.

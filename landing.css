@@ -1,0 +1,53 @@
+/* Only the landing resource library; map layout and map controls are untouched. */
+.landing-library { max-width: 1000px; margin: 36px auto 48px; }
+.library-heading h2 { font: 30px/1.2 var(--serif); margin: 0 0 8px; }
+.library-heading p, .panel-intro { color: var(--muted); font-size: 15px; line-height: 1.65; margin: 0 0 20px; max-width: 68ch; }
+.resource-tabs { display: flex; border-bottom: 1px solid var(--rule); gap: 26px; }
+.resource-tabs a { display: flex; align-items: center; min-height: 52px; padding: 8px 0; border-bottom: 3px solid transparent; color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 600; }
+.resource-tabs a[aria-selected="true"] { border-color: var(--cobalt); color: var(--cobalt); }
+.resource-panel { padding: 24px 0 0; scroll-margin-top: 22px; }
+.resource-panel[hidden] { display: none; }
+.panel-heading { font: 600 17px/1.4 var(--sans); margin: 0 0 18px; }
+.state-resources { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 32px; }
+.state-resource { display: flex; gap: 15px; padding: 20px 0; color: var(--ink); border-bottom: 1px solid var(--rule); text-decoration: none; }
+.state-resource:hover strong, .community-resource:hover strong { text-decoration: underline; text-underline-offset: 3px; }
+.state-resource-icon { color: var(--cobalt); padding-top: 3px; }
+.state-resource-icon .ui-icon { width: 25px; height: 25px; }
+.state-resource > span:last-child { min-width: 0; }
+.state-resource strong, .state-resource span span, .state-resource small { display: block; }
+.state-resource strong { font-size: 16px; font-weight: 600; }
+.state-resource span span { font-size: 14px; line-height: 1.6; color: var(--muted); margin-top: 4px; }
+.state-resource small { color: var(--cobalt); font-size: 12px; margin-top: 10px; }
+.state-resource small .ui-icon { width: 13px; height: 13px; vertical-align: middle; margin-left: 4px; }
+.resource-source-note { font-size: 12px; color: var(--muted); line-height: 1.6; margin: 16px 0; }
+.landing-library .phone-directory { border-top: 0; margin: 16px 0 0; padding: 4px 0; }
+.landing-library .phone-toggle { min-height: 64px; }
+.landing-library .phone-panel { padding-bottom: 12px; }
+.landing-library .portal-tools { border: 0; padding: 0; margin: 0 0 26px; }
+.landing-library .portal-tools > h3 { display: none; }
+.landing-library .portal-tools nav > .portal-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 32px; }
+.landing-library .portal-tools .portal-destination { min-height: 64px; }
+.guide-library-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.guide-library-heading h3 { font-size: 17px; }
+.guide-library-heading a, .library-download a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 14px; }
+.general-topic { border-bottom: 1px solid var(--rule); }
+.general-topic > summary { min-height: 52px; align-content: center; cursor: pointer; font-size: 15px; color: var(--cobalt); }
+.general-topic > p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.library-download { margin-top: 24px; border-top: 1px solid var(--rule); padding-top: 12px; }
+.library-download span { display: block; font-size: 13px; color: var(--muted); }
+.community-resource { display: flex; align-items: center; gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--rule); color: var(--ink); text-decoration: none; }
+.community-resource > .ui-icon { color: var(--cobalt); flex-shrink: 0; width: 22px; height: 22px; }
+.community-resource > span { flex: 1; min-width: 0; }
+.community-resource strong { display: block; font-size: 16px; overflow-wrap: anywhere; }
+.community-resource span span { display: block; font-size: 14px; line-height: 1.6; color: var(--muted); margin-top: 4px; }
+@media(max-width: 600px) {
+ .landing-library { margin-top: 28px; }
+ .library-heading h2 { font-size: 26px; }
+ .resource-tabs { gap: 14px; }
+ .resource-tabs a { font-size: 13px; line-height: 1.4; }
+ .state-resources, .landing-library .portal-tools nav > .portal-list { grid-template-columns: minmax(0,1fr); }
+ .state-resource { padding: 16px 0; }
+ .community-resource { gap: 12px; }
+}
+@media print { .resource-tabs { display: none; } .resource-panel[hidden] { display: block; } }
+@media(forced-colors: active) { .resource-tabs a[aria-selected="true"] { border-color: Highlight; color: LinkText; } }
