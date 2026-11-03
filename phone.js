@@ -5,6 +5,7 @@
  const payload = JSON.parse(dataNode.textContent), data = payload.directory, places = payload.places;
  const cities = new Map(places.cities.map(([id,name,county,lat,lng])=>[id,{id,name,county,lat,lng}]));
  const mapRoot=document.querySelector('#city-map'),mapDisclosure=mapRoot?.closest('details');
+ const landingOverview=Boolean(document.querySelector('[data-location-routing]'));
  let cityMap, mapPromise, mapBounds, selectedMarker, selectedCounty;
  const markers=new Map(), countyLayers=new Map();
  const select = document.querySelector('#phone-city');
@@ -178,7 +179,7 @@
    cityMap.invalidateSize(false);
    if(location && selectedMarker)cityMap.setView([location.lat,location.lng],9,{animate:false});
    else if(selectedCounty)cityMap.fitBounds(selectedCounty.getBounds(),{padding:[15,15],animate:false});
-   else cityMap.fitBounds(mapBounds,{padding:[15,15],animate:false});
+   else cityMap.fitBounds(mapBounds,landingOverview?{paddingTopLeft:[15,15],paddingBottomRight:[15,Math.max(15,cityMap.attributionControl.getContainer().offsetHeight+8)],animate:false}:{padding:[15,15],animate:false});
    selectedMarker?.openTooltip();
   }
  }
@@ -194,7 +195,6 @@
   if(cityMap){syncMap(place(select.value));return Promise.resolve();}
   if(mapPromise)return mapPromise;
   mapPromise=loadLeaflet().then(()=>{
-   const landingOverview=Boolean(document.querySelector('[data-location-routing]'));
    cityMap=L.map('city-map',{scrollWheelZoom:false,minZoom:4,maxZoom:12,zoomSnap:landingOverview?0.1:1,zoomAnimation:false,fadeAnimation:false}).setView([37.2,-120],5);
    cityMap.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
    cityMap.attributionControl.addAttribution('Map data: <a href="https://publish.data.ca.gov/dataset/boe-citycounty">CDTFA</a> · <a href="https://tigerweb.geo.census.gov/">U.S. Census Bureau</a>');
@@ -208,7 +208,7 @@
     markers.set(city.id,marker);const label=document.createElement('span');label.textContent=city.name;marker.bindTooltip(label);
     marker.on('click',()=>{if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(city.id);else chooseCity(city.id);});const element=marker.getElement();if(element)element.dataset.cityId=city.id;
    }
-   if(landingOverview)cityMap.on('resize',()=>{if(!select.value)syncMap(null);});
+   if(landingOverview){cityMap.zoomControl.setPosition('topright');cityMap.on('resize',()=>{if(!select.value)syncMap(null);});}
    document.querySelector('#city-map').dataset.ready='true';syncMap(place(select.value));
   }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. Location search and phone numbers still work.';});
   return mapPromise;
