@@ -1,7 +1,7 @@
 # Ferdant website
 
 A porcelain-white and cobalt resource library for the five existing practical-help communities.
-This branch contains an editorial preview: a homepage with a working bill comparison, five branch hubs, three complete
+This branch contains an editorial preview: a homepage with three interactive tools, five branch hubs, three complete
 money-and-paperwork guides, a searchable library, about/source/privacy pages and a custom 404. Guides lead with a short answer,
 four actions and a useful tool or template; longer explanations and sources expand only when needed.
 The three guides are proposed pilot content, not a record of resolved community cases.
@@ -71,11 +71,18 @@ hosting and fee/test decisions; this preview does not create a shop or accept pa
 Read [DESIGN.md](DESIGN.md) before changing the interface. It records the audience, palette, layout,
 type scale and the decisions made using the user's Professor Glitch reference.
 Porcelain white `#fbfcfa`, cobalt `#244b84`, Newsreader headings and Public Sans reading text.
-The homepage offers a working bill comparison, two related guides and a directory of all five topics.
+The homepage offers one tabbed workspace and a directory of all five topics:
+
+- Bill comparison with an opt-in example and a breakdown of the amount still to explain.
+- Cancellation route choices and a record checklist with progress and a next step.
+- A live billing-message builder with safe text output, copying and a clear-notes control.
+
+The tools are shared with their guide pages. They use no AI service, account or external request.
+The checklist tracks the reader's notes; it cannot verify cancellation, access or a refund.
 Fonts are served locally (about 84 KB total); notices and download provenance are in `assets/fonts/`.
 There are no external font-service or decorative image requests.
 
-Search, bill comparison and checklists run in the browser without sending or storing input.
+Search, bill breakdowns, cancellation selections and message notes run in the browser without sending or storing input.
 Template copy uses the clipboard only after a click. No analytics, account system, document upload,
 polling process or scheduler is included. Private plans, conversations and credentials stay outside this repository.
 

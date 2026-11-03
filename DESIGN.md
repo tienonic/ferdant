@@ -13,13 +13,13 @@ People should reach a useful tool or sourced action without signing in or joinin
 
 Porcelain white with deliberate cobalt controls and calm typography. Express the requested porcelain quality
 through clarity, proportions and the surface; a literal plate illustration is unnecessary.
-The memorable element is a working bill worksheet on the homepage. Its numbers come from the reader,
+The memorable element is a workspace with a bill-change breakdown, cancellation planner and live message builder. Its numbers come from the reader,
 not invented savings, claims, testimonials or activity counters.
 
 The previous proposal used a large question beside three numbered guide rows and a second numbered directory.
 That arrangement was repetitive, made small labels do too much work and gave the introduction too much space.
-Use a shorter introduction, then a working worksheet with two related guides alongside it.
-The directory below uses topic names and scope descriptions without arbitrary numbering.
+The current version uses a shorter introduction and a three-task workspace, with one task visible at a time.
+Each task links to its full guide and sources. The directory below uses topic names and scope descriptions without arbitrary numbering.
 
 ## Tokens
 
@@ -42,8 +42,12 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
 
 - Left aligned. Desktop content width is 1192px within 64px side gutters; phone gutters are 22px.
 - The homepage starts with a compact question and a short account-free explanation.
-- Place the bill worksheet and other guide links together. The calculator uses the same implementation on the guide page.
+- Place the three tools in one workspace with accessible tabs, so only the chosen task is visible.
+  Share the implementations with their guide pages. Static guides and cancellation records work without JavaScript.
   Explain that matching periods matter and that a difference does not establish the reason for a charge.
+- Give each tool a useful response: an amount still to explain, a record to check next, or a copyable draft.
+  Examples are opt-in and explicitly labeled. A full checklist never claims that a company canceled or refunded anything.
+  Keep notes in the open page; no storage, network request, background scheduling or automatic submission.
 - Use the cobalt line on the worksheet to distinguish the working tool. Do not outline every link as a card.
 - The five-topic directory pairs familiar labels with the exact community names and a concise full-scope description.
 - Guide pages show actions and tools first. Longer explanations and sources use native expandable details.
@@ -56,7 +60,8 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
 
 Review actual desktop and phone screenshots after layout changes, including narrow 320px screens.
 Check links, focus, forms, empty search, copy behavior, no-JavaScript reading, source dates and metadata.
-The homepage calculator must work as well as the guide calculator.
+Check the demo, negative changes, credits, decimal arithmetic, invalid amounts, keyboard tab controls,
+all cancellation routes, progress, safe text rendering, copying and clearing notes on the homepage and guide pages.
 Shopify remains disabled, absent from the interface and unrequested during page use.
 Do not treat a design audit, screenshots or passing code checks as audience approval, demand or a public release.
 

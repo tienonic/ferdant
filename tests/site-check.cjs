@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
+const checkWidgets = require('./widgets.cjs');
 const base = process.env.SITE_URL || 'http://127.0.0.1:4173';
 const production = process.env.SITE_MODE === 'production';
 const urls = [...fs.readFileSync('sitemap.xml','utf8').matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).concat('/404.html');
@@ -26,6 +27,7 @@ function browserPath() {
     const response=await page.goto(base+url);assert.equal(response.status(),200,url);
     assert.equal(await page.locator('h1').count(),1,url);
     assert(await page.locator('h1').isVisible(),url);
+    assert(await page.locator('[id]').evaluateAll(els=>new Set(els.map(el=>el.id)).size===els.length),`Duplicate IDs on ${url}`);
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${url} overflows at ${width}`);
     assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'),'https://ferdant.com'+url);
     assert.equal(await page.locator('meta[name=robots]').getAttribute('content'),production && url!='/404.html'?'index,follow':'noindex,follow');
@@ -39,6 +41,7 @@ function browserPath() {
    await page.evaluate(()=>document.fonts.ready);const loadedFonts=await page.evaluate(()=>[...document.fonts].filter(f=>f.status==='loaded').map(f=>f.family));assert(loadedFonts.includes('Newsreader'));assert(loadedFonts.includes('Public Sans'));
    await page.getByLabel('Previous bill ($)').fill('60');await page.getByLabel('Current bill ($)').fill('75');await page.getByRole('button',{name:'Compare the totals'}).click();assert((await page.locator('#bill-result').innerText()).includes('$15.00 (25.0%) higher'));
    await page.getByLabel('Previous bill ($)').fill('0');await page.getByRole('button',{name:'Compare the totals'}).click();assert((await page.locator('#bill-result').innerText()).includes('$75.00 higher'));assert(!(await page.locator('#bill-result').innerText()).includes('%'));
+   await checkWidgets(page, width, base);
    assert.equal(await page.getByRole('navigation',{name:'The five communities'}).getByRole('link').count(),5);
    if(width<700){await page.getByText('Menu',{exact:true}).click();assert(await page.getByRole('navigation',{name:'Mobile navigation'}).isVisible());await page.getByRole('navigation',{name:'Mobile navigation'}).getByRole('link',{name:'Guides',exact:true}).click();}else{await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Guides',exact:true}).click();}
    await page.getByLabel('Find a guide').fill('cancel');assert.equal(await page.locator('.guide-card:visible').count(),1);assert.equal(await page.locator('#search-status').innerText(),'1 guide');
@@ -49,9 +52,9 @@ function browserPath() {
    for(const url of ['/', '/guides/','/what-am-i-paying-for/guides/why-did-my-bill-go-up/']) {await page.goto(base+url);const name=url==='/'?'home':url==='/guides/'?'library':'guide';await page.screenshot({path:`screenshots/${name}-${width}.png`,fullPage:true});}
    assert.deepEqual(errors,[]);assert.deepEqual(commerceRequests,[],'Commerce must make no background requests');assert.equal(await page.locator('shopify-store,shopify-context,shopify-cart,[data-commerce]').count(),0);findings.push({width,pages:urls.length,result:'passed'});await context.close();console.log(`${width}px: ${urls.length} pages, navigation, search, calculator and clipboard passed`);
   }
-  const offline=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});const p=await offline.newPage();await p.goto(base+'/');assert(await p.locator('noscript p').isVisible());assert((await p.locator('noscript p').innerText()).includes('subtract the previous total'));await p.getByRole('link',{name:'Check the charges and write to your provider'}).click();assert(await p.locator('.quick-answer').isVisible());await p.goto(base+'/guides/');assert.equal(await p.locator('.guide-card').count(),3);assert(!await p.locator('[data-search-controls]').isVisible());await p.locator('.guide-card').first().click();await p.locator('#sources summary').click();assert(await p.locator('#sources a').first().isVisible());await p.locator('.guide-step summary').first().click();assert(await p.locator('.guide-step .step-detail').first().isVisible());await offline.close();
+  const offline=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});const p=await offline.newPage();await p.goto(base+'/');assert(await p.locator('#quick-tool noscript p').isVisible());assert((await p.locator('#quick-tool noscript p').innerText()).includes('subtract the previous total'));await p.getByRole('link',{name:'Check the charges and write to your provider'}).click();assert(await p.locator('.quick-answer').isVisible());await p.goto(base+'/guides/');assert.equal(await p.locator('.guide-card').count(),3);assert(!await p.locator('[data-search-controls]').isVisible());await p.locator('.guide-card').first().click();await p.locator('#sources summary').click();assert(await p.locator('#sources a').first().isVisible());await p.locator('.guide-step summary').first().click();assert(await p.locator('.guide-step .step-detail').first().isVisible());await offline.close();
   for(const branch of branches){const slug=branch.replace(/([a-z])([A-Z])/g,'$1-$2').toLowerCase();const slugMap={keepusconnected:'keep-us-connected',whocanfixthis:'who-can-fix-this',keepthebasicson:'keep-the-basics-on',whatamipayingfor:'what-am-i-paying-for',planfordisruption:'plan-for-disruption'};const key=branch.toLowerCase();const text=fs.readFileSync(path.join(slugMap[key],'index.html'),'utf8');assert(text.includes(`https://www.reddit.com/r/${branch}/`));}
-  fs.writeFileSync('screenshots/verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'passed',homeCalculator:'passed',selfHostedFonts:'passed',commerceRequests:0,commerceUI:false,quickAnswers:'passed',mode:production?'production':'preview',published:false},null,2));
+  fs.writeFileSync('screenshots/verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'passed',homeCalculator:'passed',interactiveWidgets:'passed',widgetInteractionRequests:0,widgetStorage:'none',selfHostedFonts:'passed',commerceRequests:0,commerceUI:false,quickAnswers:'passed',mode:production?'production':'preview',published:false},null,2));
   console.log('No-JavaScript reading and source access passed.');
  } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1});
