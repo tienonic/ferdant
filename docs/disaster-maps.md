@@ -15,21 +15,33 @@ attribution and offline rules. The builder embeds this registry without networki
 
 | Plan | GIS shown |
 | --- | --- |
-| Earthquake | CGS liquefaction and earthquake-landslide investigation zones; emergency hospitals and FEMA-listed shelters |
+| Earthquake | CGS liquefaction and earthquake-landslide investigation zones |
 | Tsunami | Existing saved CGS/Cal OES county planning areas |
-| Flood | FEMA effective Special Flood Hazard Areas, 1% annual-chance planning zones; FEMA-listed shelters |
-| Wildfire | CAL FIRE SRA severity effective April 2024 and recommended LRA severity from the 2025 rollout; FEMA-listed shelters |
+| Flood | FEMA effective Special Flood Hazard Areas, 1% annual-chance planning zones |
+| Wildfire | CAL FIRE SRA severity effective April 2024 and recommended LRA severity from the 2025 rollout |
 | Heat | Experimental NWS HeatRisk image with forecast valid time and issuance |
 | Cold/freeze | Issued NWS cold and winter alert areas |
 | Wind/storms | Issued NWS wind, dust and severe-storm alert areas |
 | Sea-level rise/coastal flooding | NOAA 3-foot sea-level scenario above local Mean Higher High Water; connected inundation depth layer only |
 | Landslide/debris flow | CGS earthquake-induced investigation zones; explicitly incomplete for rainfall landslides and post-fire debris flow |
 | Drought | NOAA CPC monthly outlook with target month and issuance; not observed USDM conditions |
-| Dam failure | Cal OES MyPlan state-jurisdiction inundation scenarios; FEMA-listed shelters |
-| Levee failure | Cal OES MyPlan deep flood-protection zones; FEMA-listed shelters |
+| Dam failure | Cal OES MyPlan state-jurisdiction inundation scenarios |
+| Levee failure | Cal OES MyPlan deep flood-protection zones |
 | Snow avalanche | Issued NWS avalanche alert areas, not terrain or route classification |
 | Subsidence | DWR/TRE ALTAMIRA measured annual vertical displacement, feet, water year 2025 |
 | Volcano | Cal OES/USGS selected volcanic planning areas |
+
+`content/resource_plans.py` separately defines resource roles for every plan.
+Sudden-event views start with medical directories and all-incident FEMA shelter
+checks; slower planning views start with information and application support.
+Medical care, food/basic supplies, housing/day services and information each have
+a distinct filter. Heat and cold have separate cooling/warming filters: ordinary
+libraries or clinics are never substituted for an activated relief site. Empty
+roles retain their coverage gap and an official referral link where available.
+Each physical resource type has a labelled SVG map symbol and matching legend.
+See [physical-service coverage](physical-services.md) for all-city data, source
+editions and limits. Switching a resource role replaces its pins while retaining
+the selected hazard layer; changing disaster replaces both.
 
 These layers do not certify buildings, entrances, routes or safe land. FEMA shelters
 are an all-incident source and do not become earthquake-, fire- or flood-specific
@@ -62,7 +74,9 @@ distinct from an absence of hazard.
 ## Offline copies
 
 All 15 short plans are embedded. The chosen county outline, existing tsunami
-geometry and original facility/contact directory remain available. Eligible recent
+geometry, original facility/contact directory and the chosen county's loaded
+public library/clinic file remain available. Other county service files are
+explicitly unavailable in that saved copy. Eligible recent
 planning snapshots loaded for the chosen city can also be embedded, including
 the coastal image and its georeferenced bounds. Forecasts, issued alerts, live
 shelters, street tiles and new CGS seismic extracts are excluded. The saved copy

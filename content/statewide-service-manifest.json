@@ -1,0 +1,808 @@
+{
+  "schema": 1,
+  "edition": "ca-services-20261103",
+  "checked": "2026-11-03",
+  "fields": [
+    "id",
+    "name",
+    "kind",
+    "address",
+    "city",
+    "county",
+    "lat",
+    "lng",
+    "source",
+    "url",
+    "aliases"
+  ],
+  "sources": {
+    "imls-library": {
+      "title": "IMLS FY2024 public library outlets",
+      "url": "https://www.imls.gov/research-evaluation/surveys/public-libraries-survey-pls",
+      "published": "2026-06",
+      "checked": "2026-11-03",
+      "note": "FY2024 directory; published June2026. Stationary branches/central libraries only. Annual survey hours are not a current schedule. Individual visitor rules, internet/charging, current operation and emergency use need confirmation."
+    },
+    "hrsa-clinic": {
+      "title": "HRSA permanent community health service sites",
+      "url": "https://findahealthcenter.hrsa.gov/",
+      "published": null,
+      "checked": "2026-11-03",
+      "note": "Listed Active permanent service-delivery sites, excluding school/hospital settings, mobile/seasonal/admin-only and restricted-name sites. Active is a directory attribute, not current opening, accepting patients or disaster operation. Publisher-wide data edit date not supplied."
+    }
+  },
+  "defaults": {
+    "library": {
+      "detail": "Public library directory location. Confirm current branch services and visitor rules; not a designated cooling, warming, charging or evacuation site.",
+      "visit": {
+        "hours": null,
+        "eligibility": "Check current visitor, card and computer requirements with the library system.",
+        "cost": "Fees and available services vary.",
+        "accessibility": null,
+        "activation": "Ordinary library listing; no emergency activation confirmed.",
+        "capacity": null
+      }
+    },
+    "clinic": {
+      "detail": "Community clinic directory location. Confirm appointments, services and enrollment; not a hospital emergency department or a disaster treatment designation.",
+      "visit": {
+        "hours": null,
+        "eligibility": "Ask the provider about appointments, enrollment, department and patient requirements.",
+        "cost": "Confirm fees, insurance and assistance with the provider.",
+        "accessibility": null,
+        "activation": "Ordinary clinic listing; no disaster operation confirmed.",
+        "capacity": null
+      }
+    }
+  },
+  "excluded": {
+    "library_mobile_mail_closed_future_nonrespondent": 117,
+    "library_imprecise_geocode": 6,
+    "duplicate_service_address": 146,
+    "library_known_permanent_building_closure": 1,
+    "newer_provider_record_preferred": 2,
+    "clinic_restricted_or_unlocated": 25
+  },
+  "inputReceipts": {
+    "imls": {
+      "url": "https://www.imls.gov/sites/default/files/2026-06/pls_fy2024_csv.zip",
+      "bytes": 3571467,
+      "sha256": "6aad0913b6630879f0f859e4b54cd062b3c6e9853218153ca5e4aa2d678a11e7",
+      "outletFile": "CSV/pls_fy24_outlet_pud24i.csv",
+      "outletSha256": "314c9eeec36b95c9edca860be2ccefa7496993482f781a50e9a1146f06ba5a80",
+      "fiscalYear": 2024,
+      "release": "2026-06",
+      "documentation": "https://www.imls.gov/sites/default/files/2026-06/PublicLibrariesSurvey_FiscalYear2024_DataDocumentationandUsersGuide.pdf",
+      "documentationPages": [
+        8,
+        59,
+        101
+      ]
+    },
+    "hrsa": {
+      "service": "https://gisportal.hrsa.gov/server/rest/services/HealthCareFacilities/PrimaryHealthCareFacilities_FS/MapServer/0",
+      "where": "SITE_STATE_ABBR='CA' AND HCC_STATUS_DESC='Active' AND HCC_LOC_DESC='Permanent' AND HCC_LOC_SETTING_DESC='All Other Clinic Types' AND HCC_TYP_DESC IN ('Service Delivery Site','Administrative/Service Delivery Site')",
+      "dataEditDate": null,
+      "queries": [
+        {
+          "url": "https://gisportal.hrsa.gov/server/rest/services/HealthCareFacilities/PrimaryHealthCareFacilities_FS/MapServer/0/query?f=geojson&where=SITE_STATE_ABBR%3D%27CA%27+AND+HCC_STATUS_DESC%3D%27Active%27+AND+HCC_LOC_DESC%3D%27Permanent%27+AND+HCC_LOC_SETTING_DESC%3D%27All+Other+Clinic+Types%27+AND+HCC_TYP_DESC+IN+%28%27Service+Delivery+Site%27%2C%27Administrative%2FService+Delivery+Site%27%29&outFields=OBJECTID%2CSITE_SOURCE_ID%2CSITE_NM%2CSITE_ADDRESS%2CSITE_CITY%2CSITE_STATE_ABBR%2CSTATE_COUNTY_FIPS_CD%2CSITE_URL&returnGeometry=true&outSR=4326&geometryPrecision=6&resultOffset=0&resultRecordCount=2000",
+          "sha256": "7743074157ec40f81572a58b1d5b8293da06386841393dd1707e2245bbc8217e",
+          "bytes": 743142,
+          "records": 2000
+        },
+        {
+          "url": "https://gisportal.hrsa.gov/server/rest/services/HealthCareFacilities/PrimaryHealthCareFacilities_FS/MapServer/0/query?f=geojson&where=SITE_STATE_ABBR%3D%27CA%27+AND+HCC_STATUS_DESC%3D%27Active%27+AND+HCC_LOC_DESC%3D%27Permanent%27+AND+HCC_LOC_SETTING_DESC%3D%27All+Other+Clinic+Types%27+AND+HCC_TYP_DESC+IN+%28%27Service+Delivery+Site%27%2C%27Administrative%2FService+Delivery+Site%27%29&outFields=OBJECTID%2CSITE_SOURCE_ID%2CSITE_NM%2CSITE_ADDRESS%2CSITE_CITY%2CSITE_STATE_ABBR%2CSTATE_COUNTY_FIPS_CD%2CSITE_URL&returnGeometry=true&outSR=4326&geometryPrecision=6&resultOffset=2000&resultRecordCount=2000",
+          "sha256": "e80f35b469c71e5d3e8d2b19b5b887dc620ad399a864a602d9ff56295067ca05",
+          "bytes": 84837,
+          "records": 225
+        }
+      ],
+      "countyNormalization": "Census California odd county FIPS 001..115 -> existing CDTFA alphabetical county IDs 01..58; not the final two FIPS digits."
+    }
+  },
+  "knownClosureSources": [
+    {
+      "url": "https://www.lapl.org/branches/palisades",
+      "checked": "2026-11-03",
+      "note": "Historical permanent building excluded; temporary service requires its own verified point."
+    }
+  ],
+  "count": 3164,
+  "byKind": {
+    "library": 1110,
+    "clinic": 2054
+  },
+  "counties": {
+    "01": {
+      "path": "/assets/data/service-maps/01.json",
+      "count": 130,
+      "localCount": 130,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 46,
+        "clinic": 84
+      },
+      "bytes": 21534,
+      "sha256": "a9dbb9a1fc23cb91a1d93f3928ead17d0c633f94001cf79f8040b8384a2cb0f2"
+    },
+    "02": {
+      "path": "/assets/data/service-maps/02.json",
+      "count": 5,
+      "localCount": 2,
+      "regionalFallbackCount": 3,
+      "byKind": {
+        "library": 2
+      },
+      "bytes": 933,
+      "sha256": "0db730ad1fe4f1b3196983fc2482af46893779e74ef51a5cd05204e6f733dd54"
+    },
+    "03": {
+      "path": "/assets/data/service-maps/03.json",
+      "count": 6,
+      "localCount": 6,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 5,
+        "clinic": 1
+      },
+      "bytes": 906,
+      "sha256": "2d0a03c9235c7e33011e2cfc30a74e700b542ccd77bcb76d2ae311f400e4f9ec"
+    },
+    "04": {
+      "path": "/assets/data/service-maps/04.json",
+      "count": 13,
+      "localCount": 13,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 6,
+        "clinic": 7
+      },
+      "bytes": 2123,
+      "sha256": "40889f769585e251fbf2f5475788760f2337093705c5c9aadcecd3e3ba8acd04"
+    },
+    "05": {
+      "path": "/assets/data/service-maps/05.json",
+      "count": 10,
+      "localCount": 7,
+      "regionalFallbackCount": 3,
+      "byKind": {
+        "library": 7
+      },
+      "bytes": 1574,
+      "sha256": "6758760e5aee702dd1370fd5c60e1303ce805aebfb0d3a461f7ac787978108da"
+    },
+    "06": {
+      "path": "/assets/data/service-maps/06.json",
+      "count": 9,
+      "localCount": 9,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 7,
+        "clinic": 2
+      },
+      "bytes": 1328,
+      "sha256": "9aff1d0e7b98050b7c30f73eed23ab802bfa9597b842714e8a8d18649b5dd4c7"
+    },
+    "07": {
+      "path": "/assets/data/service-maps/07.json",
+      "count": 59,
+      "localCount": 59,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 29,
+        "clinic": 30
+      },
+      "bytes": 9912,
+      "sha256": "f93253daaf62bb9cdfcdb67960904b579c4321df2a3af23f3dd61f16c286a546"
+    },
+    "08": {
+      "path": "/assets/data/service-maps/08.json",
+      "count": 4,
+      "localCount": 4,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 2,
+        "clinic": 2
+      },
+      "bytes": 717,
+      "sha256": "2080d97792759fb92791ebcadc1524a0a6ca8331ef13bc6161acf07511c42368"
+    },
+    "09": {
+      "path": "/assets/data/service-maps/09.json",
+      "count": 10,
+      "localCount": 10,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 6,
+        "clinic": 4
+      },
+      "bytes": 1782,
+      "sha256": "5c6ca4435bb75dc26286d62793158cd4ee21a17da6f3dc671cf85ace8d1c63d9"
+    },
+    "10": {
+      "path": "/assets/data/service-maps/10.json",
+      "count": 118,
+      "localCount": 118,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 36,
+        "clinic": 82
+      },
+      "bytes": 20675,
+      "sha256": "00b9e3666b26cd372554bcbdd96cb60250ffa7d2a687d0e7274252234af531d8"
+    },
+    "11": {
+      "path": "/assets/data/service-maps/11.json",
+      "count": 7,
+      "localCount": 7,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 5,
+        "clinic": 2
+      },
+      "bytes": 1122,
+      "sha256": "09e98899b6a59d4aa9e29bb81e64e32157600353c081bd2bcc0947a002cf6288"
+    },
+    "12": {
+      "path": "/assets/data/service-maps/12.json",
+      "count": 31,
+      "localCount": 31,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 11,
+        "clinic": 20
+      },
+      "bytes": 5096,
+      "sha256": "6dd2e4332ef1ca37c2acee8cf839807c76545f7b09d43ad124d3e50f54feaaa9"
+    },
+    "13": {
+      "path": "/assets/data/service-maps/13.json",
+      "count": 18,
+      "localCount": 18,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 10,
+        "clinic": 8
+      },
+      "bytes": 2802,
+      "sha256": "96950142e053654b67420b8ea4fef53de2e02b0545c1c8be9f7c591bb84b9336"
+    },
+    "14": {
+      "path": "/assets/data/service-maps/14.json",
+      "count": 8,
+      "localCount": 8,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 6,
+        "clinic": 2
+      },
+      "bytes": 1280,
+      "sha256": "028fc4b449487143d86fb948bf8749a87077aac0d3c5d92cf1d87dd583dccce8"
+    },
+    "15": {
+      "path": "/assets/data/service-maps/15.json",
+      "count": 86,
+      "localCount": 86,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 23,
+        "clinic": 63
+      },
+      "bytes": 15423,
+      "sha256": "067a96923e1664e3246dbd63dda6d1b6701eaf89680f696f01b9d35b88e62e1d"
+    },
+    "16": {
+      "path": "/assets/data/service-maps/16.json",
+      "count": 23,
+      "localCount": 23,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 7,
+        "clinic": 16
+      },
+      "bytes": 4132,
+      "sha256": "104b4e0153f5227be504261c6cf3e8533e4d17d170af6021aa3a71d1970fb061"
+    },
+    "17": {
+      "path": "/assets/data/service-maps/17.json",
+      "count": 5,
+      "localCount": 5,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 4,
+        "clinic": 1
+      },
+      "bytes": 779,
+      "sha256": "a777d77eca140985329ad17d5f9db3e37688ea8a3d8bcc989cd55333692c163f"
+    },
+    "18": {
+      "path": "/assets/data/service-maps/18.json",
+      "count": 4,
+      "localCount": 4,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 1,
+        "clinic": 3
+      },
+      "bytes": 793,
+      "sha256": "0a6dba04562a9727a1f0bc954a41d55f07bf097a514bc92a1874789d5159e2e8"
+    },
+    "19": {
+      "path": "/assets/data/service-maps/19.json",
+      "count": 828,
+      "localCount": 828,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 244,
+        "clinic": 584
+      },
+      "bytes": 148168,
+      "sha256": "2ee8d239388e15e0a64d522ab04a8aa9699c06bdac0d009fe8331977f5e8906a"
+    },
+    "20": {
+      "path": "/assets/data/service-maps/20.json",
+      "count": 27,
+      "localCount": 27,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 5,
+        "clinic": 22
+      },
+      "bytes": 4849,
+      "sha256": "9c9d510436d0e78729bedd5a2fd13e1300eec014b9ab65f833f2e96de8767eaf"
+    },
+    "21": {
+      "path": "/assets/data/service-maps/21.json",
+      "count": 35,
+      "localCount": 35,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 18,
+        "clinic": 17
+      },
+      "bytes": 5822,
+      "sha256": "2060be0172d8984448d84b765fc9f3e28246d4156c42b373e6e6359b2be5e1b8"
+    },
+    "22": {
+      "path": "/assets/data/service-maps/22.json",
+      "count": 5,
+      "localCount": 5,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 4,
+        "clinic": 1
+      },
+      "bytes": 829,
+      "sha256": "85fca5ceae1cc9032e258132c7f4c58374cda5456d31dad55f111bee861861a4"
+    },
+    "23": {
+      "path": "/assets/data/service-maps/23.json",
+      "count": 24,
+      "localCount": 24,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 6,
+        "clinic": 18
+      },
+      "bytes": 4302,
+      "sha256": "f9aeff81650e2cd8f32973dd5d1d754f44ef768ef5711e193fc696a81896b382"
+    },
+    "24": {
+      "path": "/assets/data/service-maps/24.json",
+      "count": 34,
+      "localCount": 34,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 11,
+        "clinic": 23
+      },
+      "bytes": 5765,
+      "sha256": "351e380c46c39647ad5130113747fecaf6255d87a6201af72b8347c7e87af255"
+    },
+    "25": {
+      "path": "/assets/data/service-maps/25.json",
+      "count": 7,
+      "localCount": 4,
+      "regionalFallbackCount": 3,
+      "byKind": {
+        "library": 4
+      },
+      "bytes": 1168,
+      "sha256": "0a41acdd951ebdafe0321150901c2c27a330444656b3861916809dfd7143158a"
+    },
+    "26": {
+      "path": "/assets/data/service-maps/26.json",
+      "count": 10,
+      "localCount": 7,
+      "regionalFallbackCount": 3,
+      "byKind": {
+        "library": 7
+      },
+      "bytes": 1524,
+      "sha256": "95a299770315717581e25c6cce0405d446ac696b928ab07beb2c4071792c689e"
+    },
+    "27": {
+      "path": "/assets/data/service-maps/27.json",
+      "count": 47,
+      "localCount": 47,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 23,
+        "clinic": 24
+      },
+      "bytes": 7788,
+      "sha256": "a7e8971563a0374b34f57857748daff9ad48180cab5a67ca6ed1018891ccf751"
+    },
+    "28": {
+      "path": "/assets/data/service-maps/28.json",
+      "count": 11,
+      "localCount": 11,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 5,
+        "clinic": 6
+      },
+      "bytes": 1791,
+      "sha256": "03500b7fa87f60c1ea02f9ef67764f4d2df916254c1c9d31453c29b4db0ade2d"
+    },
+    "29": {
+      "path": "/assets/data/service-maps/29.json",
+      "count": 14,
+      "localCount": 14,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 6,
+        "clinic": 8
+      },
+      "bytes": 2400,
+      "sha256": "b656e6fde46ff16cfff90ea9f6cad08591381576215c7c66ce4bb773862c6772"
+    },
+    "30": {
+      "path": "/assets/data/service-maps/30.json",
+      "count": 166,
+      "localCount": 166,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 62,
+        "clinic": 104
+      },
+      "bytes": 29562,
+      "sha256": "7d7f396ad3bc551882215ef54b86d9913741105f1547d8271c1f4086defe6b43"
+    },
+    "31": {
+      "path": "/assets/data/service-maps/31.json",
+      "count": 19,
+      "localCount": 19,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 12,
+        "clinic": 7
+      },
+      "bytes": 3137,
+      "sha256": "de47b9d4339d905e0f3fdd312ed2b09ffd69bbf856b853952510d0a40c3d87cf"
+    },
+    "32": {
+      "path": "/assets/data/service-maps/32.json",
+      "count": 7,
+      "localCount": 4,
+      "regionalFallbackCount": 3,
+      "byKind": {
+        "library": 4
+      },
+      "bytes": 1168,
+      "sha256": "181a4fecc8aac66021c0ad77088b07b45e291644349ce9da82d37a5478ffc9e5"
+    },
+    "33": {
+      "path": "/assets/data/service-maps/33.json",
+      "count": 137,
+      "localCount": 137,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 52,
+        "clinic": 85
+      },
+      "bytes": 23530,
+      "sha256": "7c1f64e9d69b0178d4df1874ae9ab3acf2c5ed1321973e47ded5f4b3317c59e5"
+    },
+    "34": {
+      "path": "/assets/data/service-maps/34.json",
+      "count": 80,
+      "localCount": 80,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 29,
+        "clinic": 51
+      },
+      "bytes": 14125,
+      "sha256": "3eade7ec91871ff23bc4213aed77d50aeff6a32f9d72875b5230780f03a1014c"
+    },
+    "35": {
+      "path": "/assets/data/service-maps/35.json",
+      "count": 2,
+      "localCount": 2,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 1,
+        "clinic": 1
+      },
+      "bytes": 372,
+      "sha256": "4b6e1d034e01d3bf38270c1878ac000b5ea07dd63b49cccfcd64d0cebb1fe8f3"
+    },
+    "36": {
+      "path": "/assets/data/service-maps/36.json",
+      "count": 103,
+      "localCount": 103,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 45,
+        "clinic": 58
+      },
+      "bytes": 17477,
+      "sha256": "9ef809ca5269c7300f5e93758b8ab79af2208a915671a53d180465c24cb74402"
+    },
+    "37": {
+      "path": "/assets/data/service-maps/37.json",
+      "count": 276,
+      "localCount": 276,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 83,
+        "clinic": 193
+      },
+      "bytes": 46650,
+      "sha256": "472a5e8554dca950c433c25f6665e01c78855b42c0ed96e7b078fdd4cc6f7b7e"
+    },
+    "38": {
+      "path": "/assets/data/service-maps/38.json",
+      "count": 98,
+      "localCount": 98,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 28,
+        "clinic": 70
+      },
+      "bytes": 16902,
+      "sha256": "c902aebd55cc026a315907053665715a1c69b5647cafb2c42063473100a6bfb5"
+    },
+    "39": {
+      "path": "/assets/data/service-maps/39.json",
+      "count": 44,
+      "localCount": 44,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 17,
+        "clinic": 27
+      },
+      "bytes": 7467,
+      "sha256": "e6780a83d7f19761cf447da89910a0d927d0fdfbd3ffe58b7e47404f16fc6c78"
+    },
+    "40": {
+      "path": "/assets/data/service-maps/40.json",
+      "count": 31,
+      "localCount": 31,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 16,
+        "clinic": 15
+      },
+      "bytes": 4923,
+      "sha256": "7f2ae0396310856efcd81d628c2bd601643373c7d691507e39feed5c1047d513"
+    },
+    "41": {
+      "path": "/assets/data/service-maps/41.json",
+      "count": 59,
+      "localCount": 59,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 31,
+        "clinic": 28
+      },
+      "bytes": 9588,
+      "sha256": "6edf69eb392695300dba59593ff843ace52c9ee3982b3ff800ac6d801ab2a4ff"
+    },
+    "42": {
+      "path": "/assets/data/service-maps/42.json",
+      "count": 55,
+      "localCount": 55,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 14,
+        "clinic": 41
+      },
+      "bytes": 9395,
+      "sha256": "54ce11ba37a8a38a31ad0defa4afad5124016d4280a6646d45f66511b48dcf38"
+    },
+    "43": {
+      "path": "/assets/data/service-maps/43.json",
+      "count": 118,
+      "localCount": 118,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 44,
+        "clinic": 74
+      },
+      "bytes": 20361,
+      "sha256": "d754bbe5fea24cbe0d6443f29a06d87009371caa33e9156020e3a170b7aadab4"
+    },
+    "44": {
+      "path": "/assets/data/service-maps/44.json",
+      "count": 35,
+      "localCount": 35,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 11,
+        "clinic": 24
+      },
+      "bytes": 6022,
+      "sha256": "f3e81169b7fddb580a032baf25c78433994c000356edda2b8a56ef60e4c40fe7"
+    },
+    "45": {
+      "path": "/assets/data/service-maps/45.json",
+      "count": 26,
+      "localCount": 26,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 3,
+        "clinic": 23
+      },
+      "bytes": 4693,
+      "sha256": "b1d521c35cf2f606bcce92978ff04ab20ecc77b9299677af5acfbaf7d8b49d77"
+    },
+    "46": {
+      "path": "/assets/data/service-maps/46.json",
+      "count": 4,
+      "localCount": 4,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 3,
+        "clinic": 1
+      },
+      "bytes": 666,
+      "sha256": "9892876970a8589275e7480675939a020383903d5f607fc2842fff9eaafdb14b"
+    },
+    "47": {
+      "path": "/assets/data/service-maps/47.json",
+      "count": 22,
+      "localCount": 22,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 9,
+        "clinic": 13
+      },
+      "bytes": 3722,
+      "sha256": "0a010fd1cc245a108a762d9f95f0028e136ebd6d0ba40a2c7ce0d9d0488d851f"
+    },
+    "48": {
+      "path": "/assets/data/service-maps/48.json",
+      "count": 25,
+      "localCount": 25,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 10,
+        "clinic": 15
+      },
+      "bytes": 4435,
+      "sha256": "d2f41d0bd83663aee91e2c8469b0a5a76e0f212cde9ec36540780c0a966ee346"
+    },
+    "49": {
+      "path": "/assets/data/service-maps/49.json",
+      "count": 47,
+      "localCount": 47,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 15,
+        "clinic": 32
+      },
+      "bytes": 8210,
+      "sha256": "34d85d20669f7a8f51df8ea7bfbd6433356e899e5796ece3466c9194fae66733"
+    },
+    "50": {
+      "path": "/assets/data/service-maps/50.json",
+      "count": 52,
+      "localCount": 52,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 13,
+        "clinic": 39
+      },
+      "bytes": 8746,
+      "sha256": "e610f72b5c56f3508fc8e336cf01e182b08554e8e53b4475c5ca509aeaf03455"
+    },
+    "51": {
+      "path": "/assets/data/service-maps/51.json",
+      "count": 10,
+      "localCount": 10,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 3,
+        "clinic": 7
+      },
+      "bytes": 1690,
+      "sha256": "4592d9adef57e12696da6c0c51ead4950e4613d1fa8ccb7e674b27bfe7c0520d"
+    },
+    "52": {
+      "path": "/assets/data/service-maps/52.json",
+      "count": 6,
+      "localCount": 6,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 3,
+        "clinic": 3
+      },
+      "bytes": 1067,
+      "sha256": "0cdc0aa208d5df81cf60f2b1f05dd925ca2cf71a8b70eea1c1880cfc5b8a67d5"
+    },
+    "53": {
+      "path": "/assets/data/service-maps/53.json",
+      "count": 5,
+      "localCount": 5,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 3,
+        "clinic": 2
+      },
+      "bytes": 870,
+      "sha256": "25f81566d1a8e81714d8108b99f2f61185afa1c9dcaf72589bb3add6bc12cbf7"
+    },
+    "54": {
+      "path": "/assets/data/service-maps/54.json",
+      "count": 76,
+      "localCount": 76,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 19,
+        "clinic": 57
+      },
+      "bytes": 13609,
+      "sha256": "a4f8744181205b3f6accc9903b1d979850ad0d51e8de1327557c5081aa68d9d0"
+    },
+    "55": {
+      "path": "/assets/data/service-maps/55.json",
+      "count": 7,
+      "localCount": 4,
+      "regionalFallbackCount": 3,
+      "byKind": {
+        "library": 4
+      },
+      "bytes": 1160,
+      "sha256": "a28d80ca355d9d1cab1d53993ce4f3415417832031a4ce5d6d934a382f71e683"
+    },
+    "56": {
+      "path": "/assets/data/service-maps/56.json",
+      "count": 58,
+      "localCount": 58,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 21,
+        "clinic": 37
+      },
+      "bytes": 9660,
+      "sha256": "69af5fa22a9f6578f0976c6cfc7020b18e2ecee23b7b1d79007a2ed31818901d"
+    },
+    "57": {
+      "path": "/assets/data/service-maps/57.json",
+      "count": 17,
+      "localCount": 17,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 8,
+        "clinic": 9
+      },
+      "bytes": 2728,
+      "sha256": "abfc852f85be8d5a884bbea9c9f29dcc03255f9c46c6ca858cb8b5b37350d6ce"
+    },
+    "58": {
+      "path": "/assets/data/service-maps/58.json",
+      "count": 9,
+      "localCount": 9,
+      "regionalFallbackCount": 0,
+      "byKind": {
+        "library": 1,
+        "clinic": 8
+      },
+      "bytes": 1722,
+      "sha256": "fc0268d6dec0579f4437dbf438250e001d8a5ffeb93093c5122f78db05a8f234"
+    }
+  },
+  "totalBytes": 550974
+}

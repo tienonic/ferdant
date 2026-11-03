@@ -69,6 +69,6 @@ module.exports = async function checkPhoneDirectory(page, width) {
   await page.locator('.phone-toggle').click();await page.locator('.phone-toggle').click();
   assert.equal(await page.locator('#city-map .leaflet-control-zoom').count(),1,'Reopening must reuse the same map');
   assert(await page.evaluate(()=>localStorage.length===0 && sessionStorage.length===0));
-  assert.deepEqual(network,[],'City changes may request only public map geometry and street tiles');
+  assert.deepEqual(network,[],'City changes may request only public regional map/service files and street tiles');
  } finally {page.off('request',listener);}
 };

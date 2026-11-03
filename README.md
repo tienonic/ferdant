@@ -28,7 +28,10 @@ The deployed main branch remains the maintenance page until a fuller release is 
 - `content/resource-map.json`, `content/map-data-manifest.json`: dated public facilities, map source limits and exact geometry receipts.
 - `assets/data/city-maps/`: 58 compact county files, covering all 483 indexed city boundaries and 20 counties with official tsunami planning areas.
 - `scripts/resource_map.py`, `resource-map.js`: result-page map, everyday resources and 15 directly accessible, labelled disaster symbols. Changing a plan replaces the previous GIS overlay and resource pins. FEMA shelters are queried for applicable response plans; street tiles are online only.
-- `content/physical-services.json`, `scripts/physical_services.py`: public service categories, reviewed local visits, county-service areas and explicit unknown hours/access/capacity. Referral-only, confidential and unlocated records never become pins. New details currently cover a checked Yolo County subset; other counties retain the dated hospital directory.
+- `content/physical-services.json`, `scripts/physical_services.py`: public service categories, reviewed local visits, county-service areas and explicit unknown hours/access/capacity. Referral-only, confidential and unlocated records never become pins. Provider-checked visit details remain a Yolo subset; statewide IMLS library and HRSA clinic files augment all California city/county choices.
+- `assets/data/service-maps/`, `content/statewide-service-manifest.json`: 58 compact county files with 1,110 FY2024 library and 2,054 permanent community-clinic points, source hashes and explicit regional fallbacks. Only the selected county file loads; exports retain that county.
+- `service-resources.js`, `content/resource_plans.py`: local/nearby resource selection, unique SVG map symbols and resource roles for every one of the 15 disasters. Ordinary services remain distinct from current activation.
+- `scripts/project-statewide-services.py`: manual projection from local official raw inputs; never runs in builds or on a schedule.
 - `content/physical-service-manifest.json`: source and coordinate receipts, with unmatched and pending categories preserved.
 - `content/disasters.py`, `disaster-layers.js`: three-step plans, primary-source GIS registry, bounded on-demand queries, valid-time checks and eligible offline planning snapshots. Weather and shelter status are never frozen as current in an offline copy.
 - `content/disaster-source-manifest.json`, `scripts/audit-disaster-sources.py`: manual metadata receipt for the 13 official service endpoints. The builder runs no importer, audit or scheduler.
@@ -51,6 +54,8 @@ npm.cmd run build
 npm.cmd run verify:responsive
 node tests/resource-map.cjs
 npm.cmd run verify:disasters
+npm.cmd run verify:services
+npm.cmd run verify:statewide
 ```
 
 Keep the local server running for browser checks. They test all 16 pages at 320, 390, 768 and

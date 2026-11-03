@@ -2,6 +2,8 @@
 import json
 import math
 from pathlib import Path
+from icons import icon
+import importlib.util
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -45,7 +47,16 @@ def add_physical_services(data, catalog=None):
     data['facilities'] = [{k:v for k,v in item.items() if k in public} for item in selected]
     data['sources'].update(catalog['sources'])
     data['serviceTypes'] = catalog['categories']
+    for kind, category in data['serviceTypes'].items():
+        category['icon'] = icon('resource-'+kind)
     data['resourceGroups'] = catalog['groups']
     data['serviceCoverage'] = catalog['coverage']
     data['serviceChecked'] = catalog['checked']
+    manifest = json.loads((ROOT/'content/statewide-service-manifest.json').read_text(encoding='utf-8'))
+    data['sources'].update(manifest['sources'])
+    data['serviceDirectory'] = {k:manifest[k] for k in ('schema','edition','checked','fields','defaults','counties','count','byKind')}
+    spec = importlib.util.spec_from_file_location('resource_plans', ROOT/'content/resource_plans.py')
+    plans = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(plans)
+    data['resourcePlans'] = plans.PLANS
     return data
