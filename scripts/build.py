@@ -59,29 +59,37 @@ def location_start():
  return f'''<section class="location-start" id="location-start" aria-labelledby="location-title">
  <h2 id="location-title">Start with your location</h2>
  {city_search()}
- <div class="location-controls"><div class="phone-city-control" data-enhancement hidden><label for="location-city">City or county in California</label><select id="location-city" data-location-select aria-describedby="location-summary"><option value="">California-wide resources</option></select></div>
- <div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><small>One file: phone numbers, guides & tools</small><p id="location-download-status" role="status"></p></div></div>
+ <div class="location-controls"><div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><small>One file: phone numbers, guides & tools</small><p id="location-download-status" role="status"></p></div></div>
  <p id="location-summary" role="status">Choose a city or county for checked local contacts. You can browse general resources below.</p>
  {city_map(include_search=False)}
  <noscript><p>City selection needs JavaScript. California-wide phone numbers and the standard offline copy remain available below.</p></noscript>
  </section>
- <section class="location-resources" id="location-resources" aria-labelledby="location-results-title" hidden>
+'''
+
+def local_results():
+ return ''' <section class="location-resources" id="location-resources" aria-labelledby="location-results-title" hidden>
  <header><h2 id="location-results-title">Local resources</h2><a href="#local-essentials">All saved phone numbers</a></header>
  <p id="location-coverage" class="portal-description"></p><ul id="location-links"></ul><p id="location-alert"></p>
  <details class="location-notes"><summary>Service details & sources</summary><div id="location-notes"></div></details>
  <p class="location-source-note">Contacts checked November 2, 2026. Calls and texts need phone service. For immediate danger, call 911.</p></section>'''
 
+def infographic_panel():
+ return f'''<section class="infographic-download" id="offline-download" aria-labelledby="infographic-title"><div><h2 id="infographic-title">Take the essentials with you</h2><p>A clear contact sheet for your location. Save it on your phone or print a copy.</p><button type="button" class="button" id="download-infographic" data-enhancement hidden>Download contact sheet (PNG)</button><p id="infographic-status" role="status"></p><div class="phone-actions"><a href="{DOWNLOAD}" data-city-download download>Download the complete offline website</a><p role="status"></p></div><p class="fine-print">The complete copy also includes maps, four tools, three guides and full source details. Calls need phone service.</p></div><figure><img id="infographic-preview" alt="Preview of the local and California-wide contact sheet"><figcaption>Your downloadable contact sheet</figcaption></figure></section>'''
+
 def inline_sources(g):
  sources=''.join(f'<li><a href="{e(url)}">{e(name)}</a><span>{e(date)}</span></li>' for name,url,date in g['sources'])
  return f'<div class="inline-sources"><p>{g["scope"]}</p><ul>{sources}</ul><p>Sources checked November 2, 2026. <a href="/sources-and-corrections/">Corrections</a>.</p></div>'
 
-def home():
+def home(local=False):
  sections=''.join(directory_topic(b) for b in c.BRANCHES)
  bill,cancel,message=c.GUIDES
  bill_tool=tool(bill,heading=3)
- page('/','Practical guides for everyday problems','A directory of practical resources, tools and California emergency and support phone numbers, with city selection and a downloadable offline copy.',f'''
- <div class="portal-heading"><div><h1>Resources & tools</h1><p>Choose your location. Find your next step.</p></div></div>
- {location_start()}
+ intro='<a href="/" class="change-place-link">Search another California location</a><h1 id="local-page-title">California resources</h1><p id="local-page-intro">Checked contacts, public resources and an offline copy.</p>' if local else '<h1>Resources & tools</h1><p>Choose your California location. Find your next step.</p>'
+ start=('<details class="change-location"><summary>Change location</summary>'+location_start()+'</details>') if local else location_start()
+ page('/local/' if local else '/','Local resources' if local else 'Practical guides for everyday problems','Checked California location resources, shared support numbers, public guides and a downloadable contact-sheet infographic with a complete offline website.' if local else 'A directory of practical resources, tools and California emergency and support phone numbers, with city selection and a downloadable offline copy.',f'''
+ <div class="portal-heading"{ ' data-location-page' if local else ' data-location-routing'}><div>{intro}</div></div>
+ {start}
+{infographic_panel()+local_results() if local else ""}
  <div class="resource-heading"><div><h2>Browse by need</h2><p>General guides & public services. Eligibility and service areas vary.</p></div></div>
  <div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{phone_chart(include_map=False)}{sections}</div>
  <dialog id="tool-dialog" aria-labelledby="tool-dialog-title"><div class="tool-dialog-header"><div class="tool-dialog-name"><span id="tool-dialog-icon" aria-hidden="true">{icon("tools")}</span><h2 id="tool-dialog-title">Quick tools</h2></div><button type="button" class="tool-dialog-close" data-close-tool aria-label="Close tool">{icon("close")}<span>Close</span></button></div><div class="tool-dialog-body">
@@ -115,18 +123,18 @@ def information():
  info('/about/','About Ferdant','Ferdant brings five practical-help communities into one place. Each has its own topic, its own questions and its own conversation.','''<h2>Read a guide</h2><p>The guides help you check a bill, keep a cancellation record or write a question to a business. You can read every page without joining a community.</p><h2>Five topics</h2><p>Connectivity includes providers and installation. Repair includes specialist services and follow-up. Utilities includes energy, water and continuity. Money includes contracts, forms and administration. Preparedness includes practical planning and recovery.</p><h2>Check the sources</h2><p>We link public guidance and show when we checked it. A community experience can help without establishing what will happen in your situation. Pages should make that distinction visible.</p><h2>Community discussion</h2><p>The communities support peer discussion. A reply, professional referral, correction or response time is not guaranteed. Account decisions remain with the responsible organization.</p><h2>A separate campus purpose.</h2><p>AggieBillHelp is the separate UC Davis campus community for student money and paperwork questions. It is not the name or scope of all five Ferdant branches. These pages do not imply a university affiliation or official campus service.</p><a class="inline-link" href="/#communities">Explore the five communities ↗</a>''')
  correction=''.join(f'<li><a href="https://www.reddit.com/message/compose/?to=%2Fr%2F{b["name"]}">{b["name"]} moderator mail ↗</a></li>' for b in c.BRANCHES)
  info('/sources-and-corrections/','Sources & corrections','A useful guide makes it easy to check a claim and flag what needs another look.',f'''<h2>What the dates mean</h2><p>We link the original publisher where possible. The publisher’s date and our source-check date are different: a recent check does not make an older source newly published. Missing source dates remain explicit.</p><h2>What these pages can support</h2><p>These are original practical summaries and working tools, not a republished archive of community conversations. Calculations state their assumptions.</p><h2>Suggest a correction</h2><p>Send the page URL, exact statement, reason it may be wrong and a supporting public source to the relevant community’s moderator mail. Do not include private documents or account access. Reddit may require sign-in. Review timing is not promised.</p><ul>{correction}</ul><h2>Check what applies</h2><p>Check the source, location and service before relying on a page. Material corrections should record what changed and when.</p>''')
- info('/privacy/','Privacy','You do not need an account to read these pages.','''<h2>Tools work in your browser</h2><p>Search terms, bill totals, change breakdowns, cancellation selections and message-builder notes are used in the open page only. This site does not send them to a server, save them to local storage or set tracking cookies. The site keeps no saved copy of tool inputs. Copying a template uses your clipboard only after you press the copy button.</p><h2>Choosing a city and downloading</h2><p>City choices and service searches stay in the browser. An explicit city download fetches a standard offline file and adds your chosen city locally. It includes the city and its saved contact chart, without copying private tool notes or the service filter. The file remembers the city chosen at download; later choices in an open file last until it closes.</p><h2>Hosting and outside links</h2><p>The public site uses GitHub Pages. Hosting providers may process technical request information. See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub’s privacy statement</a>. Reddit and agency links lead to services with their own policies.</p><h2>No document uploads</h2><p>There is no upload form here. Keep identity documents, account numbers, credentials and case records out of public discussions. Use a verified private process when the task requires those details.</p>''')
+ info('/privacy/','Privacy','You do not need an account to read these pages.','''<h2>Tools work in your browser</h2><p>Search terms, bill totals, change breakdowns, cancellation selections and message-builder notes are used in the open page only. This site does not send them to a server, save them to local storage or set tracking cookies. The site keeps no saved copy of tool inputs. Copying a template uses your clipboard only after you press the copy button.</p><h2>Choosing a city and downloading</h2><p>Autocomplete runs locally. Opening a location resource page puts its public city/county ID in the page URL, which the host may log. Service filters and private tool inputs stay in the browser. Contact-sheet images are generated locally from the saved public directory. An explicit city download fetches a standard offline file and adds your chosen city locally. It includes the city and its saved contact chart, without copying private tool notes or the service filter. The file remembers the city chosen at download; later choices in an open file last until it closes.</p><h2>Hosting and outside links</h2><p>The public site uses GitHub Pages. Hosting providers may process technical request information. See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub’s privacy statement</a>. Reddit and agency links lead to services with their own policies.</p><h2>No document uploads</h2><p>There is no upload form here. Keep identity documents, account numbers, credentials and case records out of public discussions. Use a verified private process when the task requires those details.</p>''')
  page('/404.html','Page not found','Return to Ferdant’s guide library and five communities.',f'<section class="page-intro"><p class="eyebrow">404 · A wrong turn</p><h1>This page isn’t here.</h1><p class="deck">The link may have changed. Start with the library or choose the topic closest to your question.</p>{button("/guides/","Go to the guides")}</section>')
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--mode',choices=['preview','production'],default='preview');p.add_argument('--output',type=Path,default=ROOT);args=p.parse_args()
- home();hubs();guides();information()
- build_editions(pages['/'],c.GUIDES,args.output)
+ home();home(local=True);hubs();guides();information()
+ build_editions(pages['/local/'],c.GUIDES,args.output)
  for path,doc in pages.items():
   target=args.output/(path.lstrip('/') if path.endswith('.html') else path.lstrip('/')+'index.html');target.parent.mkdir(parents=True,exist_ok=True);target.write_text(doc,encoding='utf-8')
  (args.output/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>{DOMAIN}{u}</loc></url>' for u in pages if u!='/404.html')+'</urlset>\n',encoding='utf-8')
  (args.output/'robots.txt').write_text('User-agent: *\nAllow: /\n'+('Sitemap: '+DOMAIN+'/sitemap.xml\n' if args.mode=='production' else '# Preview pages carry noindex; allow crawlers to see it.\n'),encoding='utf-8')
  if args.output.resolve()!=ROOT:
-  for name in ['styles.css','site.js','phone.js','CNAME','.nojekyll']:
+  for name in ['styles.css','site.js','phone.js','infographic.js','CNAME','.nojekyll']:
    shutil.copy2(ROOT/name,args.output/name)
   shutil.copytree(ROOT/'assets',args.output/'assets',dirs_exist_ok=True)
   for name in ['integrations','config']:

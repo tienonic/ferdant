@@ -3,7 +3,7 @@ const fs = require('node:fs');
 
 module.exports = async function checkAccessibility(page, width) {
  await page.locator('[data-portal-card]').evaluateAll(rows=>rows.forEach(row=>row.open=true));
- await page.getByLabel('City or county in California',{exact:true}).selectOption('57026');
+ await page.locator('#phone-city').selectOption('57026');
  const measurements = await page.evaluate(() => {
   const rgba = value => value.match(/[\d.]+/g).map(Number);
   const luminance = value => {
@@ -51,7 +51,7 @@ module.exports = async function checkAccessibility(page, width) {
   await page.screenshot({path:'screenshots/directory-forced-colors.png',fullPage:true});
   await page.emulateMedia({forcedColors:'none'});
  }
- await page.getByLabel('City or county in California',{exact:true}).selectOption('');
+ await page.locator('#phone-city').selectOption('');
  await page.locator('[data-portal-card]').evaluateAll(rows=>rows.forEach(row=>row.open=false));
  await page.locator('#what-am-i-paying-for > summary').click();
  const path='screenshots/accessibility.json';

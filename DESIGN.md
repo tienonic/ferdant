@@ -19,20 +19,32 @@ not invented savings, claims, testimonials or activity counters.
 The previous proposal used a large question beside three numbered guide rows and a second numbered directory.
 That arrangement was repetitive, made small labels do too much work and gave the introduction too much space.
 The current version combines the user's Bored.com directory idea with MyBikeDavis's icon-above-label grid.
-A visible California city/county selector and offline download begin the homepage. Changing location immediately
-shows a short list of checked local agency links and call numbers, with service-area cues. Longer details and
-sources expand together. General guides stay clearly labeled as general resources; selection does not imply local coverage.
-Four service tiles share a desktop row and two share a phone/tablet row. Phone numbers stays first.
-The five native, initially closed service dropdowns use short everyday labels and the exact Reddit community names.
-Each opens its existing scope, public links and community link in place. Bills & paperwork also holds the four local tools.
-Phone numbers is an initially closed tile; offline download is a direct button beside the location selector.
-If a county has no saved alternate referral line, show the existing statewide ZIP-code routing contact with its statewide scope.
-Each opened tile uses the full directory width for its information, with a compact horizontal summary.
-City search, the city/county selector and the offline action share the Start with your location container.
-The visible map sits underneath those controls inside the same border. All share one choice with the phone picker and offline export. Clearing removes stale local results. General resources remain accessible before selection.
-Without scripts, hide the inactive city selector and retain statewide numbers plus the standard offline download.
-The separate resource/tool search is removed. City search supports exact names and unique prefixes; ambiguous text
-must leave the location unchanged. Guide-library search and the phone service filter remain in their own contexts.
+The homepage begins with California-only autocomplete, an offline action and a local map. Suggestions appear
+below the input after one letter. There is no top city/county select. Prefix matches take priority; unmatched
+queries never suggest places outside the saved California list. Support arrows, Enter, Escape, pointer and touch.
+Choosing a suggestion or submitting an exact/unique name opens `/local/?place=<public ID>`. The shared result
+page shows checked local links/numbers, general guides, scope/provider limits and an obvious download section.
+One shared page and dataset serve every location; do not duplicate the full city database per location.
+
+The primary download is a locally generated PNG infographic, with a clear hierarchy, large numbers, local and
+statewide sections, service details, provider/after-hours cues and the original source-date limits. It must use
+canonical public data, never private financial inputs or filtered DOM rows. Keep the complete single-file offline
+website as a secondary action for maps, four tools, three full guides and full sources. The image preview uses
+the same generated SVG as the PNG export. Long names and text wrap without clipping. No external image service,
+SDK, geolocation permission or account is required.
+
+Four service tiles share a desktop row and two share a phone/tablet row. Phone numbers stays first. The five
+native topic dropdowns retain exact Reddit names and full scopes. Each opens existing resources in place;
+Bills & paperwork holds the financial tools. General guides remain clearly distinguished from checked local
+coverage. If a county has no saved alternate referral line, show the existing statewide ZIP routing contact
+with its statewide scope. Longer details and source dates expand together.
+
+The result page puts optional city search/map inside Change location. Online city/county choices use a public
+place ID in the URL; explain that the host may log it. Suggestions themselves run locally and store nothing.
+Inside saved files, search and map change the location in place without network requests. Without scripts,
+statewide reading and the standard full download remain available, and personalized saved summaries remain
+readable. PNG generation needs JavaScript. The separate resource/tool search remains removed; guide-library
+search and the phone service filter stay in their own contexts.
 Omit corner count badges; numbers need a direct task meaning, such as a bill amount, checked record or active search result.
 Tools open in a dialog or local worksheet. Closing returns focus and preserves directory position.
 Without scripts, native service dropdowns work and tool links lead to the existing guides.
@@ -167,3 +179,6 @@ The icon-grid edition immediately before the location-first flow is preserved at
 The version before unifying city search and map is preserved at `preview-before-unified-location-20261102`
 (`8fce3ccdfa55941013962a9a39bbf69e214f454f`). The shared map/search helpers must render one map and one
 search form per page. Keep search forms separate from private financial forms.
+
+The version before autocomplete, resource pages and the PNG infographic is preserved at tag
+`preview-before-city-results-20261102` (`ffe4e403278ab89fe6cbd70a16b289faa24083ce`).

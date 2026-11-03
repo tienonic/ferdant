@@ -26,11 +26,11 @@ def phone_row(key):
 
 
 def city_search():
-    return '''<div class="city-search" data-enhancement hidden><form id="map-city-form"><label for="map-city-search">Search for your city</label><div><input id="map-city-search" type="search" list="map-city-names" placeholder="Type a city, e.g. Davis" autocomplete="off"><button type="submit" class="quiet-button">Find city</button></div><datalist id="map-city-names"></datalist></form></div>'''
+    return '''<div class="city-search" data-enhancement hidden><form id="map-city-form" role="search"><label for="map-city-search">Search California cities or counties</label><div class="city-search-row"><div class="suggestion-anchor"><input id="map-city-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="location-suggestions" placeholder="Start typing, e.g. Davis" autocomplete="off"><ul id="location-suggestions" role="listbox" aria-label="California locations" hidden></ul></div><button type="submit" class="button">Search</button></div><p id="city-search-status" role="status"></p></form></div>'''
 
 
 def city_map(include_search=True):
-    return f'''<div class="city-map-workspace" data-enhancement hidden>{city_search() if include_search else ''}<p id="city-map-status" role="status">Type a city name or choose a city marker. Use the city selector above as an alternative.</p><div id="city-map" role="region" aria-label="California city selection map"></div><p class="city-map-note">City locations and county lines are approximate. Choose a named city; this is not an address lookup or a route map.</p></div>'''
+    return f'''<div class="city-map-workspace" data-enhancement hidden>{city_search() if include_search else ''}<p id="city-map-status" role="status">Type a city name or choose a city marker. Search uses California locations only.</p><div id="city-map" role="region" aria-label="California city selection map"></div><p class="city-map-note">City locations and county lines are approximate. Choose a named city; this is not an address lookup or a route map.</p></div>'''
 
 
 def phone_chart(expanded=False, include_map=True):
@@ -47,5 +47,5 @@ def phone_chart(expanded=False, include_map=True):
       <p id="phone-no-matches" class="phone-coverage" hidden>No saved contacts match that search. Clear “Find a service” to see all saved numbers for this location.</p>
       <p class="phone-footnote">Contacts checked {DATA['checked']}. Phone service is needed to call or text. This is a saved directory, with no live dispatch, outage or shelter feed. Immediate danger still needs 911.</p>
       <details class="phone-source-details"><summary>When to use these numbers & sources</summary><p>Contacts checked {DATA['checked']}. Availability and eligibility can change; this is not every possible local resource.</p><div id="phone-local-alert"></div><div id="phone-sources"></div><noscript><ul>{''.join(f'<li>{e(DATA["contacts"][key]["title"])}: {e(DATA["contacts"][key]["detail"])} <a href="{e(DATA["sources"][DATA["contacts"][key]["source"]]["url"])}">Publisher source (online)</a></li>' for key in DATA['statewide'])}</ul></noscript></details>
-      </div><script type="application/json" id="phone-data">{payload}</script><script src="/phone.js" defer></script>
+      </div><script type="application/json" id="phone-data">{payload}</script><script src="/phone.js" defer></script><script src="/infographic.js" defer></script>
     </details>'''

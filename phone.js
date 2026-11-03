@@ -4,7 +4,7 @@
  if (!dataNode) return;
  const payload = JSON.parse(dataNode.textContent), data = payload.directory, places = payload.places;
  const cities = new Map(places.cities.map(([id,name,county,lat,lng])=>[id,{id,name,county,lat,lng}]));
- const mapDisclosure=document.querySelector('#city-map').closest('details');
+ const mapRoot=document.querySelector('#city-map'),mapDisclosure=mapRoot?.closest('details');
  let cityMap, mapPromise, mapBounds, selectedMarker, selectedCounty;
  const markers=new Map(), countyLayers=new Map();
  const select = document.querySelector('#phone-city');
@@ -102,13 +102,14 @@
   }
   doc.querySelector('#phone-coverage').textContent=coverage;
   doc.querySelector('#phone-caption').textContent=`${location ? location.name : 'California'} emergency and support phone numbers other than 911`;
-  for(const download of doc.querySelectorAll('[data-city-download]')) download.textContent=location ? `Download offline for ${location.name}` : 'Download California offline copy';
+  for(const download of doc.querySelectorAll('[data-city-download]')) download.textContent=download.closest('.infographic-download')?'Complete offline website (HTML)':location ? `Download offline for ${location.name}` : 'Download California offline copy';
   const alertArea=doc.querySelector('#phone-local-alert');
   if(alertArea){alertArea.replaceChildren();const alert=data.alerts[location?.id];if(alert){const p=node(doc,'p',`${alert.name}: ${alert.instruction}`),link=node(doc,'a','Official alert instructions (online)');link.href=data.sources[alert.source].url;alertArea.append(p,link);}}
   const locationCity=doc.querySelector('[data-location-select]');if(locationCity)locationCity.value=key;
   const citySearch=doc.querySelector('#map-city-search');if(citySearch)citySearch.value=location && !location.id.startsWith('county:')?location.name:'';
   renderLocation(doc,location);
-  filter(doc);if(doc===document)syncMap(location);return location;
+  const heading=doc.querySelector('#local-page-title');if(heading)heading.textContent=location?`Resources for ${location.name}, California`:'California resources';
+  filter(doc);if(doc===document){syncMap(location);document.dispatchEvent(new CustomEvent('ferdant:location',{detail:{key}}));}return location;
  }
  function filter(doc) {
   const words=doc.querySelector('#phone-query').value.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
@@ -117,23 +118,49 @@
   doc.querySelector('#phone-no-matches').hidden=count!==0;
  }
  const saved = document.querySelector('meta[name="ferdant-city"]')?.content || '';
- select.value=place(saved) ? saved : '';render(document,select.value);
+ const requested=location.protocol==='file:'?saved:new URLSearchParams(location.search).get('place')||saved;
+ select.value=place(requested) ? requested : '';render(document,select.value);
+ if(requested && !place(requested)){const intro=document.querySelector('#local-page-intro');if(intro)intro.textContent='That California location was not found. Search again using Change location below.';}
  select.addEventListener('change',()=>{
   render(document,select.value);
+  if(location.protocol!=='file:' && document.querySelector('[data-location-page]'))history.replaceState(null,'','/local/'+(select.value?'?place='+encodeURIComponent(select.value):''));
   for(const status of document.querySelectorAll('.phone-actions [role="status"]'))status.textContent='';
  });
  document.querySelector('#phone-query').addEventListener('input',()=>filter(document));
 
  const mapStatus=document.querySelector('#city-map-status'), mapSearch=document.querySelector('#map-city-search');
- const names=document.querySelector('#map-city-names');
- for(const city of cities.values()){const option=document.createElement('option');option.value=city.name;names.append(option);}
+ const searchStatus=document.querySelector('#city-search-status'),suggestions=document.querySelector('#location-suggestions');
  const normalize=value=>value.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().trim();
+ const locations=[...[...cities.values()].map(city=>({...city,label:`${city.name}, ${places.counties[city.county]} County, California`})),...Object.entries(places.counties).map(([id,name])=>({id:`county:${id}`,name:`${name} County`,county:id,label:`${name} County, California — county resources`}))];
+ let matches=[],active=-1,closeTimer;
+ const routing=()=>location.protocol!=='file:' && Boolean(document.querySelector('[data-location-routing], [data-location-page]'));
+ function closeSuggestions(){suggestions.hidden=true;mapSearch.setAttribute('aria-expanded','false');mapSearch.removeAttribute('aria-activedescendant');active=-1;}
+ function activate(index){active=index;[...suggestions.children].forEach((el,i)=>el.setAttribute('aria-selected',String(i===active)));if(active>=0){mapSearch.setAttribute('aria-activedescendant',suggestions.children[active].id);suggestions.children[active].scrollIntoView({block:'nearest'});}}
+ function commitPlace(key){closeSuggestions();if(routing()){location.assign('/local/?place='+encodeURIComponent(key));return;}chooseCity(key);}
+ function suggest(){
+  clearTimeout(closeTimer);const query=normalize(mapSearch.value);suggestions.replaceChildren();matches=[];active=-1;
+  if(!query){closeSuggestions();searchStatus.textContent='';return;}
+  const prefixMatches=locations.filter(item=>normalize(item.name).startsWith(query));
+  matches=(prefixMatches.length?prefixMatches:locations.filter(item=>normalize(item.name).includes(query))).sort((a,b)=>Number(!normalize(a.name).startsWith(query))-Number(!normalize(b.name).startsWith(query))||a.name.localeCompare(b.name)).slice(0,8);
+  for(const [index,item] of matches.entries()){
+   const option=node(document,'li',item.label);option.id=`location-suggestion-${index}`;option.setAttribute('role','option');option.setAttribute('aria-selected','false');option.dataset.placeKey=item.id;
+   option.addEventListener('pointerdown',event=>event.preventDefault());option.addEventListener('click',()=>commitPlace(item.id));suggestions.append(option);
+  }
+  suggestions.hidden=!matches.length;mapSearch.setAttribute('aria-expanded',String(Boolean(matches.length)));mapSearch.removeAttribute('aria-activedescendant');
+  searchStatus.textContent=matches.length?`${matches.length} California suggestions. Use arrow keys and Enter, or choose a result.`:'No California city or county matches. Try its name.';
+ }
+ mapSearch.addEventListener('input',suggest);mapSearch.addEventListener('focus',()=>{if(mapSearch.value)suggest();});
+ mapSearch.addEventListener('keydown',event=>{
+  if(event.key==='Escape'){closeSuggestions();return;}
+  if((event.key==='ArrowDown'||event.key==='ArrowUp') && matches.length){event.preventDefault();if(suggestions.hidden)suggest();activate(active<0?(event.key==='ArrowDown'?0:matches.length-1):(active+(event.key==='ArrowDown'?1:-1)+matches.length)%matches.length);}
+ });
+ mapSearch.addEventListener('blur',()=>{closeTimer=setTimeout(closeSuggestions,150);});
  document.querySelector('#map-city-form').addEventListener('submit',event=>{
-  event.preventDefault();const query=normalize(mapSearch.value);
-  const exact=[...cities.values()].find(city=>normalize(city.name)===query);
-  const matches=exact?[exact]:query?[...cities.values()].filter(city=>normalize(city.name).startsWith(query)):[];
-  if(matches.length!==1){mapStatus.textContent=matches.length?'Several cities match. Choose the full city name from the suggestions. No city changed.':'Choose a city name from the suggestions, or use the city selector. No city changed.';return;}
-  chooseCity(matches[0].id);
+  event.preventDefault();if(!suggestions.hidden && active>=0){commitPlace(matches[active].id);return;}
+  const query=normalize(mapSearch.value),exact=locations.find(item=>normalize(item.name)===query),prefix=locations.filter(item=>query && normalize(item.name).startsWith(query));
+  const selected=exact||(prefix.length===1?prefix[0]:null);
+  if(selected){commitPlace(selected.id);return;}
+  suggest();searchStatus.textContent=matches.length?'Several locations match. Choose a suggestion; no location has changed.':'Choose a California city or county from the suggestions.';
  });
  function chooseCity(key){select.value=key;select.dispatchEvent(new Event('change'));}
  function syncMap(location) {
@@ -144,7 +171,6 @@
   selectedCounty=location?countyLayers.get(location.county):undefined;
   selectedCounty?.setStyle({color:'#126c68',fillColor:'#dcebe7',fillOpacity:.8,weight:2});
   if(selectedMarker){selectedMarker.setStyle({radius:8,color:'#126c68',fillColor:'#126c68',fillOpacity:1,weight:2});selectedMarker.bringToFront();}
-  mapSearch.value=location && !location.id.startsWith('county:')?location.name:'';
   mapStatus.textContent=location?`${location.name} selected. The phone chart and offline download use this location.`:'Click a city marker or type a city name. Clicking a county selects county-level contacts.';
   if(!mapDisclosure || mapDisclosure.open) {
    cityMap.invalidateSize(false);
@@ -170,19 +196,19 @@
    const boundaries=L.geoJSON(places.map.geometry,{style:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1},onEachFeature:(feature,layer)=>{
     countyLayers.set(feature.properties.county,layer);
     const label=document.createElement('span');label.textContent=feature.properties.name+' County';layer.bindTooltip(label);
-    layer.on('click',()=>chooseCity('county:'+feature.properties.county));
+    layer.on('click',()=>{const key='county:'+feature.properties.county;if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(key);else chooseCity(key);});
    }}).addTo(cityMap);mapBounds=boundaries.getBounds();
    for(const city of cities.values()){
     const marker=L.circleMarker([city.lat,city.lng],{radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1,bubblingMouseEvents:false}).addTo(cityMap);
     markers.set(city.id,marker);const label=document.createElement('span');label.textContent=city.name;marker.bindTooltip(label);
-    marker.on('click',()=>chooseCity(city.id));const element=marker.getElement();if(element)element.dataset.cityId=city.id;
+    marker.on('click',()=>{if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(city.id);else chooseCity(city.id);});const element=marker.getElement();if(element)element.dataset.cityId=city.id;
    }
    document.querySelector('#city-map').dataset.ready='true';syncMap(place(select.value));
   }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. The city selector and phone numbers still work.';});
   return mapPromise;
  }
  if(mapDisclosure)mapDisclosure.addEventListener('toggle',()=>{if(mapDisclosure.open)ensureMap();});
- if(!mapDisclosure || mapDisclosure.open)ensureMap();
+ if(mapRoot && (!mapDisclosure || mapDisclosure.open))ensureMap();
  let template;
  for(const download of document.querySelectorAll('[data-city-download]'))download.addEventListener('click',async event=>{
   if(event.button!==0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || !select.value)return;
@@ -195,7 +221,7 @@
    if(doc.querySelector('#phone-data')?.textContent!==dataNode.textContent)throw Error('Edition changed; reload');
    doc.querySelector('meta[name="ferdant-city"]').content=key;
    // The saved rows and meta value keep the chosen city readable even with JavaScript off.
-   render(doc,key);doc.querySelector('h1').textContent=`${location.name}, California — offline edition`;
+   render(doc,key);window.FerdantInfographic?.embed(doc,key);doc.querySelector('h1').textContent=`${location.name}, California — offline edition`;
    doc.title=`${location.name} — Ferdant offline`;
    const blob=new Blob(['<!doctype html>\n'+doc.documentElement.outerHTML],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob);
    const name=key.startsWith('county:')?places.counties[location.county]+' County':location.name;

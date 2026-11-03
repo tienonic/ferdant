@@ -36,10 +36,10 @@ def build_editions(home, guides, output):
     output = output / 'downloads'
     output.mkdir(parents=True, exist_ok=True)
     guide_links = {f'/what-am-i-paying-for/guides/{g["slug"]}/': '#saved-' + g['slug'] for g in guides}
-    doc = home.replace('<title>Practical guides for everyday problems | Ferdant</title>', f'<title>California — Ferdant offline</title>')
+    doc = re.sub(r'<title>.*?</title>', '<title>California — Ferdant offline</title>', home, count=1)
     doc = doc.replace('<link rel="stylesheet" href="/styles.css">', f'<style>{css}</style>')
     doc = doc.replace('<script src="/site.js" defer></script>', '')
-    doc = doc.replace('<script src="/phone.js" defer></script>', '')
+    doc = doc.replace('<script src="/phone.js" defer></script>', '').replace('<script src="/infographic.js" defer></script>', '')
     doc = doc.replace('<details class="phone-directory" id="local-essentials">', '<details class="phone-directory" id="local-essentials" open>')
     doc = re.sub(r'<div class="phone-actions">.*?</div>', '', doc, flags=re.S)
     doc = doc.replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
@@ -47,7 +47,7 @@ def build_editions(home, guides, output):
     doc = doc.replace('<head>', f'<head><meta name="ferdant-city" content=""><meta http-equiv="Content-Security-Policy" content="{e(csp)}">', 1)
     doc = re.sub(r'<div class="preview-note">.*?</div>', '<div class="preview-note">Editorial preview · saved offline copy</div>', doc, count=1)
     doc = doc.replace('<h2 id="location-title">Start with your location</h2>', '<h2 id="location-title">Your saved location</h2>')
-    doc = doc.replace('<h1>Resources & tools</h1>', f'<h1>California<br>Offline edition</h1>')
+    doc = re.sub(r'<h1[^>]*>.*?</h1>', '<h1 id="local-page-title">California offline edition</h1>', doc, count=1)
     doc = doc.replace('Choose your location. Find your next step.</p>', f'Saved copy · Regional sources checked {DATA["checked"]}.</p>')
     notice = '<div class="offline-notice"><strong>Saved to your device</strong><p>The directory, tools and saved guides work without internet. Website links and alert signup need a connection; calls need phone service. This file has no live alerts, outages or shelter availability.</p><nav aria-label="Offline sections"><a href="#local-essentials">Local essentials</a><a href="#communities">Directory</a><a href="#saved-guides">Saved guides</a></nav></div>'
     doc = doc.replace('<main id="main" tabindex="-1">', '<main id="main" tabindex="-1">' + notice)
@@ -76,7 +76,8 @@ window.addEventListener('afterprint', () => {
 });'''
     leaflet_js=(ROOT / 'assets/vendor/leaflet/leaflet.js').read_text(encoding='utf-8')
     phone_js = leaflet_js + '\n' + (ROOT / 'phone.js').read_text(encoding='utf-8')
-    doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{print_js}</script></body>')
+    infographic_js=(ROOT / 'infographic.js').read_text(encoding='utf-8')
+    doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{infographic_js}\n{print_js}</script></body>')
     doc = re.sub(r'(?m)^[ \t]+$', '', doc)
     (output / Path(DOWNLOAD).name).write_text(doc, encoding='utf-8')
     # Superseded preview exports; one shared edition replaces per-region copies.

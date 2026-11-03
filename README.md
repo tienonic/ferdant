@@ -43,7 +43,7 @@ npm.cmd run build
 npm.cmd run verify:responsive
 ```
 
-Keep the local server running for browser checks. They test all 15 pages at 320, 390, 768 and
+Keep the local server running for browser checks. They test all 16 pages at 320, 390, 768 and
 1440 pixels, internal links, unique metadata, canonical URLs, structured data, keyboard/mobile
 navigation, search, calculator cases, clipboard behavior, native detail expansion without JavaScript,
 and zero Shopify requests or shop UI.
@@ -166,15 +166,22 @@ Keep private/Admin credentials out of browser files and Git. The current GitHub 
 
 ## Service-button preview and preserved version
 
-The homepage starts with a California city/county selector and a visible offline download beside it.
-Choosing a location shows checked agency links and call numbers immediately. Scope, service hours/after-hours cues,
-coverage gaps and an expandable source section stay with the results. County gaps use the existing statewide ZIP-routing contact.
-General resources remain available and are distinguished from checked local coverage.
-Six icon tiles use four columns on desktop and two on phones/tablets. Phone numbers leads the grid; the other five
-dropdowns match the Reddit communities. Expanded information uses the directory width, with billing tools inside Bills & paperwork.
-City search, the city/county selector and offline download share the Start with your location box, with the map underneath
-inside that container. The location controls, phone picker, map and export share one choice. Exact city names and unique
-prefixes select a city; ambiguous text leaves the choice unchanged. The separate resource/tool search has been removed. Native dropdowns work without JavaScript.
+The homepage has a California-only autocomplete, offline button and map. Suggestions appear after one
+letter, with keyboard and touch selection. The previous top city/county dropdown is removed. Choosing a
+suggestion or submitting an exact/unique name opens the separate shared `/local/?place=<public ID>` page.
+Its checked resources retain scope, provider, hours and source limits; general guides stay distinct.
+
+A prominent result-page section offers a contact-sheet PNG and the complete offline website. `infographic.js`
+builds the SVG preview and high-resolution PNG locally from the canonical public contacts. The PNG contains
+local and statewide numbers, practical notes, source dates and coverage limits, with no private tool inputs.
+The complete HTML file adds the map, four tools, three guides and full sources. PNG generation needs scripts;
+selected contact charts in saved HTML remain readable without scripts. The offline template is built from the
+shared resource page, rather than a separate database or copy per city.
+
+Six icon tiles retain the five Reddit communities and phone chart. Optional Change location on the result
+page contains the search/map. In saved files it changes location in place; online page URLs contain the public
+place ID and may be logged by the host, as described in Privacy. Suggestions, image generation and private
+tool inputs stay local. The separate resource/tool search remains removed.
 
 The version before this structure is preserved by annotated tag `preview-before-service-buttons-20261102`
 at `5c93d5e435a8ab59635d81ea97e32099109d6614`. To inspect it without altering current work:
@@ -197,3 +204,8 @@ and the standard download remain available. Personalized saved copies include th
 The version before consolidating location search and map is preserved at `preview-before-unified-location-20261102`
 (`8fce3ccdfa55941013962a9a39bbf69e214f454f`). The map remains usable without opening Phone numbers; a map-library
 failure retains working city search and the native picker. Guide-library search and the phone service filter remain available.
+
+The preceding unified-location preview is preserved at `preview-before-city-results-20261102`
+(`ffe4e403278ab89fe6cbd70a16b289faa24083ce`). New checks cover one-letter suggestions, arrows/Enter/Escape,
+touch selection, separate/invalid resource URLs, actual PNG bytes and dimensions, canonical contact coverage,
+private-input exclusion, and map loading that preserves text already being typed.

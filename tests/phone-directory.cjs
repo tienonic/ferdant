@@ -2,6 +2,9 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 
 module.exports = async function checkPhoneDirectory(page, width) {
+ await page.goto(new URL('/local/',page.url()).href);
+ await page.locator('.change-location > summary').click();
+ await page.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');
  const disclosure=page.locator('.phone-directory');
  assert.equal(await disclosure.getAttribute('open'),null,'Home phone dropdown starts closed');
  assert(!await page.locator('.phone-table').isVisible());
@@ -19,16 +22,9 @@ module.exports = async function checkPhoneDirectory(page, width) {
   assert.equal(await page.locator('.phone-table a[href="tel:911"]').count(),0);
   assert(await page.locator('.phone-table a[href="tel:988"]').isVisible());
   assert(await page.locator('.phone-table a[href="tel:+18002221222"]').isVisible());
-  await page.getByLabel('Search for your city',{exact:true}).fill('Davis');
-  await page.getByRole('button',{name:'Find city',exact:true}).click();
-  assert.equal(await city.inputValue(),'57026');
-  assert.equal(await page.locator('#location-city').inputValue(),'57026');
+  await city.selectOption('57026');
   await city.selectOption('county:57');
   await page.locator('#city-map [data-city-id="57026"]').click();
-  assert.equal(await city.inputValue(),'57026','A real map marker click selects the named city');
-  await page.getByLabel('Search for your city',{exact:true}).fill('San');
-  await page.getByLabel('Search for your city',{exact:true}).press('Enter');
-  assert((await page.locator('#city-map-status').innerText()).includes('No city changed'));
   assert.equal(await city.inputValue(),'57026');
   await city.selectOption('57026');
   assert(await page.locator('[data-contact-id="davis-nonemergency"]').isVisible());
@@ -59,7 +55,7 @@ module.exports = async function checkPhoneDirectory(page, width) {
      const actual=[...document.querySelectorAll('#phone-rows tr')].map(el=>el.dataset.contactId);
      const countyIds=data.countyContacts[county],expectedLocal=[...new Set([...(countyIds.length?countyIds:['211-routing']),...(data.cityContacts[option.value]||[])])];
      const local=[...document.querySelectorAll('#location-links > li')].map(el=>el.dataset.localContact);
-     results.push({key:option.value,passed:JSON.stringify(actual)===JSON.stringify(expected) && new Set(actual).size===actual.length && JSON.stringify(local)===JSON.stringify(expectedLocal) && document.querySelector('#location-city').value===option.value});
+     results.push({key:option.value,passed:JSON.stringify(actual)===JSON.stringify(expected) && new Set(actual).size===actual.length && JSON.stringify(local)===JSON.stringify(expectedLocal) && document.querySelector('#local-page-title').textContent.includes(row?row[1]:places.counties[county])});
     }
     return results;
    });

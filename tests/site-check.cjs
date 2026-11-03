@@ -9,6 +9,7 @@ const checkLocationFlow = require('./location-flow.cjs');
 const checkAccessibility = require('./accessibility.cjs');
 const checkCostPreview = require('./cost-preview.cjs');
 const checkOffline = require('./offline.cjs');
+const checkInfographic = require('./infographic.cjs');
 const checkPhoneDirectory = require('./phone-directory.cjs');
 const base = process.env.SITE_URL || 'http://127.0.0.1:4173';
 const production = process.env.SITE_MODE === 'production';
@@ -73,6 +74,7 @@ function browserPath() {
   fs.writeFileSync('screenshots/verification.json',JSON.stringify({checkedAt:new Date().toISOString(),findings,noJavaScript:'passed',homeCalculator:'passed',inlineCostTool:'passed',singlePageDirectory:'passed',categoryPortal:'passed',directoryToolDialogs:'passed',directoryAccessibility:'passed',cornerBadges:'removed',directorySearch:'removed by request',locationCitySearch:'passed',locationMapPlacement:'passed',destinationFavicons:'19 locally served images decoded',externalPageRequests:0,sectionNavigation:'passed',interactiveWidgets:'passed',widgetInteractionRequests:0,widgetStorage:'none',selfHostedFonts:'passed',commerceRequests:0,commerceUI:false,quickAnswers:'passed',mode:production?'production':'preview',published:false},null,2));
   await checkFormPrivacy(browser, base);
   await checkOffline(browser, base);
+  await checkInfographic(browser,base);
   console.log('No-JavaScript reading, source access and form privacy passed.');
  } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1});
