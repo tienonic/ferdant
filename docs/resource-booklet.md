@@ -4,7 +4,8 @@ The city download combines all fifteen disaster sections in one small, vector PD
 A visual event index and PDF bookmarks jump to the relevant section. Each section
 has an expressive title, the plain disaster name, the existing short official plan,
 issue-labelled resource cards and a related phone chart at its end. A complete
-phone appendix and source/edition pages follow. Page breaks preserve complete
+phone appendix follows. The full source list and edition notes are downloaded
+separately with Sources (TXT), using the same city and edition basename. Page breaks preserve complete
 cards and keep a related phone chart together when it fits on a fresh page.
 
 ## Content and selection
@@ -39,6 +40,16 @@ PG&E remains restricted to PG&E customers. After-hours/outside-city notes,
 24/7 labels and call/text distinctions survive. No clinic/facility number is
 guessed or collected. Every original contact remains in the full phone appendix;
 the per-event chart is its related subset. Immediate danger still needs 911.
+
+## Companion source file
+
+Numbered [S] references stay on the PDF cards and phone chart. Sources (TXT)
+generates the matching UTF-8 file with every title, URL, checked date, publisher
+date and edition/coverage note. The PDF identifies its companion filename; its
+page footer no longer links to a removed appendix. The source-only download does
+not need the PDF writer. Both formats regenerate locally from the saved county
+without network requests, with identical numbering. Browsers receive one file
+per explicit button press; no multi-download permission is needed.
 
 ## Rendering and offline use
 

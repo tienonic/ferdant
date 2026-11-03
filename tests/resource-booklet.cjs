@@ -4,7 +4,7 @@ const base=process.env.SITE_URL||'http://127.0.0.1:4173';
 const places=JSON.parse(fs.readFileSync('content/california-cities.json','utf8'));
 function browserPath(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64','chrome-headless-shell.exe')).find(fs.existsSync);}
 async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return r.hidden||!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});await p.waitForFunction(()=>document.querySelector('#infographic-preview').naturalWidth>0);}
-async function capture(p,key){return p.evaluate(async key=>{const r=await window.FerdantBooklet.build(key);return {bytes:Array.from(new Uint8Array(await r.blob.arrayBuffer())),pages:r.pages,filename:r.filename,events:r.events,sources:r.model.sources,appendix:r.model.appendix,layout:r.layout,links:r.links,regionalAvailable:r.model.regionalAvailable};},key);}
+async function capture(p,key){return p.evaluate(async key=>{const r=await window.FerdantBooklet.build(key);return {bytes:Array.from(new Uint8Array(await r.blob.arrayBuffer())),pages:r.pages,filename:r.filename,sourcesFilename:r.sourcesFilename,sourcesText:r.sourcesText,events:r.events,sources:r.model.sources,appendix:r.model.appendix,layout:r.layout,links:r.links,regionalAvailable:r.model.regionalAvailable};},key);}
 (async()=>{
  fs.mkdirSync('screenshots/booklet',{recursive:true});
  const browser=await chromium.launch({executablePath:browserPath()}),findings=[];
@@ -16,37 +16,41 @@ async function capture(p,key){return p.evaluate(async key=>{const r=await window
   const choices=[...places.cities.map(c=>c[0]),...Object.keys(places.counties).map(c=>'county:'+c)];
   const summaries=await p.evaluate(async keys=>{const out=[];for(const key of keys){const m=await window.FerdantBooklet.model(key);out.push({key,events:m.events.length,care:m.events[0].cards.filter(c=>['hospital','clinic'].includes(c.kind)).length,phoneCharts:m.events.filter(p=>p.phones.length).length});}return out;},choices);
   for(const s of summaries){assert.equal(s.events,15);assert.equal(s.phoneCharts,15);if(!s.key.startsWith('county:'))assert.equal(s.care,2,s.key);}
+  assert(await p.evaluate(()=>!window.jspdf));const sourceOnly=p.waitForEvent('download');await p.locator('#download-booklet-sources').click();const sourceOnlyFile=await sourceOnly;assert(sourceOnlyFile.suggestedFilename().endsWith('-sources.txt'));assert(await p.evaluate(()=>!window.jspdf),'TXT export must not load the PDF writer');
   const longest=[...places.cities].sort((a,b)=>b[1].length-a[1].length)[0][0];
   const cases=['57026','38001','19050','county:57','25071','19039','county:02','',longest];
-  let original;
+  let original,originalSources;
   for(const key of cases){
    await p.goto(base+'/local/'+(key?'?place='+encodeURIComponent(key):''));await ready(p);
    const r=await capture(p,key),bytes=Buffer.from(r.bytes);delete r.bytes;
    assert(bytes.subarray(0,5).equals(Buffer.from('%PDF-')));assert.equal(r.events.length,15);assert(r.pages>=17&&r.pages<60);
    for(const e of r.events){assert(e.start<=e.end);assert(e.cards.length>=3);assert(e.phoneIds.length>=2);for(const card of e.cards){assert(card.issue&&card.title&&card.source);assert(!card.title.includes('PRIVATE-'));if(['cooling','warming','shelter'].includes(card.kind))assert(card.referral);}}
-   assert(r.layout.every(l=>l.top+l.height<=(l.top>=750?776:744)));assert(!r.layout.some(l=>/undefined|NaN/.test(l.text)));
+   assert(r.layout.every(l=>l.top+l.height<=(l.top>=750?776:744)));assert(!r.layout.some(l=>/undefined|NaN/.test(l.text)));assert(!r.layout.some(l=>/Sources & edition|Sources p\./.test(l.text)));
+   assert.equal(r.sourcesFilename,r.filename.replace('.pdf','-sources.txt'));for(const source of r.sources){assert(r.sourcesText.includes('[S'+source.id+'] '+source.title));assert(r.sourcesText.includes(source.url));if(source.published)assert(r.sourcesText.includes(source.published));}
+   assert(r.sourcesText.includes('Contacts checked:'));assert(!r.sourcesText.includes('PRIVATE-NOTE'));
    assert(r.links.every(u=>/^(https?:|tel:|sms:)/.test(u)));assert(!r.links.some(u=>u.includes('PRIVATE-')));
    const filename=key==='57026'?'ferdant-davis-resource-book.pdf':key==='38001'?'ferdant-san-francisco-resource-book.pdf':key==='19039'?'ferdant-vernon-resource-book.pdf':'case-'+(key||'california').replace(':','-')+'.pdf';
-   fs.writeFileSync('screenshots/booklet/'+filename,bytes);fs.writeFileSync('screenshots/booklet/'+filename.replace('.pdf','.json'),JSON.stringify(r,null,2));
+   fs.writeFileSync('screenshots/booklet/'+filename,bytes);fs.writeFileSync('screenshots/booklet/'+filename.replace('.pdf','-sources.txt'),r.sourcesText);fs.writeFileSync('screenshots/booklet/'+filename.replace('.pdf','.json'),JSON.stringify(r,null,2));
    findings.push({key,pages:r.pages,bytes:bytes.length,events:r.events.map(e=>({id:e.id,start:e.start,end:e.end,phoneIds:e.phoneIds})),filename});
    if(key==='57026'){
-    original=bytes;
+    original=bytes;originalSources=r.sourcesText;
     await p.locator('#what-am-i-paying-for > summary').click();await p.getByRole('navigation',{name:'Quick tools'}).getByRole('link',{name:'Draft a billing message'}).click();await p.getByLabel('What needs explaining?').fill('PRIVATE-NOTE-EXCLUDED-FROM-BOOKLET');await p.getByRole('button',{name:'Close tool',exact:true}).click();
     await p.locator('[data-disaster="flood"]').click();await ready(p);
-    const second=await capture(p,key);assert.deepEqual(Buffer.from(second.bytes),original,'Private notes and map choice must not change an all-event public booklet');
+    const second=await capture(p,key);assert.equal(second.sourcesText,originalSources);assert.deepEqual(Buffer.from(second.bytes),original,'Private notes and map choice must not change an all-event public booklet');
     const wait=p.waitForEvent('download');await p.locator('#download-booklet').click();const dl=await wait;assert(dl.suggestedFilename().endsWith('.pdf'));await dl.saveAs('screenshots/booklet/button-download.pdf');
     assert.deepEqual(fs.readFileSync('screenshots/booklet/button-download.pdf'),original);
+    const txtWait=p.waitForEvent('download');await p.locator('#download-booklet-sources').click();const txtDownload=await txtWait;assert.equal(txtDownload.suggestedFilename(),r.sourcesFilename);await txtDownload.saveAs('screenshots/booklet/button-sources.txt');assert.equal(fs.readFileSync('screenshots/booklet/button-sources.txt','utf8'),originalSources);
     const offlineWait=p.waitForEvent('download');await p.locator('#offline-download [data-city-download]').click();const saved=await offlineWait,file=path.resolve('screenshots/booklet/davis-offline.html');await saved.saveAs(file);
     const off=await browser.newContext({offline:true,acceptDownloads:true}),o=await off.newPage(),requests=[],offErrors=[];o.on('request',r=>{if(/^https?:/.test(r.url()))requests.push(r.url());});o.on('pageerror',e=>offErrors.push(e.message));await o.goto(pathToFileURL(file).href);await ready(o);
-    const offResult=await capture(o,'57026');assert.deepEqual(Buffer.from(offResult.bytes),original,'The saved county must reproduce the same booklet without internet');
-    const offWait=o.waitForEvent('download');await o.locator('#download-booklet').click();const offDownload=await offWait;assert(offDownload.suggestedFilename().endsWith('.pdf'));assert.deepEqual(requests,[]);assert.deepEqual(offErrors,[]);await off.close();
+    const offResult=await capture(o,'57026');assert.equal(offResult.sourcesText,originalSources);assert.deepEqual(Buffer.from(offResult.bytes),original,'The saved county must reproduce the same booklet without internet');
+    const offWait=o.waitForEvent('download');await o.locator('#download-booklet').click();const offDownload=await offWait;assert(offDownload.suggestedFilename().endsWith('.pdf'));const offTxtWait=o.waitForEvent('download');await o.locator('#download-booklet-sources').click();const offTxt=await offTxtWait;assert.equal(offTxt.suggestedFilename(),r.sourcesFilename);assert.deepEqual(requests,[]);assert.deepEqual(offErrors,[]);await off.close();
    }
   }
-  for(const width of [320,390,768,1440]){await p.setViewportSize({width,height:960});await p.goto(base+'/local/?place=38001');await ready(p);assert(await p.locator('#download-booklet').isVisible());assert(await p.locator('#download-booklet').evaluate(el=>el.getBoundingClientRect().height>=44));assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await p.locator('#offline-download').screenshot({path:'screenshots/booklet/download-panel-'+width+'.png'});}
+  for(const width of [320,390,768,1440]){await p.setViewportSize({width,height:960});await p.goto(base+'/local/?place=38001');await ready(p);assert(await p.locator('#download-booklet').isVisible());assert(await p.locator('#download-booklet-sources').isVisible());const mapDownload=p.locator('.atlas-offline-link');assert.equal((await mapDownload.innerText()).trim(),'Download offline');assert(await mapDownload.evaluate(el=>el.getBoundingClientRect().height>=58));if(width<=600)assert(await mapDownload.evaluate(el=>el.getBoundingClientRect().width>=el.parentElement.clientWidth-34));await mapDownload.click();await p.waitForFunction(()=>document.querySelector('#offline-download').getBoundingClientRect().top<innerHeight);assert(p.url().endsWith('#offline-download'));assert(await p.locator('#download-booklet').evaluate(el=>el.getBoundingClientRect().height>=44));assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await p.locator('#offline-download').screenshot({path:'screenshots/booklet/download-panel-'+width+'.png'});}
   // An additional directory failure stays a gap in the file. A retry can recover.
   const failure=await browser.newContext();await stubPublicMap(failure);await failure.route('**/assets/data/service-maps/34.json',r=>r.abort());const f=await failure.newPage();await f.goto(base+'/local/?place=34060');await ready(f);const missing=await f.evaluate(()=>window.FerdantBooklet.model('34060'));assert.equal(missing.regionalAvailable,false);assert(!missing.events.some(e=>e.cards.some(c=>c.physicalId?.startsWith('imls-')||c.physicalId?.startsWith('hrsa-'))));await failure.close();
   assert.deepEqual(errors,[]);assert(await p.evaluate(()=>localStorage.length===0&&sessionStorage.length===0));
-  fs.writeFileSync('screenshots/resource-booklet-verification.json',JSON.stringify({checkedUTC:new Date().toISOString(),fixtures:'External GIS/tiles/shelters simulated; public county directory files are real',modelChoices:summaries.length,findings,offlineHTTP:0,privateNotesAndMapChoice:'PDF bytes identical',widths:[320,390,768,1440],sourceFailure:'explicit gap',errors},null,2));
+  fs.writeFileSync('screenshots/resource-booklet-verification.json',JSON.stringify({checkedUTC:new Date().toISOString(),fixtures:'External GIS/tiles/shelters simulated; public county directory files are real',modelChoices:summaries.length,findings,offlineHTTP:0,privateNotesAndMapChoice:'PDF bytes identical',widths:[320,390,768,1440],sourceFailure:'explicit gap',sourceAppendix:'separate matching TXT; no source PDF pages or stale page links',mapDownloadMinimumHeight:58,errors},null,2));
   console.log('Resource books: 541 location models; nine real PDFs, 15 event sections/phone charts, related source links, private-input exclusion, disconnected export and four-width controls passed.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1});

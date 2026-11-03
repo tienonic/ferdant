@@ -52,6 +52,18 @@
   const appendix=ids.map(id=>({id,...phones.contacts[id],sourceRef:source({...phones.sources[phones.contacts[id].source],checked:phones.checked})}));
   return {place,events,sources,appendix,regionalAvailable:directory?.regionalAvailable??false,geometryAvailable:directory?.geometryAvailable??false};
  }
+ function sourceDocument(m){
+  const name=m.place?.name||'California',stem='ferdant-'+slug(name)+'-resource-book-'+config.serviceChecked;
+  const text=['FERDANT / '+name+' field notes','SOURCES & EDITION','',
+   'Companion PDF: '+stem+'.pdf','Location: '+name+', California',
+   'Contacts checked: '+phones.checked,'Resource directory checked: '+config.serviceChecked,'',
+   'The numbered references [S1], [S2], etc. match this city and edition of the PDF. Guidance check dates and publisher dates appear with each source below.',
+   'Check dates are not publication dates. Library outlets are from IMLS FY2024, published June 2026. Clinics are the checked HRSA permanent-site directory.',
+   'Hours, admission and emergency use need confirmation. Specialty service coverage is incomplete. Distances are straight-line from an approximate city center, not route lengths. Official online referrals were not verified as local pickup sites.',
+   'No private notes, current map filter, live alerts or shelter status enter these files. Links need internet; calls and texts need phone service.','',
+   ...m.sources.flatMap(s=>['[S'+s.id+'] '+s.title,s.url,'Checked: '+(s.checked||'referral link; current service not verified'),'Publisher/data date: '+(s.published||'not supplied'),''])].join('\r\n');
+  return {filename:stem+'-sources.txt',pdfFilename:stem+'.pdf',text};
+ }
  let pdfReady;
  async function library(){
   if(window.jspdf?.jsPDF)return window.jspdf.jsPDF;
@@ -69,7 +81,7 @@
   pdf.setProperties({title:name+' field notes - resources and disaster phone charts',author:'Ferdant',subject:'Dated California resources; no live dispatch or shelter status'});pdf.setCreationDate(new Date(config.serviceChecked+'T12:00:00Z'));pdf.setFileId(('46455244414e54'+[...String(key||'CA')].map(c=>c.charCodeAt(0).toString(16)).join('')).padEnd(32,'0').slice(0,32));pdf.setLanguage('en-US');
   const icons=Object.fromEntries(await Promise.all(Object.entries(config.serviceTypes).map(async([id,t])=>[id,await iconImage(t.icon,t.color)])));
   const hazardIcons=Object.fromEntries(await Promise.all(m.events.map(async p=>{const svg=document.querySelector('[data-disaster="'+p.id+'"] .atlas-choice-symbol svg')?.outerHTML;return [p.id,svg?await iconImage(svg,blue):null];})));
-  let y=0,currentEvent=null;
+  const companion=sourceDocument(m);let y=0,currentEvent=null;
   const page=()=>pdf.internal.getCurrentPageInfo().pageNumber;
   function text(value,x,top,width,size=10,color=ink,font='helvetica',style='normal'){
    pdf.setFont(font,style);pdf.setFontSize(size);pdf.setTextColor(color);const lines=pdf.splitTextToSize(plain(value),width),height=lines.length*size*1.26;pdf.text(lines,x,top+size,{lineHeightFactor:1.26});layout.push({page:page(),x,top,width,height,text:plain(value)});return height;
@@ -112,7 +124,8 @@
   y+=text('Start with the issue on each resource card. Use the phone chart at the end of that event for referrals, utilities and support. Tap an event above to jump there.',40,y,532,10)+12;
   y+=text('Selected directory locations, not every local program. Ordinary sites may close or restrict intake. No current shelter, cooling/warming activation, capacity, safe route or evacuation destination is saved.',40,y,532,9,muted)+10;
   const coverage=!m.place?'No city selected: statewide referrals only.':!m.regionalAvailable?'Additional county service records are not available in this copy; baseline records and referrals remain.':'Local or clearly labelled nearby directory records. Confirm the current entrance, service and eligibility before travel.';
-  text(coverage,40,y,532,9,muted);
+  y+=text(coverage+' Resources checked '+config.serviceChecked+'; contacts '+phones.checked+'.',40,y,532,9,muted)+8;
+  text('Companion sources: '+companion.filename,40,y,532,8,muted);
   for(const p of m.events){
    currentEvent=p;next();p.startPage=page();if(hazardIcons[p.id])pdf.addImage(hazardIcons[p.id],'PNG',537,67,30,30);
    y+=text(p.artTitle,40,y,480,25,ink,'times')+7;y+=text(p.label+' / '+name,40,y,532,11,blue,'helvetica','bold')+12;
@@ -140,28 +153,26 @@
   y+=text('The complete saved phone chart',40,y,532,24,ink,'times')+12;
   y+=text('All saved contacts for this location, including everyday billing and personal support. Event sections above contain the related subset. Scope, after-hours notes and call/text options are retained.',40,y,532,10)+18;
   phoneRows(m.appendix,'Local and California-wide help');
-  const sourcePage=page()+1;next('Sources & edition');
-  y+=text('Know what this copy can tell you.',40,y,532,24,ink,'times')+12;
-  y+=text('Contacts checked '+phones.checked+'. Resource directory checked '+config.serviceChecked+'. Guidance dates appear below. Publisher dates and fiscal years are separate from these checks. No private notes, current map filter, live alerts or shelter status enter this booklet.',40,y,532,10)+15;
-  y+=text('Library outlets are from IMLS FY2024, published June 2026. Clinics are the checked HRSA permanent-site directory. Hours, admission and emergency use need confirmation. Specialty service coverage is incomplete. Distances are straight-line from an approximate city center, not route lengths. Official online referrals were not verified as local pickup sites.',40,y,532,10)+17;
-  for(const s of m.sources){
-   pdf.setFont('helvetica','normal');pdf.setFontSize(9);const h=pdf.splitTextToSize(plain(s.url),532).length*11.34+pdf.splitTextToSize(plain(s.title),532).length*12.6+42;
-   space(h,'Sources & edition / continued');y+=text('[S'+s.id+'] '+s.title,40,y,532,10,ink,'helvetica','bold')+4;
-   y+=urlLabel(s.url,s.url,40,y,532,9)+4;y+=text('Checked: '+(s.checked||'referral link; current service not verified')+' / Publisher/data date: '+(s.published||'not supplied'),40,y,532,8,muted)+14;
-  }
   const total=pdf.getNumberOfPages();
   pdf.setPage(1);
   for(const {event:p,x,top}of toc){pdf.link(x,top,171,45,{pageNumber:p.startPage});pdf.outline.add(null,p.label,{pageNumber:p.startPage});text('p. '+p.startPage,x+30,top+27,140,8,blue);}
-  pdf.outline.add(null,'Everyday phone desk',{pageNumber:m.events.at(-1).endPage+1});pdf.outline.add(null,'Sources & edition',{pageNumber:sourcePage});
-  for(let n=1;n<=total;n++){pdf.setPage(n);line(749);text('FERDANT / '+name,40,758,260,8,blue);text('Sources p. '+sourcePage+' / '+n+' of '+total,351,758,221,8,muted);pdf.link(351,756,130,15,{pageNumber:sourcePage});}
+  pdf.outline.add(null,'Everyday phone desk',{pageNumber:m.events.at(-1).endPage+1});
+  for(let n=1;n<=total;n++){pdf.setPage(n);line(749);text('FERDANT / '+name,40,758,260,8,blue);text('Sources: companion TXT / '+n+' of '+total,351,758,221,8,muted);}
   for(const item of layout)if(item.top+item.height>(item.top>=750?776:744)||item.x+item.width>573)throw Error('Booklet layout overflow: '+JSON.stringify(item));
-  return {blob:pdf.output('blob'),filename:'ferdant-'+slug(name)+'-resource-book-'+config.serviceChecked+'.pdf',pages:total,events:m.events.map(p=>({id:p.id,start:p.startPage,end:p.endPage,cards:p.cards,phoneIds:p.phones.map(c=>c.id)})),layout,links,model:m};
+  return {blob:pdf.output('blob'),filename:companion.pdfFilename,sourcesFilename:companion.filename,sourcesText:companion.text,pages:total,events:m.events.map(p=>({id:p.id,start:p.startPage,end:p.endPage,cards:p.cards,phoneIds:p.phones.map(c=>c.id)})),layout,links,model:m};
  }
- window.FerdantBooklet={preview,model,build,contactIds};
+ window.FerdantBooklet={preview,model,build,contactIds,async sources(key){return sourceDocument(await model(key));}};
+ function save(blob,filename){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
  const button=document.querySelector('#download-booklet');
  button?.addEventListener('click',async()=>{
   const key=document.querySelector('#phone-city').value,status=document.querySelector('#booklet-status');button.disabled=true;status.textContent='Combining your local resources and event phone charts...';
-  try{const result=await build(key),url=URL.createObjectURL(result.blob),a=document.createElement('a');a.href=url;a.download=result.filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);status.textContent=result.pages+'-page resource book ready. Save in Files or print. Links need internet; calls need phone service.';}
+  try{const result=await build(key);save(result.blob,result.filename);status.textContent=result.pages+'-page resource book ready. Save the matching Sources (TXT) file alongside it. Links need internet; calls need phone service.';}
   catch{status.textContent='The resource book could not be prepared. Try again, or use the contact sheet or complete offline website below.';}finally{button.disabled=false;}
+ });
+ const sourcesButton=document.querySelector('#download-booklet-sources');
+ sourcesButton?.addEventListener('click',async()=>{
+  const key=document.querySelector('#phone-city').value,status=document.querySelector('#booklet-sources-status');sourcesButton.disabled=true;status.textContent='Preparing the matching source list...';
+  try{const result=await window.FerdantBooklet.sources(key);save(new Blob([result.text],{type:'text/plain;charset=utf-8'}),result.filename);status.textContent='Source file ready. Its [S] references match this city and edition of the PDF.';}
+  catch{status.textContent='The source file could not be prepared. Try again.';}finally{sourcesButton.disabled=false;}
  });
 })();

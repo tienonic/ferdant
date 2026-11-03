@@ -1090,3 +1090,16 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 .booklet-secondary { display: inline-flex; align-items: center; min-height: 44px; padding: 0; background: transparent; border: 0; color: #24568d; font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .booklet-secondary:disabled { cursor: wait; opacity: .6; }
 #booklet-status { margin: 8px 0; }
+
+/* Offline resources are a primary action on each city map. */
+.atlas-heading { flex-wrap: wrap; }
+.atlas-heading > div { flex: 1 1 260px; }
+.atlas-offline-link { min-height: 58px; padding: 14px 22px; justify-content: center; gap: 12px; background: #24568d; border: 1px solid #24568d; border-radius: 6px; color: #fff; font-size: 16px; font-weight: 600; text-decoration: none; flex-shrink: 0; }
+.atlas-offline-link .ui-icon { width: 24px; height: 24px; }
+.atlas-offline-link:hover { color: #fff; background: #193f6b; }
+.booklet-sources { margin-left: 16px; }
+@media (max-width: 600px) {
+ .atlas-heading { display: grid; grid-template-columns: minmax(0,1fr); gap: 14px; }
+ .atlas-offline-link { width: 100%; font-size: 16px; min-height: 58px; }
+ .booklet-sources { margin-left: 0; display: flex; }
+}
