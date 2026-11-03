@@ -940,6 +940,24 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 .resource-atlas { margin: 16px 0 24px; border: 1px solid #ccd5d7; border-radius: 12px; overflow: clip; background: #fff; }
 .atlas-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 22px 14px; }
 .atlas-heading > div { min-width: 0; }
+.atlas-controls { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; padding: 0 22px 16px; border-bottom: 1px solid #dce2e4; }
+.atlas-controls button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px; min-height: 48px; border: 1px solid #b7c8d4; border-radius: 6px; background: white; color: #36576e; font: inherit; font-size: 14px; cursor: pointer; }
+.atlas-controls button[aria-pressed="true"] { background: #edf4fa; border-color: #23569a; color: #174a80; font-weight: 650; }
+.atlas-controls svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; flex-shrink: 0; }
+.atlas-controls > div { display: grid; gap: 4px; min-width: 0; flex: 1; max-width: 380px; }
+.atlas-controls label { font-size: 12px; font-weight: 650; color: #405b6c; }
+.atlas-controls select { min-height: 48px; width: 100%; min-width: 0; padding: 8px 32px 8px 12px; color: #263f4d; border: 1px solid #91aab9; border-radius: 6px; font: inherit; font-size: 15px; background-color: #fff; }
+.atlas-action-plan { margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid #dce2e4; }
+.disaster-steps { list-style: none; margin: 12px 0 4px; padding: 0; }
+.disaster-steps li { padding: 0 0 12px 13px; border-left: 2px solid #adc6cc; }
+.disaster-steps strong { font-size: 13px; color: #245b65; }
+.disaster-steps p { font-size: 13px; line-height: 1.55; margin: 3px 0 0; color: #3f5663; }
+.disaster-guidance-link { display: inline-flex; align-items: center; min-height: 44px; color: #23569a; font-size: 13px; }
+.disaster-plan-date { margin: 0; font-size: 11px; line-height: 1.5; color: #526672; }
+#atlas-hazard-legend:empty, #atlas-layer-status:empty { display: none; }
+#atlas-layer-credit { font-size: 11px; color: #506674; line-height: 1.5; padding: 0 16px 12px; margin: 0; }
+#atlas-layer-credit:empty { display: none; }
+#atlas-hazard-legend i { width: 13px; height: 13px; border: 1px solid #6b7780; display: inline-block; flex-shrink: 0; }
 .atlas-heading h2 { font-size: 27px; margin: 0; }
 .atlas-eyebrow { color: #48616c; font-size: 12px; margin: 0 0 4px; text-transform: uppercase; letter-spacing: .09em; font-weight: 650; }
 .atlas-offline-link { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-size: 14px; white-space: nowrap; color: #205f62; font-weight: 600; text-underline-offset: 4px; }
@@ -1001,6 +1019,9 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 .atlas-sources li { margin-bottom: 12px; }
 .resource-atlas :focus-visible { outline: 3px solid #23569a; outline-offset: 2px; }
 @media(max-width: 800px) {
+ .atlas-controls { padding: 0 16px 14px; gap: 12px; }
+ .atlas-controls > div { flex-basis: 200px; }
+ .atlas-controls select { font-size: 16px; }
  .atlas-layout { grid-template-columns: minmax(0,1fr); }
  #resource-map { height: 340px; }
  .atlas-places { border-left: 0; border-top: 1px solid #dce2e4; max-height: 260px; }
@@ -1025,6 +1046,12 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 }
 @media print {
   .resource-atlas { display: none; }
+  .resource-atlas:has(#atlas-action-plan:not([hidden])) { display: block; border: 0; }
+  .resource-atlas .atlas-heading, .resource-atlas .atlas-controls, .resource-atlas .atlas-guidance, .resource-atlas .atlas-map-column, .resource-atlas .atlas-sources { display: none; }
+  .resource-atlas .atlas-layout { display: block; }
+  .resource-atlas .atlas-places { max-height: none; overflow: visible; border: 0; padding: 0; }
+  .resource-atlas .atlas-places > :not(#atlas-action-plan) { display: none; }
+  .disaster-guidance-link::after { content: ' (' attr(href) ')'; font-size: 10px; overflow-wrap: anywhere; }
   .site-header, .site-footer, .preview-note, .copy-button { display: none; }
   .page { padding: 0; }
   .article-layout { display: block; }

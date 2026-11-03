@@ -4,12 +4,13 @@
  if(!root||!node)return;
  const config=JSON.parse(node.textContent),places=JSON.parse(document.querySelector('#phone-data').textContent).places;
  const select=document.querySelector('#phone-city'),offline=location.protocol==='file:';
- const tabs=[...root.querySelectorAll('[data-map-layer]')],list=root.querySelector('#atlas-place-list');
+ const disasters=window.FerdantDisasters,chooser=root.querySelector('#atlas-disaster'),everyday=root.querySelector('#atlas-everyday'),controls=[chooser,everyday],list=root.querySelector('#atlas-place-list');
  const status=root.querySelector('#atlas-map-status'),feedStatus=root.querySelector('#atlas-feed-status');
  const shards=new Map(),requests=new Map(),snapshots=JSON.parse(document.querySelector('#city-map-snapshot').textContent);
  if(snapshots.county)shards.set(snapshots.county,snapshots);
  const colors={hospital:'#23569a',food:'#28735b',support:'#735597',shelter:'#ac4b29'};
- let map,initPromise,boundary,layerGroup,highlight,active='everyday',version=0,selected,shard,cityBounds,limit=8,current=[],controller;
+ const requested=offline?document.querySelector('meta[name="ferdant-disaster"]')?.content:new URL(location.href).searchParams.get('hazard');
+ let map,initPromise,boundary,layerGroup,hazardGroup,highlight,hazardAttribution,active=disasters?.plans.has(requested)?requested:'everyday',version=0,selected,shard,cityBounds,limit=8,current=[],controller,hazardController;
  const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function point(key){
   const row=places.cities.find(c=>c[0]===key);
@@ -39,10 +40,11 @@
   initPromise=loadLeaflet().then(()=>{
    map=L.map('resource-map',{scrollWheelZoom:false,minZoom:5,maxZoom:19,zoomAnimation:false,fadeAnimation:false});
    map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
-   map.attributionControl.addAttribution('Boundaries: CDTFA / U.S. Census · Hazard areas: CGS / Cal OES');
+   map.attributionControl.addAttribution('Boundaries: CDTFA / U.S. Census');
    map.attributionControl.addAttribution('Buildings: © Microsoft, <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL</a>');
    if(!offline){const tiles=L.tileLayer(config.tileUrl,{maxZoom:19,keepBuffer:1,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);tiles.on('tileerror',()=>{root.querySelector('#resource-map').dataset.tiles='unavailable';status.textContent='Street tiles unavailable. The city outline, resource pins and list still work.';});}
-   boundary=L.layerGroup().addTo(map);layerGroup=L.layerGroup().addTo(map);highlight=L.layerGroup().addTo(map);
+   boundary=L.layerGroup().addTo(map);layerGroup=L.layerGroup().addTo(map);hazardGroup=L.layerGroup().addTo(map);highlight=L.layerGroup().addTo(map);
+   map.createPane('disaster-planning');map.getPane('disaster-planning').style.zIndex=390;
    root.querySelector('#resource-map').dataset.ready='true';
   }).catch(error=>{initPromise=undefined;status.textContent='The map could not load. Use the resource list and official links here.';throw error;});
   return initPromise;
@@ -121,25 +123,25 @@
   const more=root.querySelector('#atlas-more');more.hidden=active==='tsunami'||limit>=current.length;more.textContent=`Show ${Math.min(8,current.length-limit)} more places`;
   const note=root.querySelector('#atlas-list-note');
   if(active==='tsunami')note.textContent=shard?((shard.tsunami||[]).length?'Orange areas are the official county tsunami planning zones. Zoom in on the coast. Follow posted evacuation signs inland or uphill.':'This county has no polygons in this CGS tsunami dataset. This is not an all-hazards safety assessment.'):'The saved hazard layer is unavailable for this area. Open the official map below when online.';
-  else note.textContent=current.length?`${visible.length} of ${current.length} mapped places ${selected.city?(current.every(f=>f.within)?'inside the approximate city boundary':'near the city, within 25 km of its approximate center'):'in this county'}. Check service details before travelling.`:'No matching physical locations in this saved directory. Use your local contact list below for referrals.';
-  if(active==='tsunami'){
-   const li=document.createElement('li');li.className='atlas-zone-note';li.innerHTML='<strong>Where to go</strong><p>Use your local evacuation plan and posted signs. High ground depends on the location; this map does not certify a safe destination.</p><a href="https://www.conservation.ca.gov/cgs/tsunami/maps">Open official county maps</a><a href="https://www.tsunami.gov/">Current tsunami warnings</a>';list.append(li);
-  }
-  if(active==='earthquake'){
+  else note.textContent=current.length?`${visible.length} of ${current.length} mapped places ${current.some(f=>f.kind==='shelter')?'in the queried map area':selected.city?(current.every(f=>f.within)?'inside the approximate city boundary':'near the city, within 25 km of its approximate center'):'in this county'}. Check service details before travelling.`:'No matching physical locations in this saved directory. Use your local contact list below for referrals.';
+  const plan=disasters?.plans.get(active),showPlaces=active==='everyday'||plan?.resources||plan?.shelters;
+  if(plan?.shelters&&!plan.resources&&!current.length)note.textContent='Open shelter locations appear when FEMA returns mappable records. Check local instructions and the status below before travelling.';
+  list.hidden=!showPlaces;note.hidden=!showPlaces;root.querySelector('#atlas-list-title').hidden=!showPlaces;
+  if(plan?.shelters){
    const li=document.createElement('li');li.className='atlas-shelter-link';li.innerHTML='<a href="https://www.redcross.org/get-help/disaster-relief-and-recovery-services/find-an-open-shelter.html">Red Cross open-shelter map</a>';list.append(li);
   }
-  root.querySelector('#atlas-list-title').textContent=active==='tsunami'?'Read the hazard area':'Places on this map';
+  root.querySelector('#atlas-list-title').textContent=active==='everyday'?'Places on this map':'Response locations';
   const keys={hospital:'+ Emergency hospital',food:'F Food-bank referral',support:'i Community help',shelter:'S FEMA-listed shelter'};
   const legend=active==='tsunami'?'<span class="legend-tsunami">Tsunami hazard area</span>':[...new Set(visible.map(f=>f.kind))].map(kind=>'<span class="legend-'+kind+'">'+keys[kind]+'</span>').join('');
   root.querySelector('#atlas-legend').innerHTML='<span class="legend-boundary">Approximate boundary</span>'+legend+(active!=='tsunami'&&visible.some(f=>shard?.buildings?.[f.id])?'<span>Shaded building = estimated outline</span>':'');
   root.dataset.layer=active;
  }
  function guidance(){
-  const text={
-   everyday:'<strong>Find a useful place.</strong><span>Select a pin or a name for its address and service details.</span>',
-   earthquake:'<strong>During shaking: Drop. Cover. Hold on.</strong><span>Stay inside if inside. This layer is for finding help after shaking stops.</span><a href="https://www.ready.gov/earthquakes">FEMA / Ready.gov guidance</a>',
-   tsunami:'<strong>At the coast: move inland or to higher ground.</strong><span>After strong or long shaking, do not wait for a warning. Follow posted evacuation signs.</span><a href="https://www.caloes.ca.gov/office-of-the-director/operations/planning-preparedness-prevention/seismic-hazards/tsunami-program/tsunami-alerts/">Cal OES evacuation guidance</a>'};
-  root.querySelector('#atlas-guidance').innerHTML=text[active];
+  const plan=disasters?.plans.get(active),panel=root.querySelector('#atlas-action-plan');
+  root.querySelector('#atlas-guidance').innerHTML=plan?'<strong>'+escape(plan.headline)+'</strong><span>'+escape(plan.note)+'</span>':'<strong>Find a useful place.</strong><span>Select a pin or a name for its address and service details.</span>';
+  panel.hidden=!plan;panel.innerHTML=disasters?.planHTML(active)||'';
+  const sources=root.querySelector('#atlas-hazard-sources');sources.replaceChildren();
+  if(plan){for(const id of plan.layers){const s=disasters.registry.layers[id],p=document.createElement('p'),a=document.createElement('a');a.href=s.source;a.textContent=s.title;p.append(a,document.createTextNode(' · '+(s.published?s.published+' ('+s.dateMeaning+')':'Publisher date varies or is not supplied')+' · Checked '+s.checked+'. '+s.note));sources.append(p);}}
  }
  async function shelters(run){
   feedStatus.textContent=offline?'Offline copy: shelter status is not live. Use local alerts or the Red Cross map online.':'Checking FEMA-listed open shelters…';
@@ -151,7 +153,7 @@
    const query=new URLSearchParams({f:'geojson',where:"state='CA' AND shelter_status_code='OPEN'",outFields:'shelter_id,shelter_name,address_1,city,shelter_status_code,reporting_period,incident_name,latitude,longitude',geometry,geometryType:'esriGeometryEnvelope',inSR:'4326',outSR:'4326',spatialRel:'esriSpatialRelIntersects',resultRecordCount:'200',returnGeometry:'true'});
    const response=await fetch(config.shelterService+'/query?'+query,{credentials:'omit',signal:controller.signal});if(!response.ok)throw Error('Shelter feed unavailable');
    const data=await response.json();if(data.error||!Array.isArray(data.features)||data.exceededTransferLimit)throw Error('Incomplete feed');
-   if(run!==version||active!=='earthquake')return;
+   if(run!==version||!disasters?.plans.get(active)?.shelters)return;
    let missing=0;
    const items=data.features.flatMap(f=>{const p=f.properties||{},xy=f.geometry?.coordinates;if(String(p.shelter_status_code).toUpperCase()!=='OPEN')return [];
     const lat=Number(xy?.[1]??p.latitude),lng=Number(xy?.[0]??p.longitude);
@@ -159,40 +161,64 @@
     const reported=p.reporting_period?(typeof p.reporting_period==='number'?new Date(p.reporting_period).toISOString():String(p.reporting_period)):'not supplied';
     return [{id:'fema-'+p.shelter_id,name:p.shelter_name||'FEMA-listed open shelter',address:p.address_1||'Address not provided',city:p.city||selected.name,lat,lng,county:selected.county,kind:'shelter',source:'shelters',detail:`Status listed OPEN; incident: ${p.incident_name||'not supplied'}. Provider report: ${reported}. Availability, access and capacity must be confirmed with local officials. This is an all-incident feed.`}];});
    const unique=[...new Map(items.map(f=>[f.id,f])).values()];
-   current=[...unique,...nearby(config.facilities.filter(f=>f.kind==='hospital'))];drawPlaces();
+   current=[...unique,...(disasters.plans.get(active).resources?nearby(config.facilities.filter(f=>f.kind==='hospital')):[])];drawPlaces();
    feedStatus.textContent=`FEMA checked ${new Date().toLocaleString()}. ${unique.length?unique.length+' listed open shelter(s) in the map area.':'No open shelters returned for this map area; this does not establish that none exist.'}${missing?' '+missing+' location(s) could not be mapped.':''} All incidents; confirm with local officials.`;
-  }catch(error){if(run!==version||active!=='earthquake')return;feedStatus.textContent='FEMA shelter data is unavailable. Shelter locations are unknown here; check local officials or the Red Cross open-shelter map.';}
+  }catch(error){if(run!==version||!disasters?.plans.get(active)?.shelters)return;feedStatus.textContent='FEMA shelter data is unavailable. Shelter locations are unknown here; check local officials or the Red Cross open-shelter map.';}
   finally{clearTimeout(timer);}
  }
  function renderLayer(){
-  controller?.abort();const run=++version;limit=8;feedStatus.textContent='';
-  tabs.forEach(t=>{const chosen=t.dataset.mapLayer===active;t.setAttribute('aria-selected',chosen);t.tabIndex=chosen?0:-1;});
-  root.querySelector('#resource-map-panel').setAttribute('aria-labelledby','layer-'+active);
-  guidance();current=active==='tsunami'?[]:nearby(config.facilities.filter(f=>active==='everyday'||f.kind==='hospital'));drawPlaces();fit();
-  if(active==='earthquake')shelters(run);
+  controller?.abort();hazardController?.abort();hazardGroup?.clearLayers();const run=++version;limit=active==='everyday'?8:4;feedStatus.textContent='';
+  everyday.setAttribute('aria-pressed',String(active==='everyday'));chooser.value=active==='everyday'?'':active;
+  root.querySelector('#atlas-hazard-legend').replaceChildren();root.querySelector('#atlas-layer-status').textContent='';root.querySelector('#atlas-layer-credit').textContent='';root.dataset.hazardLoading='false';
+  const plan=disasters?.plans.get(active);guidance();
+  if(map){
+   if(hazardAttribution)map.attributionControl.removeAttribution(hazardAttribution);
+   const publishers=active==='tsunami'?['CGS / Cal OES']:plan?plan.layers.map(id=>disasters.registry.layers[id].publisher):[];
+   if(plan?.shelters)publishers.push('FEMA');
+   hazardAttribution=publishers.length?'Selected layer: '+[...new Set(publishers)].join(', '):null;
+   if(hazardAttribution)map.attributionControl.addAttribution(hazardAttribution);
+  }
+  current=active==='everyday'?nearby(config.facilities):plan?.resources?nearby(config.facilities.filter(f=>f.kind==='hospital')):[];drawPlaces();fit();
+  if(active==='tsunami')root.querySelector('#atlas-layer-status').textContent=shard?((shard.tsunami||[]).length?'CGS saved tsunami planning areas. Follow posted evacuation signs; unshaded land is not certified safe.':'No tsunami polygons in this county dataset. This is not an all-hazards safety assessment.'):'The detailed tsunami layer is not saved or available for this area. Use the official source.';
+  else if(plan)riskLayer(run,plan);
+  if(plan?.shelters)shelters(run);
+  if(!offline&&document.querySelector('[data-location-page]')&&selected){const url=new URL(location.href);if(plan)url.searchParams.set('hazard',active);else url.searchParams.delete('hazard');history.replaceState(null,'',url);}
+ }
+ async function riskLayer(run,plan){
+  const message=root.querySelector('#atlas-layer-status'),legend=root.querySelector('#atlas-hazard-legend');
+  if(!map||!cityBounds){message.textContent='The interactive overlay could not load. The plan and official guidance remain available.';return;}
+  root.dataset.hazardLoading='true';message.textContent=plan.layers.length?'Loading the official map layer…':'This plan has guidance; a verified overlay is not included yet.';
+  hazardController=new AbortController();const requestController=hazardController,timer=setTimeout(()=>requestController.abort(new DOMException('GIS request timed out','TimeoutError')),18000),key=selected.key,id=active;
+  try{
+   const b=cityBounds,entry=await disasters.load(id,key,[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()],requestController.signal);
+   if(run!==version||id!==active||key!==selected?.key)return;
+   const drawn=disasters.draw(entry,map,hazardGroup);
+   for(const item of drawn.legend){const span=document.createElement('span'),swatch=document.createElement('i');swatch.style.backgroundColor=item.color;swatch.setAttribute('aria-hidden','true');span.append(swatch,document.createTextNode(item.label));legend.append(span);}
+   message.textContent=disasters.description(entry);
+   root.querySelector('#atlas-layer-credit').textContent=[...new Set(entry.parts.map(p=>disasters.registry.layers[p.id]?.credit).filter(Boolean))].join(' · ');
+  }catch(error){if(run===version)message.textContent='The GIS layer is unavailable or timed out. Use the short plan and official map; missing data does not establish safety.';}
+  finally{clearTimeout(timer);if(run===version)root.dataset.hazardLoading='false';}
  }
  async function update(){
-  const run=++version;controller?.abort();selected=point(select.value);root.hidden=!selected;if(!selected)return;
-  tabs.forEach(tab=>{tab.disabled=true;});root.setAttribute('aria-busy','true');
-  shard=null;current=[];boundary?.clearLayers();layerGroup?.clearLayers();highlight?.clearLayers();list.replaceChildren();feedStatus.textContent='';
+  const run=++version;controller?.abort();hazardController?.abort();selected=point(select.value);root.hidden=!selected;if(!selected)return;
+  controls.forEach(control=>{control.disabled=true;});root.setAttribute('aria-busy','true');
+  shard=null;current=[];boundary?.clearLayers();layerGroup?.clearLayers();hazardGroup?.clearLayers();highlight?.clearLayers();list.replaceChildren();feedStatus.textContent='';
   root.querySelector('#resource-map-title').textContent=selected.name+' on the map';status.textContent='Loading the city outline…';
   const county=selected.county;
   const results=await Promise.allSettled([init(),loadCounty(county)]);if(run!==version)return;
-  tabs.forEach(tab=>{tab.disabled=false;});root.removeAttribute('aria-busy');
+  controls.forEach(control=>{control.disabled=false;});chooser.disabled=!disasters;root.removeAttribute('aria-busy');
   shard=results[1].status==='fulfilled'?results[1].value:null;
   if(!map){renderLayer();return;}
   drawBoundary();status.textContent=!shard?(offline?'Offline overview. This area’s detailed outline and hazard layer were not saved.':'Area data unavailable. The approximate location, resources and source links remain available.'):(offline?'Saved outline and planning zones. Street tiles and shelter status are unavailable offline.':'Choose a pin or a place. City view restores the full area.');
   renderLayer();
  }
- tabs.forEach((tab,index)=>{
-  tab.addEventListener('click',()=>{active=tab.dataset.mapLayer;renderLayer();fit();});
-  tab.addEventListener('keydown',event=>{let next;if(event.key==='ArrowRight')next=(index+1)%tabs.length;if(event.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;if(event.key==='Home')next=0;if(event.key==='End')next=tabs.length-1;if(next!==undefined){event.preventDefault();tabs[next].focus();tabs[next].click();}});
- });
+ everyday.addEventListener('click',()=>{active='everyday';renderLayer();});
+ chooser.addEventListener('change',()=>{active=disasters?.plans.has(chooser.value)?chooser.value:'everyday';renderLayer();});
  root.querySelector('#atlas-reset').addEventListener('click',()=>{highlight?.clearLayers();map?.closePopup();fit();});
  root.querySelector('#atlas-more').addEventListener('click',()=>{limit+=8;drawPlaces();fit();});
  const sourceList=root.querySelector('#atlas-source-list');
  for(const source of Object.values(config.sources)){const li=document.createElement('li'),a=document.createElement('a');a.href=source.url;a.textContent=source.title;li.append(a,document.createTextNode(' — '+(source.published?'Publisher/data date: '+source.published+'. ':'Publisher date not supplied. ')+source.note));sourceList.append(li);}
  // Export only public county geometry. Never copy map popups, private inputs or a live shelter status.
- window.FerdantResourceMap={async embed(doc,key){const p=point(key),saved=p&&await loadCounty(p.county);const target=doc.querySelector('#city-map-snapshot');if(target)target.textContent=JSON.stringify(saved||{}).replace(/</g,'\\u003c');}};
+ window.FerdantResourceMap={get active(){return active;},async embed(doc,key){const p=point(key),saved=p&&await loadCounty(p.county);const target=doc.querySelector('#city-map-snapshot');if(target)target.textContent=JSON.stringify(saved||{}).replace(/</g,'\\u003c');await disasters?.embed(doc,key,active);}};
  document.addEventListener('ferdant:location',update);update();
 })();

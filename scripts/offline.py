@@ -30,6 +30,7 @@ def build_editions(home, output):
     doc = doc.replace('<script src="/site.js" defer></script>', '')
     doc = doc.replace('<script src="/phone.js" defer></script>', '').replace('<script src="/infographic.js" defer></script>', '')
     doc = doc.replace('<script src="/resource-map.js" defer></script>', '')
+    doc = doc.replace('<script src="/disaster-layers.js" defer></script>', '')
     doc = re.sub(r'(<details class="phone-directory" id="local-essentials")([^>]*)(>)', lambda m: m[1]+m[2]+('' if re.search(r'\bopen\b',m[2]) else ' open')+m[3], doc)
     doc = re.sub(r'<div class="phone-actions">.*?</div>', '', doc, flags=re.S)
     doc = doc.replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
@@ -67,7 +68,8 @@ window.addEventListener('afterprint', () => {
     phone_js = leaflet_js + '\n' + (ROOT / 'phone.js').read_text(encoding='utf-8')
     infographic_js=(ROOT / 'infographic.js').read_text(encoding='utf-8')
     map_js=(ROOT / 'resource-map.js').read_text(encoding='utf-8')
-    doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{infographic_js}\n{map_js}\n{print_js}</script></body>')
+    disaster_js=(ROOT / 'disaster-layers.js').read_text(encoding='utf-8')
+    doc = doc.replace('</body>', f'<script>{js}\n{phone_js}\n{infographic_js}\n{disaster_js}\n{map_js}\n{print_js}</script></body>')
     doc = re.sub(r'(?m)^[ \t]+$', '', doc)
     (output / Path(DOWNLOAD).name).write_text(doc, encoding='utf-8')
     # Superseded preview exports; one shared edition replaces per-region copies.

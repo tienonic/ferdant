@@ -27,7 +27,9 @@ The deployed main branch remains the maintenance page until a fuller release is 
 - `content/california-cities.json`: official city/county index, approximate points, generalized local map and source hashes.
 - `content/resource-map.json`, `content/map-data-manifest.json`: dated public facilities, map source limits and exact geometry receipts.
 - `assets/data/city-maps/`: 58 compact county files, covering all 483 indexed city boundaries and 20 counties with official tsunami planning areas.
-- `scripts/resource_map.py`, `resource-map.js`: result-page map, exclusive Everyday / Earthquake / Tsunami tabs, readable place list and public geometry export. FEMA shelters are queried on demand; street tiles are online only.
+- `scripts/resource_map.py`, `resource-map.js`: result-page map, everyday resources and a compact 15-plan disaster selector. Changing a plan replaces the previous GIS overlay and resource pins. FEMA shelters are queried for applicable response plans; street tiles are online only.
+- `content/disasters.py`, `disaster-layers.js`: three-step plans, primary-source GIS registry, bounded on-demand queries, valid-time checks and eligible offline planning snapshots. Weather and shelter status are never frozen as current in an offline copy.
+- `content/disaster-source-manifest.json`, `scripts/audit-disaster-sources.py`: manual metadata receipt for the 13 official service endpoints. The builder runs no importer, audit or scheduler.
 - `scripts/project-building-outlines.py`: manual extraction of estimated Microsoft building outlines containing directory points; source geometry is ODbL, with receipts and license retained.
 - `assets/vendor/leaflet/`: pinned Leaflet 1.9.4 release files, BSD license and download hashes.
 - `scripts/phone_chart.py`, `phone.js`: shared city phone chart, local filtering and city-only offline export.
@@ -46,6 +48,7 @@ npm.cmd ci --ignore-scripts
 npm.cmd run build
 npm.cmd run verify:responsive
 node tests/resource-map.cjs
+npm.cmd run verify:disasters
 ```
 
 Keep the local server running for browser checks. They test all 16 pages at 320, 390, 768 and

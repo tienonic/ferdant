@@ -138,7 +138,7 @@
  const routing=()=>location.protocol!=='file:' && Boolean(document.querySelector('[data-location-routing], [data-location-page]'));
  function closeSuggestions(){suggestions.hidden=true;mapSearch.setAttribute('aria-expanded','false');mapSearch.removeAttribute('aria-activedescendant');active=-1;}
  function activate(index){active=index;[...suggestions.children].forEach((el,i)=>el.setAttribute('aria-selected',String(i===active)));if(active>=0){mapSearch.setAttribute('aria-activedescendant',suggestions.children[active].id);suggestions.children[active].scrollIntoView({block:'nearest'});}}
- function commitPlace(key){closeSuggestions();if(routing()){location.assign('/local/?place='+encodeURIComponent(key));return;}chooseCity(key);}
+ function commitPlace(key){closeSuggestions();if(routing()){const query=new URLSearchParams({place:key}),hazard=window.FerdantResourceMap?.active;if(hazard&&hazard!=='everyday')query.set('hazard',hazard);location.assign('/local/?'+query);return;}chooseCity(key);}
  function suggest(){
   clearTimeout(closeTimer);const query=normalize(mapSearch.value);suggestions.replaceChildren();matches=[];active=-1;
   if(!query){closeSuggestions();searchStatus.textContent='';return;}

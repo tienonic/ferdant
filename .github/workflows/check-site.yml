@@ -43,6 +43,7 @@ jobs:
           done
           npm run verify:responsive
           npm run verify:maps
+          npm run verify:disasters
       - name: Save preview checks
         if: always()
         uses: actions/upload-artifact@v7.0.2
