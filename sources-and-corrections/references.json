@@ -112,6 +112,7 @@
     "docs/evacuation-map-20261103.md": "d7132b11603e629c58d09106418c8e5b93cf73d9089c699cfe74199f48b5bb45",
     "docs/evacuation-resources-20261103.md": "6a9a44f0dd4c50123517f5bac2dfcdb8637d9a13ece6cf80c2a4bb8f58ea0942",
     "docs/everyday-map-expansion-20261103.md": "fc13e4d07752aebc6b574e2ec96f8da8acafe4867ccb847f48fdec8839c83d1e",
+    "docs/everyday-map-visibility-20261103.md": "67009df381ab266888caa71d721d469f35b2faa2ec7fab1b5c463ac9f0973938",
     "docs/landing-flow-20261103.md": "769d86ba3cf61e0b56467851b0a253ed140261d31d2563d1575b127e1f15d5cc",
     "docs/outreach-buyers-and-income-findings-20261103.md": "2377d04566882beb6e10d362831c957e86ce8176b1dfe0eccc126639d55ae8f8",
     "docs/physical-services.md": "27302ec47f59878322120034f0fdb987bfc7a2499d632b8a6d2616b18afb221e",
@@ -127,7 +128,7 @@
     "phone.js": "d01c5de02e86c03119569de6a2033fb9615fa45e8109b936079cfb663dd87739",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
     "resource-booklet.js": "377274b2fb0800701767c67b2ad833c9a2230bd559b639f41413314da91dc971",
-    "resource-map.js": "8c80008459150cdad275dc689d372ebe4fddf43db5bdf4d17f566c10269a1eda",
+    "resource-map.js": "2a75db8d89ed58a8ad7c6112e74117baaf7f246627e92810d11b392823e66065",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
     "scripts/build.py": "21d30fa36a8e67fd81bf6835217036a60ee3d4154ed54f96b9a667f1e74815b5",
     "scripts/check-content.py": "912019aebb7a4ae61dfac2ec6772c1e1a30ffd15d1185bcb4412dc808f27e643",
@@ -151,7 +152,7 @@
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
     "service-resources.js": "efbaa68b9bb20649644f58e0f62b8e9776eb4eaa1267650af80b5b5fa05392ea",
     "site.js": "9fbad56eb918ca1acb66f9221a712f78ddd3a512358c1ca2f00778b68960a6b7",
-    "styles.css": "fb8d447ee4cc00f435fe798501a89f2ceaf77e6d90d77c36b106d47653d62f4c"
+    "styles.css": "89200cca50485cfc31e4ff3332ad65305b71e93b60a387caa45e5f5c58e566c6"
   },
   "references": [
     {

@@ -1,0 +1,37 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url'),{chromium}=require('playwright');
+const {stubPublicMap}=require('./map-network.cjs'),{mappedIds}=require('./map-inventory.cjs');
+const base=process.env.SITE_URL||'http://127.0.0.1:4173';
+function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64/chrome-headless-shell.exe')).find(fs.existsSync);}
+async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return r&&!r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});}
+(async()=>{
+ const b=await chromium.launch({executablePath:executable()}),report=[];fs.mkdirSync('screenshots/everyday-visible',{recursive:true});
+ try{
+  const c=await b.newContext({acceptDownloads:true}),p=await c.newPage(),errors=[];await stubPublicMap(c);p.on('pageerror',e=>errors.push(e.stack||e.message));
+  for(const [key,width]of [['57026',320],['57026',390],['57026',1440],['38001',390],['19050',1440],['county:19',1440]]){
+   await p.setViewportSize({width,height:1000});await p.goto(base+'/local/?place='+key);await ready(p);
+   const expected=await p.evaluate(async key=>(await FerdantResourceMap.directory(key)).items.map(f=>f.id).sort(),key),initial=(await mappedIds(p)).sort();
+   assert.deepEqual(initial,expected,'Every eligible resource must be represented before opening the list');assert.equal(initial.length,new Set(initial).size);
+   assert.equal(await p.locator('#atlas-place-list > li[data-resource-id]').count(),Math.min(8,expected.length));assert((await p.locator('#atlas-map-count').innerText()).startsWith(expected.length+' listed resources mapped'));
+   const count=await p.locator('.atlas-cluster').count();if(count){assert(await p.locator('.atlas-cluster').evaluateAll(es=>es.every(e=>getComputedStyle(e).display==='grid'&&e.innerText.trim()===e.dataset.resourceCount)));}
+   if(key==='57026'){
+    await p.locator('#atlas-more').click();assert.deepEqual((await mappedIds(p)).sort(),initial,'List expansion must not add or remove map resources');
+    await p.locator('#atlas-fit-resources').click();assert((await p.locator('#atlas-map-count').innerText()).includes(expected.length+' in this view'));
+    const group=p.locator('.atlas-cluster').first();if(await group.count()){await group.focus();await p.keyboard.press('Enter');assert.deepEqual((await mappedIds(p)).sort(),initial);}
+    await p.locator('#atlas-place-list summary').first().click();await p.locator('.leaflet-popup').waitFor({state:'visible'});
+    await p.locator('#atlas-reset').click();await p.locator('#atlas-resource-filters summary').click();assert((await p.locator('[data-resource-group="all"]').innerText()).endsWith('('+expected.length+')'));
+    await p.locator('[data-resource-group="water"]').click();const water=await p.evaluate(async()=>{const d=await FerdantResourceMap.directory('57026'),config=JSON.parse(document.querySelector('#resource-map-data').textContent);return d.items.filter(f=>(f.categories||[f.kind]).some(k=>config.serviceTypes[k].group==='water')).map(f=>f.id).sort();});assert.deepEqual((await mappedIds(p)).sort(),water);
+    await p.locator('[data-disaster="earthquake"]').click();await ready(p);assert.equal(await p.locator('.atlas-cluster').count(),0);assert(!(await p.locator('.atlas-map-summary').isVisible()));await p.locator('#atlas-everyday').click();await ready(p);assert.deepEqual((await mappedIds(p)).sort(),initial);
+   }
+   assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await p.locator('.atlas-map-column').screenshot({path:'screenshots/everyday-visible/'+key.replace(':','-')+'-'+width+'.png'});report.push({key,width,resources:expected.length,clusters:count});
+  }
+  await p.goto(base+'/local/?place=57026');await ready(p);const online=(await mappedIds(p)).sort();const wait=p.waitForEvent('download');await p.locator('#offline-download [data-city-download]').click();const download=await wait,saved=path.resolve('screenshots/everyday-visible/davis-offline.html');await download.saveAs(saved);
+  const off=await b.newContext({offline:true}),o=await off.newPage(),requests=[];o.on('request',r=>{if(/^https?:/.test(r.url()))requests.push(r.url());});o.on('pageerror',e=>errors.push(e.stack||e.message));await o.goto(pathToFileURL(saved).href);await ready(o);assert.deepEqual((await mappedIds(o)).sort(),online);assert.deepEqual(requests,[]);await off.close();
+  // Two distinct services at the same coordinates must both remain selectable.
+  const same=await b.newContext(),s=await same.newPage();await stubPublicMap(same);s.on('pageerror',e=>errors.push(e.stack||e.message));
+  await same.route(/\/local\/\?place=57026$/,async route=>{const response=await route.fetch(),html=await response.text();const body=html.replace(/(<script type="application\/json" id="resource-map-data">)(.*?)(<\/script>)/s,(_,start,json,end)=>{const data=JSON.parse(json),a=data.facilities.find(f=>f.id==='dcmh-meals'),b=data.facilities.find(f=>f.id==='dcmh-center');b.lat=a.lat;b.lng=a.lng;return start+JSON.stringify(data).replace(/</g,'\\u003c')+end;});await route.fulfill({response,body});});
+  await s.goto(base+'/local/?place=57026');await ready(s);
+  for(let i=0;i<5&&!(await s.locator('.atlas-cluster-places').count());i++)await s.locator('.atlas-cluster[data-resource-ids*="dcmh-meals"][data-resource-ids*="dcmh-center"]').click();
+  assert.equal(await s.locator('.atlas-cluster-places button').count(),2);const chosen=(await s.locator('.atlas-cluster-places button').last().innerText()).split(' / ')[0];await s.locator('.atlas-cluster-places button').last().click();await s.waitForFunction(name=>document.querySelector('.leaflet-popup-content')?.textContent.includes(name),chosen);await same.close();
+  assert.deepEqual(errors,[]);fs.writeFileSync('screenshots/everyday-visible/verification.json',JSON.stringify({report,allResourcesRepresented:true,listIndependent:true,coLocatedResourcesSelectable:true,keyboard:true,offlineHTTP:0,errors},null,2));console.log('Everyday visibility passed: full map inventory, counted groups, category counts, independent list, fit-all, keyboard, co-located services, city/county views, mobile and offline.');
+ }finally{await b.close();}
+})().catch(e=>{console.error(e);process.exitCode=1;});

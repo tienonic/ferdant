@@ -1,3 +1,4 @@
+const {mappedIds,mappedCount}=require('./map-inventory.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto');
 const {pathToFileURL}=require('node:url');
 const {chromium}=require('playwright'),{stubPublicMap}=require('./map-network.cjs');
@@ -48,7 +49,7 @@ function inside(geometries,f){return geometries.some(g=>(g.type==='Polygon'?[g.c
   const choices=[...places.cities.map(c=>({key:c[0],name:c[1]})),...Object.entries(places.counties).map(([id,name])=>({key:'county:'+id,name:name+' County'}))];
   for(let i=0;i<choices.length;i++){
    const choice=choices[i];await p.locator('#phone-city').selectOption(choice.key,{force:true});await ready(p);
-   assert.equal(await p.locator('#resource-map-title').innerText(),choice.name+' on the map');assert((await p.locator('.atlas-pin').count())>0,choice.name);
+   assert.equal(await p.locator('#resource-map-title').innerText(),choice.name+' on the map');assert(((await mappedIds(p)).length)>0,choice.name);
    assert.equal(await p.locator('.atlas-pin svg[data-icon^="resource-"]').count(),await p.locator('.atlas-pin').count());
    assert(!(await p.locator('#atlas-service-coverage').textContent()).includes('unavailable'),choice.name);assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    if(i%100===0)console.log('Statewide browser choices: '+i+'/'+choices.length);
@@ -76,12 +77,12 @@ function inside(geometries,f){return geometries.some(g=>(g.type==='Polygon'?[g.c
   const download=p.waitForEvent('download');await p.locator('#offline-download [data-city-download]').click();const dl=await download,file=path.resolve('screenshots/statewide-services-los-angeles.html');await dl.saveAs(file);
   const offline=await browser.newContext({offline:true,viewport:{width:390,height:960}}),o=await offline.newPage(),offlineHTTP=[];o.on('request',r=>{if(/^https?:/.test(r.url()))offlineHTTP.push(r.url());});await o.goto(pathToFileURL(file).href);await ready(o);
   assert.deepEqual(await o.locator('#service-map-snapshot').evaluate(el=>Object.keys(JSON.parse(el.textContent).counties)),['19']);
-  assert((await o.locator('.atlas-pin.library').count())>0);assert((await o.locator('.atlas-pin.clinic').count())>0);
-  await o.locator('#phone-city').selectOption('19039',{force:true});await ready(o);assert((await o.locator('.atlas-pin.library').count())>0);assert((await o.locator('.atlas-pin.clinic').count())>0);
+  assert((await mappedCount(o,'library'))>0);assert((await mappedCount(o,'clinic'))>0);
+  await o.locator('#phone-city').selectOption('19039',{force:true});await ready(o);assert((await mappedCount(o,'library'))>0);assert((await mappedCount(o,'clinic'))>0);
   await o.locator('#phone-city').selectOption('57026',{force:true});await ready(o);assert((await o.locator('#atlas-service-coverage').textContent()).includes('unavailable'));assert.deepEqual(offlineHTTP,[]);await offline.close();
   findings.push({offlineCounty:'19',newLibraryClinicPoints:'retained',sameCountyCitySwitch:'retained',otherCounty:'explicit additional-data gap',offlineHTTP:0});
   await c.close();
-  const failure=await browser.newContext();await stubPublicMap(failure);const f=await failure.newPage();await f.route('**/assets/data/service-maps/34.json',r=>r.fulfill({contentType:'application/json',body:'{"schema":1,"county":"34","records":[]}'}));await f.goto(base+'/local/?place=34060');await ready(f);assert((await f.locator('#atlas-service-coverage').textContent()).includes('unavailable'));const baselineIds=new Set(config.facilities.map(x=>x.id));for(const id of await f.locator('.atlas-pin').evaluateAll(els=>els.map(el=>el.dataset.resourceId)))assert(baselineIds.has(id),'A failed statewide source may retain real baseline locations only');await f.unroute('**/assets/data/service-maps/34.json');await f.reload();await ready(f);assert((await f.locator('.atlas-pin.library').evaluateAll(els=>els.some(el=>el.dataset.resourceId.startsWith('imls-')))));await failure.close();
+  const failure=await browser.newContext();await stubPublicMap(failure);const f=await failure.newPage();await f.route('**/assets/data/service-maps/34.json',r=>r.fulfill({contentType:'application/json',body:'{"schema":1,"county":"34","records":[]}'}));await f.goto(base+'/local/?place=34060');await ready(f);assert((await f.locator('#atlas-service-coverage').textContent()).includes('unavailable'));const baselineIds=new Set(config.facilities.map(x=>x.id));for(const id of await mappedIds(f))assert(baselineIds.has(id),'A failed statewide source may retain real baseline locations only');await f.unroute('**/assets/data/service-maps/34.json');await f.reload();await ready(f);assert(((await mappedIds(f)).some(id=>id.startsWith('imls-'))));await failure.close();
   fs.writeFileSync('screenshots/statewide-services-verification.json',JSON.stringify({checkedUTC:new Date().toISOString(),dataAuditCities:483,dataAuditCountyFiles:58,newDirectoryPoints:3164,fixtures:'External hazard/shelter/tile responses simulated; regional directory bytes are the real checked projection',findings,hashFailure:'explicit; recovered after retry'},null,2));
   console.log('Statewide services: all 483 cities and 58 counties, all 15 disaster resource policies at four widths, distinct SVG markers and source failure recovery passed.');
  }finally{await browser.close();}
