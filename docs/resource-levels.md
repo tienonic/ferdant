@@ -13,7 +13,9 @@ clicking selects its resources. On touch screens, tapping previews a blue county
 and its name; View county resources confirms the choice. Moving away restores
 the normal or selected color, and panning clears a touch preview. Quick taps
 between counties keep the zoom steady; pinch and zoom buttons remain available.
-Keyboard search remains available in both modes. Changing modes
+In City mode, county outlines are background only: no county hover, tooltips,
+touch previews or county selection. Switch to County mode to enable those
+interactions. Keyboard search remains available in both modes. Changing modes
 changes the selection interface; a resource location changes only after a map
 choice or a confirmed search. The same switch works in the Change location
 control and in the complete offline HTML.

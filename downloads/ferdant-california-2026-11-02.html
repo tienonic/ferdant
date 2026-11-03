@@ -2713,6 +2713,11 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
   selectionKind=kind;
   modeButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.locationKind===kind)));
   if(mapRoot)mapRoot.dataset.selectionKind=kind;
+  countyLayers.forEach((layer,id)=>{
+   const element=layer.getElement();if(element)element.style.pointerEvents=kind==='county'?'auto':'none';
+   if(kind==='city')layer.unbindTooltip();else if(!layer.getTooltip())layer.bindTooltip(node(document,'span',places.counties[id]+' County'));
+   paintCounty(id);
+  });
   const field=document.querySelector('#map-city-search');if(field)field.placeholder=kind==='county'?'County, e.g. Yolo':'City, e.g. Davis';
   if(cityMap){if(kind==='county')cityMap.doubleClickZoom.disable();else cityMap.doubleClickZoom.enable();}
   if(cityMap&&cityMarkers){if(kind==='county'){if(cityMap.hasLayer(cityMarkers))cityMap.removeLayer(cityMarkers);}else if(!cityMap.hasLayer(cityMarkers))cityMap.addLayer(cityMarkers);}
@@ -2722,8 +2727,8 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  modeButtons.forEach(button=>button.addEventListener('click',()=>setSelectionKind(button.dataset.locationKind,true)));
  function paintCounty(id){
   const layer=countyLayers.get(id);if(!layer)return;
-  const blue=id===hoveredCounty||id===touchedCounty;
-  layer.setStyle(blue?{color:'#195caa',fillColor:'#4289d6',fillOpacity:.65,weight:2.5}:layer===selectedCounty?{color:'#126c68',fillColor:'#dcebe7',fillOpacity:.8,weight:2}:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1});
+  const blue=selectionKind==='county'&&(id===hoveredCounty||id===touchedCounty);
+  layer.setStyle(blue?{color:'#195caa',fillColor:'#4289d6',fillOpacity:.65,weight:2.5}:selectionKind==='county'&&layer===selectedCounty?{color:'#126c68',fillColor:'#dcebe7',fillOpacity:.8,weight:2}:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1});
   if(blue)layer.bringToFront();
  }
  function clearCountyPreview(){
@@ -2731,11 +2736,13 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
   previous.forEach(paintCounty);
  }
  function previewCounty(id){
+  if(selectionKind!=='county')return;
   const previous=[touchedCounty,hoveredCounty];touchedCounty=id;hoveredCounty=null;previous.forEach(paintCounty);paintCounty(id);
   countyPreviewName.textContent=places.counties[id]+' County';countyPreview.hidden=false;
   countyLayers.get(id)?.closeTooltip();
  }
  function chooseCounty(id){
+  if(selectionKind!=='county')return;
   const key='county:'+id;clearCountyPreview();
   if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(key);else chooseCity(key);
  }
@@ -2774,10 +2781,9 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
    cityMap.attributionControl.addAttribution('Map data: <a href="https://publish.data.ca.gov/dataset/boe-citycounty">CDTFA</a> · <a href="https://tigerweb.geo.census.gov/">U.S. Census Bureau</a>');
    const boundaries=L.geoJSON(places.map.geometry,{style:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1},onEachFeature:(feature,layer)=>{
     countyLayers.set(feature.properties.county,layer);
-    const label=document.createElement('span');label.textContent=feature.properties.name+' County';layer.bindTooltip(label);
     const id=feature.properties.county;
     layer.on('add',()=>{const element=layer.getElement();if(element){element.dataset.countyId=id;element.addEventListener('pointerdown',event=>{if(event.pointerType==='touch'||event.pointerType==='pen'){lastTouchCounty=id;lastTouchTime=Date.now();}});}});
-    layer.on('mouseover',()=>{if(Date.now()-lastTouchTime<800)return;if(touchedCounty)clearCountyPreview();const old=hoveredCounty;hoveredCounty=id;if(old)paintCounty(old);paintCounty(id);});
+    layer.on('mouseover',()=>{if(selectionKind!=='county'||Date.now()-lastTouchTime<800)return;if(touchedCounty)clearCountyPreview();const old=hoveredCounty;hoveredCounty=id;if(old)paintCounty(old);paintCounty(id);});
     layer.on('mouseout',()=>{if(hoveredCounty===id){hoveredCounty=null;paintCounty(id);}});
     layer.on('click',event=>{
      if(selectionKind!=='county')return;
