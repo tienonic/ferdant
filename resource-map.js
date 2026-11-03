@@ -400,7 +400,15 @@
  const sourceList=root.querySelector('#atlas-source-list');
  for(const source of Object.values(config.sources)){const li=document.createElement('li'),a=document.createElement('a');a.href=source.url;a.textContent=source.title;li.append(a,document.createTextNode(' — '+(source.published?'Publisher/data date: '+source.published+'. ':'Publisher date not supplied. ')+source.note));sourceList.append(li);}
  // Export only public county geometry. Never copy map popups, private inputs or a live shelter status.
- window.FerdantResourceMap={get active(){return active;},async routeMap(key){
+ window.FerdantResourceMap={get active(){return active;},async bookletGeometry(key){
+  const p=point(key||'');
+  if(!p)return {place:null,boundary:places.map.geometry.features.map(f=>f.geometry),bounds:[-124.6,32.3,-114,42.2]};
+  const area=await loadCounty(p.county).catch(()=>null);
+  const boundary=p.city?(area?.cities[p.key]||[]):[countyGeometry(p.county)].filter(Boolean);
+  const points=boundary.flatMap(g=>rings(g).flat(2)),xs=points.map(c=>c[0]),ys=points.map(c=>c[1]);
+  const bounds=points.length?[Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)]:[p.lng-.05,p.lat-.035,p.lng+.05,p.lat+.035];
+  return {place:p,boundary,bounds};
+ },async routeMap(key){
   const p=point(key||'');if(!p)return null;
   const [data,area]=await Promise.all([loadRoutes(p.county).catch(()=>null),loadCounty(p.county).catch(()=>null)]);if(!data)return null;
   const boundary=p.city?(area?.cities[p.key]||[]):[countyGeometry(p.county)].filter(Boolean);if(!boundary.length)return null;
@@ -415,6 +423,6 @@
   const area=results[0].status==='fulfilled'?results[0].value:null,extra=results[1].status==='fulfilled'?results[1].value:[],geoms=p.city?(area?.cities[p.key]||[]):[countyGeometry(p.county)].filter(Boolean);
   const items=[...config.facilities,...extra];
   return {place:p,items:services?services.nearby(items,p,f=>contains(geoms,f.lng,f.lat),{regional:results[1].status==='fulfilled'}):items.filter(f=>f.county===p.county),regionalAvailable:results[1].status==='fulfilled',geometryAvailable:Boolean(area)};
- },async embed(doc,key){const p=point(key),saved=p&&await loadCounty(p.county);const target=doc.querySelector('#city-map-snapshot');if(target)target.textContent=JSON.stringify(saved||{}).replace(/</g,'\\u003c');if(p){await services?.embed(doc,p.county);const routes=await loadRoutes(p.county).catch(()=>null);let node=doc.querySelector('#evacuation-route-snapshot');if(!node){node=doc.createElement('script');node.type='application/json';node.id='evacuation-route-snapshot';doc.body.prepend(node);}node.textContent=JSON.stringify(routes||{}).replace(/</g,'\\u003c');}await disasters?.embed(doc,key,active);}};
+ },async embed(doc,key){const p=point(key),saved=p&&await loadCounty(p.county);const target=doc.querySelector('#city-map-snapshot');if(target)target.textContent=JSON.stringify(saved||{}).replace(/</g,'\\u003c');if(p){await services?.embed(doc,p.county);const routes=await loadRoutes(p.county).catch(()=>null);let node=doc.querySelector('#evacuation-route-snapshot');if(!node){node=doc.createElement('script');node.type='application/json';node.id='evacuation-route-snapshot';doc.body.prepend(node);}node.textContent=JSON.stringify(routes||{}).replace(/</g,'\\u003c');}await disasters?.embed(doc,key,active);await window.FerdantBookletMap?.embed(doc,key);}};
  document.addEventListener('ferdant:location',update);update();
 })();

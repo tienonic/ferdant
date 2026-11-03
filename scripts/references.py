@@ -88,6 +88,9 @@ def compile_references():
                'content/resource-search.json', searches['checked'])
     for key, record in resources['sources'].items():
         source(record, 'maps', 'Resource map: ' + key, 'content/resource-map.json', resources['checked'])
+    roads = read('content/booklet-road-manifest.json')
+    source({k: roads[k] for k in ('publisher', 'source', 'checked', 'published', 'note')},
+           'maps', 'Printed booklet street maps on page 2', 'content/booklet-road-manifest.json')
     physical = read('content/physical-services.json')
     for key, record in physical['sources'].items():
         source(record, 'maps', 'Physical service: ' + key, 'content/physical-services.json', physical['checked'])

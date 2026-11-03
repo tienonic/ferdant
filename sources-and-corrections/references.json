@@ -13,7 +13,8 @@
   "inputSha256": {
     ".github/workflows/check-site.yml": "23c2c47db6fe7f14dab28667a6d32e200aecf6d5c858b18427267bfad7197491",
     "DESIGN.md": "5c07a65e2ad3aa75afb9f3faf16eb14bce9e376fbca542ff21868deb4a0e84c9",
-    "README.md": "c25f2348ae7d536630b3c7d9b09fda03beb7f7549dd526ad894f847518589374",
+    "README.md": "9994886b24d6ee9e57d32f0a40ff7904bd9a27339b1ff4135bb70e8b0c87e552",
+    "assets/data/booklet-roads/README.md": "c405902549ca25ca22e0f5398c208b9d5f8137df571e8c2d933a8a5d87ad98e7",
     "assets/data/city-maps/BUILDINGS-LICENSE.txt": "1e4162322549351e6ce131d66c3c6c6cb56755db58e0475138e3f41cd94c4b3c",
     "assets/data/city-maps/README.md": "346247e7e378991bcd18e3602eb7ca91b08f38a71aa9f7ac232eab8877cd8bde",
     "assets/data/everyday-maps/README.md": "7f0f956a461fc1b499e3ee052312e612a1f5f5c2d50e0a0c994d260b0b233fff",
@@ -86,7 +87,9 @@
     "assets/vendor/leaflet/LICENSE": "bbc959aaef7488b38942e7f05cfd1244351f8bce54261951ea17dd7cf60f894b",
     "assets/vendor/leaflet/README.md": "3c3d2d6ef268185b416e077f5428043753e1caa83b415302dd0611bcb915573e",
     "assets/vendor/leaflet/provenance.json": "d917712fb683c3dd56ffbf9d09e7a07e303f4a4d75a76e8ac9112a131d24fc23",
+    "booklet-map.js": "5579d3fb73cca41382c5ad89a463af796b6068e0d2259789305f80cdb7af21e3",
     "config/commerce.json": "1170fe3a9c9727e1827f0c35069369620e0db2b20c2261d7d83ba41c547f83b2",
+    "content/booklet-road-manifest.json": "f406e28011c16086d91cf733628328f268a89976f2be3dd35c9492644f398c11",
     "content/california-cities.json": "3c7eed83b6103ba8df4fc2d2bd45cc961fa9bc011bf40d065f2e36279b9fcd86",
     "content/directory.py": "b6e9ac2cf636dca5f73cccabe699d63f345b107cf2a19e5a499d3786ee435cf9",
     "content/disaster-source-manifest.json": "269678370101851e075c2d62f21a0cad9c5d3a5b808f61afafda82cb32b24256",
@@ -134,10 +137,10 @@
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
     "phone.js": "094f9f5299edabc858f45dd44d91f18df87592074cde075a363667ff2f39fcf5",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
-    "resource-booklet.js": "854d63e23c3aad272dde842f3f00b2eb6fe1b96bb932d9a67b61a30dc798c9a8",
-    "resource-map.js": "7d60c6032348ab467cd58fdeed5bb420791aedb1df235c6176c5dd7274136d45",
+    "resource-booklet.js": "e2b85ba3f5005a7c5597d69d83d0ab6d08d652584635843e512766c26231337e",
+    "resource-map.js": "c481cf97f8321c43e514274ee59c6ccbada51ba04d6fd4aa49bbae9d4ea390f3",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
-    "scripts/build.py": "0be4b2a96ded20c80faee1f082cfaab92d1c32aec35282b8d6b07a9ed2779d35",
+    "scripts/build.py": "18c7b425a86fbc5200ba3227b114ff21381c711185581bd47474cfdafbdaa4da",
     "scripts/check-content.py": "912019aebb7a4ae61dfac2ec6772c1e1a30ffd15d1185bcb4412dc808f27e643",
     "scripts/cost_tool.py": "71f3ff17044114405286e328aabfec51bed9d6536fd357214648a4d48c45af69",
     "scripts/graphics.py": "5fc8aac8d4e418e5f575749505b3d4e679cb98d3afadcb68d231c020f85f1557",
@@ -145,17 +148,18 @@
     "scripts/import-alert-links.py": "14fa1c157000de895f634327e7b94620830b33694ac0f604e505c168ef950a4a",
     "scripts/import-evacuation-routes.py": "30865e3f3d3e51f5b587618153b1a66b7f1cf7f7296241d908836f1aee497807",
     "scripts/landing.py": "6fb697f66edb9511ec3f78897d6a1c40435decbbd2a30bdca230ba7a7a44932a",
-    "scripts/offline.py": "2f81c19a2566a85a91789f36aeac5d6895fedf1f89f3b57e0e3a019de8831d93",
+    "scripts/offline.py": "935545a08f342ce177cf572bebeb8aaade81f7f603bebfc6ecab20e557ba975e",
     "scripts/phone_chart.py": "782c7914807f40c6efdf1cda0c345e01ea49fb7b7e645781f25d3b7c4340e6f2",
     "scripts/physical_services.py": "57961a7a681ca0cb840de47c431d7acf02f9a04c0e9c5aceacfc6c952223da8f",
+    "scripts/project-booklet-roads.py": "85a0b0a36265d8d79a4b37329495ac23165beef01d65cae7aeccda39982d5f8c",
     "scripts/project-building-outlines.py": "c9b573683aa5449a45660ee7d296475f5489dbe7288c43b0f5e7c8fa1f048347",
     "scripts/project-everyday-services.py": "497de5f704494b2f90c957c2917cfdf486d32ee5f87d20b592e449dbdc33887e",
     "scripts/project-hazard-risk.py": "9f83a4e7627d6d864d0c8cc664df42c899923ac2255f388a5b00354cf464f784",
     "scripts/project-statewide-services.py": "5610d54aee6d2e4a4c73f51b8381552c208f6967d82583248c23d1915bc87f37",
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
-    "scripts/references.py": "4f96e4bbd2fb293e1fafe4cf04289c6ad358e68d238031abffc001c14ecd7ff9",
+    "scripts/references.py": "da7425aa75d4e6fe2da33e89de996348d0784bd2a615289e977ba12717c3ef43",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
-    "scripts/resource_map.py": "f83a8b7d3acfbbf8d15fb76bdc7f014f948ded3bca845dc4c6bb357201d9a64d",
+    "scripts/resource_map.py": "e50ecab9fd3b3f513fefc5c21b3f8f44d0b77bdc94e42950d903784de1364809",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
     "service-resources.js": "efbaa68b9bb20649644f58e0f62b8e9776eb4eaa1267650af80b5b5fa05392ea",
@@ -1307,6 +1311,28 @@
           "access": "Public website link; no bulk reuse assumed",
           "evidenceURL": "https://www.usa.gov/help-with-utility-bills",
           "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+        }
+      ]
+    },
+    {
+      "title": "Printed booklet street maps on page 2",
+      "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Transportation/MapServer",
+      "category": "maps",
+      "uses": [
+        "Printed booklet street maps on page 2"
+      ],
+      "recordedIn": [
+        "assets/data/booklet-roads/README.md",
+        "content/booklet-road-manifest.json",
+        "scripts/project-booklet-roads.py"
+      ],
+      "records": [
+        {
+          "publisher": "U.S. Census Bureau",
+          "source": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Transportation/MapServer",
+          "checked": "2026-11-03",
+          "published": "2026-01-01",
+          "note": "Primary/secondary roads plus selected longest named local streets. Layer descriptions date geography January 1, 2026. Generalized orientation map, not directions, road-open status or evacuation designation."
         }
       ]
     },

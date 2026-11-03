@@ -10,6 +10,8 @@ Dormant Shopify infrastructure is included in the source, with no commerce UI or
 This ad-free revision adds City / County / State views and visible city, county,
 provider and statewide resource labels. See [resource levels and saved versions](docs/resource-levels.md).
 
+Every resource booklet includes a named street map, north needle and scale on page 2, independently of evacuation coverage. [Map sources, coverage and offline behavior](assets/data/booklet-roads/README.md).
+
 ## Preview locally
 
 From the repository directory:
