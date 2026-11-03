@@ -35,7 +35,7 @@ def landing_welcome():
 def landing_resources(branches, phones):
     resources = ''.join(f'''<a class="state-resource" href="{escape(url, quote=True)}">
       <span class="state-resource-icon" aria-hidden="true">{icon(symbol)}</span>
-      <span><strong>{title}</strong><span>{description}</span><small>{publisher} {icon('external')}</small></span>
+      <span><strong>{title}</strong><span>{description}</span><small><span class="resource-scope-badge scope-state">Statewide</span> {publisher} {icon('external')}</small></span>
     </a>''' for title, description, publisher, url, symbol in CALIFORNIA)
     communities = ''.join(f'''<a class="community-resource" href="https://www.reddit.com/r/{branch['name']}/">
       {icon(CATEGORY[branch['slug']])}<span><strong>{branch['name']}</strong><span>{branch['description']}</span></span>{icon('right')}</a>''' for branch in branches)

@@ -33,7 +33,7 @@ module.exports=async function checkLocationFlow(page,width){
  const localInput=page.getByRole('combobox',{name:'Search California cities or counties'});
  await localInput.fill('San');await page.getByRole('button',{name:'Search',exact:true}).click();assert(new URL(page.url()).searchParams.get('place')==='57026');
  assert((await page.locator('#city-search-status').innerText()).includes('Several'));
- await localInput.fill('Yolo');await localInput.press('ArrowDown');await localInput.press('Enter');await page.waitForURL('**/local/?place=county%3A57');
+ await page.locator('[data-location-kind="county"]').click();await localInput.fill('Yolo');await localInput.press('ArrowDown');await localInput.press('Enter');await page.waitForURL('**/local/?place=county%3A57');
  assert((await page.locator('h1').innerText()).includes('Yolo'));
  await page.goto(base+'/local/?place=not-a-place');assert((await page.locator('#local-page-intro').innerText()).includes('not found'));
  assert.equal(await page.locator('#phone-city').inputValue(),'');

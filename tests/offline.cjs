@@ -40,7 +40,7 @@ module.exports = async function checkOffline(browser, base) {
    assert((await p.locator('h1').innerText()).includes(region.name));
    assert.equal(await p.locator('#phone-city').inputValue(),region.key);
    assert.deepEqual(await p.locator('#phone-rows tr').evaluateAll(rows=>rows.map(row=>row.dataset.contactId)),expected);
-   await p.getByLabel('Search California cities or counties',{exact:true}).fill('San Diego');
+   await p.locator('[data-location-kind="city"]').click();await p.getByLabel('Search California cities or counties',{exact:true}).fill('San Diego');
    await p.getByRole('button',{name:'Search',exact:true}).click();
    assert.equal(await p.locator('#phone-city').inputValue(),'37060');
    assert(await p.locator('[data-local-contact="sd-nonemergency"]').isVisible());

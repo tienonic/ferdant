@@ -1184,3 +1184,24 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 @media(max-width:1050px) { .recommendation-full { display: none; } .recommendation-short { display: inline; } }
 @media(max-width:700px) { .site-header { gap: 8px; flex-wrap: wrap; height: auto; min-height: 78px; padding: 12px 0; } .recommendation-entry { padding: 8px; gap: 6px; font-size: 12px; } .recommendation-body { padding: 16px; } .recommendation-pair { grid-template-columns: minmax(0,1fr); gap: 0; } }
 @media print { .recommendation-panel { display: none; } }
+
+/* Geographic scope is separate from provider eligibility and dataset coverage. */
+.resource-levels { display: flex; flex-wrap: wrap; gap: 12px 36px; margin: 16px 0 6px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.resource-levels > div { min-width: 120px; padding-left: 12px; border-left: 3px solid #537ca2; }
+.resource-levels > div[data-resource-level="county"] { border-left-color: #438171; }
+.resource-levels > div[data-resource-level="state"] { border-left-color: #827093; }
+.resource-levels dt { font-size: 11px; color: var(--muted); }
+.resource-levels dd { font-size: 15px; font-weight: 600; margin: 2px 0 0; }
+.resource-scope-badge { display: inline-flex; align-items: center; max-width: 100%; width: fit-content; padding: 2px 7px; margin: 4px 0; border: 1px solid #bdcddd; background: #eef3f8; color: #294e70; font: 500 10px/1.5 var(--sans); letter-spacing: 0; text-transform: none; white-space: normal; }
+.scope-county { color: #285f51; border-color: #b4cdc4; background: #eef5f1; }
+.scope-state { color: #665076; border-color: #cdbfd7; background: #f4f0f7; }
+.scope-provider, .scope-nearby { color: #59616a; border-color: #c9d0d5; background: #f2f4f5; }
+.phone-table .resource-scope-badge { display: flex; margin-top: 5px; }
+#location-links .resource-scope-badge { margin-bottom: 5px; }
+.state-resource small .resource-scope-badge { display: inline-flex; margin-right: 5px; }
+.atlas-popup > .resource-scope-badge { display: flex; }
+.location-kind-switch { display: inline-flex; padding: 3px; border: 1px solid #b9c8cd; background: #fff; border-radius: 5px; margin-bottom: 12px; }
+.location-kind-switch button { min-height: 44px; min-width: 86px; padding: 8px 22px; border: 0; border-radius: 3px; background: transparent; color: var(--muted); font-size: 14px; }
+.location-kind-switch button[aria-pressed="true"] { color: #fff; background: #27695f; font-weight: 600; }
+@media(max-width: 700px) { .resource-levels { gap: 14px 20px; } .resource-levels > div { min-width: 90px; } .resource-levels dd { font-size: 14px; } }
+@media(forced-colors: active) { .resource-scope-badge, .resource-levels > div { border-color: CanvasText; } .location-kind-switch button[aria-pressed="true"] { outline: 2px solid Highlight; outline-offset: -3px; } }

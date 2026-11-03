@@ -98,6 +98,13 @@
  function contains(geometries,lng,lat){return geometries.some(g=>rings(g).some(p=>inRing(lng,lat,p[0])&&!p.slice(1).some(h=>inRing(lng,lat,h))));}
  function distance(a,b){const r=Math.PI/180,dlat=(a.lat-b.lat)*r,dlng=(a.lng-b.lng)*r;return 12742*Math.asin(Math.min(1,Math.sqrt(Math.sin(dlat/2)**2+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dlng/2)**2)));}
  function label(kind){return types[kind].label;}
+ function resourceScope(f){
+  if(f.servesCounty)return {level:'county',label:'County service · '+places.counties[selected.county]};
+  if(selected?.city&&f.within)return {level:'city',label:'City location · '+selected.name};
+  if(f.county===selected?.county)return {level:'county',label:'County location · '+places.counties[f.county]};
+  return {level:'nearby',label:'Nearby · '+(places.counties[f.county]?places.counties[f.county]+' County':'service area unconfirmed')};
+ }
+ function scopeBadge(f){const scope=resourceScope(f),badge=document.createElement('span');badge.className='resource-scope-badge scope-'+scope.level;badge.textContent=scope.label;return badge;}
  function policy(){return config.resourcePlans[active];}
  function searchGroup(){
   if(active==='everyday')return resourceFilter==='all'?'broad':resourceFilter==='temperature'?'emergency':resourceFilter;
@@ -180,6 +187,7 @@
  function info(f){
   const box=document.createElement('div');box.className='atlas-popup';
   const title=document.createElement('strong');title.textContent=f.name;box.append(title);
+  box.append(scopeBadge(f));
   const addr=document.createElement('p');addr.textContent=f.address+', '+f.city;box.append(addr);
   const note=document.createElement('p');note.textContent=f.detail;box.append(note);
   const visit=document.createElement('dl');visit.className='atlas-visit-details';
@@ -238,6 +246,7 @@
    const summary=document.createElement('summary');summary.className='atlas-place-summary';
    const locationNote=f.servesCounty&&!f.within?'Serves '+places.counties[selected.county]+' County · outside this city':selected.city&&!f.within?'Outside city · '+(places.counties[f.county]?places.counties[f.county]+' County · ':'')+(f.km<10?f.km.toFixed(1):Math.round(f.km))+' km straight-line from approximate city center':'';
    summary.innerHTML='<span class="atlas-place-symbol" style="color:'+colors[f.kind]+'">'+types[f.kind].icon+'</span><span class="atlas-place-heading"><strong>'+escape(f.name)+'</strong><span class="atlas-place-type">'+escape(f.typeLabel||label(f.kind))+'</span>'+(locationNote?'<span class="atlas-county-service">Outside city'+(f.km!==null?' / '+Math.round(f.km)+' km':'')+'</span>':'')+'</span>';
+   li.dataset.resourceLevel=resourceScope(f).level;summary.querySelector('.atlas-place-heading').append(scopeBadge(f));
    const body=info(f);if(locationNote){const p=document.createElement('p');p.className='atlas-county-service';p.textContent=locationNote;body.prepend(p);}
    detail.append(summary,body);detail.addEventListener('toggle',()=>{if(detail.open)focus(f,marker);});li.append(detail);list.append(li);
   }

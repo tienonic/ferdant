@@ -7,6 +7,9 @@ four actions and a useful tool or template; longer explanations and sources expa
 The three guides are proposed pilot content, not a record of resolved community cases.
 Dormant Shopify infrastructure is included in the source, with no commerce UI or page-load requests.
 
+This ad-free revision adds a City / County map switch and visible city, county,
+provider and statewide resource labels. See [resource levels and saved versions](docs/resource-levels.md).
+
 ## Preview locally
 
 From the repository directory:
@@ -56,6 +59,7 @@ The deployed main branch remains the maintenance page until a fuller release is 
 npm.cmd ci --ignore-scripts
 npm.cmd run build
 npm.cmd run verify:responsive
+npm.cmd run verify:scopes
 node tests/resource-map.cjs
 npm.cmd run verify:disasters
 npm.cmd run verify:services
@@ -87,6 +91,7 @@ correction/maintenance responsibility and measurement limits. Then create the pr
 python scripts/build.py --mode production
 $env:SITE_MODE = 'production'
 npm.cmd run verify:responsive
+npm.cmd run verify:scopes
 ```
 
 Production mode removes the preview notice and enables indexing for content pages. It does not

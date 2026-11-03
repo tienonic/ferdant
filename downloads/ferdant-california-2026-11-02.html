@@ -1847,16 +1847,37 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 @media(max-width:1050px) { .recommendation-full { display: none; } .recommendation-short { display: inline; } }
 @media(max-width:700px) { .site-header { gap: 8px; flex-wrap: wrap; height: auto; min-height: 78px; padding: 12px 0; } .recommendation-entry { padding: 8px; gap: 6px; font-size: 12px; } .recommendation-body { padding: 16px; } .recommendation-pair { grid-template-columns: minmax(0,1fr); gap: 0; } }
 @media print { .recommendation-panel { display: none; } }
+
+/* Geographic scope is separate from provider eligibility and dataset coverage. */
+.resource-levels { display: flex; flex-wrap: wrap; gap: 12px 36px; margin: 16px 0 6px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.resource-levels > div { min-width: 120px; padding-left: 12px; border-left: 3px solid #537ca2; }
+.resource-levels > div[data-resource-level="county"] { border-left-color: #438171; }
+.resource-levels > div[data-resource-level="state"] { border-left-color: #827093; }
+.resource-levels dt { font-size: 11px; color: var(--muted); }
+.resource-levels dd { font-size: 15px; font-weight: 600; margin: 2px 0 0; }
+.resource-scope-badge { display: inline-flex; align-items: center; max-width: 100%; width: fit-content; padding: 2px 7px; margin: 4px 0; border: 1px solid #bdcddd; background: #eef3f8; color: #294e70; font: 500 10px/1.5 var(--sans); letter-spacing: 0; text-transform: none; white-space: normal; }
+.scope-county { color: #285f51; border-color: #b4cdc4; background: #eef5f1; }
+.scope-state { color: #665076; border-color: #cdbfd7; background: #f4f0f7; }
+.scope-provider, .scope-nearby { color: #59616a; border-color: #c9d0d5; background: #f2f4f5; }
+.phone-table .resource-scope-badge { display: flex; margin-top: 5px; }
+#location-links .resource-scope-badge { margin-bottom: 5px; }
+.state-resource small .resource-scope-badge { display: inline-flex; margin-right: 5px; }
+.atlas-popup > .resource-scope-badge { display: flex; }
+.location-kind-switch { display: inline-flex; padding: 3px; border: 1px solid #b9c8cd; background: #fff; border-radius: 5px; margin-bottom: 12px; }
+.location-kind-switch button { min-height: 44px; min-width: 86px; padding: 8px 22px; border: 0; border-radius: 3px; background: transparent; color: var(--muted); font-size: 14px; }
+.location-kind-switch button[aria-pressed="true"] { color: #fff; background: #27695f; font-weight: 600; }
+@media(max-width: 700px) { .resource-levels { gap: 14px 20px; } .resource-levels > div { min-width: 90px; } .resource-levels dd { font-size: 14px; } }
+@media(forced-colors: active) { .resource-scope-badge, .resource-levels > div { border-color: CanvasText; } .location-kind-switch button[aria-pressed="true"] { outline: 2px solid Highlight; outline-offset: -3px; } }
 </style><meta property="og:type" content="website"><meta property="og:title" content="Local resources | Ferdant"><meta property="og:description" content="Checked California location resources, shared support numbers, public guides and a downloadable resource book with disaster resources, related phone charts and a complete offline website."><meta property="og:url" content="https://ferdant.com/local/"><meta property="og:site_name" content="Ferdant"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "WebSite", "name": "Ferdant", "url": "https://ferdant.com/"}, {"@context": "https://schema.org", "@type": "WebPage", "name": "Local resources", "description": "Checked California location resources, shared support numbers, public guides and a downloadable resource book with disaster resources, related phone charts and a complete offline website.", "url": "https://ferdant.com/local/", "inLanguage": "en"}]</script></head>
 <body><a class="skip" href="#main">Skip to content</a><div class="preview-note">Editorial preview · saved offline copy</div><div class="page"><header class="site-header"><a class="wordmark" href="#main" aria-label="Ferdant home">ferdant<span>.</span></a><nav class="desktop-nav" aria-label="Main navigation"><a href="#location-start">Find local help</a><a href="#california-resources">California resources</a><a href="#communities">Community</a></nav><a class="recommendation-entry" href="#recommend-a-resource" aria-label="Suggest a resource"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg><span class="recommendation-full">Suggest a resource</span><span class="recommendation-short" aria-hidden="true">Suggest</span></a><span class="header-note">Practical help for everyday problems</span><details class="mobile-menu"><summary>Menu</summary><nav aria-label="Mobile navigation"><a href="#location-start">Find local help</a><a href="#california-resources">California resources</a><a href="#communities">Community</a></nav></details></header><main id="main" tabindex="-1">
 
- <div class="portal-heading" data-location-page><div><h1 id="local-page-title">California offline edition</h1><p id="local-page-intro">Checked contacts, public resources and an offline copy.</p></div></div>
+ <div class="portal-heading" data-location-page><div><h1 id="local-page-title">California offline edition</h1><p id="local-page-intro">City resources, county services and statewide help.</p><dl class="resource-levels" id="local-resource-levels" aria-label="Your city, county and state" hidden></dl></div></div>
  <details class="change-location"><summary>Change location</summary><section class="location-start" id="location-start" aria-labelledby="location-title">
  <h2 id="location-title">Your saved location</h2>
- <div class="city-search" data-enhancement hidden><form id="map-city-form" role="search"><label for="map-city-search">Search California cities or counties</label><div class="city-search-row"><div class="suggestion-anchor"><input id="map-city-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="location-suggestions" placeholder="Start typing, e.g. Davis" autocomplete="off"><ul id="location-suggestions" role="listbox" aria-label="California locations" hidden></ul></div><button type="submit" class="button">Search</button></div><p id="city-search-status" role="status"></p></form></div>
+ <div class="city-search" data-enhancement hidden><div class="location-kind-switch" role="group" aria-label="Choose city or county"><button type="button" data-location-kind="city" aria-pressed="true">City</button><button type="button" data-location-kind="county" aria-pressed="false">County</button></div><form id="map-city-form" role="search"><label for="map-city-search">Search California cities or counties</label><div class="city-search-row"><div class="suggestion-anchor"><input id="map-city-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="location-suggestions" placeholder="City, e.g. Davis" autocomplete="off"><ul id="location-suggestions" role="listbox" aria-label="California locations" hidden></ul></div><button type="submit" class="button">Search</button></div><p id="city-search-status" role="status"></p></form></div>
 
  <p id="location-summary" role="status">Choose a city or county for checked local contacts. You can browse general resources below.</p>
- <div class="city-map-workspace" data-enhancement hidden><p id="city-map-status" role="status">Type a city name or choose a city marker. Search uses California locations only.</p><div id="city-map" role="region" aria-label="California city selection map"></div><p class="city-map-note">City locations and county lines are approximate. Choose a named city; this is not an address lookup or a route map.</p></div>
+ <div class="city-map-workspace" data-enhancement hidden><p id="city-map-status" role="status">City mode. Click a city marker or search its name.</p><div id="city-map" role="region" aria-label="California city or county selection map"></div><p class="city-map-note">City markers and county areas are approximate. Use the switch to choose a city or a county. This is not an address lookup or a route map.</p></div>
  <noscript><p>City selection needs JavaScript. California-wide phone numbers and the standard offline copy remain available below.</p></noscript>
  </section>
 </details>
@@ -1876,14 +1897,14 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
  <p id="location-coverage" class="portal-description"></p><ul id="location-links"></ul>
  <details class="location-notes"><summary>Service details & sources</summary><div id="location-notes"></div></details>
  <p class="location-source-note">Contacts checked November 2, 2026. Calls and texts need phone service. For immediate danger, call 911.</p></section>
- <div class="resource-heading" id="california-resources"><div><h2>Browse by need</h2><p>General guides & public services. Eligibility and service areas vary.</p></div></div><div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services"><details class="phone-directory" id="local-essentials" data-shared-only open>
+ <div class="resource-heading" id="california-resources"><div><h2>Statewide help &amp; general guides</h2><p>California-wide and national services, guides and discussions. Eligibility and service areas vary.</p></div></div><div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services"><details class="phone-directory" id="local-essentials" data-shared-only open>
       <summary class="phone-toggle"><svg class="ui-icon" data-icon="phone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m7 3 3 5-3 3c2 3 3 4 6 6l3-3 5 3v3c-8 3-20-9-17-17h3Z"/></svg><span><strong>California support numbers</strong><small>Shared statewide contacts</small></span><svg class="ui-icon" data-icon="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary><div class="phone-panel">
       <div class="phone-heading"><div><h2 id="phone-title">California-wide support</h2><p>California · Choose your city for local contacts.</p></div><div class="phone-controls" data-enhancement hidden><div class="phone-city-control" hidden><label for="phone-city">Your city in California</label><select id="phone-city" aria-describedby="phone-coverage"><option value="">California-wide numbers</option></select></div><div class="phone-query-control"><label for="phone-query">Find a service</label><input id="phone-query" type="search" placeholder="Poison, police, water…" autocomplete="off"></div></div></div>
 
       <p class="phone-coverage" id="phone-coverage" role="status">Showing California-wide support. City and county coverage is added when you choose a location.</p>
       <noscript><p>California-wide numbers are below. Enable JavaScript to choose a city; the downloaded file still includes these numbers without JavaScript.</p></noscript>
 
-      <table class="phone-table"><caption class="visually-hidden" id="phone-caption">California emergency and support phone numbers other than 911</caption><thead><tr><th scope="col">Help with</th><th scope="col">Phone number</th></tr></thead><tbody id="phone-rows"><tr data-contact-id="crisis"><th scope="row">Suicide &amp; emotional crisis<small>Crisis · California · 24/7</small></th><td><span class="phone-method"><a href="tel:988" aria-label="Call Suicide &amp; emotional crisis at 988">988</a><a class="phone-text" href="sms:988">Text 988</a></span></td></tr><tr data-contact-id="poison"><th scope="row">Poison exposure or questions<small>Poison advice · California · 24/7</small></th><td><span class="phone-method"><a href="tel:+18002221222" aria-label="Call Poison exposure or questions at 800-222-1222">800-222-1222</a></span></td></tr><tr data-contact-id="domestic-violence"><th scope="row">Domestic violence support<small>Crisis support · California</small></th><td><span class="phone-method"><a href="tel:+18007997233" aria-label="Call Domestic violence support at 800-799-7233">800-799-7233</a></span></td></tr><tr data-contact-id="sexual-assault"><th scope="row">Sexual assault support<small>Crisis support · California · 24/7</small></th><td><span class="phone-method"><a href="tel:+18006564673" aria-label="Call Sexual assault support at 800-656-4673">800-656-4673</a></span></td></tr><tr data-contact-id="disaster-distress"><th scope="row">Distress after a disaster<small>Crisis support · California · 24/7</small></th><td><span class="phone-method"><a href="tel:+18009855990" aria-label="Call Distress after a disaster at 800-985-5990">800-985-5990</a><a class="phone-text" href="sms:+18009855990">Text 800-985-5990</a></span></td></tr><tr data-contact-id="highway"><th scope="row">Highway conditions<small>Travel information · California</small></th><td><span class="phone-method"><a href="tel:+18004277623" aria-label="Call Highway conditions at 800-427-7623">800-427-7623</a></span></td></tr><tr data-contact-id="211-routing"><th scope="row">Food, housing &amp; disaster referrals<small>Referrals · California</small></th><td><span class="phone-method"><a href="tel:+18663463211" aria-label="Call Food, housing &amp; disaster referrals at 866-346-3211">866-346-3211</a></span></td></tr></tbody></table>
+      <table class="phone-table"><caption class="visually-hidden" id="phone-caption">California emergency and support phone numbers other than 911</caption><thead><tr><th scope="col">Help with</th><th scope="col">Phone number</th></tr></thead><tbody id="phone-rows"><tr data-contact-id="crisis" data-resource-level="state"><th scope="row">Suicide &amp; emotional crisis<span class="resource-scope-badge scope-state">Statewide · California</span><small>Crisis · California · 24/7</small></th><td><span class="phone-method"><a href="tel:988" aria-label="Call Suicide &amp; emotional crisis at 988">988</a><a class="phone-text" href="sms:988">Text 988</a></span></td></tr><tr data-contact-id="poison" data-resource-level="state"><th scope="row">Poison exposure or questions<span class="resource-scope-badge scope-state">Statewide · California</span><small>Poison advice · California · 24/7</small></th><td><span class="phone-method"><a href="tel:+18002221222" aria-label="Call Poison exposure or questions at 800-222-1222">800-222-1222</a></span></td></tr><tr data-contact-id="domestic-violence" data-resource-level="state"><th scope="row">Domestic violence support<span class="resource-scope-badge scope-state">Statewide · California</span><small>Crisis support · California</small></th><td><span class="phone-method"><a href="tel:+18007997233" aria-label="Call Domestic violence support at 800-799-7233">800-799-7233</a></span></td></tr><tr data-contact-id="sexual-assault" data-resource-level="state"><th scope="row">Sexual assault support<span class="resource-scope-badge scope-state">Statewide · California</span><small>Crisis support · California · 24/7</small></th><td><span class="phone-method"><a href="tel:+18006564673" aria-label="Call Sexual assault support at 800-656-4673">800-656-4673</a></span></td></tr><tr data-contact-id="disaster-distress" data-resource-level="state"><th scope="row">Distress after a disaster<span class="resource-scope-badge scope-state">Statewide · California</span><small>Crisis support · California · 24/7</small></th><td><span class="phone-method"><a href="tel:+18009855990" aria-label="Call Distress after a disaster at 800-985-5990">800-985-5990</a><a class="phone-text" href="sms:+18009855990">Text 800-985-5990</a></span></td></tr><tr data-contact-id="highway" data-resource-level="state"><th scope="row">Highway conditions<span class="resource-scope-badge scope-state">Statewide · California</span><small>Travel information · California</small></th><td><span class="phone-method"><a href="tel:+18004277623" aria-label="Call Highway conditions at 800-427-7623">800-427-7623</a></span></td></tr><tr data-contact-id="211-routing" data-resource-level="state"><th scope="row">Food, housing &amp; disaster referrals<span class="resource-scope-badge scope-state">Statewide · California</span><small>Referrals · California</small></th><td><span class="phone-method"><a href="tel:+18663463211" aria-label="Call Food, housing &amp; disaster referrals at 866-346-3211">866-346-3211</a></span></td></tr></tbody></table>
       <p id="phone-no-matches" class="phone-coverage" hidden>No saved contacts match that search. Clear “Find a service” to see all saved numbers for this location.</p>
       <p class="phone-footnote">Contacts checked 2026-11-02. Phone service is needed to call or text. This is a saved directory, with no live dispatch, outage or shelter feed. Immediate danger still needs 911.</p>
       <div id="phone-local-alert"></div><noscript><p><a href="https://calalerts.org/signup.html">Find emergency alert signup for your county</a> (online).</p></noscript>
@@ -2465,7 +2486,9 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  const cities = new Map(places.cities.map(([id,name,county,lat,lng])=>[id,{id,name,county,lat,lng}]));
  const mapRoot=document.querySelector('#city-map'),mapDisclosure=mapRoot?.closest('details');
  const landingOverview=Boolean(document.querySelector('[data-location-routing]'));
- let cityMap, mapPromise, mapBounds, selectedMarker, selectedCounty;
+ let cityMap, cityMarkers, mapPromise, mapBounds, selectedMarker, selectedCounty;
+ const modeButtons=[...document.querySelectorAll('[data-location-kind]')];
+ let selectionKind='city';
  const markers=new Map(), countyLayers=new Map();
  const select = document.querySelector('#phone-city');
  const options = document.createDocumentFragment();
@@ -2493,6 +2516,23 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  }
  function node(doc,tag,text,className) {
   const el=doc.createElement(tag);if(text)el.textContent=text;if(className)el.className=className;return el;
+ }
+ function contactLevel(id,location) {
+  const contact=data.contacts[id];
+  if(contact.scope==='PG&E customers only')return {level:'provider',label:'Provider · PG&E customers only'};
+  if(data.statewide.includes(id))return {level:'state',label:'Statewide · California'};
+  if(location&&(data.cityContacts[location.id]||[]).includes(id))return {level:'city',label:'City · '+location.name};
+  if(location&&(data.countyContacts[location.county]||[]).includes(id))return {level:'county',label:'County · '+places.counties[location.county]};
+  return {level:'provider',label:contact.scope};
+ }
+ function scopeBadge(doc,scope) {return node(doc,'span',scope.label,'resource-scope-badge scope-'+scope.level);}
+ function renderLevels(doc,location) {
+  const levels=doc.querySelector('#local-resource-levels');if(!levels)return;
+  levels.replaceChildren();levels.hidden=!location;
+  if(!location)return;
+  const isCounty=location.id.startsWith('county:');
+  const entries=isCounty?[['county','County',places.counties[location.county]+' County'],['state','State','California']]:[['city','City',location.name],['county','County',places.counties[location.county]+' County'],['state','State','California']];
+  for(const [level,label,name] of entries){const group=node(doc,'div');group.dataset.resourceLevel=level;group.append(node(doc,'dt',label),node(doc,'dd',name));levels.append(group);}
  }
  function contactMethods(doc,contact) {
   const fragment=doc.createDocumentFragment();
@@ -2550,7 +2590,8 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
    const copy=node(doc,'div'),heading=node(doc,'h3'),website=node(doc,'a',contact.title);
    website.href=data.sources[contact.source].url;heading.append(website);
    const scope=contact.scope==='Selected county'?`${places.counties[location.county]} County`:contact.scope;
-   copy.append(heading,node(doc,'small',[contact.kind,scope,contact.hours].filter(Boolean).join(' · ')));
+   const level=contactLevel(id,location);item.dataset.resourceLevel=level.level;
+   copy.append(scopeBadge(doc,level),heading,node(doc,'small',[contact.kind,scope,contact.hours].filter(Boolean).join(' · ')));
    const sourceData=data.sources[contact.source],detail=node(doc,'div',null,'phone-source');
    detail.append(node(doc,'h3',contact.title),node(doc,'p',contact.detail));
    const source=node(doc,'a',sourceData.title+' (online source)');source.href=sourceData.url;detail.append(source);
@@ -2569,7 +2610,8 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
    const contact=data.contacts[id], row=node(doc,'tr');row.dataset.contactId=id;
    const label=node(doc,'th',contact.title);label.scope='row';
    const scope=contact.scope==='Selected county' ? `${places.counties[location.county]} County` : contact.scope;
-   label.append(node(doc,'small',[contact.kind,scope,contact.hours].filter(Boolean).join(' · ')));
+   const level=contactLevel(id,location);row.dataset.resourceLevel=level.level;
+   label.append(scopeBadge(doc,level),node(doc,'small',[contact.kind,scope,contact.hours].filter(Boolean).join(' · ')));
    const cell=node(doc,'td');
    cell.append(contactMethods(doc,contact));
    row.dataset.phoneSearch=[contact.title,contact.detail,contact.kind,scope,...contact.phones.map(ref=>data.numbers[ref.number].label)].join(' ').toLocaleLowerCase();
@@ -2596,6 +2638,10 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
   const locationCity=doc.querySelector('[data-location-select]');if(locationCity)locationCity.value=key;
   const citySearch=doc.querySelector('#map-city-search');if(citySearch)citySearch.value=location && !location.id.startsWith('county:')?location.name:'';
   renderLocation(doc,location);
+  renderLevels(doc,location);
+  const intro=doc.querySelector('#local-page-intro');
+  if(intro&&location)intro.textContent=location.id.startsWith('county:')?`${places.counties[location.county]} County services and statewide help. Select a city for city-specific resources.`:`Resources in ${location.name}, ${places.counties[location.county]} County services and statewide help.`;
+  if(doc===document&&location)setSelectionKind(location.id.startsWith('county:')?'county':'city');
   const heading=doc.querySelector('#local-page-title');if(heading)heading.textContent=location?`Resources for ${location.name}, California`:'California resources';
   filter(doc);if(doc===document){syncMap(location);document.dispatchEvent(new CustomEvent('ferdant:location',{detail:{key}}));}return location;
  }
@@ -2628,14 +2674,15 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  function suggest(){
   clearTimeout(closeTimer);const query=normalize(mapSearch.value);suggestions.replaceChildren();matches=[];active=-1;
   if(!query){closeSuggestions();searchStatus.textContent='';return;}
-  const prefixMatches=locations.filter(item=>normalize(item.name).startsWith(query));
-  matches=(prefixMatches.length?prefixMatches:locations.filter(item=>normalize(item.name).includes(query))).sort((a,b)=>Number(!normalize(a.name).startsWith(query))-Number(!normalize(b.name).startsWith(query))||a.name.localeCompare(b.name)).slice(0,8);
+  const eligible=locations.filter(item=>item.id.startsWith('county:')===(selectionKind==='county'));
+  const prefixMatches=eligible.filter(item=>normalize(item.name).startsWith(query));
+  matches=(prefixMatches.length?prefixMatches:eligible.filter(item=>normalize(item.name).includes(query))).sort((a,b)=>Number(!normalize(a.name).startsWith(query))-Number(!normalize(b.name).startsWith(query))||a.name.localeCompare(b.name)).slice(0,8);
   for(const [index,item] of matches.entries()){
    const option=node(document,'li',item.label);option.id=`location-suggestion-${index}`;option.setAttribute('role','option');option.setAttribute('aria-selected','false');option.dataset.placeKey=item.id;
    option.addEventListener('pointerdown',event=>event.preventDefault());option.addEventListener('click',()=>commitPlace(item.id));suggestions.append(option);
   }
   suggestions.hidden=!matches.length;mapSearch.setAttribute('aria-expanded',String(Boolean(matches.length)));mapSearch.removeAttribute('aria-activedescendant');
-  searchStatus.textContent=matches.length?`${matches.length} California suggestions. Use arrow keys and Enter, or choose a result.`:'No California city or county matches. Try its name.';
+  searchStatus.textContent=matches.length?`${matches.length} California suggestions. Use arrow keys and Enter, or choose a result.`:`No California ${selectionKind==='city'?'city':'county'} matches. Use the City / County switch to change the search.`;
  }
  mapSearch.addEventListener('input',suggest);mapSearch.addEventListener('focus',()=>{if(mapSearch.value)suggest();});
  mapSearch.addEventListener('keydown',event=>{
@@ -2645,12 +2692,23 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  mapSearch.addEventListener('blur',()=>{closeTimer=setTimeout(closeSuggestions,150);});
  document.querySelector('#map-city-form').addEventListener('submit',event=>{
   event.preventDefault();if(!suggestions.hidden && active>=0){commitPlace(matches[active].id);return;}
-  const query=normalize(mapSearch.value),exact=locations.find(item=>normalize(item.name)===query),prefix=locations.filter(item=>query && normalize(item.name).startsWith(query));
+  const eligible=locations.filter(item=>item.id.startsWith('county:')===(selectionKind==='county'));
+  const query=normalize(mapSearch.value),exact=eligible.find(item=>normalize(item.name)===query),prefix=eligible.filter(item=>query && normalize(item.name).startsWith(query));
   const selected=exact||(prefix.length===1?prefix[0]:null);
   if(selected){commitPlace(selected.id);return;}
   suggest();searchStatus.textContent=matches.length?'Several locations match. Choose a suggestion; no location has changed.':'Choose a California city or county from the suggestions.';
  });
  function chooseCity(key){select.value=key;select.dispatchEvent(new Event('change'));}
+ function setSelectionKind(kind,reset=false){
+  selectionKind=kind;
+  modeButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.locationKind===kind)));
+  if(mapRoot)mapRoot.dataset.selectionKind=kind;
+  const field=document.querySelector('#map-city-search');if(field)field.placeholder=kind==='county'?'County, e.g. Yolo':'City, e.g. Davis';
+  if(cityMap&&cityMarkers){if(kind==='county'){if(cityMap.hasLayer(cityMarkers))cityMap.removeLayer(cityMarkers);}else if(!cityMap.hasLayer(cityMarkers))cityMap.addLayer(cityMarkers);}
+  if(reset){field.value='';closeSuggestions();searchStatus.textContent='';}
+  if(cityMap)syncMap(place(select.value));
+ }
+ modeButtons.forEach(button=>button.addEventListener('click',()=>setSelectionKind(button.dataset.locationKind,true)));
  function syncMap(location) {
   if(!cityMap)return;
   selectedMarker?.closeTooltip();selectedMarker?.setStyle({radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1});
@@ -2659,10 +2717,10 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
   selectedCounty=location?countyLayers.get(location.county):undefined;
   selectedCounty?.setStyle({color:'#126c68',fillColor:'#dcebe7',fillOpacity:.8,weight:2});
   if(selectedMarker){selectedMarker.setStyle({radius:8,color:'#126c68',fillColor:'#126c68',fillOpacity:1,weight:2});selectedMarker.bringToFront();}
-  mapStatus.textContent=location?`${location.name} selected. The phone chart and offline download use this location.`:'Click a city marker or type a city name. Clicking a county selects county-level contacts.';
+  mapStatus.textContent=location?`${location.name} selected. ${selectionKind==='county'?'Click a county area or search a county to change it.':'Click a city marker or search a city to change it.'}`:selectionKind==='county'?'County mode. Click a county area or search its name.':'City mode. Click a city marker or search its name.';
   if(!mapDisclosure || mapDisclosure.open) {
    cityMap.invalidateSize(false);
-   if(location && selectedMarker)cityMap.setView([location.lat,location.lng],9,{animate:false});
+   if(location && selectedMarker && selectionKind==='city')cityMap.setView([location.lat,location.lng],9,{animate:false});
    else if(selectedCounty)cityMap.fitBounds(selectedCounty.getBounds(),{padding:[15,15],animate:false});
    else cityMap.fitBounds(mapBounds,landingOverview?{paddingTopLeft:[15,15],paddingBottomRight:[15,Math.max(15,cityMap.attributionControl.getContainer().offsetHeight+8)],animate:false}:{padding:[15,15],animate:false});
    selectedMarker?.openTooltip();
@@ -2686,15 +2744,18 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
    const boundaries=L.geoJSON(places.map.geometry,{style:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1},onEachFeature:(feature,layer)=>{
     countyLayers.set(feature.properties.county,layer);
     const label=document.createElement('span');label.textContent=feature.properties.name+' County';layer.bindTooltip(label);
-    layer.on('click',()=>{const key='county:'+feature.properties.county;if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(key);else chooseCity(key);});
+    layer.on('add',()=>{const element=layer.getElement();if(element)element.dataset.countyId=feature.properties.county;});
+    layer.on('click',()=>{if(selectionKind!=='county')return;const key='county:'+feature.properties.county;if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(key);else chooseCity(key);});
    }}).addTo(cityMap);mapBounds=boundaries.getBounds();
+   cityMarkers=L.layerGroup().addTo(cityMap);
    for(const city of cities.values()){
-    const marker=L.circleMarker([city.lat,city.lng],{radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1,bubblingMouseEvents:false}).addTo(cityMap);
+    const marker=L.circleMarker([city.lat,city.lng],{radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1,bubblingMouseEvents:false}).addTo(cityMarkers);
     markers.set(city.id,marker);const label=document.createElement('span');label.textContent=city.name;marker.bindTooltip(label);
+    marker.on('add',()=>{const element=marker.getElement();if(element)element.dataset.cityId=city.id;});
     marker.on('click',()=>{if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(city.id);else chooseCity(city.id);});const element=marker.getElement();if(element)element.dataset.cityId=city.id;
    }
    if(landingOverview){cityMap.zoomControl.setPosition('topright');cityMap.on('resize',()=>{if(!select.value)syncMap(null);});}
-   document.querySelector('#city-map').dataset.ready='true';syncMap(place(select.value));
+   document.querySelector('#city-map').dataset.ready='true';setSelectionKind(selectionKind);
   }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. Location search and phone numbers still work.';});
   return mapPromise;
  }
@@ -3838,6 +3899,13 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
  function contains(geometries,lng,lat){return geometries.some(g=>rings(g).some(p=>inRing(lng,lat,p[0])&&!p.slice(1).some(h=>inRing(lng,lat,h))));}
  function distance(a,b){const r=Math.PI/180,dlat=(a.lat-b.lat)*r,dlng=(a.lng-b.lng)*r;return 12742*Math.asin(Math.min(1,Math.sqrt(Math.sin(dlat/2)**2+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dlng/2)**2)));}
  function label(kind){return types[kind].label;}
+ function resourceScope(f){
+  if(f.servesCounty)return {level:'county',label:'County service · '+places.counties[selected.county]};
+  if(selected?.city&&f.within)return {level:'city',label:'City location · '+selected.name};
+  if(f.county===selected?.county)return {level:'county',label:'County location · '+places.counties[f.county]};
+  return {level:'nearby',label:'Nearby · '+(places.counties[f.county]?places.counties[f.county]+' County':'service area unconfirmed')};
+ }
+ function scopeBadge(f){const scope=resourceScope(f),badge=document.createElement('span');badge.className='resource-scope-badge scope-'+scope.level;badge.textContent=scope.label;return badge;}
  function policy(){return config.resourcePlans[active];}
  function searchGroup(){
   if(active==='everyday')return resourceFilter==='all'?'broad':resourceFilter==='temperature'?'emergency':resourceFilter;
@@ -3920,6 +3988,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
  function info(f){
   const box=document.createElement('div');box.className='atlas-popup';
   const title=document.createElement('strong');title.textContent=f.name;box.append(title);
+  box.append(scopeBadge(f));
   const addr=document.createElement('p');addr.textContent=f.address+', '+f.city;box.append(addr);
   const note=document.createElement('p');note.textContent=f.detail;box.append(note);
   const visit=document.createElement('dl');visit.className='atlas-visit-details';
@@ -3978,6 +4047,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
    const summary=document.createElement('summary');summary.className='atlas-place-summary';
    const locationNote=f.servesCounty&&!f.within?'Serves '+places.counties[selected.county]+' County · outside this city':selected.city&&!f.within?'Outside city · '+(places.counties[f.county]?places.counties[f.county]+' County · ':'')+(f.km<10?f.km.toFixed(1):Math.round(f.km))+' km straight-line from approximate city center':'';
    summary.innerHTML='<span class="atlas-place-symbol" style="color:'+colors[f.kind]+'">'+types[f.kind].icon+'</span><span class="atlas-place-heading"><strong>'+escape(f.name)+'</strong><span class="atlas-place-type">'+escape(f.typeLabel||label(f.kind))+'</span>'+(locationNote?'<span class="atlas-county-service">Outside city'+(f.km!==null?' / '+Math.round(f.km)+' km':'')+'</span>':'')+'</span>';
+   li.dataset.resourceLevel=resourceScope(f).level;summary.querySelector('.atlas-place-heading').append(scopeBadge(f));
    const body=info(f);if(locationNote){const p=document.createElement('p');p.className='atlas-county-service';p.textContent=locationNote;body.prepend(p);}
    detail.append(summary,body);detail.addEventListener('toggle',()=>{if(detail.open)focus(f,marker);});li.append(detail);list.append(li);
   }

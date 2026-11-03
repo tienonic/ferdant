@@ -25,6 +25,7 @@ module.exports = async function checkPhoneDirectory(page, width) {
   assert(await page.locator('.phone-table a[href="tel:+18002221222"]').isVisible());
   await city.selectOption('57026',{force:true});
   await city.selectOption('county:57',{force:true});
+  await page.locator('[data-location-kind="city"]').click();
   await page.locator('#city-map [data-city-id="57026"]').click();
   assert.equal(await city.inputValue(),'57026');
   await city.selectOption('57026',{force:true});

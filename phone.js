@@ -6,7 +6,9 @@
  const cities = new Map(places.cities.map(([id,name,county,lat,lng])=>[id,{id,name,county,lat,lng}]));
  const mapRoot=document.querySelector('#city-map'),mapDisclosure=mapRoot?.closest('details');
  const landingOverview=Boolean(document.querySelector('[data-location-routing]'));
- let cityMap, mapPromise, mapBounds, selectedMarker, selectedCounty;
+ let cityMap, cityMarkers, mapPromise, mapBounds, selectedMarker, selectedCounty;
+ const modeButtons=[...document.querySelectorAll('[data-location-kind]')];
+ let selectionKind='city';
  const markers=new Map(), countyLayers=new Map();
  const select = document.querySelector('#phone-city');
  const options = document.createDocumentFragment();
@@ -34,6 +36,23 @@
  }
  function node(doc,tag,text,className) {
   const el=doc.createElement(tag);if(text)el.textContent=text;if(className)el.className=className;return el;
+ }
+ function contactLevel(id,location) {
+  const contact=data.contacts[id];
+  if(contact.scope==='PG&E customers only')return {level:'provider',label:'Provider · PG&E customers only'};
+  if(data.statewide.includes(id))return {level:'state',label:'Statewide · California'};
+  if(location&&(data.cityContacts[location.id]||[]).includes(id))return {level:'city',label:'City · '+location.name};
+  if(location&&(data.countyContacts[location.county]||[]).includes(id))return {level:'county',label:'County · '+places.counties[location.county]};
+  return {level:'provider',label:contact.scope};
+ }
+ function scopeBadge(doc,scope) {return node(doc,'span',scope.label,'resource-scope-badge scope-'+scope.level);}
+ function renderLevels(doc,location) {
+  const levels=doc.querySelector('#local-resource-levels');if(!levels)return;
+  levels.replaceChildren();levels.hidden=!location;
+  if(!location)return;
+  const isCounty=location.id.startsWith('county:');
+  const entries=isCounty?[['county','County',places.counties[location.county]+' County'],['state','State','California']]:[['city','City',location.name],['county','County',places.counties[location.county]+' County'],['state','State','California']];
+  for(const [level,label,name] of entries){const group=node(doc,'div');group.dataset.resourceLevel=level;group.append(node(doc,'dt',label),node(doc,'dd',name));levels.append(group);}
  }
  function contactMethods(doc,contact) {
   const fragment=doc.createDocumentFragment();
@@ -91,7 +110,8 @@
    const copy=node(doc,'div'),heading=node(doc,'h3'),website=node(doc,'a',contact.title);
    website.href=data.sources[contact.source].url;heading.append(website);
    const scope=contact.scope==='Selected county'?`${places.counties[location.county]} County`:contact.scope;
-   copy.append(heading,node(doc,'small',[contact.kind,scope,contact.hours].filter(Boolean).join(' · ')));
+   const level=contactLevel(id,location);item.dataset.resourceLevel=level.level;
+   copy.append(scopeBadge(doc,level),heading,node(doc,'small',[contact.kind,scope,contact.hours].filter(Boolean).join(' · ')));
    const sourceData=data.sources[contact.source],detail=node(doc,'div',null,'phone-source');
    detail.append(node(doc,'h3',contact.title),node(doc,'p',contact.detail));
    const source=node(doc,'a',sourceData.title+' (online source)');source.href=sourceData.url;detail.append(source);
@@ -110,7 +130,8 @@
    const contact=data.contacts[id], row=node(doc,'tr');row.dataset.contactId=id;
    const label=node(doc,'th',contact.title);label.scope='row';
    const scope=contact.scope==='Selected county' ? `${places.counties[location.county]} County` : contact.scope;
-   label.append(node(doc,'small',[contact.kind,scope,contact.hours].filter(Boolean).join(' · ')));
+   const level=contactLevel(id,location);row.dataset.resourceLevel=level.level;
+   label.append(scopeBadge(doc,level),node(doc,'small',[contact.kind,scope,contact.hours].filter(Boolean).join(' · ')));
    const cell=node(doc,'td');
    cell.append(contactMethods(doc,contact));
    row.dataset.phoneSearch=[contact.title,contact.detail,contact.kind,scope,...contact.phones.map(ref=>data.numbers[ref.number].label)].join(' ').toLocaleLowerCase();
@@ -137,6 +158,10 @@
   const locationCity=doc.querySelector('[data-location-select]');if(locationCity)locationCity.value=key;
   const citySearch=doc.querySelector('#map-city-search');if(citySearch)citySearch.value=location && !location.id.startsWith('county:')?location.name:'';
   renderLocation(doc,location);
+  renderLevels(doc,location);
+  const intro=doc.querySelector('#local-page-intro');
+  if(intro&&location)intro.textContent=location.id.startsWith('county:')?`${places.counties[location.county]} County services and statewide help. Select a city for city-specific resources.`:`Resources in ${location.name}, ${places.counties[location.county]} County services and statewide help.`;
+  if(doc===document&&location)setSelectionKind(location.id.startsWith('county:')?'county':'city');
   const heading=doc.querySelector('#local-page-title');if(heading)heading.textContent=location?`Resources for ${location.name}, California`:'California resources';
   filter(doc);if(doc===document){syncMap(location);document.dispatchEvent(new CustomEvent('ferdant:location',{detail:{key}}));}return location;
  }
@@ -169,14 +194,15 @@
  function suggest(){
   clearTimeout(closeTimer);const query=normalize(mapSearch.value);suggestions.replaceChildren();matches=[];active=-1;
   if(!query){closeSuggestions();searchStatus.textContent='';return;}
-  const prefixMatches=locations.filter(item=>normalize(item.name).startsWith(query));
-  matches=(prefixMatches.length?prefixMatches:locations.filter(item=>normalize(item.name).includes(query))).sort((a,b)=>Number(!normalize(a.name).startsWith(query))-Number(!normalize(b.name).startsWith(query))||a.name.localeCompare(b.name)).slice(0,8);
+  const eligible=locations.filter(item=>item.id.startsWith('county:')===(selectionKind==='county'));
+  const prefixMatches=eligible.filter(item=>normalize(item.name).startsWith(query));
+  matches=(prefixMatches.length?prefixMatches:eligible.filter(item=>normalize(item.name).includes(query))).sort((a,b)=>Number(!normalize(a.name).startsWith(query))-Number(!normalize(b.name).startsWith(query))||a.name.localeCompare(b.name)).slice(0,8);
   for(const [index,item] of matches.entries()){
    const option=node(document,'li',item.label);option.id=`location-suggestion-${index}`;option.setAttribute('role','option');option.setAttribute('aria-selected','false');option.dataset.placeKey=item.id;
    option.addEventListener('pointerdown',event=>event.preventDefault());option.addEventListener('click',()=>commitPlace(item.id));suggestions.append(option);
   }
   suggestions.hidden=!matches.length;mapSearch.setAttribute('aria-expanded',String(Boolean(matches.length)));mapSearch.removeAttribute('aria-activedescendant');
-  searchStatus.textContent=matches.length?`${matches.length} California suggestions. Use arrow keys and Enter, or choose a result.`:'No California city or county matches. Try its name.';
+  searchStatus.textContent=matches.length?`${matches.length} California suggestions. Use arrow keys and Enter, or choose a result.`:`No California ${selectionKind==='city'?'city':'county'} matches. Use the City / County switch to change the search.`;
  }
  mapSearch.addEventListener('input',suggest);mapSearch.addEventListener('focus',()=>{if(mapSearch.value)suggest();});
  mapSearch.addEventListener('keydown',event=>{
@@ -186,12 +212,23 @@
  mapSearch.addEventListener('blur',()=>{closeTimer=setTimeout(closeSuggestions,150);});
  document.querySelector('#map-city-form').addEventListener('submit',event=>{
   event.preventDefault();if(!suggestions.hidden && active>=0){commitPlace(matches[active].id);return;}
-  const query=normalize(mapSearch.value),exact=locations.find(item=>normalize(item.name)===query),prefix=locations.filter(item=>query && normalize(item.name).startsWith(query));
+  const eligible=locations.filter(item=>item.id.startsWith('county:')===(selectionKind==='county'));
+  const query=normalize(mapSearch.value),exact=eligible.find(item=>normalize(item.name)===query),prefix=eligible.filter(item=>query && normalize(item.name).startsWith(query));
   const selected=exact||(prefix.length===1?prefix[0]:null);
   if(selected){commitPlace(selected.id);return;}
   suggest();searchStatus.textContent=matches.length?'Several locations match. Choose a suggestion; no location has changed.':'Choose a California city or county from the suggestions.';
  });
  function chooseCity(key){select.value=key;select.dispatchEvent(new Event('change'));}
+ function setSelectionKind(kind,reset=false){
+  selectionKind=kind;
+  modeButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.locationKind===kind)));
+  if(mapRoot)mapRoot.dataset.selectionKind=kind;
+  const field=document.querySelector('#map-city-search');if(field)field.placeholder=kind==='county'?'County, e.g. Yolo':'City, e.g. Davis';
+  if(cityMap&&cityMarkers){if(kind==='county'){if(cityMap.hasLayer(cityMarkers))cityMap.removeLayer(cityMarkers);}else if(!cityMap.hasLayer(cityMarkers))cityMap.addLayer(cityMarkers);}
+  if(reset){field.value='';closeSuggestions();searchStatus.textContent='';}
+  if(cityMap)syncMap(place(select.value));
+ }
+ modeButtons.forEach(button=>button.addEventListener('click',()=>setSelectionKind(button.dataset.locationKind,true)));
  function syncMap(location) {
   if(!cityMap)return;
   selectedMarker?.closeTooltip();selectedMarker?.setStyle({radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1});
@@ -200,10 +237,10 @@
   selectedCounty=location?countyLayers.get(location.county):undefined;
   selectedCounty?.setStyle({color:'#126c68',fillColor:'#dcebe7',fillOpacity:.8,weight:2});
   if(selectedMarker){selectedMarker.setStyle({radius:8,color:'#126c68',fillColor:'#126c68',fillOpacity:1,weight:2});selectedMarker.bringToFront();}
-  mapStatus.textContent=location?`${location.name} selected. The phone chart and offline download use this location.`:'Click a city marker or type a city name. Clicking a county selects county-level contacts.';
+  mapStatus.textContent=location?`${location.name} selected. ${selectionKind==='county'?'Click a county area or search a county to change it.':'Click a city marker or search a city to change it.'}`:selectionKind==='county'?'County mode. Click a county area or search its name.':'City mode. Click a city marker or search its name.';
   if(!mapDisclosure || mapDisclosure.open) {
    cityMap.invalidateSize(false);
-   if(location && selectedMarker)cityMap.setView([location.lat,location.lng],9,{animate:false});
+   if(location && selectedMarker && selectionKind==='city')cityMap.setView([location.lat,location.lng],9,{animate:false});
    else if(selectedCounty)cityMap.fitBounds(selectedCounty.getBounds(),{padding:[15,15],animate:false});
    else cityMap.fitBounds(mapBounds,landingOverview?{paddingTopLeft:[15,15],paddingBottomRight:[15,Math.max(15,cityMap.attributionControl.getContainer().offsetHeight+8)],animate:false}:{padding:[15,15],animate:false});
    selectedMarker?.openTooltip();
@@ -227,15 +264,18 @@
    const boundaries=L.geoJSON(places.map.geometry,{style:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1},onEachFeature:(feature,layer)=>{
     countyLayers.set(feature.properties.county,layer);
     const label=document.createElement('span');label.textContent=feature.properties.name+' County';layer.bindTooltip(label);
-    layer.on('click',()=>{const key='county:'+feature.properties.county;if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(key);else chooseCity(key);});
+    layer.on('add',()=>{const element=layer.getElement();if(element)element.dataset.countyId=feature.properties.county;});
+    layer.on('click',()=>{if(selectionKind!=='county')return;const key='county:'+feature.properties.county;if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(key);else chooseCity(key);});
    }}).addTo(cityMap);mapBounds=boundaries.getBounds();
+   cityMarkers=L.layerGroup().addTo(cityMap);
    for(const city of cities.values()){
-    const marker=L.circleMarker([city.lat,city.lng],{radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1,bubblingMouseEvents:false}).addTo(cityMap);
+    const marker=L.circleMarker([city.lat,city.lng],{radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1,bubblingMouseEvents:false}).addTo(cityMarkers);
     markers.set(city.id,marker);const label=document.createElement('span');label.textContent=city.name;marker.bindTooltip(label);
+    marker.on('add',()=>{const element=marker.getElement();if(element)element.dataset.cityId=city.id;});
     marker.on('click',()=>{if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(city.id);else chooseCity(city.id);});const element=marker.getElement();if(element)element.dataset.cityId=city.id;
    }
    if(landingOverview){cityMap.zoomControl.setPosition('topright');cityMap.on('resize',()=>{if(!select.value)syncMap(null);});}
-   document.querySelector('#city-map').dataset.ready='true';syncMap(place(select.value));
+   document.querySelector('#city-map').dataset.ready='true';setSelectionKind(selectionKind);
   }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. Location search and phone numbers still work.';});
   return mapPromise;
  }

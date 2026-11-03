@@ -23,15 +23,15 @@ def phone_row(key):
             phones += f'<a class="phone-text" href="sms:{e(number["tel"])}">Text {e(number["label"])}</a>'
         phones += '</span>'
     scope = contact['kind'] + ' · ' + contact['scope'] + ((' · ' + contact['hours']) if contact.get('hours') else '')
-    return f'<tr data-contact-id="{key}"><th scope="row">{e(contact["title"])}<small>{e(scope)}</small></th><td>{phones}</td></tr>'
+    return f'<tr data-contact-id="{key}" data-resource-level="state"><th scope="row">{e(contact["title"])}<span class="resource-scope-badge scope-state">Statewide · California</span><small>{e(scope)}</small></th><td>{phones}</td></tr>'
 
 
 def city_search():
-    return '''<div class="city-search" data-enhancement hidden><form id="map-city-form" role="search"><label for="map-city-search">Search California cities or counties</label><div class="city-search-row"><div class="suggestion-anchor"><input id="map-city-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="location-suggestions" placeholder="Start typing, e.g. Davis" autocomplete="off"><ul id="location-suggestions" role="listbox" aria-label="California locations" hidden></ul></div><button type="submit" class="button">Search</button></div><p id="city-search-status" role="status"></p></form></div>'''
+    return '''<div class="city-search" data-enhancement hidden><div class="location-kind-switch" role="group" aria-label="Choose city or county"><button type="button" data-location-kind="city" aria-pressed="true">City</button><button type="button" data-location-kind="county" aria-pressed="false">County</button></div><form id="map-city-form" role="search"><label for="map-city-search">Search California cities or counties</label><div class="city-search-row"><div class="suggestion-anchor"><input id="map-city-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="location-suggestions" placeholder="City, e.g. Davis" autocomplete="off"><ul id="location-suggestions" role="listbox" aria-label="California locations" hidden></ul></div><button type="submit" class="button">Search</button></div><p id="city-search-status" role="status"></p></form></div>'''
 
 
 def city_map(include_search=True):
-    return f'''<div class="city-map-workspace" data-enhancement hidden>{city_search() if include_search else ''}<p id="city-map-status" role="status">Type a city name or choose a city marker. Search uses California locations only.</p><div id="city-map" role="region" aria-label="California city selection map"></div><p class="city-map-note">City locations and county lines are approximate. Choose a named city; this is not an address lookup or a route map.</p></div>'''
+    return f'''<div class="city-map-workspace" data-enhancement hidden>{city_search() if include_search else ''}<p id="city-map-status" role="status">City mode. Click a city marker or search its name.</p><div id="city-map" role="region" aria-label="California city or county selection map"></div><p class="city-map-note">City markers and county areas are approximate. Use the switch to choose a city or a county. This is not an address lookup or a route map.</p></div>'''
 
 
 def phone_chart(expanded=False, include_map=True, show_download=True, show_picker=True, shared_only=False):
