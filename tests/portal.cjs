@@ -11,6 +11,11 @@ module.exports = async function checkPortal(page) {
   assert.equal(await page.locator('.portal-count').count(), 0);
   assert.equal(await page.locator('[data-portal-card]:visible').count(), 6);
   assert.equal(await page.locator('[data-portal-entry]:visible').count(), 23);
+  const favicons = page.locator('.site-favicon');
+  assert.equal(await favicons.count(), 19);
+  await favicons.evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
+  assert(await favicons.evaluateAll(images=>images.every(img=>img.naturalWidth>0 && img.getAttribute('alt')==='' && img.getAttribute('aria-hidden')==='true' && img.getAttribute('src').startsWith('/assets/favicons/'))));
+  assert.equal(await page.locator('.portal-destination[href^="https:"] .ui-icon:not(small .ui-icon)').count(), 0);
   assert.equal(await page.locator('#portal-status').innerText(), 'Choose a category or open a tool.');
   await query.fill('contractor');
   assert.equal(await page.locator('[data-portal-entry]:visible').count(), 1);

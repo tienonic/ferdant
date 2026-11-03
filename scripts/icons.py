@@ -57,8 +57,26 @@ def icon(name):
     return f'<svg class="ui-icon" data-icon="{name}" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{GLYPHS[name]}</svg>'
 
 
+# Reviewed local copies; provenance and currentness limits live with the files.
+FAVICONS = {
+    'broadbandmap.fcc.gov': 'fcc-map.ico',
+    'consumercomplaints.fcc.gov': 'fcc-complaints.ico',
+    'www.ifixit.com': 'ifixit.png',
+    'consumer.ftc.gov': 'ftc.ico',
+    'www.usa.gov': 'usa.png',
+    'www.epa.gov': 'epa.png',
+    'www.consumerfinance.gov': 'cfpb.ico',
+    'www.ready.gov': 'ready.ico',
+    'www.reddit.com': 'reddit.png',
+}
+
+
 def destination_icon(url):
-    return icon('users' if url.startswith('https://www.reddit.com/r/') else DESTINATIONS.get(url, 'book'))
+    from urllib.parse import urlsplit
+    host = urlsplit(url).hostname
+    if host in FAVICONS:
+        return f'<img class="site-favicon" src="/assets/favicons/{FAVICONS[host]}" width="20" height="20" alt="" aria-hidden="true" decoding="async">'
+    return icon(DESTINATIONS.get(url, 'book'))
 
 
 def copy_icons():

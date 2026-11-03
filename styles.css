@@ -517,6 +517,7 @@ input::placeholder { color: #667480; }
 .destination-label { display: flex; gap: 9px; align-items: start; min-width: 0; }
 .destination-label > .ui-icon { width: 17px; height: 17px; margin-top: 2px; color: var(--cobalt); }
 .destination-label > span { min-width: 0; }
+.site-favicon { display: block; width: 20px; height: 20px; object-fit: contain; flex-shrink: 0; margin-top: 2px; }
 .portal-destination small { position: relative; padding-right: 17px; }
 .portal-destination small > .ui-icon { position: absolute; right: 0; top: 2px; width: 11px; height: 11px; color: var(--muted); }
 .portal-search .portal-search-glyph { display: flex; align-items: center; color: var(--cobalt); margin: 0; padding-left: 13px; cursor: text; align-self: stretch; }
@@ -602,8 +603,8 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
  .portal-nav a { flex-shrink: 1; font-size: 13px; }
  .portal-description, .portal-destination { font-size: 15px; }
  .portal-destination small { font-size: 12px; max-width: 78px; }
- .portal-destination:has(.ui-icon[data-icon="users"]) { grid-template-columns: 1fr; gap: 2px; }
- .portal-destination:has(.ui-icon[data-icon="users"]) small { margin-left: 28px; max-width: none; justify-self: start; }
+ .portal-destination[href^="https://www.reddit.com/"] { grid-template-columns: 1fr; gap: 2px; }
+ .portal-destination[href^="https://www.reddit.com/"] small { margin-left: 28px; max-width: none; justify-self: start; }
  .portal-card header h2 > .ui-icon { width: 24px; height: 24px; }
  .tool-dialog-header h2 { font-size: 25px; }
 }

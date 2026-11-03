@@ -1,0 +1,83 @@
+[
+  {
+    "host": "broadbandmap.fcc.gov",
+    "file": "fcc-map.ico",
+    "source": "https://icons.duckduckgo.com/ip3/broadbandmap.fcc.gov.ico",
+    "retrieved": "2026-11-02",
+    "verification": "cached; direct map/favicon returned empty 204",
+    "sha256": "fc38479def8f0fd1afa90e2e4136623ec68f6d123eee706a3cb2564592800f63",
+    "bytes": 15086
+  },
+  {
+    "host": "consumercomplaints.fcc.gov",
+    "file": "fcc-complaints.ico",
+    "source": "https://icons.duckduckgo.com/ip3/consumercomplaints.fcc.gov.ico",
+    "retrieved": "2026-11-02",
+    "verification": "cached; source blocked direct download",
+    "sha256": "fc38479def8f0fd1afa90e2e4136623ec68f6d123eee706a3cb2564592800f63",
+    "bytes": 15086
+  },
+  {
+    "host": "www.ifixit.com",
+    "file": "ifixit.png",
+    "source": "https://assets.cdn.ifixit.com/static/icons/ifixit/favicon-32x32.png",
+    "retrieved": "2026-11-02",
+    "verification": "direct; linked by resource page",
+    "sha256": "e9c9c72aa57e1811fd654cd7619bdbbcb14c70bae399f1559135c698144a5199",
+    "bytes": 337
+  },
+  {
+    "host": "consumer.ftc.gov",
+    "file": "ftc.ico",
+    "source": "https://icons.duckduckgo.com/ip3/consumer.ftc.gov.ico",
+    "retrieved": "2026-11-02",
+    "verification": "cached; source returned 404 to this client",
+    "sha256": "507f8f32aaef89f3e953e523be7e8f4041655bfda0b3e5951ba22e588fe4017d",
+    "bytes": 1150
+  },
+  {
+    "host": "www.usa.gov",
+    "file": "usa.png",
+    "source": "https://www.usa.gov/themes/custom/usagov/images/Favicon_USAGov.png",
+    "retrieved": "2026-11-02",
+    "verification": "direct; linked by resource page",
+    "sha256": "647bcb60dbeb82222cc34dca534fabb32fd75ef60c7652e232e2500339be32ad",
+    "bytes": 3169
+  },
+  {
+    "host": "www.epa.gov",
+    "file": "epa.png",
+    "source": "https://www.epa.gov/themes/epa_theme/images/favicon-32.png",
+    "retrieved": "2026-11-02",
+    "verification": "direct; linked by resource page",
+    "sha256": "2c1ae274961d57bba5b3d22308b933ac21c0f593b4aa7fca8fa56972c20594c6",
+    "bytes": 606
+  },
+  {
+    "host": "www.consumerfinance.gov",
+    "file": "cfpb.ico",
+    "source": "https://www.consumerfinance.gov/favicon.ico",
+    "retrieved": "2026-11-02",
+    "verification": "direct; conventional favicon endpoint",
+    "sha256": "c1f64aa4d5044369e3d036dd72ea27a6f35ea9fffd4a99fa5174c58026584c1c",
+    "bytes": 15086
+  },
+  {
+    "host": "www.ready.gov",
+    "file": "ready.ico",
+    "source": "https://icons.duckduckgo.com/ip3/www.ready.gov.ico",
+    "retrieved": "2026-11-02",
+    "verification": "cached; source blocked direct download",
+    "sha256": "b274b9354540d7f18cc589026ba61d4050b71bf9e347869fcacd97c80d519930",
+    "bytes": 93062
+  },
+  {
+    "host": "www.reddit.com",
+    "file": "reddit.png",
+    "source": "https://www.reddit.com/favicon.ico",
+    "retrieved": "2026-11-02",
+    "verification": "direct; conventional favicon endpoint",
+    "sha256": "3fcb0febd3450b5edbd536a86dbfe6dd7bad6bd39d3976801b069e14d15da5d3",
+    "bytes": 2441
+  }
+]

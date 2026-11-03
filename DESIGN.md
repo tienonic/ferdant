@@ -71,7 +71,10 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
 - Guide pages show actions and tools first. Longer explanations and sources use native expandable details.
 - Use sentence case. Skip decorative eyebrows, meaningless serial numbers and arrows appended to every action.
 - State exactly what buttons do. Keep calculator wording and behavior consistent across pages.
-- Use the original inline SVG set in `scripts/icons.py` for category, destination and action cues.
+- Use the original inline SVG set in `scripts/icons.py` for category, tool and action cues.
+- External destination rows use the actual site's locally saved favicon, with a visible publisher label.
+  Keep original category/tool/action SVGs. Preserve favicon colors and proportions, empty alt text and
+  download provenance, including cached-source/currentness limits. Do not fetch third-party icons at page load.
   Keep the 24-unit grid and rounded 1.9-unit strokes. Icons sit beside labels rather than in decorative tiles.
   Outbound links use the external marker; same-page tools use an expand cue. Labels carry the accessible names;
   SVGs are hidden from assistive technology and cannot receive focus. The search magnifier focuses its field.

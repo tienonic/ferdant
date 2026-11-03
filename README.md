@@ -27,7 +27,8 @@ The deployed main branch remains the maintenance page until a fuller release is 
 - `scripts/build.py`: shared page templates, metadata, breadcrumb schema and generated URLs.
 - `scripts/graphics.py`: original static category drawings for the directory summaries.
 - `scripts/cost_tool.py`: compact monthly-cost worksheet displayed directly on the homepage.
-- `scripts/icons.py`: original inline SVGs for category, resource type and action feedback.
+- `scripts/icons.py`: original category/tool/action SVGs and local destination-favicon mapping.
+- `assets/favicons/`: destination icons with download provenance and cached-source limits.
 - `styles.css`, `site.js`, `assets/`: appearance and small browser-only tools.
 - Generated HTML is checked in for the existing GitHub Pages deployment. Rebuild after editing sources.
 
