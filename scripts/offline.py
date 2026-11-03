@@ -41,14 +41,14 @@ def build_editions(home, guides, output):
     doc = doc.replace('<script src="/site.js" defer></script>', '')
     doc = doc.replace('<script src="/phone.js" defer></script>', '')
     doc = doc.replace('<details class="phone-directory" id="local-essentials">', '<details class="phone-directory" id="local-essentials" open>')
-    doc = re.sub(r'<details class="offline-download-panel service-row".*?</details>', '', doc, flags=re.S)
     doc = re.sub(r'<div class="phone-actions">.*?</div>', '', doc, flags=re.S)
     doc = doc.replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
     csp = "default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'"
     doc = doc.replace('<head>', f'<head><meta name="ferdant-city" content=""><meta http-equiv="Content-Security-Policy" content="{e(csp)}">', 1)
     doc = re.sub(r'<div class="preview-note">.*?</div>', '<div class="preview-note">Editorial preview · saved offline copy</div>', doc, count=1)
+    doc = doc.replace('<h2 id="location-title">Start with your location</h2>', '<h2 id="location-title">Your saved location</h2>')
     doc = doc.replace('<h1>Resources & tools</h1>', f'<h1>California<br>Offline edition</h1>')
-    doc = doc.replace('Find a useful place to start.</p>', f'Saved copy · Regional sources checked {DATA["checked"]}.</p>')
+    doc = doc.replace('Choose your location. Find your next step.</p>', f'Saved copy · Regional sources checked {DATA["checked"]}.</p>')
     notice = '<div class="offline-notice"><strong>Saved to your device</strong><p>The directory, tools and saved guides work without internet. Website links and alert signup need a connection; calls need phone service. This file has no live alerts, outages or shelter availability.</p><nav aria-label="Offline sections"><a href="#local-essentials">Local essentials</a><a href="#communities">Directory</a><a href="#saved-guides">Saved guides</a></nav></div>'
     doc = doc.replace('<main id="main" tabindex="-1">', '<main id="main" tabindex="-1">' + notice)
     doc = doc.replace('<section id="about"', saved_guides(guides) + '<section id="about"', 1)

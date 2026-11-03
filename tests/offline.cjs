@@ -11,6 +11,7 @@ module.exports = async function checkOffline(browser, base) {
  const page = await context.newPage();await page.goto(base+'/offline/');await page.evaluate(()=>document.fonts.ready);
  const requests=[];page.on('request',r=>requests.push(r.url()));
  const cases=[{key:'57026',name:'Davis'},{key:'19050',name:'Los Angeles'},{key:'county:57',name:'Yolo County (county-level)'},{key:'',name:'California'}];
+ const gap=places.cities.find(row=>!regional.cityContacts[row[0]] && !regional.countyContacts[row[2]].length);cases.splice(cases.length-1,0,{key:gap[0],name:gap[1]});
  for (const region of cases) {
   await page.getByLabel('Your city in California',{exact:true}).selectOption(region.key);
   const download=page.waitForEvent('download');await page.locator('[data-city-download]').click();
@@ -34,6 +35,7 @@ module.exports = async function checkOffline(browser, base) {
    assert.equal(await p.evaluate(()=>L.version),'1.9.4');
    assert((await p.locator('h1').innerText()).includes(region.name));
    assert.equal(await p.locator('#phone-city').inputValue(),region.key);
+   assert.equal(await p.locator('#location-city').inputValue(),region.key);
    assert.deepEqual(await p.locator('#phone-rows tr').evaluateAll(rows=>rows.map(row=>row.dataset.contactId)),expected);
    await p.getByLabel('Find a city on the map',{exact:true}).fill('San Diego');
    await p.getByRole('button',{name:'Find city',exact:true}).click();
@@ -88,6 +90,8 @@ module.exports = async function checkOffline(browser, base) {
   const p=await noJs.newPage();await p.goto(pathToFileURL(saved).href);
   assert.deepEqual(await p.locator('#phone-rows tr').evaluateAll(rows=>rows.map(row=>row.dataset.contactId)),expected);
   assert.equal(await p.locator('.phone-table a[href="tel:911"]').count(),0);
+  assert.equal(await p.locator('#location-resources').isVisible(),Boolean(region.key));
+  if(region.key)assert((await p.locator('#location-results-title').innerText()).includes(region.name));
   await p.locator('.offline-guides details').first().locator('summary').click();
   assert(await p.locator('.offline-guides details').first().locator('ol').isVisible());
   assert(!await p.locator('.cost-preview').isVisible());
@@ -97,20 +101,20 @@ module.exports = async function checkOffline(browser, base) {
  // The standalone homepage download works without opening or loading the phone map.
  const direct=await browser.newContext({acceptDownloads:true});const directPage=await direct.newPage();
  await directPage.goto(base+'/');
- await directPage.locator('#offline-download > summary').click();
- await directPage.getByLabel('City for your offline copy',{exact:true}).selectOption('57026');
+ await directPage.getByLabel('City or county in California',{exact:true}).selectOption('57026');
  assert.equal(await directPage.locator('#phone-city').inputValue(),'57026');
  assert(!await directPage.locator('.phone-directory').evaluate(el=>el.open));
  assert.equal(await directPage.locator('script[src*="leaflet"]').count(),0);
- const directDownload=directPage.waitForEvent('download');await directPage.locator('#offline-download [data-city-download]').click();
+ const directDownload=directPage.waitForEvent('download');await directPage.locator('#location-start [data-city-download]').click();
  const directFile=await directDownload;assert.equal(directFile.suggestedFilename(),'ferdant-davis-ca-2026-11-02.html');
  const directPath=path.resolve('screenshots','direct-city-download.html');await directFile.saveAs(directPath);
  assert(fs.readFileSync(directPath,'utf8').includes('content="57026"'));
- assert(!fs.readFileSync(directPath,'utf8').includes('id="offline-download"'),'Saved copy should not offer another download');
+ assert(!/<a[^>]*data-city-download/.test(fs.readFileSync(directPath,'utf8')),'Saved copy should not offer another download');
+ assert(fs.readFileSync(directPath,'utf8').includes('data-local-contact="davis-nonemergency"'),'The saved city summary must work with scripts off');
  await directPage.locator('.phone-toggle').click();
  assert.equal(await directPage.getByLabel('Your city in California',{exact:true}).inputValue(),'57026');
  await directPage.getByLabel('Your city in California',{exact:true}).selectOption('19050');
- assert.equal(await directPage.locator('#offline-city').inputValue(),'19050');await direct.close();
+ assert.equal(await directPage.locator('#location-city').inputValue(),'19050');await direct.close();
  const privacy=await browser.newContext({acceptDownloads:true,reducedMotion:'reduce'});
  const privatePage=await privacy.newPage();await privatePage.goto(base+'/');
  await privatePage.locator('.phone-toggle').click();

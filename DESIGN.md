@@ -19,12 +19,18 @@ not invented savings, claims, testimonials or activity counters.
 The previous proposal used a large question beside three numbered guide rows and a second numbered directory.
 That arrangement was repetitive, made small labels do too much work and gave the introduction too much space.
 The current version combines the user's Bored.com directory idea with MyBikeDavis's icon-above-label grid.
-Four tiles share a desktop row and two share a phone/tablet row. Phone numbers is first, with Offline download beside it.
+A visible California city/county selector and offline download begin the homepage. Changing location immediately
+shows a short list of checked local agency links and call numbers, with service-area cues. Longer details and
+sources expand together. General guides stay clearly labeled as general resources; selection does not imply local coverage.
+Four service tiles share a desktop row and two share a phone/tablet row. Phone numbers stays first.
 The five native, initially closed service dropdowns use short everyday labels and the exact Reddit community names.
 Each opens its existing scope, public links and community link in place. Bills & paperwork also holds the four local tools.
-Phone numbers and Offline download are separate, initially closed tiles in the same grid.
+Phone numbers is an initially closed tile; offline download is a direct button beside the location selector.
+If a county has no saved alternate referral line, show the existing statewide ZIP-code routing contact with its statewide scope.
 Each opened tile uses the full directory width for its information, with a compact horizontal summary.
-The offline chooser works without opening or loading the phone map; both selectors use the same city choice.
+The top location selector works without opening or loading the phone map. It shares one choice with the phone picker,
+map and offline export. Clearing removes stale local results. General resources remain accessible before selection.
+Without scripts, hide the inactive city selector and retain statewide numbers plus the standard offline download.
 Search reveals matching links and opens their section; clearing restores the previous section states.
 Omit corner count badges; numbers need a direct task meaning, such as a bill amount, checked record or active search result.
 Tools open in a dialog or local worksheet. Closing returns focus and preserves directory position.
@@ -138,7 +144,7 @@ not a scientifically established ranking of button attractiveness. Repeated labe
 meaning even when hues are indistinguishable. Do not promise conversion, emotion or demand from color alone.
 
 - [W3C contrast guidance](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum) supports
-  normal-text contrast of at least 4.5:1. Focused rendered checks measured a minimum of 6.36:1 for sampled
+  normal-text contrast of at least 4.5:1. Focused rendered checks measured a minimum of 5.86:1 for sampled
   directory text and 5.36:1 for sampled icons at four widths. This is not a full accessibility certification.
 - [W3C use-of-color guidance](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html) supports
   visible text/shape alternatives to category colors. Native disclosure state and focus outlines remain visible.
@@ -152,3 +158,6 @@ is informed by readability standards and context-sensitive research, not a unive
 The service-list edition immediately before the icon grid is preserved at tag
 `preview-before-icon-tiles-20261102` (`20096f939af6f17a99f7e295739f6680d0d61883`). The earlier
 `preview-before-service-buttons-20261102` tag and local ZIP remain preserved as well.
+
+The icon-grid edition immediately before the location-first flow is preserved at tag
+`preview-before-location-flow-20261102` (`01b0d9a7b3e07bd307b3a22c7d657f6ca3e643ab`).

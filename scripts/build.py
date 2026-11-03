@@ -55,13 +55,19 @@ def directory_topic(b):
   <ul class="portal-list">{entries}</ul><p class="portal-note">{d.NOTES[b['slug']]}</p>{tools}</div>
  </details>'''
 
-def offline_button():
- return f'''<details class="offline-download-panel service-row" id="offline-download">
- <summary class="service-toggle">{icon('download')}<span><strong>Offline download</strong><small>Save your city’s essentials</small></span>{icon('chevron')}</summary>
- <div class="service-panel"><p class="portal-description">Choose your city and save one file. Open it in a browser whenever you need it, even without internet.</p>
- <div class="phone-city-control" data-enhancement hidden><label for="offline-city">City for your offline copy</label><select id="offline-city"><option value="">California-wide numbers</option></select></div>
- <div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><a href="/offline/">What is included?</a><p id="offline-download-status" role="status"></p></div>
- <p class="portal-note">Contacts checked November 2, 2026. Includes shared hotlines and checked local contacts; city coverage is incomplete. Calls need phone service. Website links need internet. No live alerts.</p></div></details>'''
+def location_start():
+ return f'''<section class="location-start" id="location-start" aria-labelledby="location-title">
+ <h2 id="location-title">Start with your location</h2>
+ <div class="location-controls"><div class="phone-city-control" data-enhancement hidden><label for="location-city">City or county in California</label><select id="location-city" data-location-select aria-describedby="location-summary"><option value="">California-wide resources</option></select></div>
+ <div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><small>One file: phone numbers, guides & tools</small><p id="location-download-status" role="status"></p></div></div>
+ <p id="location-summary" role="status">Choose a city or county for checked local contacts. You can browse general resources below.</p>
+ <noscript><p>City selection needs JavaScript. California-wide phone numbers and the standard offline copy remain available below.</p></noscript>
+ </section>
+ <section class="location-resources" id="location-resources" aria-labelledby="location-results-title" hidden>
+ <header><h2 id="location-results-title">Local resources</h2><a href="#local-essentials">All saved phone numbers</a></header>
+ <p id="location-coverage" class="portal-description"></p><ul id="location-links"></ul><p id="location-alert"></p>
+ <details class="location-notes"><summary>Service details & sources</summary><div id="location-notes"></div></details>
+ <p class="location-source-note">Contacts checked November 2, 2026. Calls and texts need phone service. For immediate danger, call 911.</p></section>'''
 
 def inline_sources(g):
  sources=''.join(f'<li><a href="{e(url)}">{e(name)}</a><span>{e(date)}</span></li>' for name,url,date in g['sources'])
@@ -72,9 +78,11 @@ def home():
  bill,cancel,message=c.GUIDES
  bill_tool=tool(bill,heading=3)
  page('/','Practical guides for everyday problems','A directory of practical resources, tools and California emergency and support phone numbers, with city selection and a downloadable offline copy.',f'''
- <div class="portal-heading"><div><h1>Resources & tools</h1><p>Find a useful place to start.</p></div><div class="portal-search" role="search" data-enhancement hidden><label for="portal-query">Find a resource or tool</label><div><label class="portal-search-glyph" for="portal-query" aria-hidden="true">{icon("search")}</label><input id="portal-query" type="search" autocomplete="off" placeholder="Try internet, repair or bills"><button class="quiet-button" type="button" data-clear-portal aria-label="Clear search" title="Clear search">{icon("close")}<span class="visually-hidden">Clear</span></button></div></div></div>
+ <div class="portal-heading"><div><h1>Resources & tools</h1><p>Choose your location. Find your next step.</p></div></div>
+ {location_start()}
+ <div class="resource-heading"><div><h2>Browse by need</h2><p>General guides & public services. Eligibility and service areas vary.</p></div><div class="portal-search" role="search" data-enhancement hidden><label for="portal-query">Find a resource or tool</label><div><label class="portal-search-glyph" for="portal-query" aria-hidden="true">{icon("search")}</label><input id="portal-query" type="search" autocomplete="off" placeholder="Try internet, repair or bills"><button class="quiet-button" type="button" data-clear-portal aria-label="Clear search" title="Clear search">{icon("close")}<span class="visually-hidden">Clear</span></button></div></div></div>
  <div class="portal-status" data-enhancement hidden><p id="portal-status" role="status" aria-live="polite">Choose a service to see useful links.</p><span>Open only what you need</span></div>
- <div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{phone_chart()}{offline_button()}{sections}</div>
+ <div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{phone_chart()}{sections}</div>
  <div id="portal-empty" data-enhancement hidden><p>No matching links. Try another word, or clear the search.</p><button class="quiet-button" type="button" data-clear-portal>Show all links</button></div>
  <dialog id="tool-dialog" aria-labelledby="tool-dialog-title"><div class="tool-dialog-header"><div class="tool-dialog-name"><span id="tool-dialog-icon" aria-hidden="true">{icon("tools")}</span><h2 id="tool-dialog-title">Quick tools</h2></div><button type="button" class="tool-dialog-close" data-close-tool aria-label="Close tool">{icon("close")}<span>Close</span></button></div><div class="tool-dialog-body">
    <section id="compare-bill" class="directory-tool" data-dialog-tool data-tool-title="Compare a bill" hidden tabindex="-1" aria-labelledby="compare-title"><div class="directory-tool-heading"><h2 id="compare-title">Compare a bill</h2><button class="quiet-button" id="bill-example" data-enhancement hidden>Try an example</button></div><p>{bill['intro']}</p><p id="example-note" class="example-note" role="status" hidden>Example figures. Replace these with your own totals and changes.</p>{bill_tool}<p class="quick-note">{bill['briefNote']}</p><a class="widget-guide-link" href="{gp(bill)}">Full bill-checking guide</a><details class="tool-source-details"><summary>Sources & scope</summary>{inline_sources(bill)}</details><button type="button" class="quiet-button" data-close-tool>Back to directory</button></section>

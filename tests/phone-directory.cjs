@@ -21,6 +21,7 @@ module.exports = async function checkPhoneDirectory(page, width) {
   await page.getByLabel('Find a city on the map',{exact:true}).fill('Davis');
   await page.getByRole('button',{name:'Find city',exact:true}).click();
   assert.equal(await city.inputValue(),'57026');
+  assert.equal(await page.locator('#location-city').inputValue(),'57026');
   await city.selectOption('county:57');
   await page.locator('#city-map [data-city-id="57026"]').click();
   assert.equal(await city.inputValue(),'57026','A real map marker click selects the named city');
@@ -55,7 +56,9 @@ module.exports = async function checkPhoneDirectory(page, width) {
      const expected=[...new Set([...data.statewide,...data.countyContacts[county],...(data.cityContacts[option.value]||[])])];
      select.value=option.value;select.dispatchEvent(new Event('change'));
      const actual=[...document.querySelectorAll('#phone-rows tr')].map(el=>el.dataset.contactId);
-     results.push({key:option.value,passed:JSON.stringify(actual)===JSON.stringify(expected) && new Set(actual).size===actual.length});
+     const countyIds=data.countyContacts[county],expectedLocal=[...new Set([...(countyIds.length?countyIds:['211-routing']),...(data.cityContacts[option.value]||[])])];
+     const local=[...document.querySelectorAll('#location-links > li')].map(el=>el.dataset.localContact);
+     results.push({key:option.value,passed:JSON.stringify(actual)===JSON.stringify(expected) && new Set(actual).size===actual.length && JSON.stringify(local)===JSON.stringify(expectedLocal) && document.querySelector('#location-city').value===option.value});
     }
     return results;
    });

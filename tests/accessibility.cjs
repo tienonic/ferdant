@@ -3,7 +3,7 @@ const fs = require('node:fs');
 
 module.exports = async function checkAccessibility(page, width) {
  await page.locator('[data-portal-card]').evaluateAll(rows=>rows.forEach(row=>row.open=true));
- await page.locator('#offline-download > summary').click();
+ await page.getByLabel('City or county in California',{exact:true}).selectOption('57026');
  const measurements = await page.evaluate(() => {
   const rgba = value => value.match(/[\d.]+/g).map(Number);
   const luminance = value => {
@@ -19,9 +19,9 @@ module.exports = async function checkAccessibility(page, width) {
   };
   const ratio = (a,b) => {const x=luminance(a),y=luminance(b);return (Math.max(x,y)+0.05)/(Math.min(x,y)+0.05);};
   const visible = element => element.getClientRects().length>0;
-  const text=[...document.querySelectorAll('.service-toggle strong, .service-toggle small, .phone-toggle span, .phone-toggle small, .destination-label > span, .portal-description, .portal-note, .portal-destination small, .portal-nav a, .phone-heading h2, .phone-coverage, .phone-table th, .phone-table th > small, .phone-method a, .phone-footnote, .phone-controls label')].filter(visible);
+  const text=[...document.querySelectorAll('.location-start h2, #location-summary, #location-coverage, .location-source-note, #location-links h3 a, #location-links small, #location-links .phone-method a, .service-toggle strong, .service-toggle small, .phone-toggle span, .phone-toggle small, .destination-label > span, .portal-description, .portal-note, .portal-destination small, .portal-nav a, .phone-heading h2, .phone-coverage, .phone-table th, .phone-table th > small, .phone-method a, .phone-footnote, .phone-controls label')].filter(visible);
   const icons=[...document.querySelectorAll('.service-toggle > .ui-icon:first-child, .destination-label > .ui-icon')].filter(visible);
-  const targets=[...document.querySelectorAll('.service-toggle, .portal-destination, .portal-nav a, .portal-search button, .phone-method a, #phone-city, #phone-query, .phone-actions a, .phone-toggle, #map-city-search, #map-city-form button, .leaflet-control-zoom a')].filter(visible);
+  const targets=[...document.querySelectorAll('#location-city, .service-toggle, .portal-destination, .portal-nav a, .portal-search button, .phone-method a, #phone-city, #phone-query, .phone-actions a, .phone-toggle, #map-city-search, #map-city-form button, .leaflet-control-zoom a')].filter(visible);
   return {
    textMinimum:Math.min(...text.map(el=>ratio(getComputedStyle(el).color,background(el)))),
    iconMinimum:Math.min(...icons.map(el=>ratio(getComputedStyle(el).color,background(el)))),
@@ -33,7 +33,7 @@ module.exports = async function checkAccessibility(page, width) {
  });
  assert(measurements.textMinimum>=4.5, `Text contrast at ${width}: ${measurements.textMinimum}`);
  assert(measurements.iconMinimum>=3, `Icon contrast at ${width}: ${measurements.iconMinimum}`);
- assert.equal(measurements.headerColors,6);
+ assert.equal(measurements.headerColors,5);
  assert(measurements.targetMinimum>=44, `Primary targets smaller than 44px at ${width}`);
  assert(!measurements.hiddenNavLinks, `Section links hidden horizontally at ${width}`);
  assert(measurements.allIconsDecorative);
@@ -51,7 +51,8 @@ module.exports = async function checkAccessibility(page, width) {
   await page.screenshot({path:'screenshots/directory-forced-colors.png',fullPage:true});
   await page.emulateMedia({forcedColors:'none'});
  }
- await page.locator('[data-portal-card], #offline-download').evaluateAll(rows=>rows.forEach(row=>row.open=false));
+ await page.getByLabel('City or county in California',{exact:true}).selectOption('');
+ await page.locator('[data-portal-card]').evaluateAll(rows=>rows.forEach(row=>row.open=false));
  await page.locator('#what-am-i-paying-for > summary').click();
  const path='screenshots/accessibility.json';
  const data=width===320?[]:JSON.parse(fs.readFileSync(path,'utf8'));

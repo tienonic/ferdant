@@ -9,14 +9,15 @@ module.exports = async function checkPortal(page) {
   await page.locator('.portal-search-glyph').click();
   assert(await query.evaluate(el=>el===document.activeElement));
   assert.equal(await page.locator('.portal-count').count(), 0);
-  assert.equal(await page.locator('.service-directory > details').count(),7);
+  assert.equal(await page.locator('.service-directory > details').count(),6);
   assert.equal(await page.locator('.service-directory > details[open]').count(),0);
   const tiles=await page.locator('.service-directory > details > summary').evaluateAll(items=>items.map(el=>{
    const box=el.getBoundingClientRect(),icon=el.querySelector('.ui-icon').getBoundingClientRect(),label=el.querySelector('span').getBoundingClientRect();
    return {id:el.parentElement.id,top:box.top,bottom:box.bottom,iconBottom:icon.bottom,labelTop:label.top,iconWidth:icon.width};
   }));
   assert.equal(tiles[0].id,'local-essentials','Phone numbers must lead the first row');
-  assert.equal(tiles[1].id,'offline-download');
+  assert.equal(tiles[1].id,'keep-us-connected');
+  assert(await page.locator('#location-start [data-city-download]').isVisible());
   const firstRow=tiles.filter(tile=>Math.abs(tile.top-tiles[0].top)<2);
   assert.equal(firstRow.length,page.viewportSize().width>900?4:2);
   assert(firstRow[0].bottom<=page.viewportSize().height,'Phone access must be visible without scrolling');

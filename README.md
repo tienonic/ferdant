@@ -166,10 +166,13 @@ Keep private/Admin credentials out of browser files and Git. The current GitHub 
 
 ## Service-button preview and preserved version
 
-The homepage now uses an icon-above-label tile grid: four columns on desktop and two on phones/tablets.
-Phone numbers and Offline download lead the first row. The other five closed dropdowns match the Reddit communities.
-Opening a tile reveals its information across the directory width. Billing tools sit inside Bills & paperwork.
-The offline city chooser and phone city chooser stay in sync; downloading from the first works without loading the map.
+The homepage starts with a California city/county selector and a visible offline download beside it.
+Choosing a location shows checked agency links and call numbers immediately. Scope, service hours/after-hours cues,
+coverage gaps and an expandable source section stay with the results. County gaps use the existing statewide ZIP-routing contact.
+General resources remain available and are distinguished from checked local coverage.
+Six icon tiles use four columns on desktop and two on phones/tablets. Phone numbers leads the grid; the other five
+dropdowns match the Reddit communities. Expanded information uses the directory width, with billing tools inside Bills & paperwork.
+The location selector, phone picker, map and download share one choice. The top selector/download work without loading the map.
 Resource search reveals matching sections, and clearing restores their prior states. Native dropdowns work without JavaScript.
 
 The version before this structure is preserved by annotated tag `preview-before-service-buttons-20261102`
@@ -185,3 +188,7 @@ public main remains the maintenance page. See `DESIGN.md` for the color evidence
 The service-list edition immediately before the icon tiles is also preserved at
 `preview-before-icon-tiles-20261102` (`20096f939af6f17a99f7e295739f6680d0d61883`). All saved versions
 retain their original built files; the latest preview is on `website-preview-20261102`.
+
+The icon-grid edition before the location-first flow is preserved at `preview-before-location-flow-20261102`
+(`01b0d9a7b3e07bd307b3a22c7d657f6ca3e643ab`). The top selector is hidden without scripts; statewide numbers
+and the standard download remain available. Personalized saved copies include the selected local summary even without scripts.

@@ -785,7 +785,6 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 #keep-the-basics-on { --category-wash: #e9f5f1; }
 #what-am-i-paying-for { --category-wash: #f3effb; }
 #plan-for-disruption { --category-wash: #edf4e9; }
-#offline-download { --category-color: var(--tools-accent); --category-wash: #f0f1fa; }
 .service-directory > .phone-directory { --category-color: var(--utilities); --category-wash: #e9f5f1; }
 .service-toggle, .service-directory .phone-toggle { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; min-height: 184px; padding: 22px 12px; margin: 0; list-style: none; text-align: center; cursor: pointer; background: white; color: var(--ink); border-radius: 3px; }
 .service-toggle::-webkit-details-marker { display: none; }
@@ -848,6 +847,57 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
  .service-toggle small, .service-directory .phone-toggle small { color: CanvasText; }
  .service-toggle > .ui-icon:first-child, .service-directory .phone-toggle > .ui-icon:first-child { background: Canvas; }
  .service-toggle:focus-visible, .service-directory .phone-toggle:focus-visible { outline-color: Highlight; }
+}
+
+/* Location comes first; the offline action stays beside its selector. */
+.location-start, .location-resources, .resource-heading { max-width: 1000px; margin: 0 auto 22px; }
+.location-start { padding: 20px 22px 15px; border: 1px solid #b9c8d5; border-top: 3px solid var(--utilities); background: #f1f7f5; }
+.location-start h2, .location-resources h2, .resource-heading h2 { font: 600 21px/1.4 var(--sans); letter-spacing: -.015em; margin: 0 0 14px; }
+.location-controls { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap: 14px 24px; align-items: start; }
+.location-controls:not(:has(.phone-actions)) { grid-template-columns: 1fr; }
+.location-controls .phone-city-control { width: 100%; margin: 0; }
+.location-controls .phone-actions { display: block; margin: 24px 0 0; }
+.location-controls .button { display: flex; width: 100%; min-height: 44px; justify-content: center; text-align: center; overflow-wrap: anywhere; }
+.location-controls .phone-actions small { display: block; color: var(--muted); font-size: 11px; margin-top: 5px; }
+.location-controls .phone-actions [role=status] { margin-top: 7px; }
+#location-summary { margin: 10px 0 0; font-size: 12px; color: var(--muted); line-height: 1.6; }
+.location-start noscript p { font-size: 13px; margin: 10px 0 0; }
+.location-resources { border-bottom: 1px solid var(--rule); padding: 0 0 18px; }
+.location-resources header { display: flex; align-items: center; justify-content: space-between; gap: 10px 20px; flex-wrap: wrap; }
+.location-resources h2 { margin: 0; }
+.location-resources header a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; color: var(--cobalt); }
+.location-resources .portal-description { margin: 6px 0 12px; }
+#location-links { list-style: none; margin: 0; padding: 0; }
+#location-links li { display: grid; grid-template-columns: minmax(0,1.6fr) minmax(190px,1fr); gap: 4px 25px; padding: 9px 0; border-top: 1px solid var(--rule); }
+#location-links h3 { font: 600 15px/1.5 var(--sans); margin: 0 0 4px; }
+#location-links h3 a { color: var(--cobalt); text-decoration-thickness: 1px; }
+#location-links small { display: block; font-size: 11px; color: var(--muted); line-height: 1.5; }
+#location-links p { font-size: 12px; color: var(--muted); line-height: 1.6; margin: 5px 0 0; }
+#location-links > li > div > a { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; color: var(--cobalt); }
+.local-contact-methods { align-self: center; }
+#location-alert { margin: 0; font-size: 13px; }
+#location-alert a { display: inline-flex; align-items: center; min-height: 44px; color: var(--cobalt); }
+.location-notes { font-size: 13px; line-height: 1.7; }
+.location-notes > summary { min-height: 44px; padding: 10px 0; color: var(--cobalt); cursor: pointer; }
+.location-source-note { color: var(--muted); font-size: 11px; line-height: 1.6; margin: 7px 0 0; }
+.resource-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 14px; }
+.resource-heading h2 { font-size: 18px; margin-bottom: 5px; }
+.resource-heading p { color: var(--muted); font-size: 12px; margin: 0; max-width: 48ch; }
+@media (max-width: 700px) {
+ .location-start { padding: 15px 13px 12px; }
+ .location-start h2 { font-size: 19px; }
+ .location-controls { display: block; }
+ .location-controls .phone-actions { margin-top: 12px; }
+ .location-start .phone-city-control select { font-size: 16px; }
+ .resource-heading { display: block; }
+ .resource-heading .portal-search { margin-top: 12px; }
+ #location-links li { grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); gap: 8px; }
+ #location-links h3 { font-size: 14px; }
+ #location-links .phone-method a { font-size: 14px; }
+ .location-resources header { gap: 0; }
+}
+@media (forced-colors: active) {
+ .location-start { background: Canvas; border-color: CanvasText; }
 }
 
 @media print {

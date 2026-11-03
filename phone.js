@@ -20,8 +20,8 @@
   const option = document.createElement('option');option.value = `county:${id}`;option.textContent = `${name} County — county-level contacts`;countyGroup.append(option);
  }
  options.append(countyGroup);select.append(options);
- const offlineSelect=document.querySelector('#offline-city');
- if(offlineSelect){offlineSelect.replaceChildren(...[...select.children].map(child=>child.cloneNode(true)));offlineSelect.addEventListener('change',()=>{select.value=offlineSelect.value;select.dispatchEvent(new Event('change'));});}
+ const locationSelect=document.querySelector('[data-location-select]');
+ if(locationSelect){locationSelect.replaceChildren(...[...select.children].map(child=>child.cloneNode(true)));locationSelect.addEventListener('change',()=>{select.value=locationSelect.value;select.dispatchEvent(new Event('change'));});}
 
  function place(key) {
   if (cities.has(key)) return cities.get(key);
@@ -34,6 +34,46 @@
  function node(doc,tag,text,className) {
   const el=doc.createElement(tag);if(text)el.textContent=text;if(className)el.className=className;return el;
  }
+ function contactMethods(doc,contact) {
+  const fragment=doc.createDocumentFragment();
+  for(const ref of contact.phones) {
+   const number=data.numbers[ref.number], method=node(doc,'span',null,'phone-method');
+   if(ref.note)method.append(node(doc,'small',ref.note));
+   const call=node(doc,'a',number.label);call.href=`tel:${number.tel}`;call.setAttribute('aria-label',`Call ${contact.title} at ${number.label}`);method.append(call);
+   if(ref.text){const text=node(doc,'a',`Text ${number.label}`,'phone-text');text.href=`sms:${number.tel}`;method.append(text);}
+   fragment.append(method);
+  }
+  return fragment;
+ }
+ function renderLocation(doc,location) {
+  const panel=doc.querySelector('#location-resources');if(!panel)return;
+  const summary=doc.querySelector('#location-summary'),list=doc.querySelector('#location-links'),alertArea=doc.querySelector('#location-alert'),notes=doc.querySelector('#location-notes');
+  panel.hidden=!location;list.replaceChildren();alertArea.replaceChildren();notes.replaceChildren();
+  const title=doc.querySelector('#location-results-title'),coverage=doc.querySelector('#location-coverage');
+  if(!location){summary.textContent='Choose a city or county for checked local contacts. You can browse general resources below.';title.textContent='Local resources';coverage.textContent='';return;}
+  const cityIds=data.cityContacts[location.id]||[],countyIds=data.countyContacts[location.county]||[];
+  const ids=[...new Set([...(countyIds.length?countyIds:['211-routing']),...cityIds])];
+  summary.textContent=`${location.name}, California selected. Your offline copy uses this location.`;
+  title.textContent=`Resources for ${location.name}`;
+  const countyOnly=location.id.startsWith('county:');
+  coverage.textContent=countyOnly ? 'County-level contacts only. Choose a city for any checked city agencies.' : data.cityNotes[location.id] || 'City agency contacts have not been checked here. Any saved county contacts are below; statewide help stays available in Phone numbers.';
+  if(!countyIds.length)coverage.textContent+=' No alternate county referral number was listed in the checked directory; the statewide ZIP-code routing line is shown below.';
+  for(const id of ids) {
+   const contact=data.contacts[id],item=node(doc,'li');item.dataset.localContact=id;
+   const copy=node(doc,'div'),heading=node(doc,'h3'),website=node(doc,'a',contact.title);
+   website.href=data.sources[contact.source].url;heading.append(website);
+   const scope=contact.scope==='Selected county'?`${places.counties[location.county]} County`:contact.scope;
+   copy.append(heading,node(doc,'small',[contact.kind,scope,contact.hours].filter(Boolean).join(' · ')));
+   const sourceData=data.sources[contact.source],detail=node(doc,'div',null,'phone-source');
+   detail.append(node(doc,'h3',contact.title),node(doc,'p',contact.detail));
+   const source=node(doc,'a',sourceData.title+' (online source)');source.href=sourceData.url;detail.append(source);
+   detail.append(node(doc,'p',`Publisher date: ${sourceData.published || 'not stated in reviewed material'}. Checked ${data.checked}. ${sourceData.review}`,'source-review'));notes.append(detail);
+   const methods=node(doc,'div',null,'local-contact-methods');methods.append(contactMethods(doc,contact));
+   item.append(copy,methods);list.append(item);
+  }
+  const alert=data.alerts[location.id];
+  if(alert){const link=node(doc,'a',alert.name+' — official instructions');link.href=data.sources[alert.source].url;alertArea.append(link);}
+ }
  function render(doc,key) {
   const location = place(key), ids=contactIds(location), body=doc.querySelector('#phone-rows');
   const rows=doc.createDocumentFragment(), sources=doc.createDocumentFragment();
@@ -43,13 +83,7 @@
    const scope=contact.scope==='Selected county' ? `${places.counties[location.county]} County` : contact.scope;
    label.append(node(doc,'small',[contact.kind,scope,contact.hours].filter(Boolean).join(' · ')));
    const cell=node(doc,'td');
-   for(const ref of contact.phones) {
-    const number=data.numbers[ref.number], method=node(doc,'span',null,'phone-method');
-    if(ref.note)method.append(node(doc,'small',ref.note));
-    const call=node(doc,'a',number.label);call.href=`tel:${number.tel}`;call.setAttribute('aria-label',`Call ${contact.title} at ${number.label}`);method.append(call);
-    if(ref.text){const text=node(doc,'a',`Text ${number.label}`,'phone-text');text.href=`sms:${number.tel}`;method.append(text);}
-    cell.append(method);
-   }
+   cell.append(contactMethods(doc,contact));
    row.dataset.phoneSearch=[contact.title,contact.detail,contact.kind,scope,...contact.phones.map(ref=>data.numbers[ref.number].label)].join(' ').toLocaleLowerCase();
    row.append(label,cell);rows.append(row);
    const source=data.sources[contact.source], detail=node(doc,'div',null,'phone-source');
@@ -68,10 +102,11 @@
   }
   doc.querySelector('#phone-coverage').textContent=coverage;
   doc.querySelector('#phone-caption').textContent=`${location ? location.name : 'California'} emergency and support phone numbers other than 911`;
-  for(const download of doc.querySelectorAll('[data-city-download]')) download.textContent=location ? `Download for ${location.name}` : 'Download California offline copy';
+  for(const download of doc.querySelectorAll('[data-city-download]')) download.textContent=location ? `Download offline for ${location.name}` : 'Download California offline copy';
   const alertArea=doc.querySelector('#phone-local-alert');
   if(alertArea){alertArea.replaceChildren();const alert=data.alerts[location?.id];if(alert){const p=node(doc,'p',`${alert.name}: ${alert.instruction}`),link=node(doc,'a','Official alert instructions (online)');link.href=data.sources[alert.source].url;alertArea.append(p,link);}}
-  const offlineCity=doc.querySelector('#offline-city');if(offlineCity)offlineCity.value=key;
+  const locationCity=doc.querySelector('[data-location-select]');if(locationCity)locationCity.value=key;
+  renderLocation(doc,location);
   filter(doc);if(doc===document)syncMap(location);return location;
  }
  function filter(doc) {
