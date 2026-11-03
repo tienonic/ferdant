@@ -166,8 +166,9 @@ Keep private/Admin credentials out of browser files and Git. The current GitHub 
 
 ## Service-button preview and preserved version
 
-The homepage now uses five closed service dropdowns matching the Reddit communities, plus separate
-Phone numbers & city map and Download for offline use controls. Billing tools sit inside Bills & paperwork.
+The homepage now uses an icon-above-label tile grid: four columns on desktop and two on phones/tablets.
+Phone numbers and Offline download lead the first row. The other five closed dropdowns match the Reddit communities.
+Opening a tile reveals its information across the directory width. Billing tools sit inside Bills & paperwork.
 The offline city chooser and phone city chooser stay in sync; downloading from the first works without loading the map.
 Resource search reveals matching sections, and clearing restores their prior states. Native dropdowns work without JavaScript.
 
@@ -180,3 +181,7 @@ git worktree add --detach ../ferdant-preserved-20261102 preview-before-service-b
 
 Serve that directory separately for comparison. The current preview stays on `website-preview-20261102`;
 public main remains the maintenance page. See `DESIGN.md` for the color evidence and its limits.
+
+The service-list edition immediately before the icon tiles is also preserved at
+`preview-before-icon-tiles-20261102` (`20096f939af6f17a99f7e295739f6680d0d61883`). All saved versions
+retain their original built files; the latest preview is on `website-preview-20261102`.

@@ -18,10 +18,12 @@ not invented savings, claims, testimonials or activity counters.
 
 The previous proposal used a large question beside three numbered guide rows and a second numbered directory.
 That arrangement was repetitive, made small labels do too much work and gave the introduction too much space.
-The current version keeps the user's Bored.com directory idea in one list of service buttons.
-Five native, initially closed dropdowns use short everyday labels beside the exact Reddit community names.
+The current version combines the user's Bored.com directory idea with MyBikeDavis's icon-above-label grid.
+Four tiles share a desktop row and two share a phone/tablet row. Phone numbers is first, with Offline download beside it.
+The five native, initially closed service dropdowns use short everyday labels and the exact Reddit community names.
 Each opens its existing scope, public links and community link in place. Bills & paperwork also holds the four local tools.
-Phone numbers & city map and Download for offline use are separate, initially closed rows in the same list.
+Phone numbers and Offline download are separate, initially closed tiles in the same grid.
+Each opened tile uses the full directory width for its information, with a compact horizontal summary.
 The offline chooser works without opening or loading the phone map; both selectors use the same city choice.
 Search reveals matching links and opens their section; clearing restores the previous section states.
 Omit corner count badges; numbers need a direct task meaning, such as a bill amount, checked record or active search result.
@@ -91,7 +93,9 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
 - External destination rows use the actual site's locally saved favicon, with a visible publisher label.
   Keep original category/tool/action SVGs. Preserve favicon colors and proportions, empty alt text and
   download provenance, including cached-source/currentness limits. Do not fetch third-party icons at page load.
-  Keep the 24-unit grid and rounded 1.9-unit strokes. Icons sit beside labels rather than in decorative tiles.
+  Keep the 24-unit drawing grid and rounded 1.9-unit strokes. Homepage service tiles place a larger line icon
+  above a short label, with a flat category wash behind the icon. Destination and tool icons sit beside their labels.
+  Use simple geometric corners, flat fills and clear chevrons; omit illustrated mascots, gradients, glows and decorative shadows.
   Outbound links use the external marker; same-page tools use an expand cue. Labels carry the accessible names;
   SVGs are hidden from assistive technology and cannot receive focus. The search magnifier focuses its field.
   Copy changes to a checkmark only after successful copying and resets when a draft changes or clears.
@@ -101,7 +105,7 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
   Labels carry the meaning, so these redundant drawings are hidden from assistive technology.
 - No gradients, stock feature icons, nested cards, promotional closing blocks or scroll reveal animations.
 - Keep visible keyboard focus, native mobile navigation and reduced-motion support. Core reading works without JavaScript.
-- Primary directory links and section shortcuts have 44px-high hit areas. Wrap phone shortcuts instead of hiding them in a sideways strip.
+- Primary directory links and section controls have at least 44px-high hit areas. Wrap phone shortcuts instead of hiding them in a sideways strip.
   Use 15px destination text and clearer publisher labels. Keep focus outlines distinct from color cues.
 
 ## Verification
@@ -119,6 +123,7 @@ Do not treat a design audit, screenshots or passing code checks as audience appr
 
 - User-supplied process reference: [Professor Glitch's guide](https://www.askglitch.com/guides/how-to-make-ai-websites-not-look-ai), read November 2, 2026.
 - Linked [Anthropic frontend-design guidance](https://github.com/anthropics/skills/tree/main/skills/frontend-design), read the same day.
+- User-supplied icon-grid reference: [MyBikeDavis](https://mybikedavis.com/), desktop and phone visually inspected November 2, 2026. Its image-led cards inform structure; Ferdant uses its own flat line icons and text.
 - User-supplied structure reference: [Bored.com](https://www.bored.com/), desktop and phone inspected November 2, 2026.
 - Existing project direction: Nicholas/matcha_plug's clean, refined porcelain preference, already recorded in T36.
 
@@ -143,3 +148,7 @@ meaning even when hues are indistinguishable. Do not promise conversion, emotion
 
 Attractiveness and ease of locating services still need feedback from the intended audience. The palette
 is informed by readability standards and context-sensitive research, not a universal color formula.
+
+The service-list edition immediately before the icon grid is preserved at tag
+`preview-before-icon-tiles-20261102` (`20096f939af6f17a99f7e295739f6680d0d61883`). The earlier
+`preview-before-service-buttons-20261102` tag and local ZIP remain preserved as well.

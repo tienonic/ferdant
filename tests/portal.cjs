@@ -11,6 +11,21 @@ module.exports = async function checkPortal(page) {
   assert.equal(await page.locator('.portal-count').count(), 0);
   assert.equal(await page.locator('.service-directory > details').count(),7);
   assert.equal(await page.locator('.service-directory > details[open]').count(),0);
+  const tiles=await page.locator('.service-directory > details > summary').evaluateAll(items=>items.map(el=>{
+   const box=el.getBoundingClientRect(),icon=el.querySelector('.ui-icon').getBoundingClientRect(),label=el.querySelector('span').getBoundingClientRect();
+   return {id:el.parentElement.id,top:box.top,bottom:box.bottom,iconBottom:icon.bottom,labelTop:label.top,iconWidth:icon.width};
+  }));
+  assert.equal(tiles[0].id,'local-essentials','Phone numbers must lead the first row');
+  assert.equal(tiles[1].id,'offline-download');
+  const firstRow=tiles.filter(tile=>Math.abs(tile.top-tiles[0].top)<2);
+  assert.equal(firstRow.length,page.viewportSize().width>900?4:2);
+  assert(firstRow[0].bottom<=page.viewportSize().height,'Phone access must be visible without scrolling');
+  assert(tiles.every(tile=>tile.iconBottom<=tile.labelTop && tile.iconWidth>=44),'Closed tiles need a clear icon above their label');
+  await page.locator('#who-can-fix-this > summary').focus();await page.keyboard.press('Enter');
+  const expansion=await page.locator('#who-can-fix-this').evaluate(el=>({panel:el.getBoundingClientRect().width,directory:el.parentElement.getBoundingClientRect().width}));
+  assert(Math.abs(expansion.panel-expansion.directory)<2,'Expanded information should use the directory width');
+  await page.keyboard.press('Space');
+
   assert.equal(await page.locator('[data-portal-card]:visible').count(), 5);
   assert.equal(await page.locator('[data-portal-entry]:visible').count(), 0);
   const favicons = page.locator('.site-favicon');
