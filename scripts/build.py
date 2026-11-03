@@ -3,6 +3,7 @@ import argparse, html, importlib.util, json, shutil
 from pathlib import Path
 from widgets import bill_breakdown, cancellation_planner, message_builder
 from icons import icon, destination_icon, copy_icons, CATEGORY
+from graphics import directory_graphic
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('content',ROOT/'content/site.py')
 c=importlib.util.module_from_spec(spec); spec.loader.exec_module(c)
@@ -40,7 +41,7 @@ def directory_topic(b):
  entries+=portal_entry('r/'+b['name'],'https://www.reddit.com/r/'+b['name']+'/', 'Reddit',context)
  return f'''<section class="directory-topic portal-card" id="{b['slug']}" tabindex="-1" aria-labelledby="title-{b['slug']}" data-portal-card>
   <header><h2 id="title-{b['slug']}">{icon(CATEGORY[b["slug"]])}<span>{b['label']}</span></h2></header>
-  <p class="portal-description">{b['description']}</p>
+  <div class="portal-overview">{directory_graphic(b["slug"])}<p class="portal-description">{b['description']}</p></div>
   <ul class="portal-list">{entries}</ul><p class="portal-note">{d.NOTES[b['slug']]}</p>
  </section>'''
 
@@ -59,7 +60,7 @@ def home():
  <div class="portal-heading"><div><h1>Resources & tools</h1><p>Find a useful place to start.</p></div><div class="portal-search" role="search" data-enhancement hidden><label for="portal-query">Find a resource or tool</label><div><label class="portal-search-glyph" for="portal-query" aria-hidden="true">{icon("search")}</label><input id="portal-query" type="search" autocomplete="off" placeholder="Try internet, repair or bills"><button class="quiet-button" type="button" data-clear-portal aria-label="Clear search" title="Clear search">{icon("close")}<span class="visually-hidden">Clear</span></button></div></div></div>
  <div id="communities" tabindex="-1" class="portal-nav"><nav aria-label="The five communities">{topic_links}</nav><nav aria-label="Quick tools">{tool_links}</nav></div>
  <div class="portal-status" data-enhancement hidden><p id="portal-status" role="status" aria-live="polite">Choose a category or open a tool.</p><span>Public resources, communities & local tools</span></div>
- <div class="portal-grid">{sections}<section class="portal-card portal-tools" id="tools" tabindex="-1" data-portal-card><header><h2>{icon("tools")}<span>Quick tools</span></h2></header><p class="portal-description">Use these here, without an account.</p><ul class="portal-list">{portal_entry('Compare a bill','#compare-bill','Calculator','bill price cost money charges')}{portal_entry('Plan a cancellation','#cancel-subscription','Checklist','subscription renewal cancel money')}{portal_entry('Draft a billing message','#draft-message','Message builder','write question complaint bill money')}</ul><p class="portal-note">Your inputs stay in this open page.</p></section></div>
+ <div class="portal-grid">{sections}<section class="portal-card portal-tools" id="tools" tabindex="-1" data-portal-card><header><h2>{icon("tools")}<span>Quick tools</span></h2></header><div class="portal-overview">{directory_graphic("tools")}<p class="portal-description">Use these here, without an account.</p></div><ul class="portal-list">{portal_entry('Compare a bill','#compare-bill','Calculator','bill price cost money charges')}{portal_entry('Plan a cancellation','#cancel-subscription','Checklist','subscription renewal cancel money')}{portal_entry('Draft a billing message','#draft-message','Message builder','write question complaint bill money')}</ul><p class="portal-note">Your inputs stay in this open page.</p></section></div>
  <div id="portal-empty" data-enhancement hidden><p>No matching links. Try another word, or clear the search.</p><button class="quiet-button" type="button" data-clear-portal>Show all links</button></div>
  <dialog id="tool-dialog" aria-labelledby="tool-dialog-title"><div class="tool-dialog-header"><div class="tool-dialog-name"><span id="tool-dialog-icon" aria-hidden="true">{icon("tools")}</span><h2 id="tool-dialog-title">Quick tools</h2></div><button type="button" class="tool-dialog-close" data-close-tool aria-label="Close tool">{icon("close")}<span>Close</span></button></div><div class="tool-dialog-body">
    <section id="compare-bill" class="directory-tool" data-dialog-tool data-tool-title="Compare a bill" hidden tabindex="-1" aria-labelledby="compare-title"><div class="directory-tool-heading"><h2 id="compare-title">Compare a bill</h2><button class="quiet-button" id="bill-example" data-enhancement hidden>Try an example</button></div><p>{bill['intro']}</p><p id="example-note" class="example-note" role="status" hidden>Example figures. Replace these with your own totals and changes.</p>{bill_tool}<p class="quick-note">{bill['briefNote']}</p><a class="widget-guide-link" href="{gp(bill)}">Full bill-checking guide</a><details class="tool-source-details"><summary>Sources & scope</summary>{inline_sources(bill)}</details><button type="button" class="quiet-button" data-close-tool>Back to directory</button></section>

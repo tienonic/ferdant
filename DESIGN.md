@@ -74,6 +74,9 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
   SVGs are hidden from assistive technology and cannot receive focus. The search magnifier focuses its field.
   Copy changes to a checkmark only after successful copying and resets when a draft changes or clears.
   Do not add an icon font, fetched favicons, tracking or third-party logo requests.
+- Original static field sketches in `scripts/graphics.py` pair with the category summaries.
+  Keep them small, with sparse linework and a faint wash; no numeric data, new controls or continuous motion.
+  Labels carry the meaning, so these redundant drawings are hidden from assistive technology.
 - No gradients, stock feature icons, nested cards, promotional closing blocks or scroll reveal animations.
 - Keep visible keyboard focus, native mobile navigation and reduced-motion support. Core reading works without JavaScript.
 - Primary directory links and section shortcuts have 44px-high hit areas. Wrap phone shortcuts instead of hiding them in a sideways strip.

@@ -614,6 +614,26 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
  .portal-nav nav[aria-label="The five communities"] a::before { background: LinkText; }
 }
 
+/* Quiet, original field sketches sit within the existing category summaries. */
+.portal-overview { display: flex; align-items: center; gap: 12px; margin: 12px 0 14px; min-height: 76px; }
+.portal-overview .portal-description { order: 1; flex: 1; margin: 0; min-width: 0; }
+.directory-sketch { order: 2; display: block; flex: 0 0 104px; width: 104px; height: 76px; color: var(--category-color); pointer-events: none; }
+.directory-sketch .sketch-wash { fill: currentColor; fill-opacity: .055; stroke: none; }
+.directory-sketch .sketch-guide { stroke-opacity: .28; stroke-dasharray: 2 4; }
+.directory-sketch .sketch-dot { fill: currentColor; stroke: none; }
+@media (max-width: 700px) {
+ .portal-overview { display: flow-root; }
+ .directory-sketch { float: right; width: 88px; height: 64px; margin: 2px 0 4px 12px; }
+}
+@media (max-width: 370px) {
+ .directory-sketch { width: 64px; height: 47px; margin-left: 8px; }
+}
+@media (forced-colors: active) {
+ .directory-sketch { color: CanvasText; }
+ .directory-sketch .sketch-wash { fill: none; }
+ .directory-sketch .sketch-guide { stroke-opacity: 1; }
+}
+
 @media print {
   .site-header, .site-footer, .preview-note, .copy-button { display: none; }
   .page { padding: 0; }
