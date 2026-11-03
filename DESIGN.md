@@ -59,6 +59,12 @@ Main reading measures stay below about 75 characters. Type shrinks only for seco
 - Guide pages show actions and tools first. Longer explanations and sources use native expandable details.
 - Use sentence case. Skip decorative eyebrows, meaningless serial numbers and arrows appended to every action.
 - State exactly what buttons do. Keep calculator wording and behavior consistent across pages.
+- Use the original inline SVG set in `scripts/icons.py` for category, destination and action cues.
+  Keep the 24-unit grid and rounded 1.7-unit strokes. Icons sit beside labels rather than in decorative tiles.
+  Outbound links use the external marker; same-page tools use a downward cue. Labels carry the accessible names;
+  SVGs are hidden from assistive technology and cannot receive focus. The search magnifier focuses its field.
+  Copy changes to a checkmark only after successful copying and resets when a draft changes or clears.
+  Do not add an icon font, fetched favicons, tracking or third-party logo requests.
 - No gradients, stock feature icons, nested cards, promotional closing blocks or scroll reveal animations.
 - Keep visible keyboard focus, native mobile navigation and reduced-motion support. Core reading works without JavaScript.
 

@@ -1,4 +1,5 @@
 """Shared, local-only tools. Guide text remains available without JavaScript."""
+from icons import icon, copy_icons
 
 
 def bill_breakdown():
@@ -43,7 +44,7 @@ def message_builder(heading=2, tool_id='quick-tool'):
         <label>What needs explaining?<textarea id="message-issue" rows="3" maxlength="240" placeholder="e.g. A new service fee on my November bill"></textarea></label>
         <label>Important dates or previous contact <span>(optional)</span><input id="message-dates" type="text" maxlength="160" placeholder="e.g. Charged November 1; contacted support November 2"></label>
         <label>What would help?<select id="message-goal"><option value="explain">An explanation of the charge</option><option value="correct">A review and correction</option><option value="confirm">Confirmation of cancellation</option></select></label>
-        <button type="reset" class="quiet-button">Clear my notes</button>
-      </form><div class="message-preview"><p class="preview-label">Your draft</p><blockquote id="built-message">I’m writing about [the charge or issue]. Please explain the charge and the rate or term behind it. I can provide supporting records through your verified secure channel.</blockquote><button class="copy-button" data-copy="built-message" hidden>Copy my draft</button><p class="copy-status" role="status"></p></div></div>
+        <button type="reset" class="quiet-button">{icon("reset")}Clear my notes</button>
+      </form><div class="message-preview"><p class="preview-label">Your draft</p><blockquote id="built-message">I’m writing about [the charge or issue]. Please explain the charge and the rate or term behind it. I can provide supporting records through your verified secure channel.</blockquote><button class="copy-button" data-copy="built-message" hidden>{copy_icons()}Copy my draft</button><p class="copy-status" role="status"></p></div></div>
       <p class="fine-print">Nothing is sent or saved here. This draft does not replace a formal dispute, appeal or required notice.</p>
     </section>'''

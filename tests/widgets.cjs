@@ -78,6 +78,7 @@ module.exports = async function checkWidgets(page, width, base) {
   assert.equal(await page.locator('#built-message img').count(), 0);
   await page.getByRole('button', {name:'Copy my draft'}).click();
   await page.waitForFunction(()=>document.querySelector('.message-preview .copy-status').textContent.startsWith('Copied.'));
+  assert(await page.getByRole('button', {name:'Copy my draft'}).locator('[data-icon=check]').isVisible());
   assert((await page.evaluate(()=>navigator.clipboard.readText())).includes(unsafeText));
   await page.getByLabel('Important dates or previous contact').press('Enter');
   assert((await page.locator('#built-message').innerText()).includes(unsafeText));
@@ -87,6 +88,7 @@ module.exports = async function checkWidgets(page, width, base) {
   assert.equal(await page.getByLabel('What would help?').inputValue(), 'explain');
   assert((await page.locator('#built-message').innerText()).includes('[the charge or issue]'));
   assert.equal(await page.locator('.message-preview .copy-status').innerText(), '');
+  assert(await page.getByRole('button', {name:'Copy my draft'}).locator('[data-icon=copy]').isVisible());
   assert(await page.evaluate(()=>localStorage.length===0 && sessionStorage.length===0));
   assert.deepEqual(requests, [], 'Widget interaction must not send any request');
   await page.getByRole('navigation', {name:'Quick tools'}).getByRole('link', {name:'Compare a bill'}).focus();

@@ -134,6 +134,7 @@ if (builder) {
   const dates = document.querySelector('#message-dates').value.trim();
   document.querySelector('#built-message').textContent = `My billing question: ${issue}` + (dates ? `\n\nRelevant dates and contact: ${dates}` : '') + `\n\n${goals[document.querySelector('#message-goal').value]}\n\nI can provide supporting records through your verified secure channel.`;
   builder.parentElement.querySelector('.copy-status').textContent = '';
+  builder.parentElement.querySelector('[data-copy]').removeAttribute('data-copied');
  }
  builder.addEventListener('submit', event => event.preventDefault());
  builder.addEventListener('input', buildMessage);
@@ -149,7 +150,13 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  button.hidden = false;
  button.addEventListener('click', async () => {
   const status = button.parentElement.querySelector('.copy-status');
-  try { await navigator.clipboard.writeText(document.getElementById(button.dataset.copy).innerText); status.textContent = 'Copied. Adapt the details in your own private notes.'; }
-  catch { status.textContent = 'Copy is unavailable here. Select and copy the text above.'; }
+  try {
+   const target = document.getElementById(button.dataset.copy), text = target.innerText;
+   await navigator.clipboard.writeText(text);
+   const unchanged = target.innerText === text;
+   button.dataset.copied = String(unchanged);
+   status.textContent = unchanged ? 'Copied. Adapt the details in your own private notes.' : 'Copied the earlier draft. Copy again to include your changes.';
+  }
+  catch { button.removeAttribute('data-copied'); status.textContent = 'Copy is unavailable here. Select and copy the text above.'; }
  });
 }

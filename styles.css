@@ -510,6 +510,31 @@ input::placeholder { color: #667480; }
  .portal-note { font-size: 12px; }
 }
 
+/* Icons encode category, destination and action; labels remain the source of meaning. */
+.ui-icon { display: inline-block; width: 18px; height: 18px; flex-shrink: 0; vertical-align: middle; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.portal-grid .portal-card header h2 { display: flex; align-items: start; gap: 10px; }
+.portal-card header h2 > .ui-icon { width: 23px; height: 23px; color: var(--cobalt); margin-top: 1px; }
+.destination-label { display: flex; gap: 9px; align-items: start; min-width: 0; }
+.destination-label > .ui-icon { width: 17px; height: 17px; margin-top: 2px; color: var(--cobalt); }
+.destination-label > span { min-width: 0; }
+.portal-destination small { position: relative; padding-right: 17px; }
+.portal-destination small > .ui-icon { position: absolute; right: 0; top: 2px; width: 11px; height: 11px; color: var(--muted); }
+.portal-search .portal-search-glyph { display: flex; align-items: center; color: var(--cobalt); margin: 0; padding-left: 13px; cursor: text; align-self: stretch; }
+.portal-search > div { gap: 0; padding-right: 0; }
+.portal-search .quiet-button { display: flex; justify-content: center; align-items: center; border: 0; min-width: 44px; min-height: 44px; padding: 0; }
+.portal-search .quiet-button > .ui-icon { width: 17px; height: 17px; }
+.copy-button { display: inline-flex; gap: 8px; align-items: center; min-height: 42px; font-size: 13px; }
+.copy-button .ui-icon[data-icon=check] { display: none; }
+.copy-button[data-copied=true] .ui-icon[data-icon=copy] { display: none; }
+.copy-button[data-copied=true] .ui-icon[data-icon=check] { display: inline-block; }
+.button:has(>.ui-icon) { gap: 10px; }
+.quiet-button:has(>.ui-icon) { display: inline-flex; gap: 7px; align-items: center; }
+@media (max-width: 700px) {
+ .portal-card header h2 > .ui-icon { width: 22px; height: 22px; }
+ .portal-destination small { max-width: 100px; }
+}
+
 @media print {
   .site-header, .site-footer, .preview-note, .copy-button { display: none; }
   .page { padding: 0; }

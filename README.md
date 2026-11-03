@@ -25,6 +25,7 @@ The deployed main branch remains the maintenance page until a fuller release is 
 - `content/site.py`: branch descriptions, original guide text, source links and dates.
 - `content/directory.py`: directory link labels, publishers and separate source/check dates.
 - `scripts/build.py`: shared page templates, metadata, breadcrumb schema and generated URLs.
+- `scripts/icons.py`: original inline SVGs for category, resource type and action feedback.
 - `styles.css`, `site.js`, `assets/`: appearance and small browser-only tools.
 - Generated HTML is checked in for the existing GitHub Pages deployment. Rebuild after editing sources.
 
