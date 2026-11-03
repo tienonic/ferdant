@@ -318,6 +318,7 @@
   controller?.abort();hazardController?.abort();hazardGroup?.clearLayers();const run=++version;limit=active==='everyday'?8:4;resourceFilter=active==='everyday'?'all':policy().default;shelterItems=[];feedStatus.textContent='';root.querySelector('#atlas-resource-filters').open=false;
   everyday.setAttribute('aria-pressed',String(active==='everyday'));choices.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.disaster===active)));
   root.querySelector('#atlas-hazard-legend').replaceChildren();root.querySelector('#atlas-layer-status').textContent='';root.querySelector('#atlas-layer-credit').textContent='';root.dataset.hazardLoading='false';
+  const faultHelp=root.querySelector('#atlas-fault-help');if(faultHelp){faultHelp.hidden=active!=='earthquake';if(faultHelp.hidden){faultHelp.open=false;faultHelp.querySelectorAll('details').forEach(detail=>detail.open=false);}}
   const plan=disasters?.plans.get(active);guidance();
   if(map){
    if(hazardAttribution)map.attributionControl.removeAttribution(hazardAttribution);

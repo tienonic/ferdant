@@ -79,8 +79,52 @@ from the [2010 Fault Activity Map](https://maps.conservation.ca.gov/cgs/fam/).
 The map edition is 2010; the service and legend were checked November 3, 2026.
 Black traces and colored activity-age bands retain the provider's symbology:
 red Historic, orange Holocene, green Late Quaternary and purple Quaternary.
+The public key now translates those classes into recent recorded movement,
+movement within about 12,000 years, movement within about 700,000 years, and past
+movement with less specific timing. The colors retain the source meaning;
+they are not reassigned to the separate FEMA High/Moderate/Low risk scheme.
 The bands are not current warning levels or hazard-zone widths. Locations are
 approximate planning references, not parcel boundaries or earthquake predictions.
+
+### Plain-language key, November 3, 2026
+
+Audience: residents scanning their city or county earthquake map on a phone or
+desktop, without a geology background. The bounded change covers the fault key
+and its household explanation, using the existing 2010 tiles and source colors.
+It does not change fault geometry, risk rankings or map navigation. The input
+`content/disasters.py` SHA-256 was
+`201ad289d68def790f7ad83b086a51dbec35bf36766034696bcf6f6eaf7a1433`.
+
+The collapsed “What fault colors mean for your home” section explains effects
+and practical preparation. Original terms are in a nested disclosure; both are
+keyboard accessible. Switching hazards hides and closes the explanation. It
+remains available when online fault imagery fails or is absent from an offline
+copy. Completion requires rebuilding the preview and checking the key,
+disclosures, hazard switching and mobile/desktop layout.
+
+Sources checked November 3, 2026:
+
+- [CGS historical-earthquake map key](https://maps.conservation.ca.gov/cgs/historicearthquakes/)
+  supplies Historic, 11,700-year Holocene and 700,000-year Late Quaternary
+  explanations. The public label rounds 11,700 to about 12,000. The historical
+  category belongs to the 2010 source edition; it is not updated as a live feed.
+- [CGS 2010 explanatory pamphlet, pages 1–2](https://www.conservation.ca.gov/cgs/documents/publications/geologic-data-maps/GDM_006-FAM-Pamphlet-2010.pdf)
+  distinguishes latest known displacement from claims that faults are active or
+  inactive. Purple remains a broad, undivided age category; no precise movement
+  date or recurrence interval is inferred.
+- [USGS earthquake effects](https://www.usgs.gov/programs/earthquake-hazards/what-are-effects-earthquakes)
+  supports the shaking, surface rupture and building/ground-condition context.
+- [CDC earthquake safety](https://www.cdc.gov/earthquakes/safety/stay-safe-during-an-earthquake.html)
+  supports securing furniture, lowering heavy items and Drop, Cover, Hold On.
+
+These source URLs also appear in the map disclosure and generated reference
+catalog. Wording and layout checks do not establish user comprehension through
+a usability study.
+
+Verification: preview build and content checks passed; the existing fault-map
+suite passed all 541 city/county selections, keyboard disclosure, mobile width,
+hazard switching and tile failure recovery. Live San Francisco views were
+visually checked at 390 and 1440 pixels with no horizontal overflow.
 
 Fault tiles follow the visible map across California, including when the user
 pans away from the selected city or zooms out. This replaces the first version's
