@@ -68,9 +68,9 @@ hosting and fee/test decisions; this preview does not create a shop or accept pa
 
 ## Design and privacy
 
-Porcelain `#f8f9f6`, cobalt `#254b85`, blue-grey rules, serif display type, native sans-serif text,
-generous space and an original geometric roundel. It is not a reproduction of a museum object
-or a claim of an authentic historical motif. No external fonts or decorative image requests.
+Porcelain white `#fbfcfa`, cobalt `#244b84`, fine rules, serif headings and native sans-serif text.
+The homepage puts working guides beside the introduction and groups the five communities by topic.
+It uses a text directory rather than decorative artwork or promotional cards. No external fonts or image requests.
 
 Search, bill comparison and checklists run in the browser without sending or storing input.
 Template copy uses the clipboard only after a click. No analytics, account system, document upload,
