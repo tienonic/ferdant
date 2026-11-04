@@ -44,12 +44,15 @@
     },
     "yolo-davis-library": {
       "values": {
-        "services": "Library lending, public computers and printing",
+        "services": "Library lending, public computers, printing, copying, scanning and outgoing faxing. Submit faxes 15 minutes before closing; no incoming faxes.",
         "amenities": [
           "Wi-Fi",
           "Public computers",
-          "Printing"
-        ]
+          "Wireless printing",
+          "Scanning",
+          "Study rooms (not reservable)"
+        ],
+        "cost": "Print/copy: B&W $0.20/page; color $0.50/page. Outgoing fax $1 (up to 10 single-sided or 5 double-sided pages)."
       },
       "evidence": {
         "title": "Yolo County Library: Davis branch",
@@ -58,11 +61,47 @@
         "checked": "2026-11-03",
         "inputSha256": "134845ff99b450a8ddb126ff42f479227023dccbc6b6bb28b92963b2b935ccd4",
         "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+      },
+      "evidenceByField": {
+        "cost": {
+          "title": "Yolo County Library / printing and outgoing fax fees",
+          "url": "https://yolocountylibrary.org/fines-fees-and-checkout-limits/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Applies only to the existing Davis branch in this review. Fax limit and closing cutoff retained; no free scanning or printing allowance inferred. No publisher update date supplied; confirm current availability.",
+          "inputSha256": "981bf2741af672ed86d91b8b8fd9ab0c68e356f17b38ccb712351f59e92b6e3b",
+          "inputURL": "https://yolocountylibrary.org/fines-fees-and-checkout-limits/"
+        },
+        "services": {
+          "title": "Yolo County Library / printing and outgoing fax fees",
+          "url": "https://yolocountylibrary.org/fines-fees-and-checkout-limits/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Applies only to the existing Davis branch in this review. Fax limit and closing cutoff retained; no free scanning or printing allowance inferred. No publisher update date supplied; confirm current availability.",
+          "inputSha256": "981bf2741af672ed86d91b8b8fd9ab0c68e356f17b38ccb712351f59e92b6e3b",
+          "inputURL": "https://yolocountylibrary.org/fines-fees-and-checkout-limits/"
+        },
+        "amenities": {
+          "title": "Mary L. Stephens Davis Branch Library / visit services",
+          "url": "https://yolocountylibrary.org/locations/davis/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Address matches 315 East 14th Street. Study rooms are not reservable; no vacancy or equipment availability inferred. No publisher update date supplied; confirm current availability.",
+          "inputSha256": "de1ea548e6c85f4b5cb3d3bb2a9d1a05ffd8d18903753809569a5f58a9374dc7",
+          "inputURL": "https://yolocountylibrary.org/locations/davis/"
+        }
       }
     },
     "yolo-davis-clinic": {
       "values": {
-        "services": "Primary, behavioral, perinatal and dental care"
+        "services": "Primary, behavioral, perinatal and dental care",
+        "cost": "Income-based discounts and payment plans for uninsured patients. Confirm eligibility, coverage and your charges.",
+        "amenities": [
+          "Insurance-enrollment assistance (free; contact provider)"
+        ]
       },
       "evidence": {
         "title": "OLE Health Davis Community Clinic",
@@ -71,11 +110,33 @@
         "checked": "2026-11-03",
         "inputSha256": "2a3add3506d52f17417bcf1990bc66e4bcb80ad4015fa48241dafc3ff0354f3c",
         "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+      },
+      "evidenceByField": {
+        "cost": {
+          "title": "OLE Health / billing and financial assistance",
+          "url": "https://olehealth.org/patient-info/cost-insurance/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Reviewed current provider page through web reader; direct HTML download returned 403 and supplied no raw capture. Discount is not a promise of free care or insurance acceptance. No publisher update date supplied; confirm current availability."
+        },
+        "amenities": {
+          "title": "OLE Health / enrollment assistance",
+          "url": "https://olehealth.org/enroll/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Provider assistance is free, confidential and open to nonpatients. No current workshop, on-site session or insurance eligibility is inferred. Direct HTML download returned 403; reviewed through web reader. No publisher update date supplied; confirm current availability."
+        }
       }
     },
     "yolo-empower-davis": {
       "values": {
-        "services": "Public intake, food distribution and clothing assistance"
+        "services": "Public intake, food distribution and clothing assistance",
+        "cost": "Counseling for abuse survivors and family members is free; registration required. Ask about other program charges.",
+        "amenities": [
+          "Interpretation assistance (no cost)"
+        ]
       },
       "evidence": {
         "title": "Empower Yolo public resource centers",
@@ -84,11 +145,35 @@
         "checked": "2026-11-03",
         "inputSha256": "6e65b1511ea68756f7309897e7726a26fd9a5fb4956dff5a8ade2a82dcf9b5c7",
         "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+      },
+      "evidenceByField": {
+        "cost": {
+          "title": "Empower Yolo / counseling costs and registration",
+          "url": "https://empoweryolo.org/counseling-services/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Free counseling applies to survivors of abuse and their family members; registration required. The Davis location lists counseling intake. No charge or availability claim for other programs. No publisher update date supplied; confirm current availability.",
+          "inputSha256": "0eaf2bdbf74b49d70f8dc1f715cd8983ccf1b46716bdb655f9b512a9bfbabddb",
+          "inputURL": "https://empoweryolo.org/counseling-services/"
+        },
+        "amenities": {
+          "title": "Empower Yolo / interpretation assistance",
+          "url": "https://empoweryolo.org/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Provider offers interpretation at no cost to community members. This is assistance, not a claim that a particular language interpreter is currently on site. No publisher update date supplied; confirm current availability.",
+          "inputSha256": "624eb7cbf0d43d94611529d2210b69723e25fcccd25e37b457e12d296e758952",
+          "inputURL": "https://empoweryolo.org/"
+        }
       }
     },
     "yolo-lsnc-woodland": {
       "values": {
-        "services": "Civil legal aid, including housing and benefits"
+        "services": "Civil legal aid, including housing and benefits",
+        "hours": "New intake: Mon-Thu 8:30am-noon, 1-3pm; no Friday intake. Existing clients: Mon-Fri 8:30am-noon, 1-5pm.",
+        "cost": "Free civil legal help for eligible clients; intake and case acceptance required."
       },
       "evidence": {
         "title": "LSNC Woodland office",
@@ -97,6 +182,26 @@
         "checked": "2026-11-03",
         "inputSha256": "521943b98498bb8689ef859b5ad12e12e0b8cadecefe305c04c019abc019a8e7",
         "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+      },
+      "evidenceByField": {
+        "hours": {
+          "title": "LSNC Woodland / intake and existing-client hours",
+          "url": "https://lsnc.net/office/woodland",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Address matches 619 North Street. New intake and existing-client office hours are different; case acceptance is unconfirmed. No publisher update date supplied; confirm current availability.",
+          "inputSha256": "521943b98498bb8689ef859b5ad12e12e0b8cadecefe305c04c019abc019a8e7",
+          "inputURL": "https://lsnc.net/office/woodland"
+        },
+        "cost": {
+          "title": "LSNC / free civil legal services",
+          "url": "https://lsnc.net/what-we-do",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Provider describes free civil legal services. Woodland serves low-income Yolo County clients; eligibility and case acceptance remain subject to intake. No publisher update date supplied; confirm current availability."
+        }
       }
     },
     "dcmh-meals": {
@@ -121,7 +226,7 @@
         ]
       },
       "evidence": {
-        "title": "Paul’s Place resource center",
+        "title": "Paulâ€™s Place resource center",
         "url": "https://daviscommunitymeals.org/resource-center/",
         "published": null,
         "checked": "2026-11-03",

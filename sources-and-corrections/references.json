@@ -105,7 +105,7 @@
     "content/map-data-manifest.json": "b779ca6ee472019ac8dd95ca5159a4be366e329236985d2d7ba7281ecad3cb08",
     "content/physical-service-manifest.json": "862e2398dd2ac064bb740f33b8c83e097cc59f9aa5ced5ebbdfae4c9718a1f16",
     "content/physical-services.json": "29a0f84ccdd4687dace5a0b470e9d2704f304f74445091af2d75148df561af9d",
-    "content/provider-visit-details.json": "3698a22b474491e8be5e9e826203902dfaf68255d5123686e5485677ab39a688",
+    "content/provider-visit-details.json": "32579ec46db2340b8eb133b9a4c5134cd6133b01b345d0543d1df2df394737f0",
     "content/regions.json": "1bec6513304e739e0bbddb5d00559b75528a6d01b3d7b14fc8303e065798364c",
     "content/resource-map.json": "a406445eb26c10e27198c7f4bd4236b8164526788fc578769951741a0ec18c36",
     "content/resource-search.json": "b35b2da456478c15433647d61266c6638c9e42659021a81fbc2f74147149425c",
@@ -573,7 +573,7 @@
           "note": "Provider address and service checked. Publisher date not supplied. Approximate point: US Census Public_AR_Current geocoder, checked November 2, 2026."
         },
         {
-          "title": "Paul’s Place resource center",
+          "title": "Paulâ€™s Place resource center",
           "url": "https://daviscommunitymeals.org/resource-center/",
           "published": null,
           "checked": "2026-11-03",
@@ -647,6 +647,52 @@
           "access": "Public website link; no bulk reuse assumed",
           "evidenceURL": "https://eldercare.acl.gov/home",
           "verification": "Public publisher page inspected; individual search results and provider availability not verified."
+        }
+      ]
+    },
+    {
+      "title": "Empower Yolo / counseling costs and registration",
+      "url": "https://empoweryolo.org/counseling-services/",
+      "category": "maps",
+      "uses": [
+        "Provider field-specific evidence"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "Empower Yolo / counseling costs and registration",
+          "url": "https://empoweryolo.org/counseling-services/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Free counseling applies to survivors of abuse and their family members; registration required. The Davis location lists counseling intake. No charge or availability claim for other programs. No publisher update date supplied; confirm current availability.",
+          "inputSha256": "0eaf2bdbf74b49d70f8dc1f715cd8983ccf1b46716bdb655f9b512a9bfbabddb",
+          "inputURL": "https://empoweryolo.org/counseling-services/"
+        }
+      ]
+    },
+    {
+      "title": "Empower Yolo / interpretation assistance",
+      "url": "https://empoweryolo.org/",
+      "category": "maps",
+      "uses": [
+        "Provider field-specific evidence"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "Empower Yolo / interpretation assistance",
+          "url": "https://empoweryolo.org/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Provider offers interpretation at no cost to community members. This is assistance, not a claim that a particular language interpreter is currently on site. No publisher update date supplied; confirm current availability.",
+          "inputSha256": "624eb7cbf0d43d94611529d2210b69723e25fcccd25e37b457e12d296e758952",
+          "inputURL": "https://empoweryolo.org/"
         }
       ]
     },
@@ -1069,11 +1115,33 @@
       ]
     },
     {
+      "title": "LSNC / free civil legal services",
+      "url": "https://lsnc.net/what-we-do",
+      "category": "maps",
+      "uses": [
+        "Provider field-specific evidence"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "LSNC / free civil legal services",
+          "url": "https://lsnc.net/what-we-do",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Provider describes free civil legal services. Woodland serves low-income Yolo County clients; eligibility and case acceptance remain subject to intake. No publisher update date supplied; confirm current availability."
+        }
+      ]
+    },
+    {
       "title": "LSNC Woodland office",
       "url": "https://lsnc.net/office/woodland",
       "category": "maps",
       "uses": [
         "Provider visit facts",
+        "Provider field-specific evidence",
         "Physical service: services-legal",
         "content / sources / legal"
       ],
@@ -1090,6 +1158,16 @@
           "checked": "2026-11-03",
           "inputSha256": "521943b98498bb8689ef859b5ad12e12e0b8cadecefe305c04c019abc019a8e7",
           "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+        },
+        {
+          "title": "LSNC Woodland / intake and existing-client hours",
+          "url": "https://lsnc.net/office/woodland",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Address matches 619 North Street. New intake and existing-client office hours are different; case acceptance is unconfirmed. No publisher update date supplied; confirm current availability.",
+          "inputSha256": "521943b98498bb8689ef859b5ad12e12e0b8cadecefe305c04c019abc019a8e7",
+          "inputURL": "https://lsnc.net/office/woodland"
         },
         {
           "title": "LSNC Woodland office",
@@ -1360,6 +1438,48 @@
           "serviceEdited": "2022-04-13",
           "license": "https://opendatacommons.org/licenses/odbl/1-0/",
           "note": "Computer-generated outlines; source imagery dates are not supplied by this layer. The service data edit date is April 13, 2022. A highlight means the outline contains a directory point; it does not verify the building, entrance, accessibility, structural safety or current service. Unmatched and ambiguous locations keep pins. Extracted geometry is © Microsoft, ODbL 1.0."
+        }
+      ]
+    },
+    {
+      "title": "OLE Health / billing and financial assistance",
+      "url": "https://olehealth.org/patient-info/cost-insurance/",
+      "category": "maps",
+      "uses": [
+        "Provider field-specific evidence"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "OLE Health / billing and financial assistance",
+          "url": "https://olehealth.org/patient-info/cost-insurance/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Reviewed current provider page through web reader; direct HTML download returned 403 and supplied no raw capture. Discount is not a promise of free care or insurance acceptance. No publisher update date supplied; confirm current availability."
+        }
+      ]
+    },
+    {
+      "title": "OLE Health / enrollment assistance",
+      "url": "https://olehealth.org/enroll/",
+      "category": "maps",
+      "uses": [
+        "Provider field-specific evidence"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "OLE Health / enrollment assistance",
+          "url": "https://olehealth.org/enroll/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Provider assistance is free, confidential and open to nonpatients. No current workshop, on-site session or insurance eligibility is inferred. Direct HTML download returned 403; reviewed through web reader. No publisher update date supplied; confirm current availability."
         }
       ]
     },
@@ -2739,11 +2859,35 @@
       ]
     },
     {
+      "title": "Yolo County Library / printing and outgoing fax fees",
+      "url": "https://yolocountylibrary.org/fines-fees-and-checkout-limits/",
+      "category": "maps",
+      "uses": [
+        "Provider field-specific evidence"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "Yolo County Library / printing and outgoing fax fees",
+          "url": "https://yolocountylibrary.org/fines-fees-and-checkout-limits/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Applies only to the existing Davis branch in this review. Fax limit and closing cutoff retained; no free scanning or printing allowance inferred. No publisher update date supplied; confirm current availability.",
+          "inputSha256": "981bf2741af672ed86d91b8b8fd9ab0c68e356f17b38ccb712351f59e92b6e3b",
+          "inputURL": "https://yolocountylibrary.org/fines-fees-and-checkout-limits/"
+        }
+      ]
+    },
+    {
       "title": "Yolo County Library: Davis branch",
       "url": "https://yolocountylibrary.org/locations/davis/",
       "category": "maps",
       "uses": [
         "Provider visit facts",
+        "Provider field-specific evidence",
         "Physical service: services-library-branch",
         "content / sources / library-branch"
       ],
@@ -2760,6 +2904,16 @@
           "checked": "2026-11-03",
           "inputSha256": "134845ff99b450a8ddb126ff42f479227023dccbc6b6bb28b92963b2b935ccd4",
           "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+        },
+        {
+          "title": "Mary L. Stephens Davis Branch Library / visit services",
+          "url": "https://yolocountylibrary.org/locations/davis/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Address matches 315 East 14th Street. Study rooms are not reservable; no vacancy or equipment availability inferred. No publisher update date supplied; confirm current availability.",
+          "inputSha256": "de1ea548e6c85f4b5cb3d3bb2a9d1a05ffd8d18903753809569a5f58a9374dc7",
+          "inputURL": "https://yolocountylibrary.org/locations/davis/"
         },
         {
           "title": "Yolo County Library: Davis branch",
