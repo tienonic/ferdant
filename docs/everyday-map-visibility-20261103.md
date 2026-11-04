@@ -6,6 +6,11 @@ Everyday now maps every location returned by the existing city/county selection 
 
 No source records, geographic eligibility, nearby-service selection, disaster response filters or data dates change. The count describes saved directory records, not confirmed openings or complete local coverage. Evacuation overlays and booklet generation remain separate.
 
+Map markers use larger, heavier service symbols, dark edges and white outer
+halos to separate them from streets and colored overlays. Group labels use the
+same dark-edge/white-halo treatment. Existing category colors remain consistent
+with the legend; keyboard focus has a separate dark outline.
+
 Bounded T36 scope: `resource-map.js`, related styles, focused map tests and generated offline/source-reference files. Baseline: `e4b28c8` on the existing preview branch. Stop condition: all filtered records represented exactly once, mobile/keyboard/offline behavior verified and scoped preview changes committed. Public main release remains a separate decision.
 
 ## Verification
