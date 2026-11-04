@@ -61,8 +61,12 @@
   function source(s){const id=[s.url,s.title,s.checked,s.published].join('|');if(!bySource.has(id)){bySource.set(id,sources.length+1);sources.push({...s,id:sources.length+1});}return bySource.get(id);}
   const coverPhoto=config.bookletCover,coverSource=source({...coverPhoto,dataURL:undefined,title:coverPhoto.title+' / '+coverPhoto.photographer+' / '+coverPhoto.publisher});
   const riskProfile=window.FerdantRisk.profile(key),riskSource=source(config.hazardRisk.source),riskTractSource=source(config.hazardRisk.tractSource);
-  function physical(f,issue){const s=config.sources[f.source],outside=place?.city&&!f.within?(f.servesCounty?'Serves '+places.counties[place.county]+' County; office outside city.':'Outside city / '+(places.counties[f.county]||'nearby')+' County / '+(f.km<10?f.km.toFixed(1):Math.round(f.km))+' km straight-line.') : '';
-   return {issue,title:f.name,detail:f.address+', '+f.city+'. '+outside,access:f.visit?.hours?'Regular hours: '+f.visit.hours:'Hours and intake not confirmed; check with the provider.',kind:f.kind,url:f.url||s.url,source:source(s),physicalId:f.id};}
+  function physical(f,issue){
+   const s=config.sources[f.source],outside=place?.city&&!f.within?(f.servesCounty?'Serves '+places.counties[place.county]+' County; office outside city.':'Outside city / '+(places.counties[f.county]||'nearby')+' County / '+(f.km<10?f.km.toFixed(1):Math.round(f.km))+' km straight-line.') : '';
+   const facts=window.FerdantResourceFacts.rows(f).map(row=>({...row,source:row.evidence?source(row.evidence):source(s)}));
+   const detail=facts.map(row=>row.label+': '+row.value.replace(/https?:\/\/\S+/g,'[source record]')).join('\n');
+   return {issue,title:f.name,detail,access:[outside,f.visit?.eligibility||'Confirm intake and current availability before visiting.'].filter(Boolean).join(' '),facts,sourceRefs:[...new Set(facts.map(row=>row.source))],kind:f.kind,url:f.url||s.url,source:source(s),physicalId:f.id};
+  }
   function referral(issue,title,detail,url,kind='support'){return {issue,title,detail,access:'Referral link; confirm a visit first.',kind,url,source:source({title,url,checked:null,published:url==='https://www.news.caloes.ca.gov/cooling-centers-and-resources-3/'?'2026-03':null}),referral:true};}
   const evacuation=evacuationPlan(place,source);
   const streetMap=await window.FerdantBookletMap.map(key);
@@ -106,7 +110,7 @@
    ...m.omittedEvents.map(p=>'Omitted section: '+p.label+'. '+p.reason),
    ...(m.riskProfile.record?.tracts?['Intersecting census tracts: '+m.riskProfile.record.tracts.join(', ')]:[]),'',
    ...(m.evacuation?['EVACUATION SOURCE REVIEW',...[...m.evacuation.links,m.evacuation.general,m.evacuation.flood,m.evacuation.tsunami,m.evacuation.tsunamiMap].flatMap(s=>['[S'+s.sourceRef+'] '+s.title,'Type: '+s.kind,'Review: '+s.review,...(s.corroborationURL?['Corroborating source: '+s.corroborationURL]:[]),''])]:[]),
-   ...m.sources.flatMap(s=>['[S'+s.id+'] '+s.title,s.url,'Checked: '+(s.checked||'referral link; current service not verified'),'Publisher/data date: '+(s.published||'not supplied'),...(s.photographer?['Photographer: '+s.photographer]:[]),...(s.licenseURL?['License: '+s.license,'License URL: '+s.licenseURL]:[]),...(s.evidenceURL?['Publisher evidence: '+s.evidenceURL,'Evidence date: '+(s.evidencePublished||'not supplied'),'Coverage: '+s.coverage,'Review limits: '+s.verification]:[]),''])].join('\r\n');
+   ...m.sources.flatMap(s=>['[S'+s.id+'] '+s.title,s.url,'Checked: '+(s.checked||'referral link; current service not verified'),'Publisher/data date: '+(s.published||'not supplied'),...(s.observed?['Source map edit: '+s.observed,'An edit timestamp does not verify present operation.']:[]),...(s.photographer?['Photographer: '+s.photographer]:[]),...(s.licenseURL?['License: '+s.license,'License URL: '+s.licenseURL]:[]),...(s.evidenceURL?['Publisher evidence: '+s.evidenceURL,'Evidence date: '+(s.evidencePublished||'not supplied'),'Coverage: '+s.coverage,'Review limits: '+s.verification]:[]),''])].join('\r\n');
   return {filename:stem+'-sources.txt',pdfFilename:stem+'.pdf',text};
  }
  let pdfReady;
@@ -277,7 +281,7 @@
      cy+=text(c.title,x+12,cy,234,11,ink,'helvetica','bold')+6;
      cy+=text(c.detail,x+12,cy,234,9,muted)+7;
      cy+=text(c.access,x+12,cy,234,9,muted)+7;
-     text('Source [S'+c.source+'] / notes at the back',x+12,cy,234,9,muted);
+     text('Sources ['+(c.sourceRefs||[c.source]).map(id=>'S'+id).join(', ')+'] / notes at the back',x+12,cy,234,9,muted);
     }y+=height+13;
    }
    phoneRows(p.phones,'Phone chart / '+p.label);

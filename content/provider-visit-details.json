@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "checked": "2026-11-03",
+  "records": {
+    "imls-CA0136-003": {
+      "values": {
+        "services": "Library lending, reference and study rooms",
+        "cost": "Printing/copying fees apply; USB scanning is free.",
+        "amenities": [
+          "Wi-Fi",
+          "Public computers",
+          "Printing and scanning",
+          "Computer accessibility tools"
+        ]
+      },
+      "evidence": {
+        "title": "Vallejo John F. Kennedy Library / provider services and fees",
+        "url": "https://solanolibrary.gov/hours-and-locations/vallejo-john-f-kennedy-library/",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Provider page contains conflicting black-and-white print rates; the exact current rate is not selected."
+      }
+    },
+    "imls-CA0136-005": {
+      "values": {
+        "services": "Library lending, reference and seed library",
+        "cost": "Print/copy: $0.20/page black-and-white, $0.50/page color; USB scans free.",
+        "amenities": [
+          "Wi-Fi",
+          "Public computers",
+          "Printing and scanning",
+          "Computer accessibility tools"
+        ]
+      },
+      "evidence": {
+        "title": "Vallejo Springstowne Library / provider services and fees",
+        "url": "https://solanolibrary.gov/hours-and-locations/vallejo-springstowne-library/",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "The embedded hours widget was not readable during this source review; no schedule is invented."
+      }
+    },
+    "yolo-davis-library": {
+      "values": {
+        "services": "Library lending, public computers and printing",
+        "amenities": [
+          "Wi-Fi",
+          "Public computers",
+          "Printing"
+        ]
+      },
+      "evidence": {
+        "title": "Yolo County Library: Davis branch",
+        "url": "https://yolocountylibrary.org/locations/davis/",
+        "published": null,
+        "checked": "2026-11-03",
+        "inputSha256": "134845ff99b450a8ddb126ff42f479227023dccbc6b6bb28b92963b2b935ccd4",
+        "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+      }
+    },
+    "yolo-davis-clinic": {
+      "values": {
+        "services": "Primary, behavioral, perinatal and dental care"
+      },
+      "evidence": {
+        "title": "OLE Health Davis Community Clinic",
+        "url": "https://olehealth.org/location/davis-community-clinic/",
+        "published": null,
+        "checked": "2026-11-03",
+        "inputSha256": "2a3add3506d52f17417bcf1990bc66e4bcb80ad4015fa48241dafc3ff0354f3c",
+        "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+      }
+    },
+    "yolo-empower-davis": {
+      "values": {
+        "services": "Public intake, food distribution and clothing assistance"
+      },
+      "evidence": {
+        "title": "Empower Yolo public resource centers",
+        "url": "https://empoweryolo.org/services-by-location/",
+        "published": null,
+        "checked": "2026-11-03",
+        "inputSha256": "6e65b1511ea68756f7309897e7726a26fd9a5fb4956dff5a8ade2a82dcf9b5c7",
+        "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+      }
+    },
+    "yolo-lsnc-woodland": {
+      "values": {
+        "services": "Civil legal aid, including housing and benefits"
+      },
+      "evidence": {
+        "title": "LSNC Woodland office",
+        "url": "https://lsnc.net/office/woodland",
+        "published": null,
+        "checked": "2026-11-03",
+        "inputSha256": "521943b98498bb8689ef859b5ad12e12e0b8cadecefe305c04c019abc019a8e7",
+        "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+      }
+    },
+    "dcmh-meals": {
+      "values": {
+        "services": "Prepared community meals"
+      },
+      "evidence": {
+        "title": "Davis Community Meals program",
+        "url": "https://daviscommunitymeals.org/meals-program/",
+        "published": null,
+        "checked": "2026-11-03",
+        "inputSha256": "ca0f9f9cd5b37c719f29bcf7a930a237dd6db1fe90147c227f9957ba1061a9aa",
+        "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+      }
+    },
+    "dcmh-center": {
+      "values": {
+        "services": "Food, clothing and hygiene supplies",
+        "amenities": [
+          "Showers",
+          "Laundry"
+        ]
+      },
+      "evidence": {
+        "title": "Paul’s Place resource center",
+        "url": "https://daviscommunitymeals.org/resource-center/",
+        "published": null,
+        "checked": "2026-11-03",
+        "inputSha256": "2ace7613ab7df4b67d60feb56dfbbb37c8df92dac3f9e4820147166d5b2526b7",
+        "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+      }
+    }
+  }
+}

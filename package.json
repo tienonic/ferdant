@@ -9,7 +9,7 @@
     "verify:responsive": "node tests/site-check.cjs",
     "verify:maps": "node tests/resource-map.cjs",
     "verify:disasters": "node tests/disaster-plans.cjs && node tests/layer-loading.cjs",
-    "verify:services": "python -m unittest discover -s tests -p test_physical_services.py && node tests/physical-services.cjs",
+    "verify:services": "python -m unittest discover -s tests -p test_physical_services.py && node tests/physical-services.cjs && node tests/resource-facts.test.cjs && node tests/resource-facts.cjs",
     "verify:statewide": "node tests/statewide-services.cjs",
     "verify:everyday": "node tests/everyday-services.cjs && node tests/everyday-visibility.cjs",
     "verify:booklet": "node tests/resource-booklet.cjs",

@@ -91,6 +91,11 @@ def compile_references():
     roads = read('content/booklet-road-manifest.json')
     source({k: roads[k] for k in ('publisher', 'source', 'checked', 'published', 'note')},
            'maps', 'Printed booklet street maps on page 2', 'content/booklet-road-manifest.json')
+    visit = read('content/visit-fact-manifest.json')
+    source(visit['source'], 'maps', 'Hours, fees and amenities supplement', 'content/visit-fact-manifest.json')
+    visits = read('content/provider-visit-details.json')
+    for record in visits['records'].values():
+        source(record['evidence'], 'maps', 'Provider visit facts', 'content/provider-visit-details.json')
     physical = read('content/physical-services.json')
     for key, record in physical['sources'].items():
         source(record, 'maps', 'Physical service: ' + key, 'content/physical-services.json', physical['checked'])

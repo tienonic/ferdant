@@ -13,7 +13,7 @@
   "inputSha256": {
     ".github/workflows/check-site.yml": "23c2c47db6fe7f14dab28667a6d32e200aecf6d5c858b18427267bfad7197491",
     "DESIGN.md": "5c07a65e2ad3aa75afb9f3faf16eb14bce9e376fbca542ff21868deb4a0e84c9",
-    "README.md": "08e77e19d490b77525d68eeac345628540c327bab51d8bc190c10052097dd8fe",
+    "README.md": "fb651115151053274c10fdfaa41232ec59eda885b33f2c8df9cedf1f241c27b9",
     "assets/data/booklet-roads/README.md": "c405902549ca25ca22e0f5398c208b9d5f8137df571e8c2d933a8a5d87ad98e7",
     "assets/data/city-maps/BUILDINGS-LICENSE.txt": "1e4162322549351e6ce131d66c3c6c6cb56755db58e0475138e3f41cd94c4b3c",
     "assets/data/city-maps/README.md": "346247e7e378991bcd18e3602eb7ca91b08f38a71aa9f7ac232eab8877cd8bde",
@@ -76,6 +76,7 @@
     "assets/data/service-maps/56.json": "69af5fa22a9f6578f0976c6cfc7020b18e2ecee23b7b1d79007a2ed31818901d",
     "assets/data/service-maps/57.json": "abfc852f85be8d5a884bbea9c9f29dcc03255f9c46c6ca858cb8b5b37350d6ce",
     "assets/data/service-maps/58.json": "fc0268d6dec0579f4437dbf438250e001d8a5ffeb93093c5122f78db05a8f234",
+    "assets/data/visit-facts/README.md": "cc0cc187de6b2b490eb28c9b34cc9dec9599fb6ca7bd3e3df8bdd2c1f5820a72",
     "assets/favicons/README.md": "22493052c7812141a491ee10355deafc6d440a90a3055da527b2d500ae048aab",
     "assets/favicons/sources.json": "832ea4eae3534ab20e999a0e40fac0fdd1e217083d513a0f1ba6125c15cf1bfe",
     "assets/fonts/newsreader-OFL.txt": "fdfad38143ec470553cae82a1e45320bdd1b9ec70415d37bd0171051d8a4ded8",
@@ -103,12 +104,14 @@
     "content/map-data-manifest.json": "b779ca6ee472019ac8dd95ca5159a4be366e329236985d2d7ba7281ecad3cb08",
     "content/physical-service-manifest.json": "862e2398dd2ac064bb740f33b8c83e097cc59f9aa5ced5ebbdfae4c9718a1f16",
     "content/physical-services.json": "29a0f84ccdd4687dace5a0b470e9d2704f304f74445091af2d75148df561af9d",
+    "content/provider-visit-details.json": "61798d95970ee8ebe9cd29a6a5e8c8a9f3541437f8d39d40f8f79c6ce5b033b9",
     "content/regions.json": "1bec6513304e739e0bbddb5d00559b75528a6d01b3d7b14fc8303e065798364c",
     "content/resource-map.json": "a406445eb26c10e27198c7f4bd4236b8164526788fc578769951741a0ec18c36",
     "content/resource-search.json": "b35b2da456478c15433647d61266c6638c9e42659021a81fbc2f74147149425c",
     "content/resource_plans.py": "622e1a19238b0cd748d598cc3358dbf25089d7af48b9db8d9134069d002538b8",
     "content/site.py": "32ca917265308fe8b1eeae1d9c19d89ec97fe6c1ed9d6f9c40b440a2cab5dcbb",
     "content/statewide-service-manifest.json": "5b47cf9a5affe9fa0edbb5460b1edbe55803f4f1010510519cd2e25bbaea6c90",
+    "content/visit-fact-manifest.json": "dc826de631b705d5287b344366bad4d82fbd96ecffbb1a348c8a557281750d6d",
     "disaster-layers.js": "d9bc229f1383f69a7030f91108ef633fa0bf8655eb60545edb502a760a02f169",
     "docs/audience-and-funding-research-plan-20261103.md": "7f993897458c6344f4d24c3c99646c6bda408de16f45bc0baec52ea25e3146eb",
     "docs/comparable-websites-20261103.md": "9e29b7a9e190a788eaf91484370f3b6f15f42c96f56f6ca45e7c5dc995dc39c6",
@@ -138,10 +141,11 @@
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
     "phone.js": "094f9f5299edabc858f45dd44d91f18df87592074cde075a363667ff2f39fcf5",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
-    "resource-booklet.js": "34c995e939193c16ac23922b887db3b8b7da82090d0075b73ee310f2c0abf02d",
-    "resource-map.js": "99b6b2dbae09304bbbe89be7d549e615aa55e003bbd5a81c3310d38339309d98",
+    "resource-booklet.js": "4c95e8dc1bb913ba8ade00f2fa397a395ed4b0711049e4b941b6712e25b5eb96",
+    "resource-facts.js": "66599efae2241ec32442cc78993397cb96f2d3f577f5223ae9e328271a947781",
+    "resource-map.js": "c6f11b88d927aebabbec8a59aad3ad65f49537f2f5cfbbc34423a025029e44e8",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
-    "scripts/build.py": "18c7b425a86fbc5200ba3227b114ff21381c711185581bd47474cfdafbdaa4da",
+    "scripts/build.py": "d268a4880aae42e744cf1433f3b81838d20d63ccf57d0b949bedc2608c35a147",
     "scripts/check-content.py": "912019aebb7a4ae61dfac2ec6772c1e1a30ffd15d1185bcb4412dc808f27e643",
     "scripts/cost_tool.py": "71f3ff17044114405286e328aabfec51bed9d6536fd357214648a4d48c45af69",
     "scripts/graphics.py": "5fc8aac8d4e418e5f575749505b3d4e679cb98d3afadcb68d231c020f85f1557",
@@ -149,7 +153,7 @@
     "scripts/import-alert-links.py": "14fa1c157000de895f634327e7b94620830b33694ac0f604e505c168ef950a4a",
     "scripts/import-evacuation-routes.py": "30865e3f3d3e51f5b587618153b1a66b7f1cf7f7296241d908836f1aee497807",
     "scripts/landing.py": "fbc838249681e177417fd2cea72e864cf525813620232fe79d1f8aab6780c1e9",
-    "scripts/offline.py": "935545a08f342ce177cf572bebeb8aaade81f7f603bebfc6ecab20e557ba975e",
+    "scripts/offline.py": "624aab28cda64902f5ddceb2023e3d7a5ba4eb59b4edfb5085a9b35e5109cb36",
     "scripts/phone_chart.py": "782c7914807f40c6efdf1cda0c345e01ea49fb7b7e645781f25d3b7c4340e6f2",
     "scripts/physical_services.py": "57961a7a681ca0cb840de47c431d7acf02f9a04c0e9c5aceacfc6c952223da8f",
     "scripts/project-booklet-roads.py": "85a0b0a36265d8d79a4b37329495ac23165beef01d65cae7aeccda39982d5f8c",
@@ -157,15 +161,16 @@
     "scripts/project-everyday-services.py": "497de5f704494b2f90c957c2917cfdf486d32ee5f87d20b592e449dbdc33887e",
     "scripts/project-hazard-risk.py": "9f83a4e7627d6d864d0c8cc664df42c899923ac2255f388a5b00354cf464f784",
     "scripts/project-statewide-services.py": "5610d54aee6d2e4a4c73f51b8381552c208f6967d82583248c23d1915bc87f37",
+    "scripts/project-visit-facts.py": "b14a84bf56c60402cfd2a7380d147609933739881a720c7abc5d0c25377cd37a",
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
-    "scripts/references.py": "ff5e0820040c194176c0df50799bd6bf85086adc093865181ac84e3247bb540c",
+    "scripts/references.py": "6182135dc38dd4d2ac408870dded4875e0a68517162ed73641721b65b6a867b5",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
-    "scripts/resource_map.py": "7e972f6af64c4992a04678b4b41b355378984179c3f71375036c7c9fac695255",
+    "scripts/resource_map.py": "cfd5c821c27c73b51675f64b61a96646f6b47a988f11c912a520abc7f834edce",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
-    "service-resources.js": "efbaa68b9bb20649644f58e0f62b8e9776eb4eaa1267650af80b5b5fa05392ea",
+    "service-resources.js": "11024398df9cf9db568afbe89ce729bd009342d8151597e2f44bf68afc1cbe33",
     "site.js": "9fbad56eb918ca1acb66f9221a712f78ddd3a512358c1ca2f00778b68960a6b7",
-    "styles.css": "4e29065831b0ab99d37ddd5f48b4ea7e29d697c39f084dbe9e0aee1107e08095"
+    "styles.css": "4e8078745980a8bf86df380963fb25327997a2b3e9ecac1b1e1dcb01a2504db7"
   },
   "references": [
     {
@@ -447,12 +452,14 @@
       "category": "maps",
       "uses": [
         "Resource map: dcmh-meals",
+        "Provider visit facts",
         "Physical service: services-meals",
         "content / sources / meals"
       ],
       "recordedIn": [
         "content/physical-service-manifest.json",
         "content/physical-services.json",
+        "content/provider-visit-details.json",
         "content/resource-map.json",
         "scripts/refresh-map-data.py"
       ],
@@ -463,6 +470,14 @@
           "published": null,
           "checked": "2026-11-02",
           "note": "Provider address and service checked. Publisher date not supplied. Approximate point: US Census Public_AR_Current geocoder, checked November 2, 2026."
+        },
+        {
+          "title": "Davis Community Meals program",
+          "url": "https://daviscommunitymeals.org/meals-program/",
+          "published": null,
+          "checked": "2026-11-03",
+          "inputSha256": "ca0f9f9cd5b37c719f29bcf7a930a237dd6db1fe90147c227f9957ba1061a9aa",
+          "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
         },
         {
           "title": "Davis Community Meals program",
@@ -488,12 +503,14 @@
       "category": "maps",
       "uses": [
         "Resource map: dcmh-center",
+        "Provider visit facts",
         "Physical service: services-day-center",
         "content / sources / day-center"
       ],
       "recordedIn": [
         "content/physical-service-manifest.json",
         "content/physical-services.json",
+        "content/provider-visit-details.json",
         "content/resource-map.json",
         "scripts/refresh-map-data.py"
       ],
@@ -504,6 +521,14 @@
           "published": null,
           "checked": "2026-11-02",
           "note": "Provider address and service checked. Publisher date not supplied. Approximate point: US Census Public_AR_Current geocoder, checked November 2, 2026."
+        },
+        {
+          "title": "Paul’s Place resource center",
+          "url": "https://daviscommunitymeals.org/resource-center/",
+          "published": null,
+          "checked": "2026-11-03",
+          "inputSha256": "2ace7613ab7df4b67d60feb56dfbbb37c8df92dac3f9e4820147166d5b2526b7",
+          "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
         },
         {
           "title": "Paul’s Place resource center",
@@ -580,14 +605,24 @@
       "url": "https://empoweryolo.org/services-by-location/",
       "category": "maps",
       "uses": [
+        "Provider visit facts",
         "Physical service: services-empower",
         "content / sources / empower"
       ],
       "recordedIn": [
         "content/physical-service-manifest.json",
-        "content/physical-services.json"
+        "content/physical-services.json",
+        "content/provider-visit-details.json"
       ],
       "records": [
+        {
+          "title": "Empower Yolo public resource centers",
+          "url": "https://empoweryolo.org/services-by-location/",
+          "published": null,
+          "checked": "2026-11-03",
+          "inputSha256": "6e65b1511ea68756f7309897e7726a26fd9a5fb4956dff5a8ade2a82dcf9b5c7",
+          "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+        },
         {
           "title": "Empower Yolo public resource centers",
           "url": "https://empoweryolo.org/services-by-location/",
@@ -988,14 +1023,24 @@
       "url": "https://lsnc.net/office/woodland",
       "category": "maps",
       "uses": [
+        "Provider visit facts",
         "Physical service: services-legal",
         "content / sources / legal"
       ],
       "recordedIn": [
         "content/physical-service-manifest.json",
-        "content/physical-services.json"
+        "content/physical-services.json",
+        "content/provider-visit-details.json"
       ],
       "records": [
+        {
+          "title": "LSNC Woodland office",
+          "url": "https://lsnc.net/office/woodland",
+          "published": null,
+          "checked": "2026-11-03",
+          "inputSha256": "521943b98498bb8689ef859b5ad12e12e0b8cadecefe305c04c019abc019a8e7",
+          "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+        },
         {
           "title": "LSNC Woodland office",
           "url": "https://lsnc.net/office/woodland",
@@ -1127,6 +1172,7 @@
       "category": "maps",
       "uses": [
         "Resource map: buildings",
+        "Hours, fees and amenities supplement",
         "Everyday physical directory: osm-basic-needs",
         "content / buildings / source",
         "content / sources / osm-basic-needs"
@@ -1134,12 +1180,15 @@
       "recordedIn": [
         "assets/data/city-maps/README.md",
         "assets/data/everyday-maps/README.md",
+        "assets/data/visit-facts/README.md",
         "content/everyday-service-manifest.json",
         "content/map-data-manifest.json",
         "content/resource-map.json",
+        "content/visit-fact-manifest.json",
         "resource-map.js",
         "scripts/project-building-outlines.py",
         "scripts/project-everyday-services.py",
+        "scripts/project-visit-facts.py",
         "scripts/resource_map.py"
       ],
       "records": [
@@ -1152,6 +1201,14 @@
           "serviceEdited": "2022-04-13",
           "license": "https://opendatacommons.org/licenses/odbl/1-0/",
           "note": "Computer-generated outlines; source imagery dates are not supplied by this layer. The service data edit date is April 13, 2022. A highlight means the outline contains a directory point; it does not verify the building, entrance, accessibility, structural safety or current service. Unmatched and ambiguous locations keep pins. Extracted geometry is © Microsoft, ODbL 1.0."
+        },
+        {
+          "title": "OpenStreetMap / listed hours, fees and amenities",
+          "url": "https://www.openstreetmap.org/copyright",
+          "checked": "2026-11-03",
+          "published": null,
+          "license": "https://opendatacommons.org/licenses/odbl/1-0/",
+          "note": "Matched existing directory locations only. Public derived facts; no live opening, vacancy or emergency activation. OSM source edit timestamps are preserved separately."
         },
         {
           "title": "© OpenStreetMap contributors — everyday public facilities",
@@ -1194,14 +1251,24 @@
       "url": "https://olehealth.org/location/davis-community-clinic/",
       "category": "maps",
       "uses": [
+        "Provider visit facts",
         "Physical service: services-clinic",
         "content / sources / clinic"
       ],
       "recordedIn": [
         "content/physical-service-manifest.json",
-        "content/physical-services.json"
+        "content/physical-services.json",
+        "content/provider-visit-details.json"
       ],
       "records": [
+        {
+          "title": "OLE Health Davis Community Clinic",
+          "url": "https://olehealth.org/location/davis-community-clinic/",
+          "published": null,
+          "checked": "2026-11-03",
+          "inputSha256": "2a3add3506d52f17417bcf1990bc66e4bcb80ad4015fa48241dafc3ff0354f3c",
+          "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+        },
         {
           "title": "OLE Health Davis Community Clinic",
           "url": "https://olehealth.org/location/davis-community-clinic/",
@@ -1270,6 +1337,44 @@
           "evidenceURL": "https://help.1degree.org/article/28-what-is-one-degree",
           "verification": "Publisher coverage guide dated 2024-11-13 inspected; search homepage is a JavaScript application. Coverage is not statewide.",
           "evidencePublished": "2024-11-13"
+        }
+      ]
+    },
+    {
+      "title": "OpenStreetMap / listed hours, fees and amenities",
+      "url": "https://www.openstreetmap.org/copyright",
+      "category": "maps",
+      "uses": [
+        "Hours, fees and amenities supplement",
+        "Everyday physical directory: osm-basic-needs",
+        "content / sources / osm-basic-needs"
+      ],
+      "recordedIn": [
+        "assets/data/visit-facts/README.md",
+        "content/everyday-service-manifest.json",
+        "content/visit-fact-manifest.json",
+        "docs/everyday-map-expansion-20261103.md",
+        "resource-map.js",
+        "scripts/project-everyday-services.py",
+        "scripts/project-visit-facts.py",
+        "scripts/resource_map.py"
+      ],
+      "records": [
+        {
+          "title": "OpenStreetMap / listed hours, fees and amenities",
+          "url": "https://www.openstreetmap.org/copyright",
+          "checked": "2026-11-03",
+          "published": null,
+          "license": "https://opendatacommons.org/licenses/odbl/1-0/",
+          "note": "Matched existing directory locations only. Public derived facts; no live opening, vacancy or emergency activation. OSM source edit timestamps are preserved separately."
+        },
+        {
+          "title": "© OpenStreetMap contributors — everyday public facilities",
+          "url": "https://www.openstreetmap.org/copyright",
+          "checked": "2026-11-03",
+          "license": "https://opendatacommons.org/licenses/odbl/1-0/",
+          "note": "ODbL 1.0. Community-mapped, explicitly public/permissive access. No confirmed paid, conditional, private or inactive listings. Edit dates do not verify present operation. Separate downloadable derived database: /assets/data/everyday-maps/openstreetmap-projection.json",
+          "evidence": "https://wiki.openstreetmap.org/wiki/Tag:amenity=drinking_water"
         }
       ]
     },
@@ -1489,18 +1594,70 @@
       ]
     },
     {
+      "title": "Vallejo John F. Kennedy Library / provider services and fees",
+      "url": "https://solanolibrary.gov/hours-and-locations/vallejo-john-f-kennedy-library/",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "Vallejo John F. Kennedy Library / provider services and fees",
+          "url": "https://solanolibrary.gov/hours-and-locations/vallejo-john-f-kennedy-library/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Provider page contains conflicting black-and-white print rates; the exact current rate is not selected."
+        }
+      ]
+    },
+    {
+      "title": "Vallejo Springstowne Library / provider services and fees",
+      "url": "https://solanolibrary.gov/hours-and-locations/vallejo-springstowne-library/",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "Vallejo Springstowne Library / provider services and fees",
+          "url": "https://solanolibrary.gov/hours-and-locations/vallejo-springstowne-library/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "The embedded hours widget was not readable during this source review; no schedule is invented."
+        }
+      ]
+    },
+    {
       "title": "Yolo County Library: Davis branch",
       "url": "https://yolocountylibrary.org/locations/davis/",
       "category": "maps",
       "uses": [
+        "Provider visit facts",
         "Physical service: services-library-branch",
         "content / sources / library-branch"
       ],
       "recordedIn": [
         "content/physical-service-manifest.json",
-        "content/physical-services.json"
+        "content/physical-services.json",
+        "content/provider-visit-details.json"
       ],
       "records": [
+        {
+          "title": "Yolo County Library: Davis branch",
+          "url": "https://yolocountylibrary.org/locations/davis/",
+          "published": null,
+          "checked": "2026-11-03",
+          "inputSha256": "134845ff99b450a8ddb126ff42f479227023dccbc6b6bb28b92963b2b935ccd4",
+          "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
+        },
         {
           "title": "Yolo County Library: Davis branch",
           "url": "https://yolocountylibrary.org/locations/davis/",
@@ -1853,7 +2010,9 @@
       ],
       "recordedIn": [
         "content/everyday-service-manifest.json",
-        "scripts/project-everyday-services.py"
+        "content/visit-fact-manifest.json",
+        "scripts/project-everyday-services.py",
+        "scripts/project-visit-facts.py"
       ],
       "records": [
         {
@@ -1999,32 +2158,6 @@
           "url": "https://services2.arcgis.com/zr3KAIbsRSUyARHG/arcgis/rest/services/CA_Tsunami_Hazard_Area/FeatureServer/0/query?f=geojson&outSR=4326&geometryPrecision=5&resultRecordCount=1000&resultOffset=0&where=Evacuate+%3D+%27Yes%2C+Tsunami+Hazard+Area%27&outFields=County%2CLabel&maxAllowableOffset=5e-05&orderByFields=OBJECTID",
           "sha256": "c5e03181ead7c7e3daeaab764849efa21a013de0234c36373092edf0c8be5099",
           "count": 20
-        }
-      ]
-    },
-    {
-      "title": "© OpenStreetMap contributors — everyday public facilities",
-      "url": "https://www.openstreetmap.org/copyright",
-      "category": "maps",
-      "uses": [
-        "Everyday physical directory: osm-basic-needs",
-        "content / sources / osm-basic-needs"
-      ],
-      "recordedIn": [
-        "content/everyday-service-manifest.json",
-        "docs/everyday-map-expansion-20261103.md",
-        "resource-map.js",
-        "scripts/project-everyday-services.py",
-        "scripts/resource_map.py"
-      ],
-      "records": [
-        {
-          "title": "© OpenStreetMap contributors — everyday public facilities",
-          "url": "https://www.openstreetmap.org/copyright",
-          "checked": "2026-11-03",
-          "license": "https://opendatacommons.org/licenses/odbl/1-0/",
-          "note": "ODbL 1.0. Community-mapped, explicitly public/permissive access. No confirmed paid, conditional, private or inactive listings. Edit dates do not verify present operation. Separate downloadable derived database: /assets/data/everyday-maps/openstreetmap-projection.json",
-          "evidence": "https://wiki.openstreetmap.org/wiki/Tag:amenity=drinking_water"
         }
       ]
     },
@@ -17528,10 +17661,13 @@
       "url": "https://www.openstreetmap.org/",
       "category": "links",
       "uses": [
-        "Supporting link recorded in scripts/project-everyday-services.py; role follows its original context."
+        "Supporting link recorded in resource-facts.js; role follows its original context."
       ],
       "recordedIn": [
-        "scripts/project-everyday-services.py"
+        "resource-facts.js",
+        "resource-map.js",
+        "scripts/project-everyday-services.py",
+        "scripts/project-visit-facts.py"
       ],
       "records": []
     },

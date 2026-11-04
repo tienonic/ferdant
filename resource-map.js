@@ -204,21 +204,27 @@
  }
  function info(f){
   const box=document.createElement('div');box.className='atlas-popup';
-  const title=document.createElement('strong');title.textContent=f.name;box.append(title);
-  box.append(scopeBadge(f));
-  const addr=document.createElement('p');addr.textContent=f.address+', '+f.city;box.append(addr);
-  const note=document.createElement('p');note.textContent=f.detail;box.append(note);
-  const visit=document.createElement('dl');visit.className='atlas-visit-details';
-  const unknown=[];
-  for(const [key,name] of Object.entries({hours:'Regular hours',eligibility:'Intake / eligibility',cost:'Cost',accessibility:'Accessibility',activation:'Emergency activation',capacity:'Available space / supplies'})){
-   if(!f.visit?.[key]){unknown.push(name);continue;}
-   const term=document.createElement('dt'),value=document.createElement('dd');term.textContent=name;value.textContent=f.visit[key];visit.append(term,value);
+  const title=document.createElement('strong');title.className='atlas-popup-title';title.textContent=f.name;box.append(title,scopeBadge(f));
+  const rows=window.FerdantResourceFacts.rows(f),facts=document.createElement('dl');facts.className='atlas-visit-details atlas-resource-facts';
+  for(const row of rows){const term=document.createElement('dt'),value=document.createElement('dd');term.textContent=row.label;value.textContent=row.value;value.dataset.fact=row.key;facts.append(term,value);}
+  box.append(facts);
+  const source=config.sources[f.source];
+  const availability=document.createElement('p');availability.className='atlas-fact-availability';
+  availability.textContent=f.source==='shelters'?f.detail:active!=='everyday'?(f.visit?.activation||'Emergency opening and capacity are not confirmed.'):'Listed schedules; current opening and availability need confirmation.';
+  box.append(availability);
+  if(f.source==='la-food-distribution'){const age=document.createElement('p');age.className='atlas-fact-availability';age.textContent='Older directory: May 2023. Confirm this location before traveling.';box.append(age);}
+  const details=document.createElement('details');details.className='atlas-fact-sources';const summary=document.createElement('summary');summary.textContent='Access & sources';details.append(summary);
+  for(const text of [f.detail,f.visit?.eligibility,f.visit?.capacity,f.aliases?.length?'Also listed at this address: '+f.aliases.join('; '):''])if(text){const p=document.createElement('p');p.textContent=text;details.append(p);}
+  const seen=new Set();
+  for(const evidence of [source,...rows.map(r=>r.evidence)].filter(Boolean)){
+   const key=[evidence.url,evidence.checked,evidence.observed].join('|');if(seen.has(key))continue;seen.add(key);
+   const p=document.createElement('p');p.className='atlas-source-date';p.textContent=evidence.title+'. Checked '+(evidence.checked||'not supplied')+(evidence.published?' / data date '+evidence.published:' / publication date not supplied')+(evidence.observed?' / map edit '+evidence.observed.slice(0,10):'')+'. '+(evidence.note||'');details.append(p);
   }
-  box.append(visit);
-  if(unknown.length){const p=document.createElement('p');p.textContent='Not confirmed: '+unknown.join('; ')+'. Check with the provider.';box.append(p);}
-  if(f.aliases?.length){const p=document.createElement('p');p.textContent='Also listed at this service address: '+f.aliases.join('; ');box.append(p);}
-  const source=config.sources[f.source],a=document.createElement('a');a.href=f.url||source.url;a.textContent=f.source==='osm-basic-needs'?'View community-mapped location':f.source==='sf-basic-needs'||f.source==='la-food-distribution'?'Check source & service':f.url?'Check current provider details':'Check source & service';box.append(a);
-  const date=document.createElement('p');date.className='atlas-source-date';date.textContent='Source checked '+source.checked+(source.published?' · Publisher/data date '+source.published:' · Publisher date not supplied')+'. Approximate location; confirm the entrance.';box.append(date);return box;
+  box.append(details);
+  const provider=config.providerVisitDetails?.records[f.id]?.evidence;
+  const mapped=rows.find(r=>r.evidence?.url?.startsWith('https://www.openstreetmap.org/'))?.evidence;
+  const a=document.createElement('a');a.href=provider?.url||f.url||mapped?.url||source.url;a.textContent=a.href.startsWith('https://www.openstreetmap.org/')?'Open map details':'Check provider details';box.append(a);
+  return box;
  }
  function focus(f,marker){
   highlight?.clearLayers();

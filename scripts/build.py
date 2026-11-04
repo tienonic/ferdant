@@ -147,7 +147,7 @@ if __name__=='__main__':
  (args.output/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>{DOMAIN}{u}</loc></url>' for u in pages if u!='/404.html')+'</urlset>\n',encoding='utf-8')
  (args.output/'robots.txt').write_text('User-agent: *\nAllow: /\n'+('Sitemap: '+DOMAIN+'/sitemap.xml\n' if args.mode=='production' else '# Preview pages carry noindex; allow crawlers to see it.\n'),encoding='utf-8')
  if args.output.resolve()!=ROOT:
-  for name in ['booklet-map.js','landing.css','landing.js','styles.css','site.js','recommendations.js','phone.js','infographic.js','resource-booklet.js','hazard-risk.js','resource-map.js','disaster-layers.js','service-resources.js','CNAME','.nojekyll']:
+  for name in ['resource-facts.js','booklet-map.js','landing.css','landing.js','styles.css','site.js','recommendations.js','phone.js','infographic.js','resource-booklet.js','hazard-risk.js','resource-map.js','disaster-layers.js','service-resources.js','CNAME','.nojekyll']:
    shutil.copy2(ROOT/name,args.output/name)
   shutil.copytree(ROOT/'assets',args.output/'assets',dirs_exist_ok=True)
   for name in ['integrations','config']:

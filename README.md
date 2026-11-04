@@ -12,6 +12,8 @@ provider and statewide resource labels. See [resource levels and saved versions]
 
 Every resource booklet includes a named street map, north needle and scale on page 2, independently of evacuation coverage. [Map sources, coverage and offline behavior](assets/data/booklet-roads/README.md).
 
+Resource cards and printed physical listings share five visit facts: location, hours, services, costs and amenities. [Open-map sources, matching rules and offline coverage](assets/data/visit-facts/README.md).
+
 Booklet emergency sections follow the selected location. Drought is excluded; locally inapplicable sections are omitted while low-risk and unknown hazards remain. [Selection rules and checks](docs/local-booklet-selection-20261103.md).
 
 ## Preview locally

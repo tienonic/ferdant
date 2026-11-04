@@ -40,7 +40,10 @@
   })());
   return pending.get(key);
  }
- async function load(county){return (await Promise.all([loadDataset(county,directory),...(extra?[loadDataset(county,extra)]:[])])).flat();}
+ async function load(county){
+  const details=window.FerdantResourceFacts?window.FerdantResourceFacts.load(county).catch(()=>null):Promise.resolve();
+  const [records]=await Promise.all([Promise.all([loadDataset(county,directory),...(extra?[loadDataset(county,extra)]:[])]),details]);return records.flat();
+ }
  function nearby(items,place,within,{regional=true}={}){
   const candidates=items.map(f=>({...f,within:within(f),servesCounty:(f.servesCounties||[]).includes(place.county),km:place.city?distance(f,place):null}));
   if(!place.city)return candidates.filter(f=>f.county===place.county||f.servesCounty).sort((a,b)=>a.kind.localeCompare(b.kind)||a.name.localeCompare(b.name));
@@ -64,6 +67,7 @@
   const snapshot=async dir=>{let data=null;try{await loadDataset(county,dir);data=cache.get(dir.edition+county)?.data;}catch{/* Failed data must not become saved coverage. */}return {schema:1,edition:dir.edition,counties:data?{[county]:data}:{}};};
   const saved=await snapshot(directory);if(extra)saved.everyday=await snapshot(extra);
   doc.querySelector('#service-map-snapshot').textContent=JSON.stringify(saved).replace(/</g,'\\u003c');
+  await window.FerdantResourceFacts?.embed(doc,county);
  }
  window.FerdantServices={load,nearby,marker,legend,embed,distance,directory};
 })();
