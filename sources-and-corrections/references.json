@@ -76,7 +76,7 @@
     "assets/data/service-maps/56.json": "69af5fa22a9f6578f0976c6cfc7020b18e2ecee23b7b1d79007a2ed31818901d",
     "assets/data/service-maps/57.json": "abfc852f85be8d5a884bbea9c9f29dcc03255f9c46c6ca858cb8b5b37350d6ce",
     "assets/data/service-maps/58.json": "fc0268d6dec0579f4437dbf438250e001d8a5ffeb93093c5122f78db05a8f234",
-    "assets/data/visit-facts/README.md": "cc0cc187de6b2b490eb28c9b34cc9dec9599fb6ca7bd3e3df8bdd2c1f5820a72",
+    "assets/data/visit-facts/README.md": "558d86f92b6ac3172d7572ae9d59912dc32d9cbfcb2545dc54ce5ba7b6767235",
     "assets/favicons/README.md": "22493052c7812141a491ee10355deafc6d440a90a3055da527b2d500ae048aab",
     "assets/favicons/sources.json": "832ea4eae3534ab20e999a0e40fac0fdd1e217083d513a0f1ba6125c15cf1bfe",
     "assets/fonts/newsreader-OFL.txt": "fdfad38143ec470553cae82a1e45320bdd1b9ec70415d37bd0171051d8a4ded8",
@@ -105,7 +105,7 @@
     "content/map-data-manifest.json": "b779ca6ee472019ac8dd95ca5159a4be366e329236985d2d7ba7281ecad3cb08",
     "content/physical-service-manifest.json": "862e2398dd2ac064bb740f33b8c83e097cc59f9aa5ced5ebbdfae4c9718a1f16",
     "content/physical-services.json": "29a0f84ccdd4687dace5a0b470e9d2704f304f74445091af2d75148df561af9d",
-    "content/provider-visit-details.json": "61798d95970ee8ebe9cd29a6a5e8c8a9f3541437f8d39d40f8f79c6ce5b033b9",
+    "content/provider-visit-details.json": "3698a22b474491e8be5e9e826203902dfaf68255d5123686e5485677ab39a688",
     "content/regions.json": "1bec6513304e739e0bbddb5d00559b75528a6d01b3d7b14fc8303e065798364c",
     "content/resource-map.json": "a406445eb26c10e27198c7f4bd4236b8164526788fc578769951741a0ec18c36",
     "content/resource-search.json": "b35b2da456478c15433647d61266c6638c9e42659021a81fbc2f74147149425c",
@@ -143,9 +143,9 @@
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
     "phone.js": "012d90d74c5c64501fd875ec98e11f456c461bc17a5f96256c09a8d80512f0fe",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
-    "resource-booklet.js": "4c95e8dc1bb913ba8ade00f2fa397a395ed4b0711049e4b941b6712e25b5eb96",
-    "resource-facts.js": "c3d0aff2b09d79c1d0a516c989c0f4429e94e57bcffb3231bd85d9d534ca8464",
-    "resource-map.js": "a970957b576a2462561495a6350642a778331f9db79e1041d11329ae2a994ef3",
+    "resource-booklet.js": "deba9a30baafe088ecfc4a54e7d405d59da1685d721f6ddde338363b2748afc1",
+    "resource-facts.js": "7ee2190e759bd0a956bb1014eb239bf8063dc4650bef6a64b1d95a81ec88a1c9",
+    "resource-map.js": "c95e1c34d788f1203800952fb71dca46a23ca4140d2c77422d4b82a0d4dcb7ca",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
     "scripts/build.py": "020798efbc2f2d331d91c1c1a3c0d765f1bc1a4b452aada9c0683c6be652bbd0",
     "scripts/check-content.py": "912019aebb7a4ae61dfac2ec6772c1e1a30ffd15d1185bcb4412dc808f27e643",
@@ -162,11 +162,12 @@
     "scripts/project-building-outlines.py": "c9b573683aa5449a45660ee7d296475f5489dbe7288c43b0f5e7c8fa1f048347",
     "scripts/project-everyday-services.py": "497de5f704494b2f90c957c2917cfdf486d32ee5f87d20b592e449dbdc33887e",
     "scripts/project-hazard-risk.py": "9f83a4e7627d6d864d0c8cc664df42c899923ac2255f388a5b00354cf464f784",
+    "scripts/project-sfpl-provider-hours.py": "9f1898e4517044d3e3b7805a5f6e9480f12be2ed31d7b14c5a7a0144eb5628c7",
     "scripts/project-statewide-services.py": "5610d54aee6d2e4a4c73f51b8381552c208f6967d82583248c23d1915bc87f37",
     "scripts/project-visit-facts.py": "b14a84bf56c60402cfd2a7380d147609933739881a720c7abc5d0c25377cd37a",
     "scripts/project-zip-areas.py": "eef4d684142d0e1964667793aca462c116da26d36609b52d50a94d4ac21717a3",
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
-    "scripts/references.py": "72276f031e08f95cf8a564dd368856abe715930442f1e98ae081e34c02686568",
+    "scripts/references.py": "1dbf469380d208caf32e0deffbe6bcb677fa5f322dc3b2786bfcd4647a44805a",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
     "scripts/resource_map.py": "cfd5c821c27c73b51675f64b61a96646f6b47a988f11c912a520abc7f834edce",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
@@ -1109,6 +1110,73 @@
       ]
     },
     {
+      "title": "La Clinica / sliding-fee and billing policy",
+      "url": "https://laclinica.org/patient-information/billing-information/",
+      "category": "maps",
+      "uses": [
+        "Provider field-specific evidence"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "La Clinica / sliding-fee and billing policy",
+          "url": "https://laclinica.org/patient-information/billing-information/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Discounts depend on family size and income. No free visit, coverage for an individual service or personal eligibility is inferred."
+        }
+      ]
+    },
+    {
+      "title": "La Clinica North Vallejo / department hours and services",
+      "url": "https://laclinica.org/location/la-clinica-north-vallejo/",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "La Clinica North Vallejo / department hours and services",
+          "url": "https://laclinica.org/location/la-clinica-north-vallejo/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Exact provider address: 220 Hospital Drive. Clinic, urgent-care and phone hours differ. Other Hospital Drive addresses do not inherit this schedule.",
+          "inputSha256": "08fe862c35dc103f4cd53138a903696d44ab3d0de4a2937c0a0a1030d4245a68",
+          "inputURL": "https://laclinica.org/location/la-clinica-north-vallejo/"
+        }
+      ]
+    },
+    {
+      "title": "La Clinica Vallejo Medical OB/GYN / department hours and services",
+      "url": "https://laclinica.org/location/la-clinica-vallejo/",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "La Clinica Vallejo Medical OB/GYN / department hours and services",
+          "url": "https://laclinica.org/location/la-clinica-vallejo/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Exact provider address: 415 Georgia Street. Current page omits Saturday medical hours, so none are inferred. Optometry closure is a dated provider notice, not a live status. The former Great Beginnings URL redirects here; it does not verify hours at 210 Hospital Drive.",
+          "inputSha256": "9608385519975550c809ccad50cf94bdda8313aa01d974d25d30b0b609835d17",
+          "inputURL": "https://laclinica.org/location/la-clinica-vallejo/"
+        }
+      ]
+    },
+    {
       "title": "Listos California preparedness and recovery",
       "url": "https://www.listoscalifornia.org/disaster-readiness/",
       "category": "maps",
@@ -1570,6 +1638,969 @@
       ]
     },
     {
+      "title": "SFPL / Anza regular branch hours",
+      "url": "https://sfpl.org/locations/anza",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Anza regular branch hours",
+          "url": "https://sfpl.org/locations/anza",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Bayview regular branch hours",
+      "url": "https://sfpl.org/locations/bayview",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Bayview regular branch hours",
+          "url": "https://sfpl.org/locations/bayview",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Bernal Heights regular branch hours",
+      "url": "https://sfpl.org/locations/bernal-heights",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Bernal Heights regular branch hours",
+          "url": "https://sfpl.org/locations/bernal-heights",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Chinatown regular branch hours",
+      "url": "https://sfpl.org/locations/chinatown",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Chinatown regular branch hours",
+          "url": "https://sfpl.org/locations/chinatown",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Eureka Valley regular branch hours",
+      "url": "https://sfpl.org/locations/eureka-valley",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Eureka Valley regular branch hours",
+          "url": "https://sfpl.org/locations/eureka-valley",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Excelsior regular branch hours",
+      "url": "https://sfpl.org/locations/excelsior",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Excelsior regular branch hours",
+          "url": "https://sfpl.org/locations/excelsior",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Glen Park regular branch hours",
+      "url": "https://sfpl.org/locations/glen-park",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Glen Park regular branch hours",
+          "url": "https://sfpl.org/locations/glen-park",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Golden Gate Valley regular branch hours",
+      "url": "https://sfpl.org/locations/golden-gate-valley",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Golden Gate Valley regular branch hours",
+          "url": "https://sfpl.org/locations/golden-gate-valley",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Ingleside regular branch hours",
+      "url": "https://sfpl.org/locations/ingleside",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Ingleside regular branch hours",
+          "url": "https://sfpl.org/locations/ingleside",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Main regular branch hours",
+      "url": "https://sfpl.org/locations/main-library",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Main regular branch hours",
+          "url": "https://sfpl.org/locations/main-library",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Main regular branch hours — inputURL",
+      "url": "https://sfpl.org/locations/western-addition",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json",
+        "scripts/project-sfpl-provider-hours.py"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Main regular branch hours",
+          "url": "https://sfpl.org/locations/main-library",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Bernal Heights regular branch hours",
+          "url": "https://sfpl.org/locations/bernal-heights",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Chinatown regular branch hours",
+          "url": "https://sfpl.org/locations/chinatown",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Eureka Valley regular branch hours",
+          "url": "https://sfpl.org/locations/eureka-valley",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Excelsior regular branch hours",
+          "url": "https://sfpl.org/locations/excelsior",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Glen Park regular branch hours",
+          "url": "https://sfpl.org/locations/glen-park",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Golden Gate Valley regular branch hours",
+          "url": "https://sfpl.org/locations/golden-gate-valley",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Ingleside regular branch hours",
+          "url": "https://sfpl.org/locations/ingleside",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Marina regular branch hours",
+          "url": "https://sfpl.org/locations/marina",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Mission Temporary Location regular branch hours",
+          "url": "https://sfpl.org/locations/mission-temporary-location",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Noe Valley regular branch hours",
+          "url": "https://sfpl.org/locations/noe-valley",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / North Beach regular branch hours",
+          "url": "https://sfpl.org/locations/north-beach",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Ocean View regular branch hours",
+          "url": "https://sfpl.org/locations/ocean-view",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Ortega regular branch hours",
+          "url": "https://sfpl.org/locations/ortega",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Park regular branch hours",
+          "url": "https://sfpl.org/locations/park",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Portola regular branch hours",
+          "url": "https://sfpl.org/locations/portola",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Potrero regular branch hours",
+          "url": "https://sfpl.org/locations/potrero",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Presidio regular branch hours",
+          "url": "https://sfpl.org/locations/presidio",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Richmond regular branch hours",
+          "url": "https://sfpl.org/locations/richmond",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Sunset regular branch hours",
+          "url": "https://sfpl.org/locations/sunset",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Visitacion Valley regular branch hours",
+          "url": "https://sfpl.org/locations/visitacion-valley",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Bayview regular branch hours",
+          "url": "https://sfpl.org/locations/bayview",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / West Portal regular branch hours",
+          "url": "https://sfpl.org/locations/west-portal",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Western Addition regular branch hours",
+          "url": "https://sfpl.org/locations/western-addition",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Mission Bay regular branch hours",
+          "url": "https://sfpl.org/locations/mission-bay",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Anza regular branch hours",
+          "url": "https://sfpl.org/locations/anza",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Merced regular branch hours",
+          "url": "https://sfpl.org/locations/merced",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        },
+        {
+          "title": "SFPL / Parkside regular branch hours",
+          "url": "https://sfpl.org/locations/parkside",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Marina regular branch hours",
+      "url": "https://sfpl.org/locations/marina",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Marina regular branch hours",
+          "url": "https://sfpl.org/locations/marina",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Merced regular branch hours",
+      "url": "https://sfpl.org/locations/merced",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Merced regular branch hours",
+          "url": "https://sfpl.org/locations/merced",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Mission Bay regular branch hours",
+      "url": "https://sfpl.org/locations/mission-bay",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Mission Bay regular branch hours",
+          "url": "https://sfpl.org/locations/mission-bay",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Mission Temporary Location regular branch hours",
+      "url": "https://sfpl.org/locations/mission-temporary-location",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Mission Temporary Location regular branch hours",
+          "url": "https://sfpl.org/locations/mission-temporary-location",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Noe Valley regular branch hours",
+      "url": "https://sfpl.org/locations/noe-valley",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Noe Valley regular branch hours",
+          "url": "https://sfpl.org/locations/noe-valley",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / North Beach regular branch hours",
+      "url": "https://sfpl.org/locations/north-beach",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / North Beach regular branch hours",
+          "url": "https://sfpl.org/locations/north-beach",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Ocean View regular branch hours",
+      "url": "https://sfpl.org/locations/ocean-view",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Ocean View regular branch hours",
+          "url": "https://sfpl.org/locations/ocean-view",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Ortega regular branch hours",
+      "url": "https://sfpl.org/locations/ortega",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Ortega regular branch hours",
+          "url": "https://sfpl.org/locations/ortega",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Park regular branch hours",
+      "url": "https://sfpl.org/locations/park",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Park regular branch hours",
+          "url": "https://sfpl.org/locations/park",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Parkside regular branch hours",
+      "url": "https://sfpl.org/locations/parkside",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Parkside regular branch hours",
+          "url": "https://sfpl.org/locations/parkside",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Portola regular branch hours",
+      "url": "https://sfpl.org/locations/portola",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Portola regular branch hours",
+          "url": "https://sfpl.org/locations/portola",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Potrero regular branch hours",
+      "url": "https://sfpl.org/locations/potrero",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Potrero regular branch hours",
+          "url": "https://sfpl.org/locations/potrero",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Presidio regular branch hours",
+      "url": "https://sfpl.org/locations/presidio",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Presidio regular branch hours",
+          "url": "https://sfpl.org/locations/presidio",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Richmond regular branch hours",
+      "url": "https://sfpl.org/locations/richmond",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Richmond regular branch hours",
+          "url": "https://sfpl.org/locations/richmond",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Sunset regular branch hours",
+      "url": "https://sfpl.org/locations/sunset",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Sunset regular branch hours",
+          "url": "https://sfpl.org/locations/sunset",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / Visitacion Valley regular branch hours",
+      "url": "https://sfpl.org/locations/visitacion-valley",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / Visitacion Valley regular branch hours",
+          "url": "https://sfpl.org/locations/visitacion-valley",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / West Portal regular branch hours",
+      "url": "https://sfpl.org/locations/west-portal",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / West Portal regular branch hours",
+          "url": "https://sfpl.org/locations/west-portal",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+          "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+          "inputURL": "https://sfpl.org/locations/western-addition"
+        }
+      ]
+    },
+    {
+      "title": "SFPL / print, copy, scan and fax policy",
+      "url": "https://sfpl.libanswers.com/faq/341987",
+      "category": "maps",
+      "uses": [
+        "Explicit provider policy: sfpl-print-scan-20260914"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json",
+        "scripts/project-sfpl-provider-hours.py"
+      ],
+      "records": [
+        {
+          "title": "SFPL / print, copy, scan and fax policy",
+          "url": "https://sfpl.libanswers.com/faq/341987",
+          "checked": "2026-11-03",
+          "published": "2026-09-14",
+          "observed": null,
+          "note": "Explicit stationary SFPL branch IDs only. Library card required for daily credit; no bookmobile or emergency operation inferred.",
+          "inputSha256": "28a2d812f90c4f9ec042c6f0458a6c337c2000e91878e6d0b8ea25525d268b75",
+          "inputURL": "https://sfpl.libanswers.com/faq/341987",
+          "dateMeaning": "FAQ last-updated date; original publication date not supplied."
+        }
+      ]
+    },
+    {
+      "title": "SFPL / public computers and Wi-Fi",
+      "url": "https://sfpl.org/free",
+      "category": "maps",
+      "uses": [
+        "Explicit provider policy: sfpl-public-internet-20261103"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "SFPL / public computers and Wi-Fi",
+          "url": "https://sfpl.org/free",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Provider card-benefits page identifies public computers and Wi-Fi. Local card/computer rules and current availability still need confirmation; scope is the explicit stationary branch IDs.",
+          "inputSha256": "4f160102e697889558e6dcc43aa563a5248346af1a7ec30308c8d52c44ef8d5b",
+          "inputURL": "https://sfpl.org/free"
+        }
+      ]
+    },
+    {
       "title": "U.S. Census Bureau TIGERweb BAS 2026 counties",
       "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/3/query?where=STATE%3D%2706%27&outFields=BASENAME&returnGeometry=true&maxAllowableOffset=0.025&geometryPrecision=3&outSR=4326&f=geojson",
       "category": "maps",
@@ -1639,6 +2670,29 @@
           "access": "Public website link; no bulk reuse assumed",
           "evidenceURL": "https://developer.va.gov/explore/facilities/docs/facilities",
           "verification": "Official facility documentation inspected; public locator requires JavaScript. API access requires a key."
+        }
+      ]
+    },
+    {
+      "title": "Vallejo Family Health Services Center / department hours and services",
+      "url": "https://www.solanocounty.gov/government/health-social-services-hss/family-health-services/family-health-services-locations-hours",
+      "category": "maps",
+      "uses": [
+        "Provider visit facts"
+      ],
+      "recordedIn": [
+        "content/provider-visit-details.json"
+      ],
+      "records": [
+        {
+          "title": "Vallejo Family Health Services Center / department hours and services",
+          "url": "https://www.solanocounty.gov/government/health-social-services-hss/family-health-services/family-health-services-locations-hours",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Exact provider address: 365 Tuolumne St. Other departments and after-hours advice have separate arrangements.",
+          "inputSha256": "1e834a5c076385c623edcba74a07bdee5fdf0500c39d70b34fe89736ab29c4f5",
+          "inputURL": "https://www.solanocounty.gov/government/health-social-services-hss/family-health-services/family-health-services-locations-hours"
         }
       ]
     },
@@ -17468,6 +18522,18 @@
       ],
       "recordedIn": [
         "scripts/refresh-map-data.py"
+      ],
+      "records": []
+    },
+    {
+      "title": "sfpl.org",
+      "url": "https://sfpl.org",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in scripts/project-sfpl-provider-hours.py; role follows its original context."
+      ],
+      "recordedIn": [
+        "scripts/project-sfpl-provider-hours.py"
       ],
       "records": []
     },

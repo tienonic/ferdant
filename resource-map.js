@@ -222,7 +222,7 @@
   const details=document.createElement('details');details.className='atlas-fact-sources';const summary=document.createElement('summary');summary.textContent='Access & sources';details.append(summary);
   for(const text of [f.detail,f.visit?.eligibility,f.visit?.capacity,f.aliases?.length?'Also listed at this address: '+f.aliases.join('; '):''])if(text){const p=document.createElement('p');p.textContent=text;details.append(p);}
   const seen=new Set();
-  for(const evidence of [source,...rows.map(r=>r.evidence)].filter(Boolean)){
+  for(const evidence of [source,...rows.flatMap(r=>[r.evidence,...(r.additionalEvidence||[])])].filter(Boolean)){
    const key=[evidence.url,evidence.checked,evidence.observed].join('|');if(seen.has(key))continue;seen.add(key);
    const p=document.createElement('p');p.className='atlas-source-date';p.textContent=evidence.title+'. Checked '+(evidence.checked||'not supplied')+(evidence.published?' / data date '+evidence.published:' / publication date not supplied')+(evidence.observed?' / map edit '+evidence.observed.slice(0,10):'')+'. '+(evidence.note||'');details.append(p);
   }

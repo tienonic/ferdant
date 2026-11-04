@@ -4,7 +4,7 @@
  const node=document.querySelector('#resource-map-data');if(!node)return;
  const config=JSON.parse(node.textContent),manifest=config.visitFacts,providers=config.providerVisitDetails?.records||{};
  const saved=JSON.parse(document.querySelector('#visit-facts-snapshot')?.textContent||'{}'),cache=new Map(),pending=new Map();
- const offline=location.protocol==='file:';
+ const offline=location.protocol==='file:',policies=config.providerVisitDetails?.policies||[];
  const labels={location:'Location',hours:'Hours',services:'Services',cost:'Costs',amenities:'Amenities'};
  const days={Mo:'Mon',Tu:'Tue',We:'Wed',Th:'Thu',Fr:'Fri',Sa:'Sat',Su:'Sun',PH:'Public holidays',SH:'School holidays'};
  function clock(value){const [h,m]=value.split(':').map(Number);if(h===24&&m===0)return 'midnight';return (h%12||12)+(m?':'+String(m).padStart(2,'0'):'')+(h>=12?'pm':'am');}
@@ -47,7 +47,8 @@
   const extra=cache.get(f.county)?.records[f.id],provider=providers[f.id],visit=f.visit||{};
   const baseEvidence=config.sources?.[f.source];
   const value=(key,fallback)=>{
-   if(provider?.values[key])return {value:provider.values[key],evidence:provider.evidence};
+   if(provider?.values[key])return {value:provider.values[key],evidence:provider.evidenceByField?.[key]||provider.evidence};
+   const policy=policies.find(p=>p.ids.includes(f.id)&&p.values[key]);if(policy)return {value:policy.values[key],evidence:policy.evidence};
    if(visit[key])return {value:visit[key],evidence:baseEvidence};
    if(extra?.values[key])return {value:extra.values[key],evidence:extra.evidence};
    return {value:fallback};
@@ -56,13 +57,15 @@
   const h=value('hours','Not listed; check before visiting.'),service=value('services',(f.categories||[f.kind]).map(k=>config.serviceTypes?.[k]?.label||k).join(', '));
   const cost=value('cost','Not listed; ask the provider.'),amenity=value('amenities',[]);
   let amenities=Array.isArray(amenity.value)?[...amenity.value]:[amenity.value];
+  const amenityEvidence=[amenity.evidence];
+  for(const record of [...policies.filter(p=>p.ids.includes(f.id)),...(extra?[extra]:[])])if(record.values.amenities){amenities.push(...record.values.amenities);amenityEvidence.push(record.evidence);}
   if(visit.accessibility){amenities=amenities.filter(s=>!/wheelchair/i.test(s));amenities.push(visit.accessibility.replace(/^Wheelchair access mapped: (yes|limited|no); not independently checked\.$/,(_,v)=>({yes:'Wheelchair access (mapped)',limited:'Limited wheelchair access (mapped)',no:'Wheelchair access not provided (mapped)'})[v]));}
   amenities=[...new Set(amenities.filter(Boolean))];
   return [{key:'location',label:labels.location,value:sourceLocation||'Street address not listed.'},
    {key:'hours',label:labels.hours,value:hours(h.value),evidence:h.evidence},
    {key:'services',label:labels.services,value:service.value,evidence:service.evidence},
    {key:'cost',label:labels.cost,value:cost.value,evidence:cost.evidence},
-   {key:'amenities',label:labels.amenities,value:amenities.join('; ')||'Not listed.',evidence:amenity.evidence||baseEvidence}];
+   {key:'amenities',label:labels.amenities,value:amenities.join('; ')||'Not listed.',evidence:amenity.evidence||baseEvidence,additionalEvidence:amenityEvidence.filter(e=>e&&e!==amenity.evidence)}];
  }
  async function embed(doc,county){
   const counties={};for(const code of Array.isArray(county)?county:[county]){try{const data=await load(code);if(data)counties[code]=data;}catch{/* Unavailable fields retain their explicit missing labels. */}}

@@ -128,6 +128,599 @@
         "inputSha256": "2ace7613ab7df4b67d60feb56dfbbb37c8df92dac3f9e4820147166d5b2526b7",
         "note": "Structured from the existing provider-reviewed service record; not a new inspection. Provider or local-government public service page inspected. No publisher update date supplied; hours and intake can change."
       }
+    },
+    "imls-CA0114-002": {
+      "values": {
+        "hours": "Mon 9am-6pm; Tue, Wed, Thu 9am-8pm; Fri, Sun 12pm-6pm; Sat 10am-6pm"
+      },
+      "evidence": {
+        "title": "SFPL / Main regular branch hours",
+        "url": "https://sfpl.org/locations/main-library",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-004": {
+      "values": {
+        "hours": "Mon, Thu, Sat 10am-6pm; Tue 10am-7pm; Wed 12pm-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Bernal Heights regular branch hours",
+        "url": "https://sfpl.org/locations/bernal-heights",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-005": {
+      "values": {
+        "hours": "Mon, Sat 10am-6pm; Tue, Wed, Thu 10am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Chinatown regular branch hours",
+        "url": "https://sfpl.org/locations/chinatown",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-006": {
+      "values": {
+        "hours": "Mon, Sat 10am-6pm; Tue, Wed, Thu 10am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Eureka Valley regular branch hours",
+        "url": "https://sfpl.org/locations/eureka-valley",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-007": {
+      "values": {
+        "hours": "Mon, Sat 10am-6pm; Tue, Wed, Thu 10am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Excelsior regular branch hours",
+        "url": "https://sfpl.org/locations/excelsior",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-008": {
+      "values": {
+        "hours": "Mon, Tue, Sat 10am-6pm; Wed 12pm-8pm; Thu 10am-7pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Glen Park regular branch hours",
+        "url": "https://sfpl.org/locations/glen-park",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-009": {
+      "values": {
+        "hours": "Mon, Tue, Sat 10am-6pm; Wed 11am-8pm; Thu 12pm-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Golden Gate Valley regular branch hours",
+        "url": "https://sfpl.org/locations/golden-gate-valley",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-010": {
+      "values": {
+        "hours": "Mon, Tue, Sat 10am-6pm; Wed 10am-8pm; Thu 12pm-7pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Ingleside regular branch hours",
+        "url": "https://sfpl.org/locations/ingleside",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-011": {
+      "values": {
+        "hours": "Mon, Tue, Sat 10am-6pm; Wed 1pm-8pm; Thu 10am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Marina regular branch hours",
+        "url": "https://sfpl.org/locations/marina",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-013": {
+      "values": {
+        "hours": "Mon, Sat 10am-6pm; Tue, Wed, Thu 10am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Mission Temporary Location regular branch hours",
+        "url": "https://sfpl.org/locations/mission-temporary-location",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-014": {
+      "values": {
+        "hours": "Mon 11am-6pm; Tue 10am-8pm; Wed 12pm-8pm; Thu, Sat 10am-6pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Noe Valley regular branch hours",
+        "url": "https://sfpl.org/locations/noe-valley",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-015": {
+      "values": {
+        "hours": "Mon, Thu, Sat 10am-6pm; Tue 10am-8pm; Wed 1pm-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / North Beach regular branch hours",
+        "url": "https://sfpl.org/locations/north-beach",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-016": {
+      "values": {
+        "hours": "Mon, Tue, Sat 10am-6pm; Wed 12pm-8pm; Thu 10am-7pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Ocean View regular branch hours",
+        "url": "https://sfpl.org/locations/ocean-view",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-017": {
+      "values": {
+        "hours": "Mon, Tue, Sat 10am-6pm; Wed 12pm-8pm; Thu 11am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Ortega regular branch hours",
+        "url": "https://sfpl.org/locations/ortega",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-018": {
+      "values": {
+        "hours": "Mon 11am-6pm; Tue 10am-8pm; Wed 12pm-8pm; Thu, Sat 10am-6pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Park regular branch hours",
+        "url": "https://sfpl.org/locations/park",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-020": {
+      "values": {
+        "hours": "Mon, Tue, Sat 10am-6pm; Wed 12pm-8pm; Thu 10am-7pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Portola regular branch hours",
+        "url": "https://sfpl.org/locations/portola",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-021": {
+      "values": {
+        "hours": "Mon, Fri 1pm-6pm; Tue, Thu 10am-8pm; Wed 12pm-8pm; Sat 10am-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Potrero regular branch hours",
+        "url": "https://sfpl.org/locations/potrero",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-022": {
+      "values": {
+        "hours": "Mon, Fri 1pm-6pm; Tue, Wed 10am-8pm; Thu, Sat 10am-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Presidio regular branch hours",
+        "url": "https://sfpl.org/locations/presidio",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-023": {
+      "values": {
+        "hours": "Mon, Sat 10am-6pm; Tue, Wed, Thu 10am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Richmond regular branch hours",
+        "url": "https://sfpl.org/locations/richmond",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-024": {
+      "values": {
+        "hours": "Mon, Sat 10am-6pm; Tue, Wed, Thu 10am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Sunset regular branch hours",
+        "url": "https://sfpl.org/locations/sunset",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-025": {
+      "values": {
+        "hours": "Mon, Sat 10am-6pm; Tue, Wed, Thu 10am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Visitacion Valley regular branch hours",
+        "url": "https://sfpl.org/locations/visitacion-valley",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-026": {
+      "values": {
+        "hours": "Mon, Sat 10am-6pm; Tue, Wed, Thu 10am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Bayview regular branch hours",
+        "url": "https://sfpl.org/locations/bayview",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-027": {
+      "values": {
+        "hours": "Mon, Sat 10am-6pm; Tue, Wed, Thu 10am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / West Portal regular branch hours",
+        "url": "https://sfpl.org/locations/west-portal",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-028": {
+      "values": {
+        "hours": "Mon, Tue, Sat 10am-6pm; Wed 12pm-8pm; Thu 10am-7pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Western Addition regular branch hours",
+        "url": "https://sfpl.org/locations/western-addition",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-038": {
+      "values": {
+        "hours": "Mon, Tue, Thu, Sat 10am-6pm; Wed 11am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Mission Bay regular branch hours",
+        "url": "https://sfpl.org/locations/mission-bay",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-039": {
+      "values": {
+        "hours": "Mon, Thu, Sat 10am-6pm; Tue 10am-8pm; Wed 1pm-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Anza regular branch hours",
+        "url": "https://sfpl.org/locations/anza",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-040": {
+      "values": {
+        "hours": "Mon, Sat 10am-6pm; Tue, Wed, Thu 10am-8pm; Fri 1pm-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Merced regular branch hours",
+        "url": "https://sfpl.org/locations/merced",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "imls-CA0114-041": {
+      "values": {
+        "hours": "Mon, Fri 1pm-6pm; Tue, Wed 10am-8pm; Thu, Sat 10am-6pm; Sun 1pm-5pm"
+      },
+      "evidence": {
+        "title": "SFPL / Parkside regular branch hours",
+        "url": "https://sfpl.org/locations/parkside",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Regular weekly hours from an address-matched provider location. No live open/closed badge or emergency activation imported.",
+        "inputSha256": "62b1e359f0d81ad83b22c5435220380835f818947677750fb9182e80b45e3501",
+        "inputURL": "https://sfpl.org/locations/western-addition"
+      }
+    },
+    "hrsa-2DECED73-B1B0-4F03-90A8-8D997C57688A": {
+      "values": {
+        "hours": "Mon-Fri 7:45am-5pm; closed for lunch noon-12:45pm.",
+        "services": "Medical appointments; confirm the service needed."
+      },
+      "evidence": {
+        "title": "Vallejo Family Health Services Center / department hours and services",
+        "url": "https://www.solanocounty.gov/government/health-social-services-hss/family-health-services/family-health-services-locations-hours",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Exact provider address: 365 Tuolumne St. Other departments and after-hours advice have separate arrangements.",
+        "inputSha256": "1e834a5c076385c623edcba74a07bdee5fdf0500c39d70b34fe89736ab29c4f5",
+        "inputURL": "https://www.solanocounty.gov/government/health-social-services-hss/family-health-services/family-health-services-locations-hours"
+      }
+    },
+    "hrsa-2DB52C76-E57A-4D7D-BC17-58DDA6D4F10B": {
+      "values": {
+        "hours": "Clinic: Mon-Fri 8:30am-7pm; Sat 9am-1pm. Closed 11:30am-1pm on 1st, 2nd and 4th Tuesdays. Urgent care: Mon-Fri 4-7pm; Sat 9am-1pm.",
+        "services": "Primary care, urgent care, family planning and behavioral health.",
+        "cost": "Income/household-based discounts available. Confirm eligibility, coverage and your charges."
+      },
+      "evidence": {
+        "title": "La Clinica North Vallejo / department hours and services",
+        "url": "https://laclinica.org/location/la-clinica-north-vallejo/",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Exact provider address: 220 Hospital Drive. Clinic, urgent-care and phone hours differ. Other Hospital Drive addresses do not inherit this schedule.",
+        "inputSha256": "08fe862c35dc103f4cd53138a903696d44ab3d0de4a2937c0a0a1030d4245a68",
+        "inputURL": "https://laclinica.org/location/la-clinica-north-vallejo/"
+      },
+      "evidenceByField": {
+        "cost": {
+          "title": "La Clinica / sliding-fee and billing policy",
+          "url": "https://laclinica.org/patient-information/billing-information/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Discounts depend on family size and income. No free visit, coverage for an individual service or personal eligibility is inferred."
+        }
+      }
+    },
+    "hrsa-0633EF2F-ACCD-47C7-801A-8CAD49650BA9": {
+      "values": {
+        "hours": "Medical clinic: Mon-Fri 8:15am-7pm; appointments until 6:45pm. Closed noon-1pm on 2nd and 4th Tuesdays. Other departments have separate hours.",
+        "services": "Primary, prenatal/postpartum, family-planning, behavioral and dental care. Optometry listed temporarily closed; confirm with provider.",
+        "cost": "Income/household-based discounts available. Confirm eligibility, coverage and your charges."
+      },
+      "evidence": {
+        "title": "La Clinica Vallejo Medical OB/GYN / department hours and services",
+        "url": "https://laclinica.org/location/la-clinica-vallejo/",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Exact provider address: 415 Georgia Street. Current page omits Saturday medical hours, so none are inferred. Optometry closure is a dated provider notice, not a live status. The former Great Beginnings URL redirects here; it does not verify hours at 210 Hospital Drive.",
+        "inputSha256": "9608385519975550c809ccad50cf94bdda8313aa01d974d25d30b0b609835d17",
+        "inputURL": "https://laclinica.org/location/la-clinica-vallejo/"
+      },
+      "evidenceByField": {
+        "cost": {
+          "title": "La Clinica / sliding-fee and billing policy",
+          "url": "https://laclinica.org/patient-information/billing-information/",
+          "checked": "2026-11-03",
+          "published": null,
+          "observed": null,
+          "note": "Discounts depend on family size and income. No free visit, coverage for an individual service or personal eligibility is inferred."
+        }
+      }
     }
-  }
+  },
+  "policies": [
+    {
+      "id": "sfpl-public-internet-20261103",
+      "ids": [
+        "imls-CA0114-002",
+        "imls-CA0114-004",
+        "imls-CA0114-005",
+        "imls-CA0114-006",
+        "imls-CA0114-007",
+        "imls-CA0114-008",
+        "imls-CA0114-009",
+        "imls-CA0114-010",
+        "imls-CA0114-011",
+        "imls-CA0114-013",
+        "imls-CA0114-014",
+        "imls-CA0114-015",
+        "imls-CA0114-016",
+        "imls-CA0114-017",
+        "imls-CA0114-018",
+        "imls-CA0114-020",
+        "imls-CA0114-021",
+        "imls-CA0114-022",
+        "imls-CA0114-023",
+        "imls-CA0114-024",
+        "imls-CA0114-025",
+        "imls-CA0114-026",
+        "imls-CA0114-027",
+        "imls-CA0114-028",
+        "imls-CA0114-038",
+        "imls-CA0114-039",
+        "imls-CA0114-040",
+        "imls-CA0114-041"
+      ],
+      "values": {
+        "amenities": [
+          "Wi-Fi",
+          "Public computers"
+        ]
+      },
+      "evidence": {
+        "title": "SFPL / public computers and Wi-Fi",
+        "url": "https://sfpl.org/free",
+        "checked": "2026-11-03",
+        "published": null,
+        "observed": null,
+        "note": "Provider card-benefits page identifies public computers and Wi-Fi. Local card/computer rules and current availability still need confirmation; scope is the explicit stationary branch IDs.",
+        "inputSha256": "4f160102e697889558e6dcc43aa563a5248346af1a7ec30308c8d52c44ef8d5b",
+        "inputURL": "https://sfpl.org/free"
+      }
+    },
+    {
+      "id": "sfpl-print-scan-20260914",
+      "ids": [
+        "imls-CA0114-002",
+        "imls-CA0114-004",
+        "imls-CA0114-005",
+        "imls-CA0114-006",
+        "imls-CA0114-007",
+        "imls-CA0114-008",
+        "imls-CA0114-009",
+        "imls-CA0114-010",
+        "imls-CA0114-011",
+        "imls-CA0114-013",
+        "imls-CA0114-014",
+        "imls-CA0114-015",
+        "imls-CA0114-016",
+        "imls-CA0114-017",
+        "imls-CA0114-018",
+        "imls-CA0114-020",
+        "imls-CA0114-021",
+        "imls-CA0114-022",
+        "imls-CA0114-023",
+        "imls-CA0114-024",
+        "imls-CA0114-025",
+        "imls-CA0114-026",
+        "imls-CA0114-027",
+        "imls-CA0114-028",
+        "imls-CA0114-038",
+        "imls-CA0114-039",
+        "imls-CA0114-040",
+        "imls-CA0114-041"
+      ],
+      "values": {
+        "cost": "Library card: $2/day print/copy credit; then B&W $0.10/page, color $0.40/page. Scans and U.S. faxes free.",
+        "amenities": [
+          "Printing and copying",
+          "Scanning",
+          "U.S. faxing"
+        ]
+      },
+      "evidence": {
+        "title": "SFPL / print, copy, scan and fax policy",
+        "url": "https://sfpl.libanswers.com/faq/341987",
+        "checked": "2026-11-03",
+        "published": "2026-09-14",
+        "observed": null,
+        "note": "Explicit stationary SFPL branch IDs only. Library card required for daily credit; no bookmobile or emergency operation inferred.",
+        "inputSha256": "28a2d812f90c4f9ec042c6f0458a6c337c2000e91878e6d0b8ea25525d268b75",
+        "inputURL": "https://sfpl.libanswers.com/faq/341987",
+        "dateMeaning": "FAQ last-updated date; original publication date not supplied."
+      }
+    }
+  ]
 }

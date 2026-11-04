@@ -54,3 +54,29 @@ python scripts/project-visit-facts.py --osm <library-medical-osm.json> --existin
 
 Verify with `node tests/resource-facts.test.cjs`, `node tests/resource-facts.cjs`,
 `npm run verify:services`, `npm run verify:everyday` and `npm run verify:booklet`.
+
+
+## Later provider gap review
+
+The provider supplement also contains regular schedules for 28 existing SFPL
+locations, matched to current provider addresses. SFPL's September 14, 2026 print,
+copy, scan and fax policy is stored once against those explicit IDs; it cannot
+apply to another library system or bookmobile. Field-specific evidence separates
+that dated policy from branch schedules with no supplied publication date. Map
+amenities remain visible alongside the provider's confirmed services, with both
+source records retained. A separate policy for those same 28 IDs records SFPL's
+confirmed Wi-Fi and public computers; it does not infer card eligibility,
+computer time limits or current availability.
+
+Exact-address Vallejo clinic reviews separate primary clinic, urgent-care and phone
+hours, preserve lunch/meeting closures, and cite billing policies independently.
+The old Great Beginnings URL redirects to Georgia Street; records at 190/210
+Hospital Drive do not inherit that schedule. Unreadable or ambiguous provider
+information remains a gap. No optometry opening is inferred from a clinic's hours.
+
+`project-sfpl-provider-hours.py` reads a saved, reviewed navigation extract and the
+original HTML hash; it never fetches or runs during a build. The extract keeps only
+location names, addresses, canonical links and day/slot/comment fields, selected
+from each `.location` element. A seven-day complete schedule and matching address
+are required. The reviewed third/3rd street abbreviation and one Saria/Sarria street
+spelling are recorded during matching; no geocode or entrance is moved.

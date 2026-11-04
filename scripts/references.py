@@ -96,6 +96,10 @@ def compile_references():
     visits = read('content/provider-visit-details.json')
     for record in visits['records'].values():
         source(record['evidence'], 'maps', 'Provider visit facts', 'content/provider-visit-details.json')
+        for evidence in record.get('evidenceByField', {}).values():
+            source(evidence, 'maps', 'Provider field-specific evidence', 'content/provider-visit-details.json')
+    for policy in visits.get('policies', []):
+        source(policy['evidence'], 'maps', 'Explicit provider policy: ' + policy['id'], 'content/provider-visit-details.json')
     physical = read('content/physical-services.json')
     for key, record in physical['sources'].items():
         source(record, 'maps', 'Physical service: ' + key, 'content/physical-services.json', physical['checked'])

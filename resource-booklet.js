@@ -63,9 +63,9 @@
   const riskProfile=window.FerdantRisk.profile(key),riskSource=source(config.hazardRisk.source),riskTractSource=source(config.hazardRisk.tractSource);
   function physical(f,issue){
    const s=config.sources[f.source],outside=place?.city&&!f.within?(f.servesCounty?'Serves '+places.counties[place.county]+' County; office outside city.':'Outside city / '+(places.counties[f.county]||'nearby')+' County / '+(f.km<10?f.km.toFixed(1):Math.round(f.km))+' km straight-line.') : '';
-   const facts=window.FerdantResourceFacts.rows(f).map(row=>({...row,source:row.evidence?source(row.evidence):source(s)}));
+   const facts=window.FerdantResourceFacts.rows(f).map(row=>({...row,source:row.evidence?source(row.evidence):source(s),references:(row.additionalEvidence||[]).map(source)}));
    const detail=facts.map(row=>row.label+': '+row.value.replace(/https?:\/\/\S+/g,'[source record]')).join('\n');
-   return {issue,title:f.name,detail,access:[outside,f.visit?.eligibility||'Confirm intake and current availability before visiting.'].filter(Boolean).join(' '),facts,sourceRefs:[...new Set(facts.map(row=>row.source))],kind:f.kind,url:f.url||s.url,source:source(s),physicalId:f.id};
+   return {issue,title:f.name,detail,access:[outside,f.visit?.eligibility||'Confirm intake and current availability before visiting.'].filter(Boolean).join(' '),facts,sourceRefs:[...new Set(facts.flatMap(row=>[row.source,...row.references]))],kind:f.kind,url:f.url||s.url,source:source(s),physicalId:f.id};
   }
   function referral(issue,title,detail,url,kind='support'){return {issue,title,detail,access:'Referral link; confirm a visit first.',kind,url,source:source({title,url,checked:null,published:url==='https://www.news.caloes.ca.gov/cooling-centers-and-resources-3/'?'2026-03':null}),referral:true};}
   const evacuation=evacuationPlan(place,source);
