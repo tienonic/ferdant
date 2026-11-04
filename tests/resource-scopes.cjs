@@ -29,7 +29,7 @@ async function ready(p){await p.waitForFunction(()=>{const r=document.querySelec
    assert.equal(await p.locator('[data-local-contact="yolo-211"]').getAttribute('data-resource-level'),'county');
    assert.equal(await p.locator('[data-local-contact="pge-outage"]').getAttribute('data-resource-level'),'provider');
    assert(await p.locator('#phone-rows tr').evaluateAll(els=>els.every(e=>e.dataset.resourceLevel==='state')));
-   assert.equal(await p.locator('#atlas-place-list > li:not([data-resource-level])').count(),0);
+   await p.locator('.atlas-category-summary').first().click();await p.locator('.atlas-place-card').first().waitFor();assert.equal(await p.locator('#atlas-place-list li[data-resource-id]:not([data-resource-level])').count(),0);
    await p.locator('#local-page-title').screenshot({path:`screenshots/resource-scopes/levels-${width}.png`});
    await p.locator('#location-links').screenshot({path:`screenshots/resource-scopes/contacts-${width}.png`});
    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

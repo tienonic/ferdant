@@ -1076,6 +1076,14 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 #atlas-place-list details { font-size: 12px; padding: 0 6px; }
 #atlas-place-list summary { min-height: 44px; align-content: center; color: #36566a; cursor: pointer; }
 #atlas-place-list .atlas-place-card { padding: 0; }
+#atlas-place-list .atlas-category { padding: 0; }
+#atlas-place-list .atlas-category-summary { display: grid; grid-template-columns: 20px minmax(0,1fr) 12px; gap: 9px; align-items: center; padding: 12px 3px; font-size: 13px; font-weight: 600; list-style: none; }
+.atlas-category-summary::-webkit-details-marker { display: none; }
+.atlas-category-summary::after { content: ''; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(-45deg); }
+.atlas-category[open] > .atlas-category-summary::after { transform: rotate(45deg); }
+.atlas-category-count { font-weight: 400; color: #526170; }
+.atlas-category-places { list-style: none; margin: 0; padding: 0 0 0 10px; }
+.atlas-category > .atlas-more { margin: 4px 0 10px; }
 #atlas-place-list .atlas-place-summary { display: grid; grid-template-columns: 20px minmax(0,1fr) 12px; align-items: start; gap: 9px; padding: 10px 3px; list-style: none; border-radius: 5px; }
 .atlas-place-summary::-webkit-details-marker { display: none; }
 .atlas-place-summary::after { content: ''; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(-45deg); margin-top: 7px; }

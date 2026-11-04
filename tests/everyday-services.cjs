@@ -41,7 +41,7 @@ async function water(p){await p.locator('#atlas-resource-filters summary').click
    await p.locator('#resource-atlas').screenshot({path:'screenshots/everyday/sf-water-'+width+'.png'});
   }
   await p.goto(base+'/local/?place=19050');await ready(p);await p.locator('#atlas-resource-filters summary').click();await p.locator('[data-resource-group="food"]').click();assert(await mappedCount(p,'food')>0);
-  await p.locator('#atlas-place-list summary').first().click();assert((await p.locator('#atlas-place-list').innerText()).includes('May 2023'));
+  await p.locator('.atlas-category-summary').first().click();await p.locator('.atlas-category[open] .atlas-place-summary').first().click();assert((await p.locator('#atlas-place-list').innerText()).includes('May 2023'));
   await p.goto(base+'/local/?place=38001');await ready(p);await water(p);const online=(await mappedIds(p)).sort();
   const download=p.waitForEvent('download');await p.locator('#offline-download [data-city-download]').click();const file=path.resolve('screenshots/everyday/sf-offline.html');await(await download).saveAs(file);
   const off=await browser.newContext({offline:true}),o=await off.newPage(),network=[];o.on('request',r=>{if(/^https?:/.test(r.url()))network.push(r.url());});o.on('pageerror',e=>errors.push(e.message));await o.goto(pathToFileURL(file).href);await ready(o);await water(o);
