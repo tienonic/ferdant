@@ -137,7 +137,7 @@
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
     "phone.js": "094f9f5299edabc858f45dd44d91f18df87592074cde075a363667ff2f39fcf5",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
-    "resource-booklet.js": "1c3d1cd69f9051def320297aeb0a0a6883e78dd37151106f2f04af393513269e",
+    "resource-booklet.js": "f50f6c3a0af841353fd7e2a29c9d18001552af19d0688afb1074e017cab426c1",
     "resource-map.js": "c481cf97f8321c43e514274ee59c6ccbada51ba04d6fd4aa49bbae9d4ea390f3",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
     "scripts/build.py": "18c7b425a86fbc5200ba3227b114ff21381c711185581bd47474cfdafbdaa4da",
