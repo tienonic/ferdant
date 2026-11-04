@@ -148,7 +148,7 @@
     "scripts/icons.py": "1bd04e25fa9377f22667316bbefaf1eac3a4daa0f52767b41d1a2d4072988aa2",
     "scripts/import-alert-links.py": "14fa1c157000de895f634327e7b94620830b33694ac0f604e505c168ef950a4a",
     "scripts/import-evacuation-routes.py": "30865e3f3d3e51f5b587618153b1a66b7f1cf7f7296241d908836f1aee497807",
-    "scripts/landing.py": "6fb697f66edb9511ec3f78897d6a1c40435decbbd2a30bdca230ba7a7a44932a",
+    "scripts/landing.py": "fbc838249681e177417fd2cea72e864cf525813620232fe79d1f8aab6780c1e9",
     "scripts/offline.py": "935545a08f342ce177cf572bebeb8aaade81f7f603bebfc6ecab20e557ba975e",
     "scripts/phone_chart.py": "782c7914807f40c6efdf1cda0c345e01ea49fb7b7e645781f25d3b7c4340e6f2",
     "scripts/physical_services.py": "57961a7a681ca0cb840de47c431d7acf02f9a04c0e9c5aceacfc6c952223da8f",

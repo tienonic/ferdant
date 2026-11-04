@@ -29,6 +29,15 @@ def landing_welcome():
         </div>
         <figcaption><a href="/sources-and-corrections/#references-assets">Stock photography &amp; credits</a></figcaption>
       </figure>
+    </section>
+    <section class="home-instructions" aria-labelledby="how-to-title">
+      <h2 id="how-to-title">How to use Ferdant</h2>
+      <ol class="home-steps">
+        <li><strong>Choose your location</strong><p>Enter a city or county below and select a match to open its local resources.</p></li>
+        <li><strong>Pick what you need</strong><p>Choose Everyday for food, water, bathrooms and more, or a disaster tab for emergency planning.</p></li>
+        <li><strong>Explore the details</strong><p>Open a category or map pin to view places, and check the provider's information before visiting.</p></li>
+        <li><strong>Keep it handy</strong><p>Find local phone numbers below the map, or download your resource book or complete website for offline use.</p></li>
+      </ol>
     </section>'''
 
 

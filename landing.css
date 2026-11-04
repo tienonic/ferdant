@@ -10,6 +10,15 @@
 .welcome-picnic { height: 170px; object-position: 43% 50%; }
 .welcome-photos figcaption { margin-top: 8px; text-align: right; font-size: 11px; }
 .welcome-photos figcaption a { color: var(--muted); text-underline-offset: 3px; }
+.home-instructions { max-width: 1000px; margin: 0 auto 28px; padding: 20px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.home-instructions h2 { font: 26px/1.2 var(--serif); margin: 0 0 16px; }
+.home-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 0; padding-left: 22px; }
+.home-steps li { padding-left: 2px; }
+.home-steps li::marker { color: var(--cobalt); font-weight: 600; }
+.home-steps strong { display: block; font-size: 15px; line-height: 1.5; }
+.home-steps p { color: var(--muted); font-size: 15px; line-height: 1.6; margin: 6px 0 0; }
+@media(max-width: 900px) { .home-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px; } }
+@media(max-width: 500px) { .home-steps { grid-template-columns: minmax(0, 1fr); gap: 14px; } .home-steps p { margin-top: 2px; } }
 @media(max-width: 700px) {
  .home-welcome { grid-template-columns: 1fr; gap: 18px; margin: 24px auto; }
  .welcome-copy h1 { font-size: 36px; margin-bottom: 12px; }
