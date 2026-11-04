@@ -1,4 +1,5 @@
 /* Homepage welcome and resource library. */
+.page:has(.home-welcome) > .site-header { border-bottom: 0; }
 .home-welcome { max-width: 1000px; margin: 28px auto 30px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 32px; }
 .welcome-eyebrow { margin: 0 0 12px; color: var(--utilities); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .welcome-copy h1 { font: 46px/1.06 var(--serif); letter-spacing: -.025em; margin: 0 0 16px; }
