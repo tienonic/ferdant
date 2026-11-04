@@ -20,7 +20,8 @@ def resource_map():
     data['disasters'] = disasters.DATA
     data['evacuation'] = json.loads((ROOT / 'content/evacuation.json').read_text(encoding='utf-8'))
     data['resourceSearch'] = json.loads((ROOT / 'content/resource-search.json').read_text(encoding='utf-8'))
-    cover = json.loads((ROOT / 'assets/photos/provenance.json').read_text(encoding='utf-8'))['photos'][0]
+    cover = next(photo for photo in json.loads((ROOT / 'assets/photos/provenance.json').read_text(encoding='utf-8'))['photos']
+                 if photo['file'] == 'assets/photos/family-picnic.webp')
     cover_bytes = (ROOT / cover['file']).read_bytes()
     if hashlib.sha256(cover_bytes).hexdigest() != cover['sha256']:
         raise ValueError('Booklet cover photo differs from its recorded source')

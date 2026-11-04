@@ -81,7 +81,7 @@
     "assets/fonts/newsreader-OFL.txt": "fdfad38143ec470553cae82a1e45320bdd1b9ec70415d37bd0171051d8a4ded8",
     "assets/fonts/provenance.json": "262f27c8066605a31c236a8cb534464317e0f243ec78a2c528a8cee806bc241b",
     "assets/fonts/publicsans-OFL.txt": "157a9e77f7580246e97c769490e2e977ae94399f9d30f4556015c41fe8c28bac",
-    "assets/photos/provenance.json": "8bba2e1cec7d2a38798576202be796e802d2d5d6458b3fa9cc23f4bbe0f6ac88",
+    "assets/photos/provenance.json": "937bc9b4d0705d022d8875651e9b1a62efcf6b7cda3db3f88411a2cfb287c690",
     "assets/vendor/jspdf/LICENSE": "dc388ec35ff463288cdde3588a36fd4ed12a45deff053243b37309acc9ef583b",
     "assets/vendor/jspdf/README.md": "833db2595dfb5610851c08a09e55083f36aebb07de67709a3750cd53022742a8",
     "assets/vendor/leaflet/LICENSE": "bbc959aaef7488b38942e7f05cfd1244351f8bce54261951ea17dd7cf60f894b",
@@ -159,7 +159,7 @@
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
     "scripts/references.py": "da7425aa75d4e6fe2da33e89de996348d0784bd2a615289e977ba12717c3ef43",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
-    "scripts/resource_map.py": "6caaad479a2a0af2511564f8a51a7cbf9b0fa1d877f69f15ec1c27990e24455e",
+    "scripts/resource_map.py": "7e972f6af64c4992a04678b4b41b355378984179c3f71375036c7c9fac695255",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
     "service-resources.js": "efbaa68b9bb20649644f58e0f62b8e9776eb4eaa1267650af80b5b5fa05392ea",
@@ -15891,7 +15891,7 @@
           "width": 960,
           "height": 640,
           "sha256": "eadfe2a12f5a3d704db6a268f9033a5df6a4217db676392872b2a95f7798900d",
-          "use": "Homepage welcome photography and resource-book covers",
+          "use": "Homepage welcome photography",
           "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
         }
       ]
@@ -15921,7 +15921,7 @@
           "width": 960,
           "height": 640,
           "sha256": "eadfe2a12f5a3d704db6a268f9033a5df6a4217db676392872b2a95f7798900d",
-          "use": "Homepage welcome photography and resource-book covers",
+          "use": "Homepage welcome photography",
           "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
         },
         {
@@ -15938,7 +15938,7 @@
           "width": 640,
           "height": 427,
           "sha256": "a3d1ce63315d455c99758c3aaa389b2e37c2211e891e6afd5326ee3e931240d0",
-          "use": "Homepage welcome photography",
+          "use": "Homepage welcome photography and resource-book covers",
           "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
         }
       ]
@@ -15968,7 +15968,7 @@
           "width": 960,
           "height": 640,
           "sha256": "eadfe2a12f5a3d704db6a268f9033a5df6a4217db676392872b2a95f7798900d",
-          "use": "Homepage welcome photography and resource-book covers",
+          "use": "Homepage welcome photography",
           "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
         }
       ]
@@ -15998,7 +15998,7 @@
           "width": 640,
           "height": 427,
           "sha256": "a3d1ce63315d455c99758c3aaa389b2e37c2211e891e6afd5326ee3e931240d0",
-          "use": "Homepage welcome photography",
+          "use": "Homepage welcome photography and resource-book covers",
           "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
         }
       ]
@@ -16028,7 +16028,7 @@
           "width": 640,
           "height": 427,
           "sha256": "a3d1ce63315d455c99758c3aaa389b2e37c2211e891e6afd5326ee3e931240d0",
-          "use": "Homepage welcome photography",
+          "use": "Homepage welcome photography and resource-book covers",
           "note": "Illustrative stock photograph; not a Ferdant customer, service location or endorsement. CDN-resized WebP; responsive CSS crops the display."
         }
       ]
