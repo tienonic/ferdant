@@ -44,7 +44,6 @@ PLANS = {
 }
 for key, phase in {
     'coastal':'Long-term coastal planning and recovery: information, applications and ordinary services. Not a current storm-surge refuge map.',
-    'drought':'Drought preparation and recovery: information, assistance applications and care. No potable-water pickup point is inferred.',
     'subsidence':'Ground-movement planning and recovery: information, utility/legal intake where checked and care. No building inspection or repair qualification is inferred.',
 }.items():
     PLANS[key] = {'default':'information','phase':phase,'liveShelters':False,

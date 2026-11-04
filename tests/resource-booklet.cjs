@@ -18,8 +18,15 @@ async function capture(p,key){return p.evaluate(async key=>{const r=await window
   // Selection uses the same public boundaries/services as the map, for every
   // indexed city and county. No current hazard, phone filter or private input is read.
   const choices=[...places.cities.map(c=>c[0]),...Object.keys(places.counties).map(c=>'county:'+c),''];
-  const summaries=await p.evaluate(async keys=>{const out=[];for(const key of keys){const m=await window.FerdantBooklet.model(key);out.push({key,events:m.events.length,care:m.events[0].cards.filter(c=>['hospital','clinic'].includes(c.kind)).length,phoneCharts:m.events.filter(p=>p.phones.length).length,roads:m.streetMap.roads.length,bounds:m.streetMap.bounds,detailed:m.streetMap.detailed});}return out;},choices);
-  for(const s of summaries){assert.equal(s.events,15);assert.equal(s.phoneCharts,15);assert(s.roads>0,s.key);assert(s.detailed,s.key);assert(s.bounds.every(Number.isFinite));if(s.key&&!s.key.startsWith('county:'))assert.equal(s.care,2,s.key);}
+  const summaries=await p.evaluate(async keys=>{const out=[];for(const key of keys){const m=await window.FerdantBooklet.model(key);out.push({key,events:m.events.length,eventIds:m.events.map(p=>p.id),omitted:m.omittedEvents.map(p=>p.id),care:m.events[0].cards.filter(c=>['hospital','clinic'].includes(c.kind)).length,phoneCharts:m.events.filter(p=>p.phones.length).length,roads:m.streetMap.roads.length,bounds:m.streetMap.bounds,detailed:m.streetMap.detailed});}return out;},choices);
+  for(const s of summaries){assert(s.events>0&&s.events<=14);assert.equal(s.phoneCharts,s.events);assert(!s.eventIds.includes('drought'));assert(s.omitted.every(id=>!s.eventIds.includes(id)));assert(s.roads>0,s.key);assert(s.detailed,s.key);assert(s.bounds.every(Number.isFinite));if(s.key&&!s.key.startsWith('county:'))assert.equal(s.care,2,s.key);}
+  const byKey=key=>summaries.find(s=>s.key===key);
+  assert(!byKey('19050').eventIds.includes('avalanche'));assert(!byKey('19050').eventIds.includes('volcano'));assert(byKey('19050').eventIds.includes('cold'));
+  assert(byKey('county:19').eventIds.includes('avalanche'));assert(byKey('09092').eventIds.includes('avalanche'));assert(byKey('26001').eventIds.includes('avalanche'));
+  for(const id of ['tsunami','coastal','avalanche'])assert(!byKey('57026').eventIds.includes(id));
+  for(const id of ['earthquake','wildfire','cold','dam','levee','subsidence'])assert(byKey('57026').eventIds.includes(id));
+  assert.equal(byKey('').events,14);assert.equal(byKey('').omitted.length,0);
+  const laPreview=await p.evaluate(()=>FerdantBooklet.preview('19050'));assert(!laPreview.includes('Avalanche'));assert(!laPreview.includes('Drought'));
   assert(await p.evaluate(()=>!window.jspdf));const sourceOnly=p.waitForEvent('download');await p.locator('#download-booklet-sources').click();const sourceOnlyFile=await sourceOnly;assert(sourceOnlyFile.suggestedFilename().endsWith('-sources.txt'));assert(await p.evaluate(()=>!window.jspdf),'TXT export must not load the PDF writer');
   const longest=[...places.cities].sort((a,b)=>b[1].length-a[1].length)[0][0];
   const vallejo=places.cities.find(c=>c[1]==='Vallejo')[0];
@@ -28,7 +35,7 @@ async function capture(p,key){return p.evaluate(async key=>{const r=await window
   for(const key of cases){
    await p.goto(base+'/local/'+(key?'?place='+encodeURIComponent(key):''));await ready(p);
    const r=await capture(p,key),bytes=Buffer.from(r.bytes);delete r.bytes;
-   assert(bytes.subarray(0,5).equals(Buffer.from('%PDF-')));assert.equal(r.events.length,15);assert(r.pages>=17&&r.pages<60);
+   assert(bytes.subarray(0,5).equals(Buffer.from('%PDF-')));assert.equal(r.events.length,summaries.find(s=>s.key===key).events);assert(r.pages>r.events.length+2&&r.pages<60);assert(!r.layout.some(l=>l.text==='Drought'));assert(r.sourcesText.includes('LOCAL BOOKLET SELECTION'));
    assert.equal(r.photoLayout.page,1);assert(r.photoLayout.x>=390&&r.photoLayout.y<100);assert.equal(r.photoLayout.width/r.photoLayout.height,1.5);assert(r.sourcesText.includes('RDNE Stock project'));assert(r.layout.some(l=>l.page===1&&l.text==='Local resource guide'));assert(!r.layout.some(l=>l.page===1&&l.text==='field notes.'));const heading=r.layout.find(l=>l.page===1&&l.top===103);assert(heading&&heading.x+heading.width<r.photoLayout.x&&heading.height<=43);assert(r.layout.some(l=>l.page===1&&l.text==='Street map on page 2'));assert(r.sourcesText.includes('https://www.pexels.com/license/'));
    assert.equal(r.mapAudit.page,2);assert(r.mapAudit.roadsDrawn>0);assert(r.mapAudit.streetLabels.length>0,key);assert(r.mapAudit.northArrow);assert(r.mapAudit.scaleKm>0&&r.mapAudit.scalePoints>0&&r.mapAudit.scalePoints<=101);assert(Math.abs(r.mapAudit.scaleKm*1000-r.mapAudit.scalePoints*r.mapAudit.groundMetersPerPoint)<.001);
    assert(r.layout.filter(l=>l.page===2&&r.mapAudit.streetLabels.includes(l.text)).every(l=>l.height<=12),'Street labels must fit on one line');assert(r.layout.some(l=>l.page===2&&l.text==='Local street map'));assert(r.layout.some(l=>l.page===2&&l.text==='N'));assert(r.layout.some(l=>l.page===2&&l.text==='Scale at map center'));
@@ -46,6 +53,11 @@ async function capture(p,key){return p.evaluate(async key=>{const r=await window
    const filename=key==='57026'?'ferdant-davis-resource-book.pdf':key==='38001'?'ferdant-san-francisco-resource-book.pdf':key==='19039'?'ferdant-vernon-resource-book.pdf':'case-'+(key||'california').replace(':','-')+'.pdf';
    fs.writeFileSync('screenshots/booklet/'+filename,bytes);fs.writeFileSync('screenshots/booklet/'+filename.replace('.pdf','-sources.txt'),r.sourcesText);fs.writeFileSync('screenshots/booklet/'+filename.replace('.pdf','.json'),JSON.stringify(r,null,2));
    findings.push({key,pages:r.pages,bytes:bytes.length,events:r.events.map(e=>({id:e.id,start:e.start,end:e.end,phoneIds:e.phoneIds})),filename});
+   if(key==='19050'){
+    const wait=p.waitForEvent('download');await p.locator('#offline-download [data-city-download]').click();const file=path.resolve('screenshots/booklet/la-offline.html');await(await wait).saveAs(file);
+    const off=await browser.newContext({offline:true}),o=await off.newPage(),requests=[];o.on('request',r=>{if(/^https?:/.test(r.url()))requests.push(r.url());});await o.goto(pathToFileURL(file).href);await ready(o);
+    const saved=await capture(o,key);assert.deepEqual(saved.events.map(e=>e.id),r.events.map(e=>e.id));assert(!saved.events.some(e=>['drought','avalanche'].includes(e.id)));assert.deepEqual(Buffer.from(saved.bytes),bytes);assert.deepEqual(requests,[]);await off.close();
+   }
    if(key==='57026'){
     original=bytes;originalSources=r.sourcesText;
     await p.locator('#what-am-i-paying-for > summary').click();await p.getByRole('navigation',{name:'Quick tools'}).getByRole('link',{name:'Draft a billing message'}).click();await p.getByLabel('What needs explaining?').fill('PRIVATE-NOTE-EXCLUDED-FROM-BOOKLET');await p.getByRole('button',{name:'Close tool',exact:true}).click();
@@ -66,6 +78,6 @@ async function capture(p,key){return p.evaluate(async key=>{const r=await window
   const roadFailure=await browser.newContext();await stubPublicMap(roadFailure);await roadFailure.route('**/assets/data/booklet-roads/38.json',r=>r.abort());const rf=await roadFailure.newPage();await rf.goto(base+'/local/?place=38001');await ready(rf);const fallback=await capture(rf,'38001');assert(fallback.mapAudit.roadsDrawn>0);assert(fallback.layout.some(l=>l.page===2&&l.text.startsWith('California main-road overview.')));await roadFailure.close();
   assert.deepEqual(errors,[]);assert(await p.evaluate(()=>localStorage.length===0&&sessionStorage.length===0));
   fs.writeFileSync('screenshots/resource-booklet-verification.json',JSON.stringify({checkedUTC:new Date().toISOString(),fixtures:'External GIS/tiles/shelters simulated; public county directory files are real',modelChoices:summaries.length,mapCoverage:{cities:roadCities,counties:58,state:true,roadSource:manifest.source,roadDataDate:manifest.published,mapPage:2,compass:true,scale:true,roadFailure:'explicit statewide fallback'},findings,offlineHTTP:0,privateNotesAndMapChoice:'PDF bytes identical',widths:[320,390,768,1440],sourceFailure:'explicit gap',sourceAppendix:'printed names/dates and separate URL-bearing TXT; no PDF links',mapDownloadMinimumHeight:58,errors},null,2));
-  console.log('Resource books: 542 location models with page-two roads; ten real PDFs, 15 event sections/phone charts, printed source references and zero links, private-input exclusion, disconnected export and four-width controls passed.');
+  console.log('Resource books: 542 location models with page-two roads; ten real PDFs, location-specific event sections/phone charts, printed source references and zero links, private-input exclusion, disconnected export and four-width controls passed.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1});

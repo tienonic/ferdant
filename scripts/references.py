@@ -124,7 +124,7 @@ def compile_references():
         source(record, 'maps', use, 'content/california-cities.json', places['checked'])
 
     disaster = module('disasters')
-    source(disaster.TAXONOMY, 'disasters', 'Taxonomy for all 15 natural-hazard plans', 'content/disasters.py', disaster.CHECKED)
+    source(disaster.TAXONOMY, 'disasters', 'Taxonomy for the selected natural-hazard plans', 'content/disasters.py', disaster.CHECKED)
     for plan in disaster.PLANS:
         source({'title': plan['label'] + ' guidance', **plan['guidance'], 'note': plan['note']},
                'disasters', plan['publisherCategory'], 'content/disasters.py')

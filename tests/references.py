@@ -38,7 +38,7 @@ class References(unittest.TestCase):
 
     def test_every_disaster_guidance_and_service_is_referenced(self):
         data = module('disasters')
-        self.assertEqual(len(data.PLANS), 15)
+        self.assertEqual(len(data.PLANS), 14)
         for plan in data.PLANS:
             self.assertIn(plan['guidance']['url'], self.urls)
         for layer in data.LAYERS.values():

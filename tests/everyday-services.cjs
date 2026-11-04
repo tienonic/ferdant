@@ -46,7 +46,7 @@ async function water(p){await p.locator('#atlas-resource-filters summary').click
   const download=p.waitForEvent('download');await p.locator('#offline-download [data-city-download]').click();const file=path.resolve('screenshots/everyday/sf-offline.html');await(await download).saveAs(file);
   const off=await browser.newContext({offline:true}),o=await off.newPage(),network=[];o.on('request',r=>{if(/^https?:/.test(r.url()))network.push(r.url());});o.on('pageerror',e=>errors.push(e.message));await o.goto(pathToFileURL(file).href);await ready(o);await water(o);
   assert.deepEqual((await mappedIds(o)).sort(),online);assert.deepEqual(network,[]);
-  await o.locator('[data-disaster="drought"]').click();await ready(o);assert.equal(await o.locator('.atlas-pin.water,.atlas-pin.restroom,.atlas-pin.shower').count(),0);
+  await o.locator('[data-disaster="cold"]').click();await ready(o);assert.equal(await o.locator('.atlas-pin.water,.atlas-pin.restroom,.atlas-pin.shower').count(),0);
   assert.deepEqual(errors,[]);await off.close();await c.close();
  }finally{await browser.close();}
  console.log('Everyday: 3,932 attributed points, 55 counties, matching icons at four widths, dated food listings, hash rejection, offline parity and emergency separation passed.');

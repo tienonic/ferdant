@@ -92,12 +92,6 @@ LAYERS = {
    fields='objectid,prod_type,expiration,onset,ends,issuance',where="phenom='AV'",offline=False,live=True,
    source='https://www.weather.gov/safety/winter-avalanche',
    note='Issued avalanche warning/watch areas only, not avalanche terrain or a safe travel route. Check the local avalanche center forecast even when no alert is returned.'),
- 'drought': geo('NOAA CPC monthly drought outlook',
-   'https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_drought_outlk/MapServer/1', '#a17f61',
-   fields='objectid,outlook',where="outlook <> 'No_Drought'",offline=False,live=True,
-   source='https://www.cpc.ncep.noaa.gov/products/expert_assessment/mdo_summary.php',
-   note='Monthly forecast of drought development, persistence, improvement or removal. Not the observed U.S. Drought Monitor, a water-supply guarantee or a drinking-water test.',
-   classes={'field':'outlook','colors':{'Persistence':'#9b634a','Improvement':'#b3a58a','Removal':'#9e9b68','Development':'#d6b75d'}}),
  'heat': {'kind':'heat-image','title':'NWS experimental HeatRisk, first available day',
    'service':'https://mapservices.weather.noaa.gov/experimental/rest/services/NWS_HeatRisk/ImageServer',
    'source':'https://www.wpc.ncep.noaa.gov/heatrisk/','checked':CHECKED,'published':None,
@@ -168,12 +162,6 @@ PLANS = [
    ('Report','Tell local authorities about movement or utility damage and keep away from the slide area.')],
    'https://www.usgs.gov/programs/landslide-hazards/what-are-signs-landslide-development-what-do-i-do-if-a-landslide-occurs',
    layers=['seismic-landslide'],note='This overlay covers earthquake-induced investigation zones only, not all rainfall landslides or post-fire debris flows.'),
- plan('drought','Drought','Know your water-supply rules and prepare for interruptions.',[
-   ('Check','Follow your water provider’s conservation rules and supply notices.'),
-   ('Prepare','Keep a practical emergency water supply and know how to contact your provider.'),
-   ('Respond','Report supply problems and follow official drinking-water instructions. Regional drought does not itself establish tap-water safety.')],
-   'https://www.drought.gov/states/california',layers=['drought'],
-   note='The overlay is NOAA’s monthly outlook, not observed drought or drinking-water safety. The official dashboard provides current regional conditions.'),
  plan('dam','Dam failure','Know the local warning and evacuation plan.',[
    ('Before','Know local downstream flood alerts and evacuation arrangements.'),
    ('If warned','Follow evacuation instructions immediately; avoid dams and flooded channels.'),
@@ -206,12 +194,11 @@ PLANS = [
    note='The planning polygons cover selected volcanic hazards. Ash and other effects can extend beyond them; this is not an eruption alert.')
 ]
 
-LAYERS['drought']['monthly'] = True
 PUBLISHER_CATEGORIES = {'earthquake':'Earthquake','tsunami':'Tsunami',
  'flood':'Riverine, Stream, and Alluvial Flood','wildfire':'Wildfire',
  'heat':'Extreme Heat','cold':'Extreme Cold or Freeze','storms':'Severe Wind, Weather, and Storms',
  'coastal':'Sea-Level Rise, Coastal Flooding, and Erosion',
- 'landslide':'Landslide, Debris Flow, and Other Mass Movements','drought':'Drought',
+ 'landslide':'Landslide, Debris Flow, and Other Mass Movements',
  'dam':'Dam Failure','levee':'Levee Failure','avalanche':'Snow Avalanche',
  'subsidence':'Subsidence','volcano':'Volcano'}
 for p in PLANS:
@@ -221,11 +208,13 @@ for key, source in LAYERS.items():
         'fire-sra':'CAL FIRE','fire-lra':'CAL FIRE','sea-level':'NOAA OCM',
         'subsidence':'DWR / TRE ALTAMIRA','dam':'Cal OES','levee':'Cal OES',
         'volcano':'Cal OES / USGS','cold-alerts':'NOAA / NWS','storm-alerts':'NOAA / NWS',
-        'avalanche-alerts':'NOAA / NWS','drought':'NOAA / CPC','heat':'NOAA / NWS'}[key]
+        'avalanche-alerts':'NOAA / NWS','heat':'NOAA / NWS'}[key]
     source['dateMeaning'] = ('map edition; individual source mapping dates vary' if key=='faults' else
         'Northern California remap announcement; individual source vintages vary' if key=='sea-level' else
         'effective date' if key=='fire-sra' else
         'last statewide recommendation rollout' if key=='fire-lra' else
         'service edit date; individual source vintages can differ' if source.get('published') else
         'varies by panel, forecast or alert; see the retrieved data')
-DATA = {'schema':1,'checked':CHECKED,'taxonomy':TAXONOMY,'layers':LAYERS,'plans':PLANS}
+# Local booklet scope is an editorial selection, not a claim of zero hazard.
+BOOKLET_OMISSIONS = {'19050': {'avalanche': 'Omitted from the Los Angeles city household booklet. Mountain-travel avalanche guidance remains in regional editions; the overlapping-tract risk rating is unchanged.'}}
+DATA = {'bookletOmissions':BOOKLET_OMISSIONS,'schema':1,'checked':CHECKED,'taxonomy':TAXONOMY,'layers':LAYERS,'plans':PLANS}

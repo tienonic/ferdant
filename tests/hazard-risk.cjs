@@ -19,7 +19,7 @@ for(const [key,record] of Object.entries(data.locations)){
   if(known){assert(rating>=4&&rating<=8);assert.equal(band,rating>=7?0:rating===6?1:2);}else assert.equal(band,3);
   if(['dam','levee','subsidence'].includes(data.hazardIds[i])){assert.equal(band,3);assert.equal(rating,0);assert.equal(total,0);}
  }
- const order=api.ordered(key);assert.equal(new Set(order.map(p=>p.id)).size,15);
+ const order=api.ordered(key);assert.equal(new Set(order.map(p=>p.id)).size,14);
  for(let i=1;i<order.length;i++)assert(order[i-1].risk.order<=order[i].risk.order,key);
  assert.deepEqual(JSON.parse(JSON.stringify(order)),JSON.parse(JSON.stringify(api.ordered(key))));
 }
@@ -29,4 +29,4 @@ assert.equal(api.rating('57026','earthquake').id,'high','City screening must not
 assert.equal(api.rating('57026','tsunami').id,'unassessed');
 function luminance(hex){const c=hex.slice(1).match(/../g).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return c[0]*.2126+c[1]*.7152+c[2]*.0722;}
 for(const band of data.bands){const a=luminance(band.color),b=luminance(band.fill),contrast=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);assert(contrast>=4.5,band.id+' contrast '+contrast);assert(band.label);}
-console.log('Risk ranking: 541 locations, 15 plans each, original ratings and scope, unassessed gaps, deterministic order, source hashes and four contrast pairs passed.');
+console.log('Risk ranking: 541 locations, 14 selectable plans each (15 preserved source hazards), original ratings and scope, unassessed gaps, deterministic order, source hashes and four contrast pairs passed.');

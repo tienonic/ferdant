@@ -31,7 +31,6 @@
     "storms": null,
     "coastal": "flood",
     "landslide": "shared",
-    "drought": null,
     "dam": "flood",
     "levee": "flood",
     "avalanche": null,

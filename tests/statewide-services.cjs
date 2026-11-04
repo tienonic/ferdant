@@ -12,7 +12,7 @@ async function ready(p){await p.waitForFunction(()=>{const r=document.querySelec
 function inRing(x,y,ring){let inside=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const a=ring[i],b=ring[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])inside=!inside;}return inside;}
 function inside(geometries,f){return geometries.some(g=>(g.type==='Polygon'?[g.coordinates]:g.coordinates).some(p=>inRing(f.lng,f.lat,p[0])&&!p.slice(1).some(h=>inRing(f.lng,f.lat,h))));}
 (async()=>{
- assert.equal(Object.keys(manifest.counties).length,58);assert.equal(Object.keys(config.resourcePlans).length,15);
+ assert.equal(Object.keys(manifest.counties).length,58);assert.equal(Object.keys(config.resourcePlans).length,14);
  assert.equal(manifest.byKind.library,1110);assert.equal(manifest.byKind.clinic,2054);
  assert.equal(new Set(Object.values(config.serviceTypes).map(t=>t.icon)).size,18);
  for(const [kind,type]of Object.entries(config.serviceTypes))assert(type.icon.includes('data-icon="resource-'+kind+'"'));
@@ -70,7 +70,7 @@ function inside(geometries,f){return geometries.some(g=>(g.type==='Polygon'?[g.c
      assert.equal(await p.locator('.atlas-pin svg').count(),kinds.length);
     }
    }
-   findings.push({width,disasterCategories:15,resourceRoles:'each verified',ordinaryLibraryTemperaturePins:0});
+   findings.push({width,disasterCategories:14,resourceRoles:'each verified',ordinaryLibraryTemperaturePins:0});
   }
   // A real export must carry new county points, not only the original Yolo list.
   await p.setViewportSize({width:390,height:960});await p.locator('#atlas-everyday').click();await ready(p);
@@ -84,6 +84,6 @@ function inside(geometries,f){return geometries.some(g=>(g.type==='Polygon'?[g.c
   await c.close();
   const failure=await browser.newContext();await stubPublicMap(failure);const f=await failure.newPage();await f.route('**/assets/data/service-maps/34.json',r=>r.fulfill({contentType:'application/json',body:'{"schema":1,"county":"34","records":[]}'}));await f.goto(base+'/local/?place=34060');await ready(f);assert((await f.locator('#atlas-service-coverage').textContent()).includes('unavailable'));const baselineIds=new Set(config.facilities.map(x=>x.id));for(const id of await mappedIds(f))assert(baselineIds.has(id),'A failed statewide source may retain real baseline locations only');await f.unroute('**/assets/data/service-maps/34.json');await f.reload();await ready(f);assert(((await mappedIds(f)).some(id=>id.startsWith('imls-'))));await failure.close();
   fs.writeFileSync('screenshots/statewide-services-verification.json',JSON.stringify({checkedUTC:new Date().toISOString(),dataAuditCities:483,dataAuditCountyFiles:58,newDirectoryPoints:3164,fixtures:'External hazard/shelter/tile responses simulated; regional directory bytes are the real checked projection',findings,hashFailure:'explicit; recovered after retry'},null,2));
-  console.log('Statewide services: all 483 cities and 58 counties, all 15 disaster resource policies at four widths, distinct SVG markers and source failure recovery passed.');
+  console.log('Statewide services: all 483 cities and 58 counties, all 14 disaster resource policies at four widths, distinct SVG markers and source failure recovery passed.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1});

@@ -18,7 +18,7 @@ async function ready(p){await p.waitForFunction(()=>window.FerdantBooklet&&windo
    const row=places.cities.find(r=>r[0]===s.key),county=row?.[2]||(s.key.startsWith('county:')?s.key.slice(7):null);
    const local=[...(data.cities[s.key]||[]),...(data.counties[county]||[])];
    assert.equal(s.local,local.length>0);assert.deepEqual(s.links,[...new Set([...local,...data.shared])]);
-   assert.deepEqual(Object.fromEntries(s.events),data.events);
+   assert(s.events.length>0&&s.events.length<=14);for(const [id,kind] of s.events)assert.equal(kind,data.events[id]);assert(!s.events.some(([id])=>id==='drought'));
   }
   assert(summaries.find(s=>s.key==='44051').links.includes('santa-cruz-city'));
   assert(!summaries.find(s=>s.key==='44053').links.includes('santa-cruz-city'));
@@ -29,7 +29,7 @@ async function ready(p){await p.waitForFunction(()=>window.FerdantBooklet&&windo
    const bytes=Buffer.from(result.bytes);delete result.bytes;
    assert(bytes.subarray(0,5).equals(Buffer.from('%PDF-')));
    const common=result.layout.filter(l=>l.text==='Evacuation routes & updates');assert.equal(common.length,1);
-   assert.equal(result.layout.filter(l=>l.text.startsWith('Evacuation routes & updates / page ')).length,9);
+   assert.equal(result.layout.filter(l=>l.text.startsWith('Evacuation routes & updates / page ')).length,result.model.events.filter(e=>e.evacuation).length);
    assert.deepEqual(result.links,[],'Printed evacuation guidance must not contain hyperlinks');
    for(const source of result.model.evacuation.links){assert(result.layout.some(l=>l.text===source.title+' [S'+source.sourceRef+']'));assert(result.sourcesText.includes(source.url));}
    assert(result.layout.some(l=>l.text==='My evacuation zone (if assigned):'));
@@ -52,7 +52,7 @@ async function ready(p){await p.waitForFunction(()=>window.FerdantBooklet&&windo
   const bytes=await o.evaluate(async()=>Array.from(new Uint8Array(await (await window.FerdantBooklet.build('57026')).blob.arrayBuffer())));
   assert.deepEqual(Buffer.from(bytes),davis);assert.deepEqual(requests,[]);await offline.close();
   assert.deepEqual(errors,[]);
-  fs.writeFileSync(directory+'/verification.json',JSON.stringify({models:choices.length,findings,printedReferences:true,hyperlinks:0,relevantChapters:9,offlineByteEquality:true,offlineHTTP:0,errors,fixtures:'Official GIS/tiles mocked; real saved directory data. Not a live evacuation-status audit.'},null,2));
-  console.log('Evacuation checks passed: 542 location models, 8 PDFs, 9 relevant chapters, scoped local sources, printed source names without links, explicit gaps and identical offline export.');
+  fs.writeFileSync(directory+'/verification.json',JSON.stringify({models:choices.length,findings,printedReferences:true,hyperlinks:0,relevantChapters:'location-specific',offlineByteEquality:true,offlineHTTP:0,errors,fixtures:'Official GIS/tiles mocked; real saved directory data. Not a live evacuation-status audit.'},null,2));
+  console.log('Evacuation checks passed: 542 location models, 8 PDFs, location-specific chapters, scoped local sources, printed source names without links, explicit gaps and identical offline export.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

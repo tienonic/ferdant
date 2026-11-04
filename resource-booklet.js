@@ -3,7 +3,7 @@
  const phoneNode=document.querySelector('#phone-data'),mapNode=document.querySelector('#resource-map-data');
  if(!phoneNode||!mapNode)return;
  const {directory:phones,places}=JSON.parse(phoneNode.textContent),config=JSON.parse(mapNode.textContent);
- const titles={earthquake:'When the ground moves',tsunami:'Leave the water behind',flood:'When water rises',wildfire:'Through fire & smoke',heat:'A cooler next step',cold:'Warmth within reach',storms:'Weather the interruption',coastal:'A changing shoreline',landslide:'When slopes shift',drought:'Make every drop count',dam:'Downstream decisions',levee:'Beyond the embankment',avalanche:'When snow gives way',subsidence:'A slower shift',volcano:'When the mountain stirs'};
+ const titles={earthquake:'When the ground moves',tsunami:'Leave the water behind',flood:'When water rises',wildfire:'Through fire & smoke',heat:'A cooler next step',cold:'Warmth within reach',storms:'Weather the interruption',coastal:'A changing shoreline',landslide:'When slopes shift',dam:'Downstream decisions',levee:'Beyond the embankment',avalanche:'When snow gives way',subsidence:'A slower shift',volcano:'When the mountain stirs'};
  const ink='#203748',blue='#24568d',muted='#506472',rule='#cdd8de',paper='#fbfcfa';
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
  const plain=s=>String(s??'').replace(/[\u2010-\u2015]/g,'-').replace(/[\u2018\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/\u2026/g,'...').replace(/\u2022/g,'/').replace(/[^\x20-\x7e\u00a0-\u00ff\n]/g,'');
@@ -16,10 +16,19 @@
  }
  function location(key){const row=places.cities.find(r=>r[0]===key);if(row)return {key,name:row[1],county:row[2],city:true};const county=key?.startsWith('county:')?key.slice(7):null;return places.counties[county]?{key,name:places.counties[county]+' County',county,city:false}:null;}
  function coverScope(place){return place?.city?(places.counties[place.county]+' County / California').toUpperCase():place?'CALIFORNIA / COUNTY EDITION':'CALIFORNIA / STATEWIDE EDITION';}
+ function selectedPlans(key){
+  const omitted=[];
+  const plans=window.FerdantRisk.ordered(key).filter(p=>{
+   const reason=config.disasters.bookletOmissions?.[key]?.[p.id]||(p.risk.sourceRating==='Not Applicable'?'FEMA marks this hazard Not Applicable in the saved local screening. This is booklet selection, not a current safety assessment.':'');
+   if(reason)omitted.push({id:p.id,label:p.label,reason});
+   return !reason;
+  });
+  return {plans,omitted};
+ }
  function preview(key){
   const place=location(key),name=place?.name||'California';
   const measure=document.createElement('canvas').getContext('2d');measure.font='34px Georgia';const label=Math.min(34,310*34/measure.measureText(name).width);
-  const ranked=window.FerdantRisk.ordered(key),profile=window.FerdantRisk.profile(key);
+  const ranked=selectedPlans(key).plans,profile=window.FerdantRisk.profile(key);
   const cells=ranked.map((p,i)=>{const x=40+(i%3)*181,y=282+Math.floor(i/3)*54;const icon=document.querySelector('[data-disaster="'+p.id+'"] .atlas-choice-symbol svg')?.outerHTML||'';return '<g transform="translate('+x+','+y+')"><rect x="-2" y="-3" width="174" height="49" fill="'+p.risk.fill+'"/><g color="'+p.risk.color+'">'+icon.replace(/\s(?:width|height)="[^"]*"/g,'').replace('<svg ','<svg x="0" y="0" width="23" height="23" ')+'</g><text x="30" y="10" font-size="9" fill="'+ink+'">'+esc(p.id==='coastal'?'Coastal flooding':p.label)+'</text><text x="30" y="36" font-size="8" font-weight="700" fill="'+p.risk.color+'">'+esc(p.risk.label)+'</text></g>';}).join('');
   const scope=!profile.record?'Choose a location for a risk ranking.':profile.record.scope==='county'?'FEMA county ratings / December 2025':'City tract screening / highest overlapping-tract risk / '+profile.record.coverage+'% area coverage';
   return '<svg xmlns="http://www.w3.org/2000/svg" width="612" height="792" viewBox="0 0 612 792"><rect width="612" height="792" fill="'+paper+'"/><path d="M40 51H572M40 232H572M40 566H572M40 749H572" stroke="'+rule+'"/><g font-family="Arial, sans-serif"><text x="40" y="37" fill="'+blue+'" font-size="13" font-weight="700">ferdant.</text><text x="572" y="36" text-anchor="end" fill="'+muted+'" font-size="8">RESOURCE BOOK / '+config.serviceChecked.slice(0,4)+'</text><text x="40" y="89" font-size="8.5" fill="'+blue+'" font-weight="700">'+esc(coverScope(place))+'</text><image x="390" y="78" width="182" height="121.333" preserveAspectRatio="xMidYMid meet" href="'+config.bookletCover.dataURL+'"/><text x="40" y="137" font-family="Georgia, serif" font-size="'+label+'" fill="'+ink+'">'+esc(name)+'</text><text x="40" y="165" font-size="12" fill="'+ink+'" font-weight="700">Local resource guide</text><text x="40" y="187" font-size="10" fill="'+muted+'">Local services and emergency resources.</text><text x="40" y="208" font-size="9" fill="'+blue+'">Street map on page 2</text><text x="40" y="264" font-family="Georgia, serif" font-size="18" fill="'+ink+'">Long-term hazard risk</text><text x="390" y="260" font-size="8" fill="'+muted+'">Highest first / FEMA NRI</text>'+cells+'<text x="40" y="591" font-size="10" fill="'+blue+'">Everyday help and related event phone charts follow.</text><text x="40" y="618" font-size="9" fill="'+muted+'">'+esc(scope)+'</text><text x="40" y="636" font-size="9" fill="'+muted+'">Not event probability. Low is not safe; gray means unassessed.</text><text x="40" y="691" font-size="7" fill="'+muted+'">'+esc('Photo: '+config.bookletCover.photographer+' / '+config.bookletCover.publisher)+'</text><text x="40" y="766" font-size="8" fill="'+blue+'">FEMA NRI / December 2025. Follow current local instructions.</text></g></svg>';
@@ -28,11 +37,11 @@
   const local=place?[...(phones.countyContacts[place.county]||[]),...(phones.cityContacts[place.key]||[])]:[];
   const referrals=local.filter(id=>/referral/i.test(phones.contacts[id].kind));
   const ids=[...(referrals.length?referrals:['211-routing'])];
-  const fast=!['coastal','drought','subsidence'].includes(event);
+  const fast=!['coastal','subsidence'].includes(event);
   for(const id of local){
    if(fast&&id.endsWith('nonemergency'))ids.push(id);
    if(id==='pge-outage'&&fast)ids.push(id);
-   if(['davis-water','sf-water'].includes(id)&&['earthquake','flood','cold','storms','coastal','landslide','drought','dam','levee','subsidence'].includes(event))ids.push(id);
+   if(['davis-water','sf-water'].includes(id)&&['earthquake','flood','cold','storms','coastal','landslide','dam','levee','subsidence'].includes(event))ids.push(id);
    if(['davis-contact','sf-311'].includes(id)&&!['avalanche','tsunami'].includes(event))ids.push(id);
   }
   if(fast||event==='coastal')ids.push('highway');
@@ -60,7 +69,8 @@
   streetMap.sourceRef=source({title:'U.S. Census Bureau / primary, secondary and selected local roads',url:streetMap.source,checked:streetMap.checked,published:streetMap.published});
   const evacuationMap=await window.FerdantResourceMap.routeMap?.(key)||null;
   if(evacuationMap)evacuationMap.sourceRef=source({title:evacuationMap.publisher+' evacuation planning roads',url:evacuationMap.source,checked:evacuationMap.checked,published:null});
-  const events=window.FerdantRisk.ordered(key).map(p=>{
+  const selection=selectedPlans(key);
+  const events=selection.plans.map(p=>{
    const policy=config.resourcePlans[p.id],cards=[],used=new Set();
    function pick(kinds,issue){const f=kinds.map(kind=>items.find(f=>!used.has(f.id)&&(f.categories||[f.kind]).includes(kind))).find(Boolean);if(f){used.add(f.id);cards.push(physical(f,issue));}return Boolean(f);}
    pick(['hospital'],'I need urgent medical care');if(!pick(['clinic'],'I need a clinic or follow-up care'))cards.push(referral('I need a clinic or follow-up care','Find a community health center','HRSA health-center locator. Confirm services, appointments, enrollment and fees. Not a hospital emergency department.','https://findahealthcenter.hrsa.gov/','clinic'));
@@ -76,7 +86,7 @@
   const ids=[...new Set([...phones.statewide,...(place?phones.countyContacts[place.county]||[]:[]),...(place?phones.cityContacts[place.key]||[]:[])])];
   const appendix=ids.map(id=>({id,...phones.contacts[id],sourceRef:source({...phones.sources[phones.contacts[id].source],checked:phones.checked})}));
   const searches=config.resourceSearch.groups.map(group=>({...group,resources:group.sources.map(id=>{const s=config.resourceSearch.sources[id];return {...s,sourceRef:source(s)};})}));
-  return {place,events,sources,appendix,evacuation,evacuationMap,streetMap,coverSource,searches,riskProfile,riskSource,riskTractSource,regionalAvailable:directory?.regionalAvailable??false,geometryAvailable:directory?.geometryAvailable??false};
+  return {place,events,omittedEvents:selection.omitted,sources,appendix,evacuation,evacuationMap,streetMap,coverSource,searches,riskProfile,riskSource,riskTractSource,regionalAvailable:directory?.regionalAvailable??false,geometryAvailable:directory?.geometryAvailable??false};
  }
  function sourceDocument(m){
   const name=m.place?.name||'California',stem='ferdant-'+slug(name)+'-resource-book-'+config.serviceChecked;
@@ -90,8 +100,10 @@
    'PAGE 2 STREET MAP: '+m.streetMap.note+' Data date: '+m.streetMap.published+'; checked: '+m.streetMap.checked+'. '+(m.streetMap.detailed?'Selected location roads.':'Detailed location roads unavailable; statewide overview shown.'),'',
    'Additional directory searches need internet. Their results are not imported locations, confirmed openings or available beds.',
    '','LONG-TERM RELATIVE HAZARD RISK',m.riskProfile.scope,'Release: '+m.riskProfile.release,m.riskProfile.method,
-   'High combines FEMA Very High and Relatively High. Moderate is Relatively Moderate. Low combines Relatively Low and Very Low. Missing, insufficient, not-applicable and unsupported hazards stay Not assessed. These are relative national ratings for each hazard, not probabilities or absolute loss comparisons.',
+   'High combines FEMA Very High and Relatively High. Moderate is Relatively Moderate. Low combines Relatively Low and Very Low. Missing, insufficient and unsupported hazards stay Not assessed. Sections marked Not Applicable are omitted from local editions. These are relative national ratings for each hazard, not probabilities or absolute loss comparisons.',
    ...m.events.map(p=>p.label+': '+p.risk.label+'; highest source rating: '+p.risk.sourceRating+'; rated components '+p.risk.ratedComponents+'/'+p.risk.totalComponents+'. Scope: '+p.risk.scopeNote),
+   '','LOCAL BOOKLET SELECTION','Drought is excluded from the emergency choices. Low-risk, unrated and insufficient-data hazards are retained; they are not treated as inapplicable.',
+   ...m.omittedEvents.map(p=>'Omitted section: '+p.label+'. '+p.reason),
    ...(m.riskProfile.record?.tracts?['Intersecting census tracts: '+m.riskProfile.record.tracts.join(', ')]:[]),'',
    ...(m.evacuation?['EVACUATION SOURCE REVIEW',...[...m.evacuation.links,m.evacuation.general,m.evacuation.flood,m.evacuation.tsunami,m.evacuation.tsunamiMap].flatMap(s=>['[S'+s.sourceRef+'] '+s.title,'Type: '+s.kind,'Review: '+s.review,...(s.corroborationURL?['Corroborating source: '+s.corroborationURL]:[]),''])]:[]),
    ...m.sources.flatMap(s=>['[S'+s.id+'] '+s.title,s.url,'Checked: '+(s.checked||'referral link; current service not verified'),'Publisher/data date: '+(s.published||'not supplied'),...(s.photographer?['Photographer: '+s.photographer]:[]),...(s.licenseURL?['License: '+s.license,'License URL: '+s.licenseURL]:[]),...(s.evidenceURL?['Publisher evidence: '+s.evidenceURL,'Evidence date: '+(s.evidencePublished||'not supplied'),'Coverage: '+s.coverage,'Review limits: '+s.verification]:[]),''])].join('\r\n');

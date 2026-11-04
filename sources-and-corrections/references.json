@@ -13,7 +13,7 @@
   "inputSha256": {
     ".github/workflows/check-site.yml": "23c2c47db6fe7f14dab28667a6d32e200aecf6d5c858b18427267bfad7197491",
     "DESIGN.md": "5c07a65e2ad3aa75afb9f3faf16eb14bce9e376fbca542ff21868deb4a0e84c9",
-    "README.md": "9994886b24d6ee9e57d32f0a40ff7904bd9a27339b1ff4135bb70e8b0c87e552",
+    "README.md": "08e77e19d490b77525d68eeac345628540c327bab51d8bc190c10052097dd8fe",
     "assets/data/booklet-roads/README.md": "c405902549ca25ca22e0f5398c208b9d5f8137df571e8c2d933a8a5d87ad98e7",
     "assets/data/city-maps/BUILDINGS-LICENSE.txt": "1e4162322549351e6ce131d66c3c6c6cb56755db58e0475138e3f41cd94c4b3c",
     "assets/data/city-maps/README.md": "346247e7e378991bcd18e3602eb7ca91b08f38a71aa9f7ac232eab8877cd8bde",
@@ -93,10 +93,10 @@
     "content/california-cities.json": "3c7eed83b6103ba8df4fc2d2bd45cc961fa9bc011bf40d065f2e36279b9fcd86",
     "content/directory.py": "b6e9ac2cf636dca5f73cccabe699d63f345b107cf2a19e5a499d3786ee435cf9",
     "content/disaster-source-manifest.json": "269678370101851e075c2d62f21a0cad9c5d3a5b808f61afafda82cb32b24256",
-    "content/disasters.py": "0bebe4b78391c39016adf9c96f490c098333cb2054b7d41143a65e0816298664",
+    "content/disasters.py": "2ba13529b610fffa35db0cc75e3e08433181301e157f57328042c13e842b1532",
     "content/emergency-alert-overrides.json": "50dba43e4ab76c17c5182d676f88ba81fc1691af647f3b72ac82b1b39d8030a9",
     "content/emergency-alerts.json": "7f65138b779eb1870a3bd5e6e454df39b07630686b47e481af12d60c17110b21",
-    "content/evacuation.json": "8df541625adae084a4a4a2dd1d83937332727842c26fbbb65a07ff3f762c04b8",
+    "content/evacuation.json": "c95a264b718f37bad2bfa6a6f749bbc8ce4d2326ab115d2025f7c50bd12509b7",
     "content/everyday-service-manifest.json": "9a3c86a55eb3e85e53a9c4378ae0bfce489f0e3537ad3183a99d954f2eda2107",
     "content/hazard-risk-manifest.json": "59d3da3d6a75418c37263b30f2691c85807e8812153aef1de8f9ea47044c06e4",
     "content/hazard-risk.json": "b043e0e500a4483c1bafae072b07bfe136409a41407406002842766409f80fff",
@@ -106,7 +106,7 @@
     "content/regions.json": "1bec6513304e739e0bbddb5d00559b75528a6d01b3d7b14fc8303e065798364c",
     "content/resource-map.json": "a406445eb26c10e27198c7f4bd4236b8164526788fc578769951741a0ec18c36",
     "content/resource-search.json": "b35b2da456478c15433647d61266c6638c9e42659021a81fbc2f74147149425c",
-    "content/resource_plans.py": "498d7fab24c35582c4ecbeced1e03a37a63ae79a570e64aff5614c94e84bb5ef",
+    "content/resource_plans.py": "622e1a19238b0cd748d598cc3358dbf25089d7af48b9db8d9134069d002538b8",
     "content/site.py": "32ca917265308fe8b1eeae1d9c19d89ec97fe6c1ed9d6f9c40b440a2cab5dcbb",
     "content/statewide-service-manifest.json": "5b47cf9a5affe9fa0edbb5460b1edbe55803f4f1010510519cd2e25bbaea6c90",
     "disaster-layers.js": "d9bc229f1383f69a7030f91108ef633fa0bf8655eb60545edb502a760a02f169",
@@ -122,6 +122,7 @@
     "docs/hazard-risk-ranking-20261103.md": "4876122b6030a19599e27e604c22f76ac24f1909d2dfb2834b4ea37effa2b597",
     "docs/landing-flow-20261103.md": "769d86ba3cf61e0b56467851b0a253ed140261d31d2563d1575b127e1f15d5cc",
     "docs/layer-loading-20261103.md": "c19cd9ed4961bd60fe1e61e9b5e0099c0b6a54281547bfaac16fd1a24db62452",
+    "docs/local-booklet-selection-20261103.md": "c29238766765ef8040be5eff3609c940c2b68ac67e02e879bd49858bcfe22466",
     "docs/outreach-buyers-and-income-findings-20261103.md": "2377d04566882beb6e10d362831c957e86ce8176b1dfe0eccc126639d55ae8f8",
     "docs/physical-services.md": "27302ec47f59878322120034f0fdb987bfc7a2499d632b8a6d2616b18afb221e",
     "docs/recommendations.md": "629a6e4997716de962faa8502a8ca6384b60db167a7625d1eb9f792bdd86ec03",
@@ -137,7 +138,7 @@
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
     "phone.js": "094f9f5299edabc858f45dd44d91f18df87592074cde075a363667ff2f39fcf5",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
-    "resource-booklet.js": "0df72f40e8df8c0b436393ad1ce4de27f62502eb30c519c86fa0bb26cbfc00c9",
+    "resource-booklet.js": "34c995e939193c16ac23922b887db3b8b7da82090d0075b73ee310f2c0abf02d",
     "resource-map.js": "c481cf97f8321c43e514274ee59c6ccbada51ba04d6fd4aa49bbae9d4ea390f3",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
     "scripts/build.py": "18c7b425a86fbc5200ba3227b114ff21381c711185581bd47474cfdafbdaa4da",
@@ -157,7 +158,7 @@
     "scripts/project-hazard-risk.py": "9f83a4e7627d6d864d0c8cc664df42c899923ac2255f388a5b00354cf464f784",
     "scripts/project-statewide-services.py": "5610d54aee6d2e4a4c73f51b8381552c208f6967d82583248c23d1915bc87f37",
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
-    "scripts/references.py": "da7425aa75d4e6fe2da33e89de996348d0784bd2a615289e977ba12717c3ef43",
+    "scripts/references.py": "ff5e0820040c194176c0df50799bd6bf85086adc093865181ac84e3247bb540c",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
     "scripts/resource_map.py": "7e972f6af64c4992a04678b4b41b355378984179c3f71375036c7c9fac695255",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
@@ -10420,7 +10421,7 @@
       "url": "https://www.caloes.ca.gov/wp-content/uploads/Hazard-Mitigation/Documents/2023-California-SHMP_Volume-1-Exec-Summary_11.10.2023.pdf",
       "category": "disasters",
       "uses": [
-        "Taxonomy for all 15 natural-hazard plans",
+        "Taxonomy for the selected natural-hazard plans",
         "content / taxonomy"
       ],
       "recordedIn": [
@@ -10692,26 +10693,6 @@
           "dataLastEditUTC": "2026-02-06T21:24:58.759000+00:00",
           "timeInfo": null,
           "capabilities": "Query"
-        }
-      ]
-    },
-    {
-      "title": "Drought guidance",
-      "url": "https://www.drought.gov/states/california",
-      "category": "disasters",
-      "uses": [
-        "Drought"
-      ],
-      "recordedIn": [
-        "content/disasters.py"
-      ],
-      "records": [
-        {
-          "title": "Drought guidance",
-          "url": "https://www.drought.gov/states/california",
-          "published": null,
-          "checked": "2026-11-02",
-          "note": "The overlay is NOAA’s monthly outlook, not observed drought or drinking-water safety. The official dashboard provides current regional conditions."
         }
       ]
     },
@@ -11105,98 +11086,6 @@
       ]
     },
     {
-      "title": "NOAA CPC monthly drought outlook",
-      "url": "https://www.cpc.ncep.noaa.gov/products/expert_assessment/mdo_summary.php",
-      "category": "disasters",
-      "uses": [
-        "Hazard overlay: drought"
-      ],
-      "recordedIn": [
-        "content/disasters.py"
-      ],
-      "records": [
-        {
-          "kind": "geojson",
-          "title": "NOAA CPC monthly drought outlook",
-          "service": "https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_drought_outlk/MapServer/1",
-          "color": "#a17f61",
-          "fields": "objectid,outlook",
-          "where": "outlook <> 'No_Drought'",
-          "published": null,
-          "checked": "2026-11-02",
-          "source": "https://www.cpc.ncep.noaa.gov/products/expert_assessment/mdo_summary.php",
-          "note": "Monthly forecast of drought development, persistence, improvement or removal. Not the observed U.S. Drought Monitor, a water-supply guarantee or a drinking-water test.",
-          "offline": false,
-          "live": true,
-          "classes": {
-            "field": "outlook",
-            "colors": {
-              "Persistence": "#9b634a",
-              "Improvement": "#b3a58a",
-              "Removal": "#9e9b68",
-              "Development": "#d6b75d"
-            }
-          },
-          "credit": "",
-          "monthly": true,
-          "publisher": "NOAA / CPC",
-          "dateMeaning": "varies by panel, forecast or alert; see the retrieved data"
-        }
-      ]
-    },
-    {
-      "title": "NOAA CPC monthly drought outlook — service",
-      "url": "https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_drought_outlk/MapServer/1",
-      "category": "disasters",
-      "uses": [
-        "Hazard overlay: drought",
-        "content / metadata"
-      ],
-      "recordedIn": [
-        "content/disaster-source-manifest.json",
-        "content/disasters.py"
-      ],
-      "records": [
-        {
-          "kind": "geojson",
-          "title": "NOAA CPC monthly drought outlook",
-          "service": "https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_drought_outlk/MapServer/1",
-          "color": "#a17f61",
-          "fields": "objectid,outlook",
-          "where": "outlook <> 'No_Drought'",
-          "published": null,
-          "checked": "2026-11-02",
-          "source": "https://www.cpc.ncep.noaa.gov/products/expert_assessment/mdo_summary.php",
-          "note": "Monthly forecast of drought development, persistence, improvement or removal. Not the observed U.S. Drought Monitor, a water-supply guarantee or a drinking-water test.",
-          "offline": false,
-          "live": true,
-          "classes": {
-            "field": "outlook",
-            "colors": {
-              "Persistence": "#9b634a",
-              "Improvement": "#b3a58a",
-              "Removal": "#9e9b68",
-              "Development": "#d6b75d"
-            }
-          },
-          "credit": "",
-          "monthly": true,
-          "publisher": "NOAA / CPC",
-          "dateMeaning": "varies by panel, forecast or alert; see the retrieved data"
-        },
-        {
-          "url": "https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_drought_outlk/MapServer/1",
-          "sha256": "6acb63559e6d8af352762d07b4b6afb0072cf5cccc446fdf0b9122ccdc7732bc",
-          "bytes": 8053,
-          "name": "Monthly Drought Outlook For US and Puerto Rico",
-          "serviceItemId": null,
-          "dataLastEditUTC": null,
-          "timeInfo": null,
-          "capabilities": "Map,Query,Data"
-        }
-      ]
-    },
-    {
       "title": "NWS current cold and winter alert areas",
       "url": "https://www.weather.gov/",
       "category": "disasters",
@@ -11564,6 +11453,29 @@
           "retrievedUTC": "2026-11-03T11:37:55.019624+00:00",
           "published": "2010",
           "dateMeaning": "Map edition, not service check or earthquake date"
+        }
+      ]
+    },
+    {
+      "title": "content / metadata — url",
+      "url": "https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_drought_outlk/MapServer/1",
+      "category": "disasters",
+      "uses": [
+        "content / metadata"
+      ],
+      "recordedIn": [
+        "content/disaster-source-manifest.json"
+      ],
+      "records": [
+        {
+          "url": "https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_drought_outlk/MapServer/1",
+          "sha256": "6acb63559e6d8af352762d07b4b6afb0072cf5cccc446fdf0b9122ccdc7732bc",
+          "bytes": 8053,
+          "name": "Monthly Drought Outlook For US and Puerto Rico",
+          "serviceItemId": null,
+          "dataLastEditUTC": null,
+          "timeInfo": null,
+          "capabilities": "Map,Query,Data"
         }
       ]
     },
@@ -17532,6 +17444,18 @@
       ],
       "recordedIn": [
         "scripts/resource_map.py"
+      ],
+      "records": []
+    },
+    {
+      "title": "www.fema.gov/sites/default/files/documents/fema_national-risk-index_technical-documentation.pdf",
+      "url": "https://www.fema.gov/sites/default/files/documents/fema_national-risk-index_technical-documentation.pdf",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in docs/local-booklet-selection-20261103.md; role follows its original context."
+      ],
+      "recordedIn": [
+        "docs/local-booklet-selection-20261103.md"
       ],
       "records": []
     },
