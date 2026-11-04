@@ -1,20 +1,23 @@
 # City resource books
 
-The city download combines all fifteen disaster sections in one small, vector PDF.
+The city download combines the selected disaster sections in one small, vector PDF.
 The cover and chapters are ordered High, Moderate, Low, then Not assessed using
 the source-linked [long-term risk method](hazard-risk-ranking-20261103.md).
-Page 2 remains the evacuation map; page 3 explains ratings and geographic scope.
+Page 2 contains the street map with any available evacuation planning roads;
+page 3 explains ratings and geographic scope.
 The PNG download also includes the risk groups before the existing contact chart.
-A visual event index and PDF bookmarks jump to the relevant section. Everyday
-resource searches follow the risk overview: eight categories and all 18 destinations
-from `content/resource-search.json`, with clickable and printed URLs. These are
-search links, not additional verified physical locations. The source TXT includes
-their review limits, coverage and publisher-evidence links. The cover preview and
+A printed event index gives page numbers, and PDF bookmarks provide optional
+navigation on a screen. The printed PDF contains no web addresses or link
+annotations, including phone and page links. Everyday help follows the risk
+overview: eight categories of questions to ask, followed by a printed referral
+phone chart. The source TXT retains the underlying directory URLs, review limits,
+coverage and publisher-evidence links for later research. The cover preview and
 phone-chart footer point readers to this expanded resource content. Each section
 has an expressive title, the plain disaster name, the existing short official plan,
 issue-labelled resource cards and a related phone chart at its end. A complete
-phone appendix follows. The full source list and edition notes are downloaded
-separately with Sources (TXT), using the same city and edition basename. Page breaks preserve complete
+phone appendix follows. Source names and check/publication dates are printed at
+the back, with matching numbered references throughout the book. Full URLs and
+edition notes remain available separately with Sources (TXT). Page breaks preserve complete
 cards and keep a related phone chart together when it fits on a fresh page.
 
 ## Content and selection
@@ -27,14 +30,18 @@ files from this site when they are not already cached. It performs no external
 GIS, live shelter, street-tile or provider lookup for the export.
 
 Cards begin with the issue to solve, then the actual provider/address or clearly
-labelled referral, the resource icon, known regular hours and a source-linked next step. Unknown
+labelled referral, the resource icon, known regular hours and a printed next step. Unknown
 hours remain explicit. Cooling/warming referrals lead heat/cold; information
-resources lead slower coastal, drought and subsidence planning. Hospitals,
+resources lead slower coastal and subsidence planning. Hospitals,
 clinics, food/basic needs, housing/day services and information/application help
-stay distinct. Cooling/warming and disaster shelter cards are online referrals,
+stay distinct. Cooling/warming and disaster shelter cards direct readers to the
+printed referral phone chart and explain what to ask,
 never saved activation claims. A warehouse is not substituted for pickup, and an
 ordinary library is not substituted for a relief center. Missing medical records
-retain an HRSA referral rather than an invented local point.
+retain an instruction to ask about a clinic, rather than an invented local point.
+Evacuation pages include space to write the household's zone, meeting place and
+transport contact. They retain official safety instructions and printed references
+without asking readers to open a website or use an online zone map.
 
 The book is a curated set of starting points, not every local provider. The
 complete offline website retains additional mapped locations and service details.
@@ -54,8 +61,9 @@ the per-event chart is its related subset. Immediate danger still needs 911.
 
 Numbered [S] references stay on the PDF cards and phone chart. Sources (TXT)
 generates the matching UTF-8 file with every title, URL, checked date, publisher
-date and edition/coverage note. The PDF identifies its companion filename; its
-page footer no longer links to a removed appendix. The source-only download does
+date and edition/coverage note. The PDF footer identifies the printed source-note
+page; readers can resolve every numbered reference without opening another file.
+The source-only download does
 not need the PDF writer. Both formats regenerate locally from the saved county
 without network requests, with identical numbering. Browsers receive one file
 per explicit button press; no multi-download permission is needed.
@@ -65,16 +73,16 @@ per explicit button press; no multi-download permission is needed.
 The PDF writer is the pinned MIT-licensed jsPDF 4.2.1 browser UMD build under
 `assets/vendor/jspdf/`, with its official source URL and SHA-256. It loads locally
 on an explicit PDF download, without a third-party CDN. It uses native PDF text,
-clickable provider/source/phone links and small original SVG icons rasterized
+readable phone numbers, source notes and small original SVG icons rasterized
 locally. The PDF has a real page index and bookmarks; it is not one long image.
-Text remains selectable. Some viewers handle call/text links differently.
+Text remains selectable. Numbers retain call/text labels without link actions.
 
 The complete offline HTML embeds the writer, resource-book module and its license.
 A chosen county saved in that HTML can regenerate its PDF without HTTP requests.
 Unsaved county data stays a gap. Private notes, phone filters, current map choice,
 clipboard contents, accounts and live status do not enter the PDF. Source check
-dates, publisher dates and FY2024 library data remain separate. Referral links
-need internet and phone calls/texts need phone service.
+dates, publisher dates and FY2024 library data remain separate. The printed book
+needs no web connection to read; phone calls/texts still need phone service.
 
 The existing PNG contact sheet remains available as a simpler phone image.
 The main download panel previews the new resource book. Without JavaScript, the
@@ -83,9 +91,9 @@ browser PDF generation requires scripts.
 
 ## Checks
 
-`npm run verify:booklet` audits all 541 location models, writes nine actual city,
+`npm run verify:booklet` audits all 542 location models, writes ten actual city,
 county, coverage-gap and statewide PDFs, verifies every event/phone section,
-bounds/source links and four-width download controls, and compares PDF bytes
+bounds, printed source references, absence of URLs/link annotations and four-width download controls, and compares PDF bytes
 before/after private notes and a map change. It reopens actual saved HTML offline,
 regenerates the same PDF and tests a corrupt/missing additional county source.
 Separate PDF text/link checks and rendered-page inspection accompany the handoff.

@@ -30,8 +30,11 @@ async function ready(p){await p.waitForFunction(()=>window.FerdantBooklet&&windo
    assert(bytes.subarray(0,5).equals(Buffer.from('%PDF-')));
    const common=result.layout.filter(l=>l.text==='Evacuation routes & updates');assert.equal(common.length,1);
    assert.equal(result.layout.filter(l=>l.text.startsWith('Evacuation routes & updates / page ')).length,9);
-   for(const link of result.model.evacuation.links)assert.equal(result.links.filter(u=>u===link.url).length,1,link.id);
-   assert.equal(result.links.filter(u=>u===data.sources['tsunami-maps'].url).length,1);
+   assert.deepEqual(result.links,[],'Printed evacuation guidance must not contain hyperlinks');
+   for(const source of result.model.evacuation.links){assert(result.layout.some(l=>l.text===source.title+' [S'+source.sourceRef+']'));assert(result.sourcesText.includes(source.url));}
+   assert(result.layout.some(l=>l.text==='My evacuation zone (if assigned):'));
+   assert(result.layout.some(l=>l.text==='Household meeting place:'));
+   assert(!result.layout.some(l=>/https?:\/\/|www\.|links below|saves links/i.test(l.text)));
    assert(!result.layout.some(l=>/undefined|NaN/.test(l.text)));assert(!/undefined|NaN/.test(result.sourcesText));
    assert.equal(result.layout.some(l=>l.text.startsWith('No local route-planning resource')), !result.model.evacuation.localAvailable);
    for(const e of result.model.events){const start=result.events.find(r=>r.id===e.id).start,end=result.events.find(r=>r.id===e.id).end;const rows=result.layout.filter(l=>l.page>=start&&l.page<=end);assert.equal(rows.some(l=>l.text.startsWith('Evacuation routes & updates / page ')),Boolean(e.evacuation));}
@@ -49,7 +52,7 @@ async function ready(p){await p.waitForFunction(()=>window.FerdantBooklet&&windo
   const bytes=await o.evaluate(async()=>Array.from(new Uint8Array(await (await window.FerdantBooklet.build('57026')).blob.arrayBuffer())));
   assert.deepEqual(Buffer.from(bytes),davis);assert.deepEqual(requests,[]);await offline.close();
   assert.deepEqual(errors,[]);
-  fs.writeFileSync(directory+'/verification.json',JSON.stringify({models:choices.length,findings,sharedLinksOnce:true,relevantChapters:9,offlineByteEquality:true,offlineHTTP:0,errors,fixtures:'Official GIS/tiles mocked; real saved directory data. Not a live evacuation-status audit.'},null,2));
-  console.log('Evacuation checks passed: 542 location models, 8 PDFs, 9 relevant chapters, scoped local sources, deduplicated links, explicit gaps and identical offline export.');
+  fs.writeFileSync(directory+'/verification.json',JSON.stringify({models:choices.length,findings,printedReferences:true,hyperlinks:0,relevantChapters:9,offlineByteEquality:true,offlineHTTP:0,errors,fixtures:'Official GIS/tiles mocked; real saved directory data. Not a live evacuation-status audit.'},null,2));
+  console.log('Evacuation checks passed: 542 location models, 8 PDFs, 9 relevant chapters, scoped local sources, printed source names without links, explicit gaps and identical offline export.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});
