@@ -10,6 +10,8 @@ Dormant Shopify infrastructure is included in the source, with no commerce UI or
 This ad-free revision adds City / County / State views and visible city, county,
 provider and statewide resource labels. See [resource levels and saved versions](docs/resource-levels.md).
 
+Search a ZIP code to focus the map on nearby resources, with distances from the ZIP-area center and a matching offline map. [ZIP coverage, sources and checks](docs/zip-map-20261103.md).
+
 Every resource booklet includes a named street map, north needle and scale on page 2, independently of evacuation coverage. [Map sources, coverage and offline behavior](assets/data/booklet-roads/README.md).
 
 Resource cards and printed physical listings share five visit facts: location, hours, services, costs and amenities. [Open-map sources, matching rules and offline coverage](assets/data/visit-facts/README.md).

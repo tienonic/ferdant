@@ -6,7 +6,7 @@ function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;
  for(const width of [320,390,768,1440]){
   const c=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce',...(width===390?{isMobile:true,hasTouch:true}:{})});await stubPublicMap(c);const p=await c.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
   await p.goto(base+'/#communities');await p.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');
-  assert.equal(await p.locator('[data-location-kind]').count(),3);assert(await p.locator('#communities').isVisible());
+  assert.equal(await p.locator('[data-location-kind]').count(),4);assert(await p.locator('#communities').isVisible());
   await p.locator('#phone-city').evaluate(el=>el.dataset.moveCheck='same');
   const requests=[];p.on('request',r=>requests.push(r.url()));
   await p.locator('[data-location-kind="state"]').focus();await p.keyboard.press('Space');

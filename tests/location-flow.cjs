@@ -5,7 +5,7 @@ module.exports=async function checkLocationFlow(page,width){
  const data=JSON.parse(fs.readFileSync('content/regions.json','utf8'));
  const places=JSON.parse(fs.readFileSync('content/california-cities.json','utf8'));
  const valid=new Set([...places.cities.map(row=>row[0]),...Object.keys(places.counties).map(id=>'county:'+id)]);
- const input=page.getByRole('combobox',{name:'Search California cities or counties'});
+ const input=page.getByRole('combobox',{name:'City, county or ZIP code'});
  assert.equal(await page.locator('#location-city, #location-start select').count(),0,'The top location dropdown is removed');
  await input.fill('D');
  assert(await page.getByRole('listbox',{name:'California locations'}).isVisible());
@@ -30,7 +30,7 @@ module.exports=async function checkLocationFlow(page,width){
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
  }
  await page.goto(base+'/local/?place=57026');await page.locator('.change-location > summary').click();
- const localInput=page.getByRole('combobox',{name:'Search California cities or counties'});
+ const localInput=page.getByRole('combobox',{name:'City, county or ZIP code'});
  await localInput.fill('San');await page.getByRole('button',{name:'Search',exact:true}).click();assert(new URL(page.url()).searchParams.get('place')==='57026');
  assert((await page.locator('#city-search-status').innerText()).includes('Several'));
  await page.locator('[data-location-kind="county"]').click();await localInput.fill('Yolo');await localInput.press('ArrowDown');await localInput.press('Enter');await page.waitForURL('**/local/?place=county%3A57');

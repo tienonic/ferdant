@@ -3,6 +3,11 @@
  const dataNode = document.querySelector('#phone-data');
  if (!dataNode) return;
  const payload = JSON.parse(dataNode.textContent), data = payload.directory, places = payload.places;
+ const zipIndex=payload.zipAreas?.areas||{};
+ function zipArea(value){const code=String(value||'').trim().match(/^(\d{5})(?:-\d{4})?$/)?.[1],row=zipIndex[code];return row?{code,lat:row[0],lng:row[1],county:row[2],counties:row[3],key:'county:'+row[2]}:null;}
+ const requestedZip=location.protocol==='file:'?document.querySelector('meta[name="ferdant-zip"]')?.content:new URL(location.href).searchParams.get('zip');
+ let selectedZip=zipArea(requestedZip);
+ window.FerdantZIP={lookup:zipArea,get current(){return selectedZip;},sources:payload.zipAreas?.sources||[]};
  const cities = new Map(places.cities.map(([id,name,county,lat,lng])=>[id,{id,name,county,lat,lng}]));
  const mapRoot=document.querySelector('#city-map'),mapDisclosure=mapRoot?.closest('details');
  const landingOverview=Boolean(document.querySelector('[data-location-routing]'));
@@ -162,8 +167,15 @@
   renderLocation(doc,location);
   const intro=doc.querySelector('#local-page-intro');
   if(intro)intro.textContent=location?.id.startsWith('county:')?'County services and emergency information. Choose a city for local resources.':'Local services and emergency information.';
-  if(doc===document&&location)setSelectionKind(location.id.startsWith('county:')?'county':'city');
+  if(doc===document&&location)setSelectionKind(selectedZip?'zip':location.id.startsWith('county:')?'county':'city');
   const heading=doc.querySelector('#local-page-title');if(heading)heading.textContent=location?`${location.name} resources`:'Local resources';
+  if(selectedZip&&key===selectedZip.key){
+   if(citySearch)citySearch.value=selectedZip.code;
+   if(heading)heading.textContent='Resources near ZIP '+selectedZip.code;
+   if(intro)intro.textContent='Nearby resources around the ZIP area center. Phone numbers and the PDF booklet cover '+location.name+'.'+(selectedZip.counties.length>1?' This ZIP area also overlaps '+selectedZip.counties.slice(1).map(c=>places.counties[c]+' County').join(', ')+'.':'');
+   const summary=doc.querySelector('#location-summary');if(summary)summary.textContent='ZIP '+selectedZip.code+' selected. The offline website keeps this map focus.';
+   for(const download of doc.querySelectorAll('[data-city-download]'))if(!download.closest('.infographic-download'))download.textContent='Download offline for ZIP '+selectedZip.code;
+  }
   filter(doc);if(doc===document){syncMap(location);document.dispatchEvent(new CustomEvent('ferdant:location',{detail:{key}}));}return location;
  }
  function filter(doc) {
@@ -173,10 +185,12 @@
   doc.querySelector('#phone-no-matches').hidden=count!==0;
  }
  const saved = document.querySelector('meta[name="ferdant-city"]')?.content || '';
- const requested=location.protocol==='file:'?saved:new URLSearchParams(location.search).get('place')||saved;
+ const requested=selectedZip?.key||(location.protocol==='file:'?saved:new URLSearchParams(location.search).get('place')||saved);
  select.value=place(requested) ? requested : '';render(document,select.value);
  if(requested && !place(requested)){const intro=document.querySelector('#local-page-intro');if(intro)intro.textContent='That California location was not found. Search again using Change location below.';}
+ if(requestedZip&&!selectedZip){const intro=document.querySelector('#local-page-intro');if(intro)intro.textContent='That ZIP code is not in the saved California ZIP-area index. Choose a city or county, or try another ZIP code.';}
  select.addEventListener('change',()=>{
+  selectedZip=null;
   render(document,select.value);
   if(location.protocol!=='file:' && document.querySelector('[data-location-page]'))history.replaceState(null,'','/local/'+(select.value?'?place='+encodeURIComponent(select.value):''));
   for(const status of document.querySelectorAll('.phone-actions [role="status"]'))status.textContent='';
@@ -191,12 +205,21 @@
  const routing=()=>location.protocol!=='file:' && Boolean(document.querySelector('[data-location-routing], [data-location-page]'));
  function closeSuggestions(){suggestions.hidden=true;mapSearch.setAttribute('aria-expanded','false');mapSearch.removeAttribute('aria-activedescendant');active=-1;}
  function activate(index){active=index;[...suggestions.children].forEach((el,i)=>el.setAttribute('aria-selected',String(i===active)));if(active>=0){mapSearch.setAttribute('aria-activedescendant',suggestions.children[active].id);suggestions.children[active].scrollIntoView({block:'nearest'});}}
- function commitPlace(key){closeSuggestions();if(routing()){const query=new URLSearchParams({place:key}),hazard=window.FerdantResourceMap?.active;if(hazard&&hazard!=='everyday')query.set('hazard',hazard);location.assign('/local/?'+query);return;}chooseCity(key);}
+ function commitPlace(key){if(key.startsWith('zip:')){commitZip(key.slice(4));return;}closeSuggestions();if(routing()){const query=new URLSearchParams({place:key}),hazard=window.FerdantResourceMap?.active;if(hazard&&hazard!=='everyday')query.set('hazard',hazard);location.assign('/local/?'+query);return;}chooseCity(key);}
+ function commitZip(code){
+  const area=zipArea(code);if(!area)return;closeSuggestions();
+  if(routing()){const query=new URLSearchParams({place:area.key,zip:area.code}),hazard=window.FerdantResourceMap?.active;if(hazard&&hazard!=='everyday')query.set('hazard',hazard);location.assign('/local/?'+query);return;}
+  selectedZip=area;select.value=area.key;render(document,area.key);
+ }
+ function eligibleLocations(query){
+  if(selectionKind==='zip'||/^\d/.test(query))return Object.keys(zipIndex).map(code=>{const area=zipArea(code);return {id:'zip:'+code,name:code,label:code+' / '+places.counties[area.county]+' County, California'};});
+  return locations.filter(item=>item.id.startsWith('county:')===(selectionKind==='county'));
+ }
  function suggest(){
   if(selectionKind==='state'){closeSuggestions();return;}
   clearTimeout(closeTimer);const query=normalize(mapSearch.value);suggestions.replaceChildren();matches=[];active=-1;
   if(!query){closeSuggestions();searchStatus.textContent='';return;}
-  const eligible=locations.filter(item=>item.id.startsWith('county:')===(selectionKind==='county'));
+  const eligible=eligibleLocations(normalize(mapSearch.value));
   const prefixMatches=eligible.filter(item=>normalize(item.name).startsWith(query));
   matches=(prefixMatches.length?prefixMatches:eligible.filter(item=>normalize(item.name).includes(query))).sort((a,b)=>Number(!normalize(a.name).startsWith(query))-Number(!normalize(b.name).startsWith(query))||a.name.localeCompare(b.name)).slice(0,8);
   for(const [index,item] of matches.entries()){
@@ -204,7 +227,7 @@
    option.addEventListener('pointerdown',event=>event.preventDefault());option.addEventListener('click',()=>commitPlace(item.id));suggestions.append(option);
   }
   suggestions.hidden=!matches.length;mapSearch.setAttribute('aria-expanded',String(Boolean(matches.length)));mapSearch.removeAttribute('aria-activedescendant');
-  searchStatus.textContent=matches.length?`${matches.length} California suggestions. Use arrow keys and Enter, or choose a result.`:`No California ${selectionKind==='city'?'city':'county'} matches. Use the City / County switch to change the search.`;
+  searchStatus.textContent=matches.length?`${matches.length} California suggestions. Use arrow keys and Enter, or choose a result.`:selectionKind==='zip'||/^\d/.test(query)?'No saved California ZIP area matches. Some postal-only ZIP codes are not mapped; try a city or county.':`No California ${selectionKind==='city'?'city':'county'} matches. Change the search type above.`;
  }
  mapSearch.addEventListener('input',suggest);mapSearch.addEventListener('focus',()=>{if(mapSearch.value)suggest();});
  mapSearch.addEventListener('keydown',event=>{
@@ -214,11 +237,12 @@
  mapSearch.addEventListener('blur',()=>{closeTimer=setTimeout(closeSuggestions,150);});
  document.querySelector('#map-city-form').addEventListener('submit',event=>{
   event.preventDefault();if(selectionKind==='state')return;if(!suggestions.hidden && active>=0){commitPlace(matches[active].id);return;}
-  const eligible=locations.filter(item=>item.id.startsWith('county:')===(selectionKind==='county'));
+  const zip=zipArea(mapSearch.value);if(zip){commitZip(zip.code);return;}
+  const eligible=eligibleLocations(normalize(mapSearch.value));
   const query=normalize(mapSearch.value),exact=eligible.find(item=>normalize(item.name)===query),prefix=eligible.filter(item=>query && normalize(item.name).startsWith(query));
   const selected=exact||(prefix.length===1?prefix[0]:null);
   if(selected){commitPlace(selected.id);return;}
-  suggest();searchStatus.textContent=matches.length?'Several locations match. Choose a suggestion; no location has changed.':'Choose a California city or county from the suggestions.';
+  suggest();searchStatus.textContent=matches.length?'Several locations match. Choose a suggestion; no location has changed.':'Choose a California city, county or mapped ZIP code. Postal-only ZIP codes may not be available.';
  });
  function chooseCity(key){select.value=key;select.dispatchEvent(new Event('change'));}
  function setSelectionKind(kind,reset=false){
@@ -247,7 +271,7 @@
    if(kind==='city')layer.unbindTooltip();else if(!layer.getTooltip())layer.bindTooltip(node(document,'span',places.counties[id]+' County'));
    paintCounty(id);
   });
-  const field=document.querySelector('#map-city-search');if(field)field.placeholder=kind==='county'?'County, e.g. Yolo':'City, e.g. Davis';
+  const field=document.querySelector('#map-city-search');if(field)field.placeholder=kind==='zip'?'ZIP code, e.g. 95616':kind==='county'?'County, e.g. Yolo':'City or ZIP code, e.g. Davis or 95616';
   if(cityMap){if(kind==='county')cityMap.doubleClickZoom.disable();else cityMap.doubleClickZoom.enable();}
   if(cityMap&&cityMarkers){if(kind==='county'){if(cityMap.hasLayer(cityMarkers))cityMap.removeLayer(cityMarkers);}else if(!cityMap.hasLayer(cityMarkers))cityMap.addLayer(cityMarkers);}
   if(reset){field.value='';closeSuggestions();searchStatus.textContent='';}
@@ -341,13 +365,14 @@
  for(const download of document.querySelectorAll('[data-city-download]'))download.addEventListener('click',async event=>{
   if(event.button!==0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || !select.value)return;
   event.preventDefault();
-  const key=select.value,location=place(key),status=download.closest('.phone-actions').querySelector('[role="status"]');
-  status.textContent='Preparing your city copy…';
+  const key=select.value,zipCode=selectedZip?.code||'',location=place(key),status=download.closest('.phone-actions').querySelector('[role="status"]');
+  status.textContent='Preparing your offline copy…';
   try {
    if(!template)template=fetch(download.href,{credentials:'omit'}).then(response=>{if(!response.ok)throw Error('Download failed');return response.text();});
    const text=await template,doc=new DOMParser().parseFromString(text,'text/html');
    if(doc.querySelector('#phone-data')?.textContent!==dataNode.textContent)throw Error('Edition changed; reload');
    doc.querySelector('meta[name="ferdant-city"]').content=key;
+   let zipMeta=doc.querySelector('meta[name="ferdant-zip"]');if(!zipMeta){zipMeta=doc.createElement('meta');zipMeta.name='ferdant-zip';doc.head.append(zipMeta);}zipMeta.content=selectedZip?.code||'';
    // The saved rows and meta value keep the chosen city readable even with JavaScript off.
    render(doc,key);window.FerdantInfographic?.embed(doc,key);
    if(window.FerdantResourceMap)await window.FerdantResourceMap.embed(doc,key);
@@ -357,16 +382,17 @@
     const area=await response.json();if(area.checked!==data.checked||area.county!==location.county)throw Error('Map edition changed');
     doc.querySelector('#city-map-snapshot').textContent=JSON.stringify(area).replace(/</g,'\\u003c');
    }
-   doc.querySelector('h1').textContent=`${location.name}, California — offline edition`;
-   doc.title=`${location.name} — Ferdant offline`;
+   if(select.value!==key||(selectedZip?.code||'')!==zipCode)throw Error('Location changed during export');
+   doc.querySelector('h1').textContent=`${zipCode?'Near ZIP '+zipCode:location.name}, California \u2014 offline edition`;
+   doc.title=`${zipCode?'ZIP '+zipCode:location.name} \u2014 Ferdant offline`;
    const blob=new Blob(['<!doctype html>\n'+doc.documentElement.outerHTML],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob);
-   const name=key.startsWith('county:')?places.counties[location.county]+' County':location.name;
+   const name=zipCode?'ZIP '+zipCode:key.startsWith('county:')?places.counties[location.county]+' County':location.name;
    const slug=name.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
    const link=document.createElement('a');link.href=url;link.download=`ferdant-${slug}-ca-${data.checked}.html`;link.click();
    setTimeout(()=>URL.revokeObjectURL(url),1000);
-   status.textContent=`Offline copy prepared for ${location.name}.`;
+   status.textContent=`Offline copy prepared for ${zipCode?'ZIP '+zipCode:location.name}.`;
   } catch {
-   template=undefined;status.textContent='The city copy could not be prepared. Reload this page and try again, or use the standard California download on the offline page.';
+   template=undefined;status.textContent='The offline copy could not be prepared. Reload this page and try again, or use the standard California download on the offline page.';
   }
  });
 })();

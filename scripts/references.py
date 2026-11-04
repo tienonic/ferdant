@@ -128,6 +128,10 @@ def compile_references():
                         (places['map']['source'], 'County overview geometry')]:
         source(record, 'maps', use, 'content/california-cities.json', places['checked'])
 
+    zip_areas = read('content/california-zip-areas.json')
+    for record in zip_areas['sources']:
+        source(record, 'maps', 'ZIP-area lookup and nearby map focus', 'content/california-zip-areas.json')
+
     disaster = module('disasters')
     source(disaster.TAXONOMY, 'disasters', 'Taxonomy for the selected natural-hazard plans', 'content/disasters.py', disaster.CHECKED)
     for plan in disaster.PLANS:

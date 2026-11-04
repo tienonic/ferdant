@@ -64,7 +64,8 @@
  function marker(kind){const type=config.serviceTypes[kind];return '<span class="atlas-marker-face" aria-hidden="true" style="--pin-color:'+type.color+'">'+type.icon+'</span>';}
  function legend(kind){const type=config.serviceTypes[kind];return '<span class="atlas-resource-key" style="color:'+type.color+'">'+type.icon+escape(type.label)+'</span>';}
  async function embed(doc,county){
-  const snapshot=async dir=>{let data=null;try{await loadDataset(county,dir);data=cache.get(dir.edition+county)?.data;}catch{/* Failed data must not become saved coverage. */}return {schema:1,edition:dir.edition,counties:data?{[county]:data}:{}};};
+  const counties=Array.isArray(county)?county:[county];
+  const snapshot=async dir=>{const records={};for(const code of counties){try{await loadDataset(code,dir);const data=cache.get(dir.edition+code)?.data;if(data)records[code]=data;}catch{/* Failed data must not become saved coverage. */}}return {schema:1,edition:dir.edition,counties:records};};
   const saved=await snapshot(directory);if(extra)saved.everyday=await snapshot(extra);
   doc.querySelector('#service-map-snapshot').textContent=JSON.stringify(saved).replace(/</g,'\\u003c');
   await window.FerdantResourceFacts?.embed(doc,county);

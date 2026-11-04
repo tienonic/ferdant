@@ -13,7 +13,7 @@
   "inputSha256": {
     ".github/workflows/check-site.yml": "23c2c47db6fe7f14dab28667a6d32e200aecf6d5c858b18427267bfad7197491",
     "DESIGN.md": "5c07a65e2ad3aa75afb9f3faf16eb14bce9e376fbca542ff21868deb4a0e84c9",
-    "README.md": "fb651115151053274c10fdfaa41232ec59eda885b33f2c8df9cedf1f241c27b9",
+    "README.md": "be16fb2c39c9eb00eaf5ad763d9939a2445d889c478f1f812626b7509f2c1aba",
     "assets/data/booklet-roads/README.md": "c405902549ca25ca22e0f5398c208b9d5f8137df571e8c2d933a8a5d87ad98e7",
     "assets/data/city-maps/BUILDINGS-LICENSE.txt": "1e4162322549351e6ce131d66c3c6c6cb56755db58e0475138e3f41cd94c4b3c",
     "assets/data/city-maps/README.md": "346247e7e378991bcd18e3602eb7ca91b08f38a71aa9f7ac232eab8877cd8bde",
@@ -92,6 +92,7 @@
     "config/commerce.json": "1170fe3a9c9727e1827f0c35069369620e0db2b20c2261d7d83ba41c547f83b2",
     "content/booklet-road-manifest.json": "f406e28011c16086d91cf733628328f268a89976f2be3dd35c9492644f398c11",
     "content/california-cities.json": "3c7eed83b6103ba8df4fc2d2bd45cc961fa9bc011bf40d065f2e36279b9fcd86",
+    "content/california-zip-areas.json": "954a41a01daddc7e4cfe4ee350bdc9409cd5dc200c5bc9e0adce0b1d641fda56",
     "content/directory.py": "b6e9ac2cf636dca5f73cccabe699d63f345b107cf2a19e5a499d3786ee435cf9",
     "content/disaster-source-manifest.json": "269678370101851e075c2d62f21a0cad9c5d3a5b808f61afafda82cb32b24256",
     "content/disasters.py": "2ba13529b610fffa35db0cc75e3e08433181301e157f57328042c13e842b1532",
@@ -133,19 +134,20 @@
     "docs/resource-directory-research-20261103.md": "aa6926eeafcca63b1adbe5cd5e6020d7ffa0d081dfd768bb34de9c4714fb79be",
     "docs/resource-levels.md": "7e52d7c1d49207ed85caecaa6de4ba549422cecd4ef25fe6fc4ab640d1d32be8",
     "docs/website-references.md": "c25aa51f2c19d02c177454a4ff417abfa93f2e8b6530d23afc48d3c6848f44ea",
+    "docs/zip-map-20261103.md": "14f5875a188292a7e0f104991e002d131fc2609a724cf94ae0acfc8d498771b0",
     "hazard-risk.js": "f17dcd3360644dfbbdf488ac203a337925a3e2c6aecffea4fb6366af2bc610ff",
     "infographic.js": "f3ab28fe67ecfe4cc3d9434e0e31187b29c6fbd5435a5d18d5c88c034c65faca",
     "integrations/README.md": "bd2afdbdd8e272ec623c479aba0b700bea5b449e872cd6295f163e73506e133a",
     "integrations/shopify.mjs": "06b43fa4f3c823fdb1372918e3ce881d4ec42d384e830697afbb66e08c12cf72",
     "landing.js": "9f5d4b58e93e901e16e6fcee4b187cdb0d5f7d3de467a9d411e03dd2a4c994fc",
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
-    "phone.js": "094f9f5299edabc858f45dd44d91f18df87592074cde075a363667ff2f39fcf5",
+    "phone.js": "012d90d74c5c64501fd875ec98e11f456c461bc17a5f96256c09a8d80512f0fe",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
     "resource-booklet.js": "4c95e8dc1bb913ba8ade00f2fa397a395ed4b0711049e4b941b6712e25b5eb96",
-    "resource-facts.js": "66599efae2241ec32442cc78993397cb96f2d3f577f5223ae9e328271a947781",
-    "resource-map.js": "c6f11b88d927aebabbec8a59aad3ad65f49537f2f5cfbbc34423a025029e44e8",
+    "resource-facts.js": "c3d0aff2b09d79c1d0a516c989c0f4429e94e57bcffb3231bd85d9d534ca8464",
+    "resource-map.js": "a970957b576a2462561495a6350642a778331f9db79e1041d11329ae2a994ef3",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
-    "scripts/build.py": "d268a4880aae42e744cf1433f3b81838d20d63ccf57d0b949bedc2608c35a147",
+    "scripts/build.py": "020798efbc2f2d331d91c1c1a3c0d765f1bc1a4b452aada9c0683c6be652bbd0",
     "scripts/check-content.py": "912019aebb7a4ae61dfac2ec6772c1e1a30ffd15d1185bcb4412dc808f27e643",
     "scripts/cost_tool.py": "71f3ff17044114405286e328aabfec51bed9d6536fd357214648a4d48c45af69",
     "scripts/graphics.py": "5fc8aac8d4e418e5f575749505b3d4e679cb98d3afadcb68d231c020f85f1557",
@@ -154,7 +156,7 @@
     "scripts/import-evacuation-routes.py": "30865e3f3d3e51f5b587618153b1a66b7f1cf7f7296241d908836f1aee497807",
     "scripts/landing.py": "fbc838249681e177417fd2cea72e864cf525813620232fe79d1f8aab6780c1e9",
     "scripts/offline.py": "624aab28cda64902f5ddceb2023e3d7a5ba4eb59b4edfb5085a9b35e5109cb36",
-    "scripts/phone_chart.py": "782c7914807f40c6efdf1cda0c345e01ea49fb7b7e645781f25d3b7c4340e6f2",
+    "scripts/phone_chart.py": "1e3d5b462ae142a73b4d8cc3cf67821727ee9358c09ba1c0e7806b2782430fb7",
     "scripts/physical_services.py": "57961a7a681ca0cb840de47c431d7acf02f9a04c0e9c5aceacfc6c952223da8f",
     "scripts/project-booklet-roads.py": "85a0b0a36265d8d79a4b37329495ac23165beef01d65cae7aeccda39982d5f8c",
     "scripts/project-building-outlines.py": "c9b573683aa5449a45660ee7d296475f5489dbe7288c43b0f5e7c8fa1f048347",
@@ -162,17 +164,64 @@
     "scripts/project-hazard-risk.py": "9f83a4e7627d6d864d0c8cc664df42c899923ac2255f388a5b00354cf464f784",
     "scripts/project-statewide-services.py": "5610d54aee6d2e4a4c73f51b8381552c208f6967d82583248c23d1915bc87f37",
     "scripts/project-visit-facts.py": "b14a84bf56c60402cfd2a7380d147609933739881a720c7abc5d0c25377cd37a",
+    "scripts/project-zip-areas.py": "eef4d684142d0e1964667793aca462c116da26d36609b52d50a94d4ac21717a3",
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
-    "scripts/references.py": "6182135dc38dd4d2ac408870dded4875e0a68517162ed73641721b65b6a867b5",
+    "scripts/references.py": "72276f031e08f95cf8a564dd368856abe715930442f1e98ae081e34c02686568",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
     "scripts/resource_map.py": "cfd5c821c27c73b51675f64b61a96646f6b47a988f11c912a520abc7f834edce",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
-    "service-resources.js": "11024398df9cf9db568afbe89ce729bd009342d8151597e2f44bf68afc1cbe33",
+    "service-resources.js": "fe25c2e8d7a7be507c223a4b97e8e1aac0f9a024d1270f3aa7bff30d8d4dc970",
     "site.js": "9fbad56eb918ca1acb66f9221a712f78ddd3a512358c1ca2f00778b68960a6b7",
-    "styles.css": "4e8078745980a8bf86df380963fb25327997a2b3e9ecac1b1e1dcb01a2504db7"
+    "styles.css": "c5c1e0dee74c6157e2269a394b27b4775c7d66791551e0ea8e78f41c24adb95e"
   },
   "references": [
+    {
+      "title": "2020 Census ZCTA-to-county relationships",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_county20_natl.txt",
+      "category": "maps",
+      "uses": [
+        "ZIP-area lookup and nearby map focus"
+      ],
+      "recordedIn": [
+        "content/california-zip-areas.json",
+        "docs/zip-map-20261103.md",
+        "scripts/project-zip-areas.py"
+      ],
+      "records": [
+        {
+          "title": "2020 Census ZCTA-to-county relationships",
+          "url": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_county20_natl.txt",
+          "published": "2021-12-09",
+          "checked": "2026-11-03",
+          "bytes": 6821287,
+          "sha256": "3ed41278d637dc249e0323306f68be8a6c234e3090f4de88ef328dee71aeaaaf"
+        }
+      ]
+    },
+    {
+      "title": "2025 Census ZIP Code Tabulation Area Gazetteer",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_zcta_national.zip",
+      "category": "maps",
+      "uses": [
+        "ZIP-area lookup and nearby map focus"
+      ],
+      "recordedIn": [
+        "content/california-zip-areas.json",
+        "docs/zip-map-20261103.md",
+        "scripts/project-zip-areas.py"
+      ],
+      "records": [
+        {
+          "title": "2025 Census ZIP Code Tabulation Area Gazetteer",
+          "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_zcta_national.zip",
+          "published": "2025-09-10",
+          "checked": "2026-11-03",
+          "bytes": 952026,
+          "sha256": "51516a4283bab5cd2376eec75609ddc4b363a18297e8adeeaac7b03cf7c84dbe"
+        }
+      ]
+    },
     {
       "title": "Approximate city selection points",
       "url": "https://services6.arcgis.com/snwvZ3EmaoXJiugR/arcgis/rest/services/City_and_County_Boundary_Line_Changes/FeatureServer/0/query?where=CITY+%3C%3E+%27Unincorporated%27&outFields=CDTFA_ID%2CShape__Area&returnGeometry=false&returnCentroid=true&outSR=4326&f=json&resultRecordCount=2000",
@@ -17528,6 +17577,18 @@
       ],
       "recordedIn": [
         "docs/outreach-buyers-and-income-findings-20261103.md"
+      ],
+      "records": []
+    },
+    {
+      "title": "www.census.gov/programs-surveys/geography/technical-documentation/records-layout/2020-zcta-record-layout.html",
+      "url": "https://www.census.gov/programs-surveys/geography/technical-documentation/records-layout/2020-zcta-record-layout.html",
+      "category": "links",
+      "uses": [
+        "Supporting link recorded in docs/zip-map-20261103.md; role follows its original context."
+      ],
+      "recordedIn": [
+        "docs/zip-map-20261103.md"
       ],
       "records": []
     },

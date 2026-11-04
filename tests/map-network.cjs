@@ -3,7 +3,7 @@
 const tile=/^https:\/\/tile\.openstreetmap\.org\/\d+\/\d+\/\d+\.png$/;
 const shelter=/^https:\/\/gis\.fema\.gov\/arcgis\/rest\/services\/NSS\/FEMA_NSS\/FeatureServer\/0\/query\?/;
 const faultTile=/^https:\/\/tiles\.arcgis\.com\/tiles\/zr3KAIbsRSUyARHG\/arcgis\/rest\/services\/QuatFaults_Tiles\/MapServer\/tile\/\d+\/\d+\/\d+$/;
-const area=url=>{try{const u=new URL(url),base=new URL(process.env.SITE_URL||'http://127.0.0.1:4173');return u.origin===base.origin&&!u.search&&/^\/assets\/data\/(city-maps|service-maps|everyday-maps|evacuation-routes)\/\d{2}\.json$/.test(u.pathname);}catch{return false;}};
+const area=url=>{try{const u=new URL(url),base=new URL(process.env.SITE_URL||'http://127.0.0.1:4173');return u.origin===base.origin&&!u.search&&/^\/assets\/data\/(city-maps|service-maps|everyday-maps|evacuation-routes|visit-facts)\/\d{2}\.json$/.test(u.pathname);}catch{return false;}};
 const fs=require('node:fs');
 const registry=JSON.parse(fs.readFileSync('local/index.html','utf8').match(/<script type="application\/json" id="resource-map-data">(.*?)<\/script>/s)[1]).disasters;
 const services=Object.values(registry.layers).map(x=>x.service);

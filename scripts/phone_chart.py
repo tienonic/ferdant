@@ -7,6 +7,7 @@ from icons import icon
 ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / 'content/regions.json').read_text(encoding='utf-8'))
 CITIES = json.loads((ROOT / 'content/california-cities.json').read_text(encoding='utf-8'))
+ZIP_AREAS = json.loads((ROOT / 'content/california-zip-areas.json').read_text(encoding='utf-8'))
 ALERTS = json.loads((ROOT / 'content/emergency-alerts.json').read_text(encoding='utf-8'))
 DOWNLOAD = '/downloads/ferdant-california-' + DATA['checked'] + '.html'
 e = lambda value: html.escape(str(value), quote=True)
@@ -29,16 +30,16 @@ def phone_row(key):
 def city_search(include_state=False):
     state_button = '<button type="button" data-location-kind="state" aria-pressed="false">State</button>' if include_state else ''
     switch_class = 'location-kind-switch location-kind-switch--state' if include_state else 'location-kind-switch'
-    switch_label = 'Choose city, county or state' if include_state else 'Choose city or county'
-    return f'''<div class="city-search" data-enhancement hidden><div class="{switch_class}" role="group" aria-label="{switch_label}"><button type="button" data-location-kind="city" aria-pressed="true">City</button><button type="button" data-location-kind="county" aria-pressed="false">County</button>{state_button}</div><form id="map-city-form" role="search"><label for="map-city-search">Search California cities or counties</label><div class="city-search-row"><div class="suggestion-anchor"><input id="map-city-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="location-suggestions" placeholder="City, e.g. Davis" autocomplete="off"><ul id="location-suggestions" role="listbox" aria-label="California locations" hidden></ul></div><button type="submit" class="button">Search</button></div><p id="city-search-status" role="status"></p></form></div>'''
+    switch_label = 'Choose city, county, ZIP code or state' if include_state else 'Choose city, county or ZIP code'
+    return f'''<div class="city-search" data-enhancement hidden><div class="{switch_class}" role="group" aria-label="{switch_label}"><button type="button" data-location-kind="city" aria-pressed="true">City</button><button type="button" data-location-kind="county" aria-pressed="false">County</button><button type="button" data-location-kind="zip" aria-pressed="false">ZIP code</button>{state_button}</div><form id="map-city-form" role="search"><label for="map-city-search">City, county or ZIP code</label><div class="city-search-row"><div class="suggestion-anchor"><input id="map-city-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="location-suggestions" placeholder="City, e.g. Davis" autocomplete="off"><ul id="location-suggestions" role="listbox" aria-label="California locations" hidden></ul></div><button type="submit" class="button">Search</button></div><p id="city-search-status" role="status"></p></form></div>'''
 
 
 def city_map(include_search=True):
-    return f'''<div class="city-map-workspace" data-enhancement hidden>{city_search() if include_search else ''}<p id="city-map-status" role="status">City mode. Click a city marker or search its name.</p><div id="city-map" role="region" aria-label="California city or county selection map"></div><p class="city-map-note">City markers and county areas are approximate. Use the switch to choose a city or a county. This is not an address lookup or a route map.</p></div>'''
+    return f'''<div class="city-map-workspace" data-enhancement hidden>{city_search() if include_search else ''}<p id="city-map-status" role="status">City mode. Click a city marker or search its name.</p><div id="city-map" role="region" aria-label="California city or county selection map"></div><p class="city-map-note">City markers and county areas are approximate. Choose a city or county, or search a ZIP code for nearby resources. ZIP search uses an area center, not a street address.</p></div>'''
 
 
 def phone_chart(expanded=False, include_map=True, show_download=True, show_picker=True, shared_only=False):
-    payload = json.dumps({'directory': DATA, 'places': CITIES, 'alerts': ALERTS, 'download': DOWNLOAD}, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
+    payload = json.dumps({'directory': DATA, 'places': CITIES, 'alerts': ALERTS, 'zipAreas': ZIP_AREAS, 'download': DOWNLOAD}, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
     rows = ''.join(phone_row(key) for key in DATA['statewide'])
     actions=f'<div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><p id="phone-download-status" role="status"></p></div>' if show_download else ''
     return f'''<details class="phone-directory" id="local-essentials"{' open' if expanded else ''}{' data-shared-only' if shared_only else ''}>

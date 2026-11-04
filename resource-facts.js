@@ -65,8 +65,8 @@
    {key:'amenities',label:labels.amenities,value:amenities.join('; ')||'Not listed.',evidence:amenity.evidence||baseEvidence}];
  }
  async function embed(doc,county){
-  let data;try{data=await load(county);}catch{/* Unavailable fields retain their explicit missing labels. */}
-  const node=doc.querySelector('#visit-facts-snapshot');if(node)node.textContent=JSON.stringify({schema:1,edition:manifest?.edition,counties:data?{[county]:data}:{}}).replace(/</g,'\\u003c');
+  const counties={};for(const code of Array.isArray(county)?county:[county]){try{const data=await load(code);if(data)counties[code]=data;}catch{/* Unavailable fields retain their explicit missing labels. */}}
+  const node=doc.querySelector('#visit-facts-snapshot');if(node)node.textContent=JSON.stringify({schema:1,edition:manifest?.edition,counties}).replace(/</g,'\\u003c');
  }
  window.FerdantResourceFacts={rows,hours,load,embed};
 })();

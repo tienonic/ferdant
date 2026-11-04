@@ -11,11 +11,11 @@ module.exports=async function checkInfographic(browser,base){
  const places=JSON.parse(fs.readFileSync('content/california-cities.json','utf8'));
  await page.route('**/assets/vendor/leaflet/leaflet.js',async route=>{await new Promise(resolve=>setTimeout(resolve,700));await route.continue();});
  await page.goto(base+'/',{waitUntil:'domcontentloaded'});
- await page.getByRole('combobox',{name:'Search California cities or counties'}).fill('Davis');
+ await page.getByRole('combobox',{name:'City, county or ZIP code'}).fill('Davis');
  await page.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');
  assert.equal(await page.locator('#map-city-search').inputValue(),'Davis','Loading the map must preserve typed text');
  await page.unroute('**/assets/vendor/leaflet/leaflet.js');
- await page.getByRole('combobox',{name:'Search California cities or counties'}).fill('Da');
+ await page.getByRole('combobox',{name:'City, county or ZIP code'}).fill('Da');
  await page.getByRole('option',{name:'Davis, Yolo County, California',exact:true}).tap();
  await page.waitForURL('**/local/?place=57026');
  const longest=[...places.cities].sort((a,b)=>b[1].length-a[1].length)[0];

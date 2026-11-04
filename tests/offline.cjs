@@ -37,10 +37,10 @@ module.exports = async function checkOffline(browser, base) {
    await p.locator('.change-location > summary').click();
    await p.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');
    assert.equal(await p.evaluate(()=>L.version),'1.9.4');
-   assert((await p.locator('h1').innerText()).includes(region.name));
+   assert(region.key?(await p.locator('h1').innerText()).includes(region.name):(await p.locator('h1').innerText())==='Local resources');
    assert.equal(await p.locator('#phone-city').inputValue(),region.key);
    assert.deepEqual(await p.locator('#phone-rows tr').evaluateAll(rows=>rows.map(row=>row.dataset.contactId)),expected);
-   await p.locator('[data-location-kind="city"]').click();await p.getByLabel('Search California cities or counties',{exact:true}).fill('San Diego');
+   await p.locator('[data-location-kind="city"]').click();await p.getByLabel('City, county or ZIP code',{exact:true}).fill('San Diego');
    await p.getByRole('button',{name:'Search',exact:true}).click();
    assert.equal(await p.locator('#phone-city').inputValue(),'37060');
    assert(await p.locator('[data-local-contact="sd-nonemergency"]').isVisible());
@@ -94,7 +94,7 @@ module.exports = async function checkOffline(browser, base) {
   assert.deepEqual(await p.locator('#phone-rows tr').evaluateAll(rows=>rows.map(row=>row.dataset.contactId)),expected);
   assert.equal(await p.locator('.phone-table a[href="tel:911"]').count(),0);
   assert.equal(await p.locator('#location-resources').isVisible(),Boolean(region.key));
-  if(region.key)assert((await p.locator('#location-results-title').innerText()).includes(region.name));
+  if(region.key){assert.equal(await p.locator('#location-results-title').innerText(),'Local contacts');assert((await p.locator('h1').innerText()).includes(region.name));}
   assert.equal(await p.locator('.offline-notice, #saved-guides, .offline-guides').count(),0);
   assert(!await p.locator('.cost-preview').isVisible());
   await noJs.close();
@@ -117,7 +117,7 @@ module.exports = async function checkOffline(browser, base) {
  await directPage.locator('.phone-toggle').click();
  assert.equal(await directPage.getByLabel('Your city in California',{exact:true}).inputValue(),'57026');
  await directPage.locator('.change-location > summary').click();
- await directPage.getByRole('combobox',{name:'Search California cities or counties'}).fill('Los Angeles');
+ await directPage.getByRole('combobox',{name:'City, county or ZIP code'}).fill('Los Angeles');
  await directPage.getByRole('button',{name:'Search',exact:true}).click();
  await directPage.waitForURL('**/local/?place=19050');
  assert(new URL(directPage.url()).searchParams.get('place')==='19050');await direct.close();
@@ -144,7 +144,7 @@ module.exports = async function checkOffline(browser, base) {
  const mapFailure=await browser.newContext();const noMap=await mapFailure.newPage();
  await noMap.route('**/assets/vendor/leaflet/leaflet.js',route=>route.fulfill({status:503,body:'Unavailable'}));
  await noMap.goto(base+'/');await noMap.waitForFunction(()=>document.querySelector('#city-map-status').textContent.includes('could not load'));
- await noMap.getByLabel('Search California cities or counties',{exact:true}).fill('Davis');
+ await noMap.getByLabel('City, county or ZIP code',{exact:true}).fill('Davis');
  await noMap.getByRole('button',{name:'Search',exact:true}).click();
  await noMap.waitForURL('**/local/?place=57026');
  assert(await noMap.locator('[data-local-contact="davis-nonemergency"]').isVisible());await mapFailure.close();
