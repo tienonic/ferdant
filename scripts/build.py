@@ -1,5 +1,5 @@
 """Build static pages; preview/noindex is the default. No network or third-party build service."""
-import argparse, html, importlib.util, json, shutil
+import argparse, html, importlib.util, json, shutil, re
 from pathlib import Path
 from widgets import bill_breakdown, cancellation_planner, message_builder
 from icons import icon, destination_icon, copy_icons, CATEGORY
@@ -9,7 +9,7 @@ from offline import build_editions
 from phone_chart import phone_chart, city_search, city_map, DOWNLOAD
 from resource_map import resource_map
 from recommendations import recommendation_link, recommendation_panel
-from landing import landing_resources, landing_welcome
+from landing import landing_resources, landing_welcome, landing_followup
 from references import render_references
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('content',ROOT/'content/site.py')
@@ -24,6 +24,7 @@ def button(url,text,secondary=False):return f'<a class="button{" secondary" if s
 def cards(guides=None):return ''.join(f'<a class="guide-card" href="{gp(g)}" data-search="{e(g["title"]+" "+g["description"]+" "+g["tag"])}"><div class="guide-copy"><h3>{g["title"]}</h3><p>{g["description"]}</p></div></a>' for g in (c.GUIDES if guides is None else guides))
 def topics():return ''.join(f'<a class="topic-row" href="/{b["slug"]}/"><span class="topic-copy"><strong>{b["label"]}</strong><span>{b["name"]}</span></span><span class="topic-description">{b["description"]}</span></a>' for b in c.BRANCHES)
 def page(path,title,description,body,crumbs=None):
+ body=re.sub(r'<p class="(?:eyebrow|atlas-eyebrow|booklet-eyebrow)">.*?</p>', '', body, flags=re.S)
  schema=[{'@context':'https://schema.org','@type':'WebSite','name':'Ferdant','url':DOMAIN+'/'},{'@context':'https://schema.org','@type':'WebPage','name':title,'description':description,'url':DOMAIN+path,'inLanguage':'en'}]
  crumb=''
  if crumbs:
@@ -33,7 +34,7 @@ def page(path,title,description,body,crumbs=None):
  robots='noindex,follow' if args.mode=='preview' or path=='/404.html' else 'index,follow'
  pages[path]=f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{e(title)} | Ferdant</title><meta name="description" content="{e(description)}"><meta name="robots" content="{robots}"><meta name="theme-color" content="#fbfcfa"><link rel="canonical" href="{DOMAIN}{path}"><link rel="icon" href="/assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" href="/styles.css"><meta property="og:type" content="website"><meta property="og:title" content="{e(title)} | Ferdant"><meta property="og:description" content="{e(description)}"><meta property="og:url" content="{DOMAIN}{path}"><meta property="og:site_name" content="Ferdant"><script type="application/ld+json">{json.dumps(schema,ensure_ascii=False)}</script><script src="/site.js" defer></script></head>
-<body><a class="skip" href="#main">Skip to content</a>{preview}<div class="page"><header class="site-header"><a class="wordmark" href="/" aria-label="Ferdant home">ferdant<span>.</span></a><nav class="desktop-nav" aria-label="Main navigation"><a href="/#location-start">Find local help</a><a href="/#california-resources">California resources</a><a href="/#communities">Community</a></nav>{recommendation_link('#recommend-a-resource' if path in ('/','/local/') else '/#recommend-a-resource')}<span class="header-note">Practical help for everyday problems</span><details class="mobile-menu"><summary>Menu</summary><nav aria-label="Mobile navigation"><a href="/#location-start">Find local help</a><a href="/#california-resources">California resources</a><a href="/#communities">Community</a></nav></details></header><main id="main" tabindex="-1">{crumb}{body}</main><footer class="site-footer"><div><a class="wordmark" href="/">ferdant<span>.</span></a><p>Guides & practical-help communities</p></div><nav aria-label="Footer navigation"><a href="/about/">About Ferdant</a><a href="/sources-and-corrections/">Sources & corrections</a><a href="/privacy/">Privacy</a></nav><p class="footer-note">Keep personal account details private.</p></footer></div></body></html>'''
+<body><a class="skip" href="#main">Skip to content</a>{preview}<div class="page"><header class="site-header"><a class="wordmark" href="/" aria-label="Ferdant home">ferdant<span>.</span></a><nav class="desktop-nav" aria-label="Main navigation"><a href="/#location-start">Find local help</a><a href="/#california-resources">California resources</a><a href="/#communities">Community</a></nav>{recommendation_link('#recommend-a-resource' if path in ('/','/local/') else '/#recommend-a-resource')}<details class="mobile-menu"><summary>Menu</summary><nav aria-label="Mobile navigation"><a href="/#location-start">Find local help</a><a href="/#california-resources">California resources</a><a href="/#communities">Community</a>{recommendation_link('#recommend-a-resource' if path in ('/','/local/') else '/#recommend-a-resource')}</nav></details></header><main id="main" tabindex="-1">{crumb}{body}</main><footer class="site-footer"><div><a class="wordmark" href="/">ferdant<span>.</span></a><p>Guides & practical-help communities</p></div><nav aria-label="Footer navigation"><a href="/about/">About Ferdant</a><a href="/sources-and-corrections/">Sources & corrections</a><a href="/privacy/">Privacy</a></nav><p class="footer-note">Keep personal account details private.</p></footer></div></body></html>'''
 def portal_entry(title,url,publisher,context):
  search=e(title+' '+publisher+' '+context)
  tool_key=url[1:] if url in ['#compare-bill','#cancel-subscription','#draft-message'] else None
@@ -64,7 +65,7 @@ def directory_topic(b):
 def location_start(show_download=True, heading=2, include_state=False):
  actions=f'<div class="location-controls"><div class="phone-actions"><a class="button" href="{DOWNLOAD}" data-city-download download>Download California offline copy</a><small>One file: phone numbers, maps & tools</small><p id="location-download-status" role="status"></p></div></div>' if show_download else ''
  return f'''<section class="location-start" id="location-start" aria-labelledby="location-title">
- <h{heading} id="location-title">Start with your location</h{heading}>
+ <h{heading} id="location-title">Choose a location</h{heading}>
  {city_search(include_state=include_state)}
 {actions}
  <p id="location-summary" role="status">Choose a city or county for checked local contacts. You can browse general resources below.</p>
@@ -82,7 +83,7 @@ def local_results():
  <p class="location-source-note">Contacts checked November 2, 2026. Calls and texts need phone service. For immediate danger, call 911.</p></section>'''
 
 def infographic_panel():
- return f'''<section class="infographic-download" id="offline-download" aria-labelledby="infographic-title"><div><p class="booklet-eyebrow">Your local resource book</p><h2 id="infographic-title">A place to turn, for every turn of events.</h2><p>Disaster sections ordered by long-term relative risk, with everyday resources and related phone charts. High, Moderate and Low risk use FEMA data; unassessed hazards stay separate.</p><button type="button" class="button" id="download-booklet" data-enhancement hidden>Download resource book (PDF)</button><button type="button" class="booklet-secondary booklet-sources" id="download-booklet-sources" data-enhancement hidden>Sources (TXT)</button><p id="booklet-status" role="status"></p><p id="booklet-sources-status" role="status"></p><button type="button" class="booklet-secondary" id="download-infographic" data-enhancement hidden>Risk summary &amp; phone chart (PNG)</button><p id="infographic-status" role="status"></p><div class="phone-actions"><a href="{DOWNLOAD}" data-city-download download>Download the complete offline website</a><p role="status"></p></div><p class="fine-print">The complete copy includes all 15 short disaster plans, recent eligible planning overlays viewed for this city, phone numbers and four tools. Street tiles, forecasts and current shelter status need internet.</p></div><figure><img id="infographic-preview" alt="Preview of your local resource book"><figcaption>Highest risk first. City tract screening or county ratings, with sources and limits inside.</figcaption></figure></section>'''
+ return f'''<section class="infographic-download" id="offline-download" aria-labelledby="infographic-title"><div><h2 id="infographic-title">Local resource book</h2><p>A PDF with everyday resources, disaster plans ordered by long-term relative risk and related phone charts.</p><button type="button" class="button" id="download-booklet" data-enhancement hidden>Download resource book (PDF)</button><p id="booklet-status" role="status"></p><div class="booklet-downloads"><button type="button" class="booklet-secondary booklet-sources" id="download-booklet-sources" data-enhancement hidden>Sources (TXT)</button><button type="button" class="booklet-secondary" id="download-infographic" data-enhancement hidden>Risk summary &amp; phone chart (PNG)</button><div class="phone-actions"><a href="{DOWNLOAD}" data-city-download download>Complete offline website (HTML)</a><p role="status"></p></div></div><p id="booklet-sources-status" role="status"></p><p id="infographic-status" role="status"></p><p class="fine-print">High, Moderate and Low risk use FEMA data; unassessed hazards stay separate. The complete copy includes all short disaster plans, recent eligible planning overlays viewed for this city, phone numbers and four tools. Street tiles, forecasts and current shelter status need internet.</p></div><figure><img id="infographic-preview" alt="Preview of your local resource book"><figcaption>Highest risk first. City tract screening or county ratings, with sources and limits inside.</figcaption></figure></section>'''
 
 def inline_sources(g):
  sources=''.join(f'<li><a href="{e(url)}">{e(name)}</a><span>{e(date)}</span></li>' for name,url,date in g['sources'])
@@ -102,6 +103,7 @@ def home(local=False):
 {assets}
  {('<div class="portal-heading" data-location-page><div>'+intro+'</div></div>') if local else landing_welcome()}
  {start}
+{landing_followup() if not local else ""}
 {resource_map()+infographic_panel()+local_results() if local else ""}
  {resources}
  {recommendation_panel()}

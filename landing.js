@@ -1,6 +1,8 @@
 'use strict';
 // Progressive enhancement: without JavaScript both resource sections are readable.
 (() => {
+ const instructions=document.querySelector('.home-instructions'),desktop=matchMedia('(min-width: 701px)');
+ if(instructions){instructions.open=desktop.matches;desktop.addEventListener('change',()=>{instructions.open=desktop.matches;});}
  const tabs = [...document.querySelectorAll('[data-resource-tab]')];
  const panels = [...document.querySelectorAll('[data-resource-panel]')];
  if (!tabs.length) return;

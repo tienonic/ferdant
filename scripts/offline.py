@@ -39,7 +39,7 @@ def build_editions(home, output):
     csp = "default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'"
     doc = doc.replace('<head>', f'<head><meta name="ferdant-city" content=""><meta http-equiv="Content-Security-Policy" content="{e(csp)}">', 1)
     doc = re.sub(r'<div class="preview-note">.*?</div>', '<div class="preview-note">Editorial preview · saved offline copy</div>', doc, count=1)
-    doc = doc.replace('<h2 id="location-title">Start with your location</h2>', '<h2 id="location-title">Your saved location</h2>')
+    doc = doc.replace('<h2 id="location-title">Choose a location</h2>', '<h2 id="location-title">Your saved location</h2>')
     doc = re.sub(r'<h1[^>]*>.*?</h1>', '<h1 id="local-page-title">California offline edition</h1>', doc, count=1)
     doc = doc.replace('Choose your location. Find your next step.</p>', f'Saved copy · Regional sources checked {DATA["checked"]}.</p>')
     doc = re.sub(r'(src|href)="(/assets/[^"\s]+)"', lambda m: f'{m[1]}="{data_url(m[2])}"', doc)
@@ -55,7 +55,7 @@ def build_editions(home, output):
     leaflet_license=e((ROOT / 'assets/vendor/leaflet/LICENSE').read_text(encoding='utf-8'))
     pdf_license=e((ROOT / 'assets/vendor/jspdf/LICENSE').read_text(encoding='utf-8'))
     licenses += f'<h3>jsPDF 4.2.1 - MIT</h3><pre>{pdf_license}</pre>'
-    licenses += f'<h3>Leaflet 1.9.4 — BSD-2-Clause</h3><pre>{leaflet_license}</pre>'
+    licenses += f'<h3>Map library 1.9.4 — BSD-2-Clause</h3><pre>{leaflet_license}</pre>'
     buildings_license=e((ROOT / 'assets/data/city-maps/BUILDINGS-LICENSE.txt').read_text(encoding='utf-8'))
     licenses += f'<h3>Microsoft extracted building geometry — ODbL 1.0</h3><pre>{buildings_license}</pre>'
     doc = doc.replace('</main>', f'<details class="offline-detail font-licenses"><summary>Embedded software & font licenses</summary>{licenses}</details></main>')

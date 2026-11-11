@@ -355,7 +355,7 @@ def render_references(output, correction_links=''):
                  '<details class="reference-disclosure reference-topic" id="references-limits"><summary><h3>Coverage, licenses & limitations</h3></summary>'
                  '<div class="reference-content"><ul>' + ''.join('<li>' + escape(note) + '</li>'
                  for note in catalog['limitations']) + '</ul><p>Category drawings and tool icons are original site artwork. '
-                 'Destination favicons retain their owners’ marks and do not imply endorsement. Leaflet uses BSD-2-Clause; '
+                 'Destination favicons retain their owners’ marks and do not imply endorsement. The map library uses BSD-2-Clause; '
                  'the bundled fonts retain their SIL Open Font License notices. Microsoft building extracts retain ODbL attribution. '
                  'Other sources keep their own terms; inclusion does not grant new reuse rights. '
                  'Commerce references describe a disabled integration, not a working store.</p></div></details>'

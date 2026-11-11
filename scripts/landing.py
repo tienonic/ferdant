@@ -17,11 +17,23 @@ CALIFORNIA = [
 
 
 def landing_welcome():
-    return '''<section class="home-welcome" data-location-routing aria-labelledby="welcome-title">
+    return '''<div class="home-flow"><section class="home-welcome" data-location-routing aria-labelledby="welcome-title">
       <div class="welcome-copy">
         <h1 id="welcome-title">Local resources.<br> Emergency plans.</h1>
-        <p>Find food, clinics, libraries and other services in your California city. Explore the map, check emergency contacts and download a local guide to use offline.</p>
+        <p>Find local services, emergency contacts and plans for your California city.</p>
       </div>
+    </section>'''
+
+
+def landing_followup():
+    return '''    <details class="home-instructions"><summary>How it works</summary>
+      <ol class="home-steps">
+        <li><strong>Choose your location</strong><p>Enter a city, county or ZIP code and select a match to open its local resources.</p></li>
+        <li><strong>Pick what you need</strong><p>Choose Everyday for food, water, bathrooms and more, or a disaster plan for emergency planning.</p></li>
+        <li><strong>Explore the details</strong><p>Open a category or map pin to view places, and check the provider's information before visiting.</p></li>
+        <li><strong>Keep it handy</strong><p>Find local phone numbers below the map, or download your resource book or complete website for offline use.</p></li>
+      </ol>
+    </details>
       <figure class="welcome-photos">
         <div class="welcome-photo-pair">
           <img class="welcome-family" src="/assets/photos/family-park.webp" width="960" height="640" alt="Parents and children playing with autumn leaves on a picnic blanket." fetchpriority="high" decoding="async">
@@ -29,16 +41,7 @@ def landing_welcome():
         </div>
         <figcaption><a href="/sources-and-corrections/#references-assets">Stock photography &amp; credits</a></figcaption>
       </figure>
-    </section>
-    <section class="home-instructions" aria-labelledby="how-to-title">
-      <h2 id="how-to-title">How to use Ferdant</h2>
-      <ol class="home-steps">
-        <li><strong>Choose your location</strong><p>Enter a city or county below and select a match to open its local resources.</p></li>
-        <li><strong>Pick what you need</strong><p>Choose Everyday for food, water, bathrooms and more, or a disaster tab for emergency planning.</p></li>
-        <li><strong>Explore the details</strong><p>Open a category or map pin to view places, and check the provider's information before visiting.</p></li>
-        <li><strong>Keep it handy</strong><p>Find local phone numbers below the map, or download your resource book or complete website for offline use.</p></li>
-      </ol>
-    </section>'''
+</div>'''
 
 
 def landing_resources(branches, phones):

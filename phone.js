@@ -168,6 +168,7 @@
   const intro=doc.querySelector('#local-page-intro');
   if(intro)intro.textContent=location?.id.startsWith('county:')?'County services and emergency information. Choose a city for local resources.':'Local services and emergency information.';
   if(doc===document&&location)setSelectionKind(selectedZip?'zip':location.id.startsWith('county:')?'county':'city');
+  const bookletHeading=doc.querySelector('#infographic-title');if(bookletHeading)bookletHeading.textContent=(location?.name||'Local')+' resource book';
   const heading=doc.querySelector('#local-page-title');if(heading)heading.textContent=location?`${location.name} resources`:'Local resources';
   if(selectedZip&&key===selectedZip.key){
    if(citySearch)citySearch.value=selectedZip.code;
@@ -301,7 +302,7 @@
  }
  function syncMap(location) {
   if(!cityMap)return;
-  selectedMarker?.closeTooltip();selectedMarker?.setStyle({radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1});
+  selectedMarker?.closeTooltip();selectedMarker?.setStyle({radius:3.5,color:'#fff',fillColor:'#244b84',fillOpacity:.5,weight:1});
   const oldCounty=selectedCounty;
   selectedMarker=location?markers.get(location.id):undefined;
   selectedCounty=location?countyLayers.get(location.county):undefined;
@@ -331,7 +332,7 @@
   mapPromise=loadLeaflet().then(()=>{
    cityMap=L.map('city-map',{scrollWheelZoom:false,minZoom:4,maxZoom:12,zoomSnap:landingOverview?0.1:1,zoomAnimation:false,fadeAnimation:false}).setView([37.2,-120],5);
    cityMap.attributionControl.setPrefix(false);
-   
+
    const boundaries=L.geoJSON(places.map.geometry,{style:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1},onEachFeature:(feature,layer)=>{
     countyLayers.set(feature.properties.county,layer);
     const id=feature.properties.county;
@@ -349,11 +350,12 @@
    cityMap.on('click',event=>{if(event.originalEvent?.target===cityMap.getContainer())clearCountyPreview();});
    cityMarkers=L.layerGroup().addTo(cityMap);
    for(const city of cities.values()){
-    const marker=L.circleMarker([city.lat,city.lng],{radius:4,color:'#215aa0',fillColor:'#215aa0',fillOpacity:.7,weight:1,bubblingMouseEvents:false}).addTo(cityMarkers);
+    const marker=L.circleMarker([city.lat,city.lng],{radius:3.5,color:'#fff',fillColor:'#244b84',fillOpacity:.5,weight:1,bubblingMouseEvents:false}).addTo(cityMarkers);
     markers.set(city.id,marker);const label=document.createElement('span');label.textContent=city.name;marker.bindTooltip(label);
     marker.on('add',()=>{const element=marker.getElement();if(element)element.dataset.cityId=city.id;});
     marker.on('click',()=>{if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(city.id);else chooseCity(city.id);});const element=marker.getElement();if(element)element.dataset.cityId=city.id;
    }
+   cityMap.on('zoomend',()=>{for(const marker of markers.values())if(marker!==selectedMarker)marker.setStyle({radius:Math.min(7,3.5+Math.max(0,cityMap.getZoom()-6)*.65)});});
    if(landingOverview){cityMap.zoomControl.setPosition('topright');cityMap.on('resize',()=>{if(!select.value)syncMap(null);});}
    document.querySelector('#city-map').dataset.ready='true';setSelectionKind(selectionKind);
   }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. Location search and phone numbers still work.';});

@@ -82,3 +82,32 @@
 }
 @media print { .resource-tabs { display: none; } .resource-panel[hidden] { display: block; } }
 @media(forced-colors: active) { .resource-tabs a[aria-selected="true"] { border-color: Highlight; color: LinkText; } }
+
+/* Keep search near the title; retain Philip's photos alongside it on desktop. */
+.home-flow { display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: 'welcome photos' 'location location' 'instructions instructions'; gap: 24px 32px; max-width: 1000px; margin: 24px auto; }
+.home-welcome { display: contents; }
+.welcome-copy { grid-area: welcome; align-self: center; }
+.welcome-photos { grid-area: photos; }
+.home-flow .location-start { grid-area: location; margin: 0; width: 100%; }
+.home-instructions { grid-area: instructions; margin: 0; width: 100%; padding: 0; border-bottom: 0; }
+.home-instructions > summary { min-height: 48px; align-content: center; font-size: 16px; cursor: pointer; color: var(--cobalt); }
+.home-steps { padding: 8px 0 0 22px; gap: 24px; margin: 0; }
+.home-steps strong { font-size: 14px; }
+.home-steps p { font-size: 13px; line-height: 1.5; }
+@media(min-width:701px) { .home-steps { grid-template-columns: repeat(4,minmax(0,1fr)); } }
+@media(max-width:700px) {
+ .home-flow { display: flex; flex-direction: column; gap: 20px; margin-top: 20px; }
+ .welcome-copy h1 { font-size: 36px; }
+ .welcome-copy > p:last-child { font-size: 15px; }
+ .home-flow .location-start { padding: 0; border: 0; }
+ .home-flow #location-title { font-size: 24px; }
+ .home-flow #location-summary { margin: 4px 0; }
+ .home-flow #city-map-status { margin: 8px 0; }
+ .home-flow #city-map { height: 360px; }
+ .home-instructions { padding: 0; }
+}
+
+.home-flow .location-start { background: transparent; border: 0; padding: 0; }
+.home-flow #location-title { font-size: 24px; }
+.home-flow #location-summary { display: none; }
+.home-flow .city-map-workspace { border-top: 0; padding-top: 0; margin-top: 8px; }
