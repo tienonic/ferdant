@@ -1,10 +1,11 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{pathToFileURL}=require('node:url');
 const {chromium}=require('playwright'),{stubPublicMap}=require('./map-network.cjs');
+const {showEveryday,openMapControls}=require('./story-helpers.cjs');
 const base=process.env.SITE_URL||'http://127.0.0.1:4173';
 const catalog=JSON.parse(fs.readFileSync('content/evacuation.json','utf8'));
 const raw=fs.readFileSync('assets/data/evacuation-routes/57.json'),routes=JSON.parse(raw),receipt=JSON.parse(fs.readFileSync('assets/data/evacuation-routes/manifest.json','utf8'));
 function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64','chrome-headless-shell.exe')).find(fs.existsSync);}
-async function ready(p){await p.waitForFunction(()=>{const el=document.querySelector('#resource-atlas');return el&&!el.hidden&&!el.hasAttribute('aria-busy')&&el.dataset.hazardLoading!=='true';});}
+async function ready(p){await p.waitForFunction(()=>{const el=document.querySelector('#resource-atlas');return el&&!el.hidden&&!el.hasAttribute('aria-busy')&&el.dataset.hazardLoading!=='true';});await showEveryday(p);await openMapControls(p);}
 (async()=>{
  assert.equal(crypto.createHash('sha256').update(raw).digest('hex'),receipt.projectionSHA256);
  assert.equal(routes.features.length,receipt.features);assert.equal(receipt.sourceCount,receipt.features+receipt.missingGeometryIds.length);

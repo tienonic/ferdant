@@ -2,11 +2,12 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {chromium}=require('playwright');
 const {stubPublicMap}=require('./map-network.cjs');
+const {showEveryday,openMapControls,closeMapControls}=require('./story-helpers.cjs');
 const base=process.env.SITE_URL||'http://127.0.0.1:4173';
 const data=JSON.parse(fs.readFileSync('local/index.html','utf8').match(/<script type="application\/json" id="resource-map-data">(.*?)<\/script>/s)[1]).disasters;
 const places=JSON.parse(fs.readFileSync('content/california-cities.json','utf8')),source=data.layers.faults;
 function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(x=>x.startsWith('chromium_headless_shell-')).sort().reverse().map(x=>path.join(root,x,'chrome-headless-shell-win64','chrome-headless-shell.exe')).find(fs.existsSync);}
-async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});}
+async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});await showEveryday(p);await openMapControls(p);}
 async function tiles(p){await p.waitForFunction(()=>{const imgs=[...document.querySelectorAll('.disaster-faults img')];return imgs.length>0&&imgs.every(i=>i.complete);});}
 async function choose(p,id){await p.locator('[data-disaster="'+id+'"]').click();await ready(p);}
 const tileRequests=url=>url.startsWith(source.service+'/tile/');
@@ -30,7 +31,7 @@ const tileRequests=url=>url.startsWith(source.service+'/tile/');
   assert((await p.locator('#atlas-fault-help').innerText()).includes('secure heavy furniture'));
   await p.locator('#atlas-fault-help > details > summary').click();assert((await p.locator('#atlas-fault-help').innerText()).includes('Holocene'));
   assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Expanded key fits mobile');
-  await p.locator('#resource-map').scrollIntoViewIfNeeded();
+  await closeMapControls(p);await p.locator('#resource-map').scrollIntoViewIfNeeded();
   const first=new Set(requests),box=await p.locator('#resource-map').boundingBox();
   const moved=p.waitForRequest(r=>tileRequests(r.url())&&!first.has(r.url()),{timeout:5000});
   for(let i=0;i<3;i++){await p.mouse.move(box.x+box.width*.85,box.y+box.height*.5);await p.mouse.down();await p.mouse.move(box.x+box.width*.15,box.y+box.height*.5,{steps:6});await p.mouse.up();}
@@ -38,7 +39,7 @@ const tileRequests=url=>url.startsWith(source.service+'/tile/');
   assert(await p.locator('.disaster-faults img').count()<=30,'Old off-screen tiles are pruned');
   for(let i=0;i<8;i++)await p.locator('#resource-map .leaflet-control-zoom-in').click({force:true});
   await tiles(p);assert(requests.every(url=>Number(url.split('/tile/')[1].split('/')[0])<=13),'Overzoom must reuse the highest published tile level');
-  await choose(p,'flood');assert.equal(await p.locator('.disaster-faults').count(),0);assert(await p.locator('#atlas-fault-help').isHidden());
+  await openMapControls(p);await choose(p,'flood');assert.equal(await p.locator('.disaster-faults').count(),0);assert(await p.locator('#atlas-fault-help').isHidden());
   const stopped=requests.length;await p.locator('#resource-map .leaflet-control-zoom-out').click();await p.waitForTimeout(100);assert.equal(requests.length,stopped,'No fault requests after leaving Earthquake');
   await choose(p,'earthquake');await tiles(p);
   const keys=[...places.cities.map(row=>row[0]),...Object.keys(places.counties).map(k=>'county:'+k)];

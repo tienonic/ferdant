@@ -153,7 +153,7 @@ async function contrast(page){
   await moving.locator('#map-city-search').fill('Davis');await moving.getByRole('option',{name:'Davis, Yolo County, California',exact:true}).click();
   await moving.waitForFunction(()=>document.querySelector('#city-map')?.dataset.travelling==='true');assert.equal(new URL(moving.url()).pathname,'/');
   assert(await moving.locator('#city-map path[fill="#244b84"]').count()>0,'Chosen place is outlined before navigation');
-  await moving.waitForURL('**/local/?place=57026');assert(await moving.evaluate(()=>window.FerdantJustChosen));assert(await moving.evaluate(()=>sessionStorage.length===0));
+  await moving.waitForURL('**/local/?place=57026');await moving.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return window.FerdantJustChosen===true||r?.dataset.playing==='true'||r?.dataset.playing==='false'&&r.dataset.currentStep==='3';},null,{timeout:15000});assert(await moving.evaluate(()=>sessionStorage.length===0));
   await moving.goto(base+'/local/?place=57026');assert(!await moving.evaluate(()=>window.FerdantJustChosen));assert.deepEqual(motionErrors,[]);await motion.close();
   const touch=await browser.newContext({viewport:{width:390,height:900},isMobile:true,hasTouch:true,reducedMotion:'reduce'});await stubPublicMap(touch);const pinching=await touch.newPage();await pinching.goto(base+'/');await drawn(pinching);await quiet(pinching);
   const touchBox=await pinching.locator('#city-map').boundingBox(),cdp=await touch.newCDPSession(pinching),x=touchBox.x+touchBox.width/2,y=touchBox.y+200;

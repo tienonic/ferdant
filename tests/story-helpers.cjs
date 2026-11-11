@@ -13,4 +13,8 @@ async function openMapControls(page){
  const controls=page.locator('.story-map-controls');
  if(await controls.count()&&!await controls.evaluate(el=>el.open))await controls.locator('> summary').click();
 }
-module.exports={showEveryday,openMapControls};
+async function closeMapControls(page){
+ const controls=page.locator('.story-map-controls');
+ if(await controls.count()&&await controls.evaluate(el=>el.open))await controls.locator('> summary').click();
+}
+module.exports={showEveryday,openMapControls,closeMapControls};
