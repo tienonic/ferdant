@@ -105,3 +105,9 @@ Stage 1 and 2 each passed all 14 then-existing commands. Stage 3 passed all 15, 
 Screenshots remain outside the repository in `../shots/stage1/`, `stage2/` and `stage3/`: first screen and full page at 320, 390, 768 and 1440px for home, Davis, Los Angeles, Yolo County and guides. Stage 3 also has all six steps for each local example at 390 and 1440px. Every final image was inspected. Stage 4 repeats the page captures after the documentation build.
 
 The existing public-map fixtures isolate browser tests from network availability. Design captures use a paper street tile and transparent raster fixture; vector hazard fixtures are layout evidence, not agency coverage. OpenStreetMap tiles denied this host during the live check. Live tiles and every current hazard feed are not certified by these captures. The county statistic import did query the real official service and preserves its dated raw receipts and hashes.
+
+## Home, corrected the same evening
+
+The owner looked at the first two stages and asked for three changes. The heading became the question “Where are you?”. The icons removed from the home lists were put back: the four statewide icons, the five community icons and arrows, the external-link marks and the Statewide labels. The opening map became quiet, with no dots or zoom buttons until the visitor types or uses the map; typing draws the matching places and eases the map toward them.
+
+Tests changed on purpose for this: the home flow test checks the question, the quiet arrival, matching dots, retargeting, clearing, exploration by pointer, wheel, pinch and keyboard, the restored icons, contrast and reading without scripts; the accessibility test expects five directory colors; the resource-scope and State view tests expect no dots on arrival and all 483 once the map is explored. The place story has its own test file, `tests/place-story.cjs`, and `npm run verify:immersive` runs both.

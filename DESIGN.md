@@ -10,7 +10,7 @@ This replaces earlier guidance for Public Sans, stock photographs, a home headli
 
 ### Type and color
 
-Keep the Newsreader wordmark in cobalt. Use Newsreader regular for Choose a location, the place name and the story's large sentences. Use its italic for at most one emphasized word per sentence. Large voice text is 40–56px on desktop and 30–36px on phones. Other headings use Geist at a smaller size.
+Keep the Newsreader wordmark in cobalt. Use Newsreader regular for the question “Where are you?”, the place name and the story's large sentences. Use its italic for at most one emphasized word per sentence. Large voice text is 40–56px on desktop and 30–36px on phones. Other headings use Geist at a smaller size.
 
 Use self-hosted Geist variable Latin for interface and reading text, with tabular figures. Interface text is 13–15px and ordinary reading text is 16px. Keep the Newsreader and Geist SIL Open Font License notices and download receipts beside the font files. Public Sans and its old notice are removed, including from generated offline HTML. No external font request is permitted.
 
@@ -30,11 +30,13 @@ Use space and occasional hairlines. No card grids, badge pills, gradients, shado
 
 The header has the wordmark at left and Find local help, California resources, Community and Suggest a resource at right. Phones have the wordmark and Menu. There is no header rule.
 
-Start with Choose a location, one city/county/ZIP input and its suggestions, followed by City, County, ZIP and State as quiet text toggles. Keep arrows, Enter, Escape, pointer and touch selection. Ambiguous input must not choose a place. Suggestions must not cover the mode controls. State retains its statewide view.
+Start with the question “Where are you?”, one input labelled “City, county or ZIP code” and its suggestions, followed by City, County, ZIP and State as quiet text toggles. Keep arrows, Enter, Escape, pointer and touch selection. Ambiguous input must not choose a place. Suggestions must not cover the mode controls. State retains its statewide view.
 
-Draw California on paper, with hairline county boundaries and small ink city dots. A hovered or selected place turns cobalt and has a name. The map is at least 70vh on desktop and 55vh on phones, without a surrounding box. Keep map attribution and approximation notes in the closed Map data & limits disclosure.
+Draw California on paper with faint county boundaries. On arrival the map is quiet: no city dots, no zoom buttons and no tooltip. As the visitor types, draw only the matching places, as cobalt dots, and ease the map toward them: debounce by 120ms, ease for 400ms, and go no closer than a regional view. Each keystroke retargets the movement, and clearing the input returns the map to its quiet state. The status line announces the number of matching places. Reduced motion changes the view at once.
 
-Below the map, show statewide starting points and communities as two readable lists with scope and publisher text. Support numbers, the suggestion draft and footer follow. Keep Eligibility and service areas vary. Put check dates in source/detail disclosures; never refresh or remove dates from data to make it look current. About carries the practical instructions formerly shown as How it works.
+A pointer press, a wheel or pinch, keyboard focus on the map, or a switch to County, ZIP or State reveals every dot and the zoom buttons, so every earlier way of choosing a place still works. State keeps the map visible with the statewide lists in the location area. The California outline is at least 70% of the viewport height on desktop; on phones the map fills the rest of the first screen. Keep map attribution and approximation notes in the closed Map data & limits disclosure.
+
+Below the map, show statewide starting points and communities as two readable lists with scope and publisher text and with the site's icons: the icon beside each statewide starting point, the category icon and arrow on each community, the external-link mark and the Statewide label. Icons keep their category colors. Support numbers, the suggestion draft and footer follow. Keep Eligibility and service areas vary. Put check dates in source/detail disclosures; never refresh or remove dates from data to make it look current. About carries the practical instructions formerly shown as How it works.
 
 ### Entering a place
 

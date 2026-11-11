@@ -12,7 +12,7 @@
   ],
   "inputSha256": {
     ".github/workflows/check-site.yml": "aa87098bbce67a99c4ea60fa4b9e64d34162fa12b26683348710746bdeabae27",
-    "DESIGN.md": "bd07913bfe43d604a6cb7769740c33875e2b942a538de152bdcc61e7c9d7edbd",
+    "DESIGN.md": "c1fa0e4f5140b00cf8676443919950db465aec900391211f58e43cd27816b8ac",
     "README.md": "3328fa04c766d7a2bacaabe5c7be69aa970aa7d6bc8ae35af2ec00a8ab8bbb26",
     "assets/data/booklet-roads/README.md": "c405902549ca25ca22e0f5398c208b9d5f8137df571e8c2d933a8a5d87ad98e7",
     "assets/data/city-maps/BUILDINGS-LICENSE.txt": "1e4162322549351e6ce131d66c3c6c6cb56755db58e0475138e3f41cd94c4b3c",
@@ -126,7 +126,7 @@
     "docs/everyday-map-expansion-20261103.md": "fc13e4d07752aebc6b574e2ec96f8da8acafe4867ccb847f48fdec8839c83d1e",
     "docs/everyday-map-visibility-20261103.md": "67525d76045a5de644880025a9acf84c856d017dd5211569f136830c0d4bf4ae",
     "docs/hazard-risk-ranking-20261103.md": "4876122b6030a19599e27e604c22f76ac24f1909d2dfb2834b4ea37effa2b597",
-    "docs/immersive-20261110.md": "72f3d67b442e3ba45f50b9e0c43ab69f5c8e11b81fe05c01ed09870d9f0a3cea",
+    "docs/immersive-20261110.md": "41e3bfa21bd2f51d67120322da3deb2b4e66ddc03bc6a4e7e5c82551f45f98b6",
     "docs/landing-flow-20261103.md": "769d86ba3cf61e0b56467851b0a253ed140261d31d2563d1575b127e1f15d5cc",
     "docs/layer-loading-20261103.md": "c19cd9ed4961bd60fe1e61e9b5e0099c0b6a54281547bfaac16fd1a24db62452",
     "docs/local-booklet-selection-20261103.md": "c29238766765ef8040be5eff3609c940c2b68ac67e02e879bd49858bcfe22466",
