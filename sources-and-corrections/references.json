@@ -141,20 +141,20 @@
     "integrations/shopify.mjs": "06b43fa4f3c823fdb1372918e3ce881d4ec42d384e830697afbb66e08c12cf72",
     "landing.js": "aa6b94d6e7bf7999e257abf34a8b8618b38dceee17f39acdd55dab83ec073454",
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
-    "phone.js": "a5038d32e036118843ebd3e63e83f1474b8f415ed563d0c117405b569bedb064",
+    "phone.js": "a2c9f159f300834e33633ff4165cd1d9c7f70e655fce442fbcf99cadb5518b4b",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
     "resource-booklet.js": "57e8e2c78345c01b5fda5fe8fc6536e08ab11a3a4deae1b3adffaeac6d467123",
     "resource-facts.js": "7ee2190e759bd0a956bb1014eb239bf8063dc4650bef6a64b1d95a81ec88a1c9",
     "resource-map.js": "1e5a689f4015e775958c8c4d8c298fff29d079820fc7392e09caf7e7788ef6c3",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
-    "scripts/build.py": "d2b57664b2705dcce99948211acb2ab4c1084acf4f2a2f0be5e218ce9730cb98",
+    "scripts/build.py": "5d5cefe3da3a8181fdd494510c040b21b3adad0818a5819069473174184e9eff",
     "scripts/check-content.py": "912019aebb7a4ae61dfac2ec6772c1e1a30ffd15d1185bcb4412dc808f27e643",
     "scripts/cost_tool.py": "71f3ff17044114405286e328aabfec51bed9d6536fd357214648a4d48c45af69",
     "scripts/graphics.py": "5fc8aac8d4e418e5f575749505b3d4e679cb98d3afadcb68d231c020f85f1557",
     "scripts/icons.py": "1bd04e25fa9377f22667316bbefaf1eac3a4daa0f52767b41d1a2d4072988aa2",
     "scripts/import-alert-links.py": "14fa1c157000de895f634327e7b94620830b33694ac0f604e505c168ef950a4a",
     "scripts/import-evacuation-routes.py": "30865e3f3d3e51f5b587618153b1a66b7f1cf7f7296241d908836f1aee497807",
-    "scripts/landing.py": "49bd8c29e9dd20f29e376550d979c7b82b5bf7ba7e5c9efa463fdd9d48655da9",
+    "scripts/landing.py": "a3d2ce006a675ff2a1e8be0f5a0007cd35ab4dff52d69039a837e5b22748e115",
     "scripts/offline.py": "33d4ca604e3e66322ce07eaea445810efe99fec51a4e4d33a5afa3a2875cd4df",
     "scripts/phone_chart.py": "8f5ccb5ad179b071918af7a8d0a78cc8ba302c74be0ef2fc4260ccaf471ecc46",
     "scripts/physical_services.py": "57961a7a681ca0cb840de47c431d7acf02f9a04c0e9c5aceacfc6c952223da8f",
@@ -174,7 +174,7 @@
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
     "service-resources.js": "fe25c2e8d7a7be507c223a4b97e8e1aac0f9a024d1270f3aa7bff30d8d4dc970",
     "site.js": "9fbad56eb918ca1acb66f9221a712f78ddd3a512358c1ca2f00778b68960a6b7",
-    "styles.css": "dbaaf828260a16f7de07dbeea9d6db1bf7b22fb19758ba11cb863c52df6a5ec0"
+    "styles.css": "206f1ff3127e92dc3e074808b4c066f90e8c7740af48b6e5d937d4eaf14d988f"
   },
   "references": [
     {

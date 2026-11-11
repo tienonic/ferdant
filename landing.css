@@ -14,11 +14,23 @@
 .resource-panel { margin: 0 0 64px; scroll-margin-top: 24px; }
 .panel-heading { font: 500 16px/1.5 var(--sans); }
 .state-resources, .community-resources { display: block; }
-.state-resource, .community-resource { display: block; text-decoration: none; padding: 20px 0; border-bottom: 1px solid var(--rule); }
+.state-resource, .community-resource { display: flex; align-items: flex-start; gap: 16px; text-decoration: none; padding: 20px 0; border-bottom: 1px solid var(--rule); }
+.state-resource > span:last-child, .community-resource > span { flex: 1; min-width: 0; }
+.state-resource-icon { display: inline-flex; flex-shrink: 0; padding-top: 2px; color: var(--cobalt); }
+.state-resource-icon .ui-icon { width: 24px; height: 24px; }
+.community-resource > .ui-icon { width: 24px; height: 24px; margin-top: 2px; flex-shrink: 0; color: var(--category-color); }
+.community-resource > .ui-icon:last-child { width: 18px; height: 18px; margin-top: 5px; color: var(--cobalt); }
+.community-resource strong { display: block; overflow-wrap: anywhere; }
+[data-category="keep-us-connected"] { --category-color: var(--connectivity); }
+[data-category="who-can-fix-this"] { --category-color: var(--repairs); }
+[data-category="keep-the-basics-on"] { --category-color: var(--utilities); }
+[data-category="what-am-i-paying-for"] { --category-color: var(--money); }
+[data-category="plan-for-disruption"] { --category-color: var(--preparedness); }
 .state-resource strong, .community-resource strong { font-size: 15px; font-weight: 500; }
 .state-resource span span, .community-resource span span { display: block; font-size: 14px; color: var(--muted); }
 .state-resource small { display: block; font-size: 13px; color: var(--muted); }
-.state-resource small svg { display: none; }
+.state-resource small .resource-scope-badge { display: inline; color: var(--cobalt); }
+.state-resource small svg { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-left: 4px; color: var(--cobalt); }
 .state-resource:hover strong, .community-resource:hover strong { text-decoration: underline; }
 .landing-library .phone-directory { border: 0; }
 @media(max-width:700px) {

@@ -1,6 +1,7 @@
 """Location-first homepage resources. Map and city results keep their own templates."""
 from html import escape
 from icons import icon, CATEGORY
+from phone_chart import city_search, city_map
 
 # Primary publishers checked November 3, 2026. Listos displays a page timestamp
 # 2026-10-05T17:11:57+00:00; other publication dates were not stated.
@@ -24,13 +25,25 @@ def landing_followup():
     return '</div>'
 
 
+def landing_start():
+    search = city_search(include_state=True).replace(' data-enhancement hidden', '', 1)
+    search = search.replace('placeholder="City, e.g. Davis"', 'placeholder="City, county or ZIP code"')
+    return f'''<section class="location-start" id="location-start" aria-labelledby="location-title">
+      <h1 id="location-title">Where are you?</h1>
+      {search}
+      <p id="location-summary" role="status"></p>
+      {city_map(include_search=False)}
+      <noscript><p>City selection needs JavaScript. California-wide phone numbers and the standard offline copy remain available below.</p></noscript>
+    </section>'''
+
 
 def landing_resources(branches, phones):
     resources = ''.join(f'''<a class="state-resource" href="{escape(url, quote=True)}">
+      <span class="state-resource-icon" aria-hidden="true">{icon(symbol)}</span>
       <span><strong>{title}</strong><span>{description}</span><small><span class="resource-scope-badge scope-state">Statewide</span> {publisher} {icon('external')}</small></span>
     </a>''' for title, description, publisher, url, symbol in CALIFORNIA)
-    communities = ''.join(f'''<a class="community-resource" href="https://www.reddit.com/r/{branch['name']}/">
-      <span><strong>{branch['name']}</strong><span>{branch['description']}</span></span></a>''' for branch in branches)
+    communities = ''.join(f'''<a class="community-resource" data-category="{branch['slug']}" href="https://www.reddit.com/r/{branch['name']}/">
+      {icon(CATEGORY[branch['slug']])}<span><strong>{branch['name']}</strong><span>{branch['description']}</span></span>{icon('right')}</a>''' for branch in branches)
     return f'''<section class="landing-library" aria-labelledby="library-title">
       <header class="library-heading"><h2 id="library-title">Useful across California</h2>
       <p>Start here for statewide help. Choose a location above for local places and contacts.</p></header>

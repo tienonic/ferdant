@@ -9,7 +9,7 @@ const base=process.env.SITE_URL||'http://127.0.0.1:4173';
   await page.goto(base+'/');await page.waitForSelector('#city-map[data-ready]');await page.evaluate(()=>document.fonts.ready);
   const text=await page.locator('body').innerText();assert(!text.includes('Local resources. Emergency plans.'));assert(!text.includes('Links checked November 3, 2026.'));assert(text.includes('Eligibility and service areas vary.'));
   assert.equal(await page.locator('img[src*="photos"], .welcome-photos, .home-instructions').count(),0);
-  assert.equal(await page.locator('h1').innerText(),'Choose a location');
+  assert.equal(await page.locator('h1').innerText(),'Where are you?');
   assert.equal(await page.locator('#city-map').evaluate(el=>getComputedStyle(el).viewTransitionName),'none');
   assert((await page.locator('body').evaluate(el=>getComputedStyle(el).fontFamily)).includes('Geist'));
   assert((await page.locator('#location-title').evaluate(el=>getComputedStyle(el).fontFamily)).includes('Newsreader'));

@@ -308,7 +308,7 @@
    if(kind==='city')layer.unbindTooltip();else if(!layer.getTooltip())layer.bindTooltip(node(document,'span',places.counties[id]+' County'));
    paintCounty(id);
   });
-  const field=document.querySelector('#map-city-search');if(field)field.placeholder=kind==='zip'?'ZIP code, e.g. 95616':kind==='county'?'County, e.g. Yolo':'City or ZIP code, e.g. Davis or 95616';
+  const field=document.querySelector('#map-city-search');if(field)field.placeholder=kind==='zip'?'ZIP code, e.g. 95616':kind==='county'?'County, e.g. Yolo':landingOverview?'City, county or ZIP code':'City or ZIP code, e.g. Davis or 95616';
   if(cityMap){if(kind==='county')cityMap.doubleClickZoom.disable();else cityMap.doubleClickZoom.enable();}
   if(cityMap&&cityMarkers){if(kind==='county'){if(cityMap.hasLayer(cityMarkers))cityMap.removeLayer(cityMarkers);}else if(!cityMap.hasLayer(cityMarkers))cityMap.addLayer(cityMarkers);}
   if(reset){field.value='';closeSuggestions();searchStatus.textContent='';}

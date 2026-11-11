@@ -9,7 +9,7 @@ from offline import build_editions
 from phone_chart import phone_chart, city_search, city_map, DOWNLOAD
 from resource_map import resource_map
 from recommendations import recommendation_link, recommendation_panel
-from landing import landing_resources, landing_welcome, landing_followup
+from landing import landing_resources, landing_welcome, landing_followup, landing_start
 from references import render_references
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('content',ROOT/'content/site.py')
@@ -94,7 +94,7 @@ def home(local=False):
  bill,cancel,message=c.GUIDES
  bill_tool=tool(bill,heading=3)
  intro='<h1 id="local-page-title">Local resources</h1><p id="local-page-intro">Local services and emergency information.</p>' if local else '<p>Choose your California location. Find your next step.</p>'
- start=('<details class="change-location"><summary>Change location</summary>'+location_start(show_download=False)+'</details>') if local else location_start(show_download=False, heading=1, include_state=True)
+ start=('<details class="change-location"><summary>Change location</summary>'+location_start(show_download=False)+'</details>') if local else landing_start()
  phones=phone_chart(include_map=False, show_download=False, show_picker=False, shared_only=True)
  resources=(f'<div class="resource-heading" id="california-resources"><div><h2>Statewide help &amp; general guides</h2><p>California-wide and national services, guides and discussions. Eligibility and service areas vary.</p></div></div><div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{phones}{sections}</div>' if local else landing_resources(c.BRANCHES, phones))
  about_section='<section id="about" class="directory-about-section" tabindex="-1"><h2>About Ferdant</h2><p>Ferdant connects five practical-help communities. Read the resources here or take a specific question to the relevant Reddit community. Replies and outcomes aren’t guaranteed.</p><p>AggieBillHelp is the separate UC Davis campus community. Ferdant does not imply a university affiliation.</p></section>'

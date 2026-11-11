@@ -1230,7 +1230,7 @@ html.tool-open { overflow: hidden; }
 }
 
 /* Color supports the directory's labels and shapes; it never carries meaning alone. */
-:root { --connectivity: #244b84; --repairs: #244b84; --utilities: #244b84; --money: #244b84; --preparedness: #244b84; --tools-accent: #244b84; }
+:root { --connectivity: #215aa0; --repairs: #a04a28; --utilities: #126c68; --money: #6543a0; --preparedness: #3d6b3f; --tools-accent: #4b51a3; }
 #keep-us-connected, .portal-nav a[href="#keep-us-connected"] { --category-color: var(--connectivity); }
 #who-can-fix-this, .portal-nav a[href="#who-can-fix-this"] { --category-color: var(--repairs); }
 #keep-the-basics-on, .portal-nav a[href="#keep-the-basics-on"] { --category-color: var(--utilities); }
@@ -1926,7 +1926,7 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 /* Cleanup, November 10: map first, one reading column and quieter controls. */
 .site-header > .recommendation-entry { border: 0; padding-right: 0; background: transparent; }
 .mobile-menu .recommendation-entry { margin: 0; border: 0; justify-content: flex-start; font-weight: 400; }
-.mobile-menu .recommendation-entry .ui-icon { display: none; }
+.mobile-menu .recommendation-entry .ui-icon { display: inline-block; }
 .mobile-menu .recommendation-full { display: inline; }
 .mobile-menu .recommendation-short { display: none; }
 .portal-heading { margin: 24px auto 8px; }
@@ -2017,7 +2017,7 @@ button, .button, a.button, .copy-button, .quiet-button, .atlas-choice { box-shad
 .guide-card h3 { font-size:17px; }
 .resource-scope-badge { border:0; border-radius:2px; background:transparent; padding:0; color:var(--muted); font-size:13px; font-weight:400; }
 .service-row { border:0; border-bottom:1px solid var(--rule); }
-.service-toggle > .ui-icon, .service-toggle strong, .service-toggle small, .destination-label > .ui-icon { color:var(--cobalt); }
+.service-toggle > .ui-icon, .destination-label > .ui-icon { color:var(--category-color, var(--cobalt)); }
 .service-toggle > .ui-icon { background:transparent; }
 .city-search { display:flex; flex-direction:column; }
 .city-search label { font-size:13px; color:var(--muted); }
@@ -2046,7 +2046,7 @@ button, .button, a.button, .copy-button, .quiet-button, .atlas-choice { box-shad
 .atlas-offline-link:hover { color:var(--cobalt); background:transparent; }
 .service-directory { display:block; }
 .service-toggle, .service-directory .phone-toggle { flex-direction:row; justify-content:flex-start; text-align:left; gap:16px; min-height:72px; background:transparent; padding:16px 0; }
-.service-toggle > .ui-icon:first-child, .service-directory .phone-toggle > .ui-icon:first-child { width:24px; height:24px; padding:0; background:transparent; color:var(--cobalt); }
+.service-toggle > .ui-icon:first-child, .service-directory .phone-toggle > .ui-icon:first-child { width:24px; height:24px; padding:0; background:transparent; color:var(--category-color, var(--cobalt)); }
 .service-toggle > span, .service-directory .phone-toggle > span { flex:1; width:auto; }
 .service-toggle > .ui-icon:last-child, .service-directory .phone-toggle > .ui-icon:last-child { position:static; }
 .service-toggle:hover, .service-directory .phone-toggle:hover { background:transparent; }
@@ -2057,7 +2057,7 @@ button, .button, a.button, .copy-button, .quiet-button, .atlas-choice { box-shad
 #location-suggestions { position:static; width:100%; margin:4px 0; }
 .city-search-row > button { align-self:flex-start; }
 .site-header > .recommendation-entry { color:var(--cobalt); font-size:13px; }
-.site-header > .recommendation-entry .ui-icon, .mobile-menu .recommendation-entry .ui-icon { display:none; }
+.site-header > .recommendation-entry .ui-icon, .mobile-menu .recommendation-entry .ui-icon { display:inline-block; }
 .site-header .recommendation-full { display:inline; }
 .site-header .recommendation-short { display:none; }
 .site-header { gap:20px; }
@@ -3006,7 +3006,7 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
    if(kind==='city')layer.unbindTooltip();else if(!layer.getTooltip())layer.bindTooltip(node(document,'span',places.counties[id]+' County'));
    paintCounty(id);
   });
-  const field=document.querySelector('#map-city-search');if(field)field.placeholder=kind==='zip'?'ZIP code, e.g. 95616':kind==='county'?'County, e.g. Yolo':'City or ZIP code, e.g. Davis or 95616';
+  const field=document.querySelector('#map-city-search');if(field)field.placeholder=kind==='zip'?'ZIP code, e.g. 95616':kind==='county'?'County, e.g. Yolo':landingOverview?'City, county or ZIP code':'City or ZIP code, e.g. Davis or 95616';
   if(cityMap){if(kind==='county')cityMap.doubleClickZoom.disable();else cityMap.doubleClickZoom.enable();}
   if(cityMap&&cityMarkers){if(kind==='county'){if(cityMap.hasLayer(cityMarkers))cityMap.removeLayer(cityMarkers);}else if(!cityMap.hasLayer(cityMarkers))cityMap.addLayer(cityMarkers);}
   if(reset){field.value='';closeSuggestions();searchStatus.textContent='';}

@@ -33,7 +33,7 @@ module.exports = async function checkAccessibility(page, width) {
  });
  assert(measurements.textMinimum>=4.5, `Text contrast at ${width}: ${measurements.textMinimum}`);
  assert(measurements.iconMinimum>=3, `Icon contrast at ${width}: ${measurements.iconMinimum}`);
- assert.equal(measurements.headerColors,1);
+ assert.equal(measurements.headerColors,5);
  assert(measurements.targetMinimum>=44, `Primary targets smaller than 44px at ${width}`);
  assert(!measurements.hiddenNavLinks, `Section links hidden horizontally at ${width}`);
  assert(measurements.allIconsDecorative);
