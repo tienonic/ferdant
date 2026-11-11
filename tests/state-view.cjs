@@ -11,7 +11,10 @@ function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;
   const requests=[];p.on('request',r=>requests.push(r.url()));
   await p.locator('[data-location-kind="state"]').focus();await p.keyboard.press('Space');
   assert.equal(await p.locator(':focus').getAttribute('data-location-kind'),'state');
-  assert(!await p.locator('#city-map').isVisible());assert(!await p.locator('#map-city-form').isVisible());
+  assert(await p.locator('#city-map').isVisible());assert(!await p.locator('#map-city-form').isVisible());
+  assert.equal(await p.locator('#city-map [data-city-id]:visible').count(),483);
+  assert(await p.locator('#city-map .leaflet-control-zoom').isVisible());
+  if(width>=1000){const map=await p.locator('#city-map').boundingBox(),credit=await p.locator('.home-flow .city-map-credit').boundingBox();assert(credit.y>=map.y&&credit.y+credit.height<=map.y+map.height+1,'State credits stay with the map');}
   assert(await p.locator('#location-start #california-resources').isVisible());assert(await p.locator('#communities').isVisible());
   assert.equal(await p.locator('#location-start .state-resource').count(),4);
   assert.equal(await p.locator('.landing-library').count(),1);assert.equal(await p.locator('#phone-data').count(),1);
@@ -22,14 +25,14 @@ function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;
   for(const mode of ['county','city','county','city']){
    await p.locator(`[data-location-kind="${mode}"]`).click();assert(await p.locator('#city-map').isVisible());assert(await p.locator('#map-city-form').isVisible());
    assert.equal(await p.locator('#location-start .landing-library').count(),0);assert(await p.locator('#california-resources').isVisible());
-   assert.equal(await p.locator('#city-map [data-city-id]').count(),mode==='city'?483:0);
+   assert.equal(await p.locator('#city-map [data-city-id]').count(),483);
    assert(await p.locator('[data-county-id]').evaluateAll((els,mode)=>els.every(e=>getComputedStyle(e).pointerEvents===(mode==='county'?'auto':'none')),mode));
-   await p.locator('[data-location-kind="state"]').click();assert(await p.locator('#location-start #california-resources').isVisible());assert(!await p.locator('#city-map').isVisible());
+   await p.locator('[data-location-kind="state"]').click();assert(await p.locator('#location-start #california-resources').isVisible());assert(await p.locator('#city-map').isVisible());
   }
   assert.equal(await p.locator('#phone-city option').count(),542);assert.equal(await p.locator('#phone-city').getAttribute('data-move-check'),'same');
   assert.deepEqual(requests,[],'Moving resources and changing scope must not fetch or reload controls');assert.deepEqual(errors,[]);
-  findings.push({width,stateReplacesMap:true,resources:4,keyboard:true,singleResourceSection:true,mapAndSearchRestored:true,cityAndCountyIsolation:true,phoneControlsPreserved:true,requests:0});await c.close();
+  findings.push({width,stateKeepsMap:true,resources:4,keyboard:true,singleResourceSection:true,mapAndSearchRestored:true,cityAndCountyIsolation:true,phoneControlsPreserved:true,requests:0});await c.close();
  }
  const c=await browser.newContext({javaScriptEnabled:false}),p=await c.newPage();await p.goto(base+'/');assert(await p.locator('#california-resources').isVisible());assert.equal(await p.locator('.state-resource').count(),4);await c.close();
- fs.writeFileSync('screenshots/state-view/verification.json',JSON.stringify({findings,noJavaScriptResources:true,newSources:false},null,2)+'\n');console.log('State view passed at four widths: map/search hidden, same resources moved in, keyboard, phone controls, repeated City/County restoration and no requests.');
+ fs.writeFileSync('screenshots/state-view/verification.json',JSON.stringify({findings,noJavaScriptResources:true,newSources:false},null,2)+'\n');console.log('State view passed at four widths: exploration map visible, search hidden, same resources moved in, keyboard, phone controls, repeated City/County restoration and no requests.');
 }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -5,7 +5,30 @@
 .home-flow .city-search { max-width: 540px; margin: 0; }
 .home-flow #location-summary, .home-flow #city-map-status { display: none; }
 .home-flow .city-map-workspace { margin: 0; border: 0; padding: 0; }
-.home-flow #city-map { height: 70vh; min-height: 490px; border: 0; border-radius: 0; background: var(--paper); }
+.home-flow #city-map { height: calc(100svh - 260px); min-height: 320px; border: 0; border-radius: 0; background: var(--paper); }
+.home-flow #city-map[data-home-state="quiet"] [data-city-id],
+.home-flow #city-map:not([data-home-state="exploring"]) .leaflet-control-zoom { display: none; }
+.home-flow #city-map[data-selection-kind="county"] [data-city-id] { pointer-events: none; }
+.home-flow #city-map:focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
+.home-flow #map-city-form .city-search-row > button { min-height: 48px; padding: 0 6px; border: 0; }
+.home-flow #city-search-status { min-height: 28px; padding-top: 4px; margin: 0; line-height: 20px; }
+.home-flow #city-search-status:empty { display: block; }
+.home-flow #location-suggestions { position: absolute; top: calc(100% + 72px); left: 0; width: 100%; margin: 0; max-height: min(360px, 40svh); }
+.home-flow .city-search { position: relative; z-index: 2; }
+.home-flow .city-search-row { display: flex; }
+.home-flow #map-city-search { width: 100%; padding-left: 0; padding-right: 0; }
+.home-flow .location-kind-switch { justify-content: flex-start; gap: 20px; }
+.home-flow .location-kind-switch button { flex: none; padding: 4px 0; width: 48px; min-width: 44px; }
+@media(min-width:1000px) {
+ .home-flow .location-start { position: relative; }
+ .home-flow #location-title { position: absolute; top: 12px; left: 0; z-index: 2; background: var(--paper); }
+ .home-flow .city-search { position: absolute; top: 80px; left: 0; width: 360px; background: var(--paper); }
+ .home-flow .city-map-workspace { display: grid; }
+ .home-flow #city-map { height: calc(100svh - 108px); min-height: 680px; }
+ .home-flow #city-map, .home-flow .city-map-credit { grid-area: 1 / 1; }
+ .home-flow .city-map-credit { align-self: end; justify-self: start; margin: 0; z-index: 1; max-width: 350px; }
+ .home-flow .state-location-resources .landing-library { padding-top: 24px; }
+}
 .landing-library { max-width: 1000px; margin: 64px auto; }
 .library-heading h2 { font: 500 16px/1.5 var(--sans); }
 .library-heading p, .panel-intro, .resource-source-note { font-size: 14px; color: var(--muted); }
@@ -36,12 +59,12 @@
 @media(max-width:700px) {
  .home-flow { margin-top: 12px; }
  .home-flow #location-title { font-size: 34px; margin-bottom: 12px; }
- .home-flow #city-map { height: 55vh; min-height: 360px; }
+ .home-flow #city-map { height: calc(100svh - 260px); min-height: 320px; }
+ .home-flow #location-suggestions { max-height: 30svh; }
  .landing-library { margin: 40px auto; }
 }
 .home-flow .city-search { gap:0; padding:0; }
 .home-flow #map-city-form { margin:0; }
 .home-flow #map-city-form > label { position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
-.home-flow #city-search-status:empty { display:none; }
 .home-flow .location-kind-switch { margin:0; }
 .home-flow #location-title { margin-bottom:12px; }

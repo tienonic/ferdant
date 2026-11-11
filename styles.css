@@ -1373,7 +1373,7 @@ button, .button, a.button, .copy-button, .quiet-button, .atlas-choice { box-shad
 .leaflet-bar, .leaflet-control, .leaflet-tooltip, .leaflet-popup-content-wrapper, .leaflet-popup-tip { box-shadow:none; border-radius:2px; }
 .atlas-choice { background:transparent; border-radius:2px; }
 .atlas-choice[aria-pressed="true"] { color:var(--cobalt); background:transparent; border-color:var(--cobalt); }
-.atlas-choice-symbol { color:var(--cobalt); background:transparent; }
+.atlas-choice-symbol { color:var(--hazard-accent, var(--cobalt)); background:transparent; }
 .atlas-controls { gap:4px; }
 .infographic-download { border:0; border-top:1px solid var(--rule); }
 @media(max-width:700px) { .site-header { height:76px; } .page { padding-left:20px; padding-right:20px; } }

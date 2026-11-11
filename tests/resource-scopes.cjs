@@ -11,9 +11,10 @@ async function ready(p){await p.waitForFunction(()=>{const r=document.querySelec
    const c=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce',acceptDownloads:true});await stubPublicMap(c);
    const p=await c.newPage(),errors=[],unexpected=[];p.on('pageerror',e=>errors.push(e.message));p.on('request',r=>{if(/^https?:/.test(r.url())&&new URL(r.url()).origin!==new URL(base).origin&&!isPublicMapRequest(r.url()))unexpected.push(r.url());});
    await p.goto(base+'/');await p.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');
-   assert.equal(await p.locator('#city-map [data-city-id]').count(),483);
+   assert.equal(await p.locator('#city-map [data-city-id]').count(),0);
    await p.locator('[data-location-kind="county"]').click();
-   assert.equal(await p.locator('#city-map [data-city-id]').count(),0);assert.equal(await p.locator('#city-map [data-county-id]').count(),58);
+   assert.equal(await p.locator('#city-map [data-city-id]').count(),483);assert.equal(await p.locator('#city-map [data-county-id]').count(),58);
+   assert(await p.locator('#city-map [data-city-id]').evaluateAll(els=>els.every(el=>getComputedStyle(el).pointerEvents==='none')));
    const input=p.getByRole('combobox',{name:'City, county or ZIP code'});await input.fill('Yo');
    assert(await p.locator('#location-suggestions [role="option"]').evaluateAll(els=>els.length>0&&els.every(e=>e.dataset.placeKey.startsWith('county:'))));
    await input.press('ArrowDown');await input.press('Enter');await p.waitForURL('**/local/?place=county%3A57');await ready(p);

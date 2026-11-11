@@ -2036,7 +2036,7 @@ button, .button, a.button, .copy-button, .quiet-button, .atlas-choice { box-shad
 .leaflet-bar, .leaflet-control, .leaflet-tooltip, .leaflet-popup-content-wrapper, .leaflet-popup-tip { box-shadow:none; border-radius:2px; }
 .atlas-choice { background:transparent; border-radius:2px; }
 .atlas-choice[aria-pressed="true"] { color:var(--cobalt); background:transparent; border-color:var(--cobalt); }
-.atlas-choice-symbol { color:var(--cobalt); background:transparent; }
+.atlas-choice-symbol { color:var(--hazard-accent, var(--cobalt)); background:transparent; }
 .atlas-controls { gap:4px; }
 .infographic-download { border:0; border-top:1px solid var(--rule); }
 @media(max-width:700px) { .site-header { height:76px; } .page { padding-left:20px; padding-right:20px; } }
@@ -2727,6 +2727,80 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  countyPreview.append(countyPreviewName,countyPreviewAction);mapRoot?.after(countyPreview);
  countyPreviewAction.addEventListener('click',()=>{if(touchedCounty)chooseCounty(touchedCounty);});
  const markers=new Map(), countyLayers=new Map();
+ let homeMapState='quiet',searchPlaces=[],searchMapTimer,homeFrame;
+ const homeExtras=new Map();
+ function stopHomeMovement(){clearTimeout(searchMapTimer);cancelAnimationFrame(homeFrame);if(mapRoot)mapRoot.dataset.moving='false';}
+ function homeView(bounds,maxZoom=12,animate=true){
+  if(!cityMap||!bounds?.isValid())return;
+  cancelAnimationFrame(homeFrame);
+  const wide=matchMedia('(min-width: 1000px)').matches;
+  const topLeft=L.point(wide?420:12,20),bottomRight=L.point(20,20);
+  if(homeMapState==='matching'&&matchMedia('(max-width: 700px)').matches&&!suggestions.hidden)topLeft.y+=suggestions.offsetHeight;
+  const zoom=Math.min(maxZoom,cityMap.getBoundsZoom(bounds,false,topLeft.add(bottomRight)));
+  if(!wide&&homeMapState==='quiet')bottomRight.y=Math.max(20,cityMap.getSize().y-Math.abs(cityMap.project(bounds.getSouthEast(),zoom).y-cityMap.project(bounds.getNorthWest(),zoom).y)-20);
+  const midpoint=cityMap.project(bounds.getNorthWest(),zoom).add(cityMap.project(bounds.getSouthEast(),zoom)).divideBy(2);
+  const target=cityMap.unproject(midpoint.add(bottomRight.subtract(topLeft).divideBy(2)),zoom);
+  if(!animate||matchMedia('(prefers-reduced-motion: reduce)').matches){cityMap.setView(target,zoom,{animate:false});mapRoot.dataset.moving='false';return;}
+  const from=cityMap.project(cityMap.getCenter(),zoom),to=cityMap.project(target,zoom),fromZoom=cityMap.getZoom(),began=performance.now();
+  mapRoot.dataset.moving='true';
+  function move(now){
+   const t=Math.min(1,(now-began)/400),ease=t*t*(3-2*t);
+   cityMap.setView(cityMap.unproject(from.add(to.subtract(from).multiplyBy(ease)),zoom),fromZoom+(zoom-fromZoom)*ease,{animate:false});
+   if(t<1)homeFrame=requestAnimationFrame(move);else mapRoot.dataset.moving='false';
+  }
+  homeFrame=requestAnimationFrame(move);
+ }
+ function updateHomeMap(animate=true,pressedMarker=null){
+  if(!landingOverview||!cityMap||!cityMarkers)return;
+  mapRoot.dataset.homeState=homeMapState;
+  if(homeMapState!=='exploring')cityMarkers.clearLayers();
+  if(!cityMap.hasLayer(cityMarkers))cityMarkers.addTo(cityMap);
+  if(homeMapState==='exploring'){
+   for(const marker of homeExtras.values())if(marker!==pressedMarker)cityMarkers.removeLayer(marker);
+   for(const marker of markers.values())cityMarkers.addLayer(marker);
+   const pressed=pressedMarker?.getElement();
+   // Moving the pressed SVG node would cancel its native click.
+   if(pressed)cityMarkers.eachLayer(marker=>{const element=marker.getElement();if(element&&element!==pressed&&element.parentNode===pressed.parentNode)pressed.before(element);});
+  }else if(homeMapState==='matching'){
+   const points=[];
+   for(const item of searchPlaces){
+    let marker=markers.get(item.id);
+    if(!marker){
+     const area=item.id.startsWith('zip:')?zipArea(item.name):null;
+     const center=area?L.latLng(area.lat,area.lng):countyLayers.get(item.county)?.getBounds().getCenter();
+     if(!center)continue;
+     marker=homeExtras.get(item.id);
+     if(!marker){
+      marker=L.circleMarker(center,{radius:4,color:'#244b84',fillColor:'#244b84',fillOpacity:1,weight:0,bubblingMouseEvents:false});
+      marker.bindTooltip(node(document,'span',item.name));marker.on('click',()=>commitPlace(item.id));
+      marker.on('add',()=>{marker.getElement().dataset.placeKey=item.id;});homeExtras.set(item.id,marker);
+     }
+    }
+    marker.setStyle({radius:4,color:'#244b84',fillColor:'#244b84',fillOpacity:1,weight:0});cityMarkers.addLayer(marker);points.push(marker.getLatLng());
+   }
+   if(points.length){
+    const bounds=L.latLngBounds(points);
+    if(points.length===1)bounds.extend([points[0].lat-.4,points[0].lng-.6]).extend([points[0].lat+.4,points[0].lng+.6]);
+    homeView(bounds.pad(.15),points.length===1?8:7.5,animate);
+   }
+  }else homeView(mapBounds,12,animate);
+  const zoom=cityMap.zoomControl.getContainer();zoom.hidden=homeMapState!=='exploring';
+ }
+ function exploreHomeMap(event){
+  if(!landingOverview)return;
+  cityMap?.scrollWheelZoom.enable();
+  if(homeMapState==='exploring')return;
+  const pressed=event?.type==='pointerdown'?event.target.closest('[data-city-id], [data-place-key]'):null;
+  const pressedMarker=markers.get(pressed?.dataset.cityId)||homeExtras.get(pressed?.dataset.placeKey);
+  stopHomeMovement();homeMapState='exploring';
+  for(const marker of markers.values())marker.setStyle({radius:2,color:'#14202b',fillColor:'#14202b',fillOpacity:.65,weight:0});
+  pressedMarker?.setStyle({radius:5,fillColor:'#244b84',fillOpacity:1});
+  updateHomeMap(false,pressedMarker);
+ }
+ if(landingOverview){
+  mapRoot.dataset.homeState='quiet';
+  for(const event of ['pointerdown','wheel','focusin'])mapRoot.addEventListener(event,exploreHomeMap,{capture:true,passive:true});
+ }
  const select = document.querySelector('#phone-city');
  const options = document.createDocumentFragment();
  const cityGroup = document.createElement('optgroup');cityGroup.label = 'California cities';
@@ -2910,6 +2984,7 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  function activate(index){active=index;[...suggestions.children].forEach((el,i)=>el.setAttribute('aria-selected',String(i===active)));if(active>=0){mapSearch.setAttribute('aria-activedescendant',suggestions.children[active].id);suggestions.children[active].scrollIntoView({block:'nearest'});}}
  let travelRun=0,travelBoundary;
  async function enterPlace(key,query){
+  if(landingOverview)stopHomeMovement();
   const run=++travelRun,area=place(key),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   function navigate(){if(run!==travelRun)return;try{sessionStorage.setItem(chosenKey,key);}catch{}location.assign('/local/?'+query);}
   if(reduce||!cityMap||!area){navigate();return;}
@@ -2953,16 +3028,19 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  function suggest(){
   if(selectionKind==='state'){closeSuggestions();return;}
   clearTimeout(closeTimer);const query=normalize(mapSearch.value);suggestions.replaceChildren();matches=[];active=-1;
-  if(!query){closeSuggestions();searchStatus.textContent='';return;}
+  if(landingOverview)stopHomeMovement();
+  if(!query){closeSuggestions();searchStatus.textContent='';if(landingOverview){homeMapState='quiet';searchPlaces=[];updateHomeMap();}return;}
   const eligible=eligibleLocations(normalize(mapSearch.value));
   const prefixMatches=eligible.filter(item=>normalize(item.name).startsWith(query));
-  matches=(prefixMatches.length?prefixMatches:eligible.filter(item=>normalize(item.name).includes(query))).sort((a,b)=>Number(!normalize(a.name).startsWith(query))-Number(!normalize(b.name).startsWith(query))||a.name.localeCompare(b.name)).slice(0,8);
+  const allMatches=(prefixMatches.length?prefixMatches:eligible.filter(item=>normalize(item.name).includes(query))).sort((a,b)=>Number(!normalize(a.name).startsWith(query))-Number(!normalize(b.name).startsWith(query))||a.name.localeCompare(b.name));
+  matches=allMatches.slice(0,8);
+  if(landingOverview){homeMapState='matching';searchPlaces=allMatches;searchMapTimer=setTimeout(()=>updateHomeMap(),120);}
   for(const [index,item] of matches.entries()){
    const option=node(document,'li',item.label);option.id=`location-suggestion-${index}`;option.setAttribute('role','option');option.setAttribute('aria-selected','false');option.dataset.placeKey=item.id;
    option.addEventListener('pointerdown',event=>event.preventDefault());option.addEventListener('click',()=>commitPlace(item.id));suggestions.append(option);
   }
   suggestions.hidden=!matches.length;mapSearch.setAttribute('aria-expanded',String(Boolean(matches.length)));mapSearch.removeAttribute('aria-activedescendant');
-  searchStatus.textContent=matches.length?`${matches.length} California suggestions. Use arrow keys and Enter, or choose a result.`:selectionKind==='zip'||/^\d/.test(query)?'No saved California ZIP area matches. Some postal-only ZIP codes are not mapped; try a city or county.':`No California ${selectionKind==='city'?'city':'county'} matches. Change the search type above.`;
+  searchStatus.textContent=landingOverview?`${allMatches.length} matching ${allMatches.length===1?'place':'places'}`:matches.length?`${matches.length} California suggestions. Use arrow keys and Enter, or choose a result.`:selectionKind==='zip'||/^\d/.test(query)?'No saved California ZIP area matches. Some postal-only ZIP codes are not mapped; try a city or county.':`No California ${selectionKind==='city'?'city':'county'} matches. Change the search type above.`;
  }
  mapSearch.addEventListener('input',suggest);mapSearch.addEventListener('focus',()=>{if(mapSearch.value)suggest();});
  mapSearch.addEventListener('keydown',event=>{
@@ -2985,11 +3063,12 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
   const changing=kind!==selectionKind;
   clearCountyPreview();
   selectionKind=kind;
+  if(landingOverview&&reset)exploreHomeMap();
   modeButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.locationKind===kind)));
   if(mapRoot)mapRoot.dataset.selectionKind=kind;
   if(stateLibrary){
    const state=kind==='state';
-   mapRoot.closest('.city-map-workspace').hidden=state;
+   mapRoot.closest('.city-map-workspace').hidden=false;
    document.querySelector('#map-city-form').hidden=state;
    document.querySelector('#location-summary').hidden=state;
    stateResourceHost.hidden=!state;
@@ -2997,9 +3076,7 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
    if(state){
     if(stateLibrary.parentElement!==stateResourceHost)stateResourceHost.append(stateLibrary);
     if(reset||changing)closeSuggestions();
-    return;
-   }
-   if(stateLibrary.parentElement===stateResourceHost)stateLibraryHome.after(stateLibrary);
+   }else if(stateLibrary.parentElement===stateResourceHost)stateLibraryHome.after(stateLibrary);
   }
   countyLayers.forEach((layer,id)=>{
    const element=layer.getElement();if(element)element.style.pointerEvents=kind==='county'?'auto':'none';
@@ -3008,9 +3085,10 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
   });
   const field=document.querySelector('#map-city-search');if(field)field.placeholder=kind==='zip'?'ZIP code, e.g. 95616':kind==='county'?'County, e.g. Yolo':landingOverview?'City, county or ZIP code':'City or ZIP code, e.g. Davis or 95616';
   if(cityMap){if(kind==='county')cityMap.doubleClickZoom.disable();else cityMap.doubleClickZoom.enable();}
-  if(cityMap&&cityMarkers){if(kind==='county'){if(cityMap.hasLayer(cityMarkers))cityMap.removeLayer(cityMarkers);}else if(!cityMap.hasLayer(cityMarkers))cityMap.addLayer(cityMarkers);}
+  if(cityMap&&cityMarkers&&!landingOverview){if(kind==='county'){if(cityMap.hasLayer(cityMarkers))cityMap.removeLayer(cityMarkers);}else if(!cityMap.hasLayer(cityMarkers))cityMap.addLayer(cityMarkers);}
   if(reset){field.value='';closeSuggestions();searchStatus.textContent='';}
   if(cityMap)syncMap(place(select.value));
+  if(landingOverview&&kind==='state'&&cityMap)homeView(mapBounds,12,false);
  }
  modeButtons.forEach(button=>button.addEventListener('click',()=>setSelectionKind(button.dataset.locationKind,true)));
  function paintCounty(id){
@@ -3036,6 +3114,7 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
  }
  function syncMap(location) {
   if(!cityMap)return;
+  if(landingOverview&&!location){cityMap.invalidateSize(false);updateHomeMap(false);return;}
   selectedMarker?.closeTooltip();selectedMarker?.setStyle({radius:2,color:'#14202b',fillColor:'#14202b',fillOpacity:.65,weight:0});
   const oldCounty=selectedCounty;
   selectedMarker=location?markers.get(location.id):undefined;
@@ -3087,11 +3166,11 @@ if (navigator.clipboard?.writeText) for (const button of document.querySelectorA
     const marker=L.circleMarker([city.lat,city.lng],{radius:2,color:'#14202b',fillColor:'#14202b',fillOpacity:.65,weight:0,bubblingMouseEvents:false}).addTo(cityMarkers);
     markers.set(city.id,marker);const label=document.createElement('span');label.textContent=city.name;marker.bindTooltip(label);
     marker.on('add',()=>{const element=marker.getElement();if(element)element.dataset.cityId=city.id;});
-    marker.on('mouseover',()=>marker.setStyle({fillColor:'#244b84',fillOpacity:1,radius:5}));marker.on('mouseout',()=>{if(marker!==selectedMarker)marker.setStyle({fillColor:'#14202b',fillOpacity:.65,radius:2});});
+    marker.on('mouseover',()=>marker.setStyle({fillColor:'#244b84',fillOpacity:1,radius:5}));marker.on('mouseout',()=>{if(marker!==selectedMarker)marker.setStyle(landingOverview&&homeMapState==='matching'?{fillColor:'#244b84',fillOpacity:1,radius:4}:{fillColor:'#14202b',fillOpacity:.65,radius:2});});
     marker.on('click',()=>{if(routing())commitPlace(city.id);else chooseCity(city.id);});const element=marker.getElement();if(element)element.dataset.cityId=city.id;
    }
-   cityMap.on('zoomend',()=>{for(const marker of markers.values())if(marker!==selectedMarker)marker.setStyle({radius:Math.min(5,2+Math.max(0,cityMap.getZoom()-6)*.65)});});
-   if(landingOverview){cityMap.zoomControl.setPosition('topright');cityMap.on('resize',()=>{if(!select.value)syncMap(null);});}
+   cityMap.on('zoomend',()=>{for(const marker of markers.values())if(marker!==selectedMarker)marker.setStyle({radius:landingOverview&&homeMapState==='matching'?4:Math.min(5,2+Math.max(0,cityMap.getZoom()-6)*.65)});});
+   if(landingOverview){cityMap.zoomControl.setPosition('topright');cityMap.on('resize',()=>{if(homeMapState!=='exploring')updateHomeMap(false);});}
    document.querySelector('#city-map').dataset.ready='true';setSelectionKind(selectionKind);
   }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. Location search and phone numbers still work.';});
   return mapPromise;
