@@ -13,10 +13,11 @@
     "verify:statewide": "node tests/statewide-services.cjs",
     "verify:everyday": "node tests/everyday-services.cjs && node tests/everyday-visibility.cjs",
     "verify:booklet": "node tests/resource-booklet.cjs",
-    "verify:risk": "node tests/hazard-risk.cjs",
+    "verify:risk": "python -m unittest discover -s tests -p test_county_risk.py && node tests/hazard-risk.cjs",
     "verify:recommendations": "node tests/recommendations.cjs",
     "verify:scopes": "node tests/resource-scopes.cjs && node tests/county-preview.cjs && node tests/state-view.cjs && node tests/zip-search.cjs",
-    "verify:cleanup": "node tests/cleanup-layout.cjs"
+    "verify:cleanup": "node tests/cleanup-layout.cjs",
+    "verify:immersive": "node tests/immersive-flow.cjs && node tests/place-story.cjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0"

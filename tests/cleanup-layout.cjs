@@ -17,7 +17,7 @@ async function credits(p){
 (async()=>{const b=await chromium.launch({executablePath:process.env.CHROME_PATH}),findings=[];fs.mkdirSync('screenshots/cleanup',{recursive:true});try{
  for(const width of [320,390,768,1440]){
   const c=await b.newContext({viewport:{width,height:900},reducedMotion:'reduce',acceptDownloads:true});await stubPublicMap(c);
-  const p=await c.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
+  const p=await c.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.stack||e.message));
   await p.goto(base+'/');await p.waitForSelector('#city-map[data-ready]');
   assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   const mode=p.locator('[data-location-kind]');assert.equal(await mode.count(),4);
@@ -30,10 +30,10 @@ async function credits(p){
   assert.equal(await p.locator('.home-instructions,.welcome-photos').count(),0);
   await p.goto(base+'/local/?place=57026');await ready(p);
   const mapRect=await p.locator('#resource-map').boundingBox();assert(mapRect.y<500);assert(mapRect.height>=(width<=700?340:520));
-  assert(await p.locator('.atlas-controls').evaluate(el=>el.getBoundingClientRect().top>document.querySelector('#resource-map').getBoundingClientRect().bottom));
+  assert.equal(await p.locator('.atlas-controls').evaluate(el=>el.closest('[data-story-step]')?.dataset.storyStep),'4');
   const planIDs=await p.locator('[data-disaster]').evaluateAll(els=>els.map(el=>el.dataset.disaster));const data=JSON.parse(await p.locator('#resource-map-data').textContent());assert.deepEqual(planIDs,data.disasters.plans.map(p=>p.id));
   assert(await p.locator('.atlas-choice').evaluateAll(els=>els.every(el=>el.offsetHeight>=44&&el.offsetWidth>=44)));
-  assert.equal(await p.locator('.atlas-legend-disclosure').evaluate(el=>el.open),width>700);
+  assert(!await p.locator('.story-map-controls').evaluate(el=>el.open));
   const earthquake=p.locator('[data-disaster="earthquake"]');await earthquake.focus();await p.keyboard.press('Space');assert.equal(await earthquake.getAttribute('aria-pressed'),'true');
   assert(await earthquake.evaluate(el=>getComputedStyle(el.querySelector('.atlas-choice-check')).display!=='none'&&parseFloat(getComputedStyle(el).outlineWidth)>=3));
   assert(await p.locator('#resource-map').evaluate(el=>{const r=el.getBoundingClientRect();return r.top>=0&&r.top<innerHeight;}));
@@ -41,7 +41,7 @@ async function credits(p){
   if(width<=700){await p.locator('.mobile-menu > summary').focus();await p.keyboard.press('Enter');assert(await p.locator('.mobile-menu .recommendation-entry').isVisible());await p.keyboard.press('Enter');}
   await p.locator('#atlas-everyday').click();
   const waiting=p.waitForEvent('download');await p.locator('#offline-download [data-city-download]').click();const dl=await waiting,file=path.resolve('screenshots/cleanup/offline-'+width+'.html');await dl.saveAs(file);
-  const off=await b.newContext({offline:true,viewport:{width,height:900},reducedMotion:'reduce'}),o=await off.newPage(),requests=[];o.on('request',r=>{if(/^https?:/.test(r.url()))requests.push(r.url());});o.on('pageerror',e=>errors.push(e.message));
+  const off=await b.newContext({offline:true,viewport:{width,height:900},reducedMotion:'reduce'}),o=await off.newPage(),requests=[];o.on('request',r=>{if(/^https?:/.test(r.url()))requests.push(r.url());});o.on('pageerror',e=>errors.push(e.stack||e.message));
   await o.goto(pathToFileURL(file).href);await ready(o);await credits(o);await o.locator('.font-licenses > summary').click();assert(!/Leaflet/.test(await o.locator('body').innerText()));assert.deepEqual(requests,[]);await off.close();
   await p.goto(base+'/offline/');await p.waitForSelector('#city-map[data-ready]');assert(!/Leaflet/.test(await p.locator('body').innerText()));
   assert.deepEqual(errors,[]);findings.push({width,mapTop:mapRect.y,mapHeight:mapRect.height,plans:planIDs.length,offlineHTTP:0,credits:'full list and short corner credit',keyboard:'plans, modes, menu and Sources'});await c.close();

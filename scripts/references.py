@@ -199,6 +199,7 @@ def compile_references():
                         ('content/statewide-service-manifest.json', 'maps'),
                         ('content/everyday-service-manifest.json', 'maps'),
                         ('content/hazard-risk-manifest.json', 'disasters'),
+                        ('content/county-risk-scores-manifest.json', 'disasters'),
                         ('content/disaster-source-manifest.json', 'disasters'),
                         ('assets/fonts/provenance.json', 'assets'),
                         ('assets/favicons/sources.json', 'assets'),

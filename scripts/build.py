@@ -70,7 +70,7 @@ def location_start(show_download=True, heading=2, include_state=False):
 {actions}
  <p id="location-summary" role="status">Choose a city or county for checked local contacts. You can browse general resources below.</p>
  {city_map(include_search=False)}
- <noscript><p>City selection needs JavaScript. California-wide phone numbers and the standard offline copy remain available below.</p></noscript>
+ <noscript><p>City selection needs JavaScript. Read <a href="/local/">California plans and phone numbers</a>, or <a href="{DOWNLOAD}" download>save the complete offline website</a>.</p></noscript>
  </section>
 '''
 
@@ -98,7 +98,7 @@ def home(local=False):
  phones=phone_chart(include_map=False, show_download=False, show_picker=False, shared_only=True)
  resources=(f'<div class="resource-heading" id="california-resources"><div><h2>Statewide help &amp; general guides</h2><p>California-wide and national services, guides and discussions. Eligibility and service areas vary.</p></div></div><div class="service-directory" id="communities" tabindex="-1" role="region" aria-label="Essential services">{phones}{sections}</div>' if local else landing_resources(c.BRANCHES, phones))
  about_section='<section id="about" class="directory-about-section" tabindex="-1"><h2>About Ferdant</h2><p>Ferdant connects five practical-help communities. Read the resources here or take a specific question to the relevant Reddit community. Replies and outcomes aren’t guaranteed.</p><p>AggieBillHelp is the separate UC Davis campus community. Ferdant does not imply a university affiliation.</p></section>'
- assets='' if local else '<link rel="stylesheet" href="/landing.css">'
+ assets='<script src="/immersive.js" defer></script>' if local else '<link rel="stylesheet" href="/landing.css">'
  page('/local/' if local else '/','Local resources' if local else 'Practical guides for everyday problems','Checked California location resources, shared support numbers, public guides and a downloadable resource book with disaster resources, related phone charts and a complete offline website.' if local else 'A directory of practical resources, tools and California emergency and support phone numbers, with city selection and a downloadable offline copy.',f'''
 {assets}
  {('<div class="portal-heading" data-location-page><div>'+intro+'</div></div>') if local else landing_welcome()}
@@ -149,7 +149,7 @@ if __name__=='__main__':
  (args.output/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>{DOMAIN}{u}</loc></url>' for u in pages if u!='/404.html')+'</urlset>\n',encoding='utf-8')
  (args.output/'robots.txt').write_text('User-agent: *\nAllow: /\n'+('Sitemap: '+DOMAIN+'/sitemap.xml\n' if args.mode=='production' else '# Preview pages carry noindex; allow crawlers to see it.\n'),encoding='utf-8')
  if args.output.resolve()!=ROOT:
-  for name in ['resource-facts.js','booklet-map.js','landing.css','landing.js','styles.css','site.js','recommendations.js','phone.js','infographic.js','resource-booklet.js','hazard-risk.js','resource-map.js','disaster-layers.js','service-resources.js','CNAME','.nojekyll']:
+  for name in ['immersive.js','resource-facts.js','booklet-map.js','landing.css','landing.js','styles.css','site.js','recommendations.js','phone.js','infographic.js','resource-booklet.js','hazard-risk.js','resource-map.js','disaster-layers.js','service-resources.js','CNAME','.nojekyll']:
    shutil.copy2(ROOT/name,args.output/name)
   shutil.copytree(ROOT/'assets',args.output/'assets',dirs_exist_ok=True)
   for name in ['integrations','config']:

@@ -1,0 +1,250 @@
+{
+  "schema": 1,
+  "checked": "2026-11-10",
+  "release": "December 2025 / v1.20",
+  "source": {
+    "title": "FEMA National Risk Index county scores — December 2025 / v1.20",
+    "url": "https://www.arcgis.com/home/item.html?id=39485e8035d446a5bff03259508ae355",
+    "checked": "2026-11-10",
+    "published": "2025-12"
+  },
+  "countyCount": 58,
+  "countyService": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0",
+  "query": {
+    "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query",
+    "params": {
+      "f": "json",
+      "where": "STATEABBRV='CA'",
+      "outFields": "COUNTY,STCOFIPS,NRI_VER,AVLN_RISKS,AVLN_EALT,CFLD_RISKS,CFLD_EALT,CWAV_RISKS,CWAV_EALT,ERQK_RISKS,ERQK_EALT,HAIL_RISKS,HAIL_EALT,HRCN_RISKS,HRCN_EALT,HWAV_RISKS,HWAV_EALT,IFLD_RISKS,IFLD_EALT,ISTM_RISKS,ISTM_EALT,LNDS_RISKS,LNDS_EALT,LTNG_RISKS,LTNG_EALT,SWND_RISKS,SWND_EALT,TRND_RISKS,TRND_EALT,TSUN_RISKS,TSUN_EALT,VLCN_RISKS,VLCN_EALT,WFIR_RISKS,WFIR_EALT,WNTW_RISKS,WNTW_EALT",
+      "returnGeometry": "false",
+      "orderByFields": "STCOFIPS",
+      "resultRecordCount": 100
+    },
+    "requestURL": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=STATEABBRV%3D%27CA%27&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CAVLN_EALT%2CCFLD_RISKS%2CCFLD_EALT%2CCWAV_RISKS%2CCWAV_EALT%2CERQK_RISKS%2CERQK_EALT%2CHAIL_RISKS%2CHAIL_EALT%2CHRCN_RISKS%2CHRCN_EALT%2CHWAV_RISKS%2CHWAV_EALT%2CIFLD_RISKS%2CIFLD_EALT%2CISTM_RISKS%2CISTM_EALT%2CLNDS_RISKS%2CLNDS_EALT%2CLTNG_RISKS%2CLTNG_EALT%2CSWND_RISKS%2CSWND_EALT%2CTRND_RISKS%2CTRND_EALT%2CTSUN_RISKS%2CTSUN_EALT%2CVLCN_RISKS%2CVLCN_EALT%2CWFIR_RISKS%2CWFIR_EALT%2CWNTW_RISKS%2CWNTW_EALT&returnGeometry=false&orderByFields=STCOFIPS&resultRecordCount=100"
+  },
+  "fields": {
+    "COUNTY": "County Name",
+    "STCOFIPS": "State-County FIPS Code",
+    "NRI_VER": "National Risk Index Version",
+    "AVLN_RISKS": "Avalanche - Hazard Type Risk Index Score",
+    "AVLN_EALT": "Avalanche - Expected Annual Loss - Total",
+    "CFLD_RISKS": "Coastal Flooding - Hazard Type Risk Index Score",
+    "CFLD_EALT": "Coastal Flooding - Expected Annual Loss - Total",
+    "CWAV_RISKS": "Cold Wave - Hazard Type Risk Index Score",
+    "CWAV_EALT": "Cold Wave - Expected Annual Loss - Total",
+    "ERQK_RISKS": "Earthquake - Hazard Type Risk Index Score",
+    "ERQK_EALT": "Earthquake - Expected Annual Loss - Total",
+    "HAIL_RISKS": "Hail - Hazard Type Risk Index Score",
+    "HAIL_EALT": "Hail - Expected Annual Loss - Total",
+    "HRCN_RISKS": "Hurricane - Hazard Type Risk Index Score",
+    "HRCN_EALT": "Hurricane - Expected Annual Loss - Total",
+    "HWAV_RISKS": "Heat Wave - Hazard Type Risk Index Score",
+    "HWAV_EALT": "Heat Wave - Expected Annual Loss - Total",
+    "IFLD_RISKS": "Inland Flooding - Hazard Type Risk Index Score",
+    "IFLD_EALT": "Inland Flooding - Expected Annual Loss - Total",
+    "ISTM_RISKS": "Ice Storm - Hazard Type Risk Index Score",
+    "ISTM_EALT": "Ice Storm - Expected Annual Loss - Total",
+    "LNDS_RISKS": "Landslide - Hazard Type Risk Index Score",
+    "LNDS_EALT": "Landslide - Expected Annual Loss - Total",
+    "LTNG_RISKS": "Lightning - Hazard Type Risk Index Score",
+    "LTNG_EALT": "Lightning - Expected Annual Loss - Total",
+    "SWND_RISKS": "Strong Wind - Hazard Type Risk Index Score",
+    "SWND_EALT": "Strong Wind - Expected Annual Loss - Total",
+    "TRND_RISKS": "Tornado - Hazard Type Risk Index Score",
+    "TRND_EALT": "Tornado - Expected Annual Loss - Total",
+    "TSUN_RISKS": "Tsunami - Hazard Type Risk Index Score",
+    "TSUN_EALT": "Tsunami - Expected Annual Loss - Total",
+    "VLCN_RISKS": "Volcanic Activity - Hazard Type Risk Index Score",
+    "VLCN_EALT": "Volcanic Activity - Expected Annual Loss - Total",
+    "WFIR_RISKS": "Wildfire - Hazard Type Risk Index Score",
+    "WFIR_EALT": "Wildfire - Expected Annual Loss - Total",
+    "WNTW_RISKS": "Winter Weather - Hazard Type Risk Index Score",
+    "WNTW_EALT": "Winter Weather - Expected Annual Loss - Total"
+  },
+  "inputReceipts": {
+    "county-query.json": {
+      "bytes": 65012,
+      "sha256": "2275cd8c02e42db7a20f259c84170c7984ce69eb410ed3d5c7c076a420c2bbc8"
+    },
+    "county-metadata.json": {
+      "bytes": 233504,
+      "sha256": "a7c29603e37422f8f8d5bad524ea6c88d2c9cef6bdcda7c01857b2d7c437ed9b"
+    },
+    "documentation-review.json": {
+      "bytes": 1720,
+      "sha256": "82a4be8dbab62198680fc52b11ee010ff92164cd06789bf74083b512fa3d1e50"
+    },
+    "fema-notice-20230526.pdf": {
+      "bytes": 269335,
+      "sha256": "c4ec3d9252bca915fa761862ccd15ba3ef91508658598610812eb5b72ccdcef4"
+    },
+    "national-score-scope.json": {
+      "bytes": 5630,
+      "sha256": "f46886bef2787f80efe847661a1093b3d518790441abb237fcdd92695b820f20"
+    },
+    "national-count.json": {
+      "bytes": 76,
+      "sha256": "a9b826714b32acac412ffccb06267cc3f81c003fcef4027847c5c6c16d9df9de"
+    },
+    "national-query.json": {
+      "bytes": 4003,
+      "sha256": "a43ec790813592d61f680e2b14858d3bd2580b72fa66efe3919598e6e0051590"
+    },
+    "national-query-0000.json": {
+      "bytes": 564168,
+      "sha256": "f8fb28438ebbf4ef46d994ae50f864bcff0b48c96f27ac87338d3a397157ba8b"
+    },
+    "national-query-1000.json": {
+      "bytes": 567391,
+      "sha256": "90a0551f69fd23027a4e6c6549c00c33d355f672ec79861e322bf544e2532298"
+    },
+    "national-query-2000.json": {
+      "bytes": 570443,
+      "sha256": "7bd74e1134cd683ba4edcfc487bf2f51217042cadae587b77e6c3f74aad8e7e0"
+    },
+    "national-query-3000.json": {
+      "bytes": 118960,
+      "sha256": "3e58ffa6b64ad3e92c950041b3de34de440dbfc38716f37950a002fa39cda30f"
+    }
+  },
+  "outputSha256": "a51862f1b34cdf546e1855d389057cb9d807e42c0515b5363bde6afaca95d435",
+  "nationalQuery": {
+    "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query",
+    "params": {
+      "f": "json",
+      "where": "1=1",
+      "outFields": "COUNTY,STCOFIPS,NRI_VER,AVLN_RISKS,CFLD_RISKS,CWAV_RISKS,ERQK_RISKS,HAIL_RISKS,HRCN_RISKS,HWAV_RISKS,IFLD_RISKS,ISTM_RISKS,LNDS_RISKS,LTNG_RISKS,SWND_RISKS,TRND_RISKS,TSUN_RISKS,VLCN_RISKS,WFIR_RISKS,WNTW_RISKS",
+      "returnGeometry": "false",
+      "orderByFields": "OBJECTID",
+      "resultRecordCount": 1000
+    },
+    "countQuery": {
+      "f": "json",
+      "where": "1=1",
+      "returnCountOnly": "true"
+    },
+    "recordCount": 3232,
+    "pages": [
+      {
+        "file": "national-query-0000.json",
+        "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=0",
+        "params": {
+          "f": "json",
+          "where": "1=1",
+          "outFields": "COUNTY,STCOFIPS,NRI_VER,AVLN_RISKS,CFLD_RISKS,CWAV_RISKS,ERQK_RISKS,HAIL_RISKS,HRCN_RISKS,HWAV_RISKS,IFLD_RISKS,ISTM_RISKS,LNDS_RISKS,LTNG_RISKS,SWND_RISKS,TRND_RISKS,TSUN_RISKS,VLCN_RISKS,WFIR_RISKS,WNTW_RISKS",
+          "returnGeometry": "false",
+          "orderByFields": "OBJECTID",
+          "resultRecordCount": 1000,
+          "resultOffset": 0
+        }
+      },
+      {
+        "file": "national-query-1000.json",
+        "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=1000",
+        "params": {
+          "f": "json",
+          "where": "1=1",
+          "outFields": "COUNTY,STCOFIPS,NRI_VER,AVLN_RISKS,CFLD_RISKS,CWAV_RISKS,ERQK_RISKS,HAIL_RISKS,HRCN_RISKS,HWAV_RISKS,IFLD_RISKS,ISTM_RISKS,LNDS_RISKS,LTNG_RISKS,SWND_RISKS,TRND_RISKS,TSUN_RISKS,VLCN_RISKS,WFIR_RISKS,WNTW_RISKS",
+          "returnGeometry": "false",
+          "orderByFields": "OBJECTID",
+          "resultRecordCount": 1000,
+          "resultOffset": 1000
+        }
+      },
+      {
+        "file": "national-query-2000.json",
+        "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=2000",
+        "params": {
+          "f": "json",
+          "where": "1=1",
+          "outFields": "COUNTY,STCOFIPS,NRI_VER,AVLN_RISKS,CFLD_RISKS,CWAV_RISKS,ERQK_RISKS,HAIL_RISKS,HRCN_RISKS,HWAV_RISKS,IFLD_RISKS,ISTM_RISKS,LNDS_RISKS,LTNG_RISKS,SWND_RISKS,TRND_RISKS,TSUN_RISKS,VLCN_RISKS,WFIR_RISKS,WNTW_RISKS",
+          "returnGeometry": "false",
+          "orderByFields": "OBJECTID",
+          "resultRecordCount": 1000,
+          "resultOffset": 2000
+        }
+      },
+      {
+        "file": "national-query-3000.json",
+        "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=3000",
+        "params": {
+          "f": "json",
+          "where": "1=1",
+          "outFields": "COUNTY,STCOFIPS,NRI_VER,AVLN_RISKS,CFLD_RISKS,CWAV_RISKS,ERQK_RISKS,HAIL_RISKS,HRCN_RISKS,HWAV_RISKS,IFLD_RISKS,ISTM_RISKS,LNDS_RISKS,LTNG_RISKS,SWND_RISKS,TRND_RISKS,TSUN_RISKS,VLCN_RISKS,WFIR_RISKS,WNTW_RISKS",
+          "returnGeometry": "false",
+          "orderByFields": "OBJECTID",
+          "resultRecordCount": 1000,
+          "resultOffset": 3000
+        }
+      }
+    ]
+  },
+  "nationalAssessedCounts": {
+    "AVLN": 684,
+    "CFLD": 500,
+    "CWAV": 3144,
+    "ERQK": 3144,
+    "HAIL": 3144,
+    "HRCN": 2397,
+    "HWAV": 3114,
+    "IFLD": 3144,
+    "ISTM": 3001,
+    "LNDS": 3144,
+    "LTNG": 3144,
+    "SWND": 3144,
+    "TRND": 3144,
+    "TSUN": 65,
+    "VLCN": 307,
+    "WFIR": 3144,
+    "WNTW": 3142
+  },
+  "comparisonMethod": "For each official hazard component, count national county records with a finite nonnegative numeric RISKS score strictly below the selected county score. Exclude equal scores from below; include the selected county and ties in assessed. Exclude missing/null and -9999 scores. Display floor(100 * below / assessed) for a conservative strictly-lower percentage. Keep the original FEMA percentile unchanged and separate.",
+  "documentation": [
+    {
+      "title": "FEMA National Risk Index Technical Documentation — December 2025 / v1.20",
+      "url": "https://www.fema.gov/sites/default/files/documents/fema_national-risk-index_technical-documentation.pdf",
+      "sections": [
+        "3.2, pages 3-2 to 3-3",
+        "5.3.2, page 5-10"
+      ],
+      "checked": "2026-11-10",
+      "published": "2025-12",
+      "supports": "Hazard scores are national percentiles within the same geography level. EAL is average annual economic loss, including population equivalence; dollar values use 2024 prices.",
+      "retrieval": "FEMA PDF download returned HTTP 403. Readable indexed text from this exact official URL confirmed sections 3.2 and 5.3.2; the full PDF was not downloaded.",
+      "shortExcerpts": [
+        "Scores represent the national percentile ranking",
+        "are in units of dollars",
+        "Population loss is monetized into a population equivalence value"
+      ]
+    },
+    {
+      "title": "FEMA notice: Community Disaster Resilience Zones and the National Risk Index",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2023-05-26/pdf/2023-11268.pdf",
+      "checked": "2026-11-10",
+      "published": "2023-05-26",
+      "sections": [
+        "Federal Register page 34172"
+      ],
+      "supports": "EAL includes buildings, monetized fatalities and injuries, and agriculture. Hazard-specific and composite risk scores are distinct.",
+      "retrieval": "Official FEMA notice PDF opened and read on govinfo.gov."
+    }
+  ],
+  "fieldMeanings": {
+    "*_RISKS": "Official hazard-specific county Risk Index Score: national percentile among counties and county equivalents FEMA scored for that hazard, not every US county, a city score or event probability.",
+    "*_EALT": "Official hazard-specific total Expected Annual Loss: dollars per year on average, including monetized population consequences, not just property or county-budget spending.",
+    "NRI_VER": "Release label returned by every county record; confirmed as December 2025."
+  },
+  "method": "Match official COUNTY names to the existing California county index. Site county keys are not FIPS codes. Preserve raw scores and losses without averaging or city allocation.",
+  "combinedPlans": "For cold or storms, show a named official component and its unchanged score/loss, selected from available component scores. Never present the maximum as a FEMA composite for the combined plan.",
+  "limits": [
+    "County comparison remains county-level on city and ZIP pages; the existing city hazard bands are a separate tract screening.",
+    "Percentiles are relative risk, not a forecast, likelihood, individual loss estimate or an address assessment.",
+    "Risk includes vulnerability and resilience; EAL does not apply that adjustment.",
+    "Expected annual loss includes monetized fatalities and injuries as well as buildings and agriculture; it is not an annual bill or actual spending.",
+    "Missing/null and -9999 values are unavailable, never zero. Dam failure, levee failure and subsidence have no NRI component.",
+    "The 100th percentile must not be described as strictly greater than every county; use a percentile label or a conservative lower rounded percentage.",
+    "Hazard-specific percentiles compare counties FEMA scored for that hazard; counties with no numeric hazard score are outside that scored comparison. Say assessed US counties, not all US counties.",
+    "The scored comparison universe differs by hazard; nationalAssessedCounts records each observed count. Strictly-lower percentages are derived from raw national scores, not from rounding the FEMA percentile. Original FEMA scores are never changed.",
+    "Hazard-specific percentiles compare communities for that hazard; they do not rank absolute losses across hazards."
+  ]
+}

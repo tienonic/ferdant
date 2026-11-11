@@ -14,6 +14,7 @@ module.exports = async function checkPhoneDirectory(page, width) {
  await page.locator('.phone-toggle').click();
  await page.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');
  assert.equal(await page.evaluate(()=>L.version),'1.9.4');
+ await page.evaluate(()=>document.fonts.load('italic 400 16px Newsreader'));
  const network=[];const listener=r=>{if(!isPublicMapRequest(r.url()))network.push(r.url());};page.on('request',listener);
  try {
   const city=page.getByLabel('Your city in California',{exact:true});

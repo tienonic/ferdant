@@ -1,8 +1,9 @@
+const {showEveryday,openMapControls}=require('./story-helpers.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url'),{chromium}=require('playwright');
 const {stubPublicMap}=require('./map-network.cjs'),{mappedIds}=require('./map-inventory.cjs');
 const base=process.env.SITE_URL||'http://127.0.0.1:4173';
 function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64/chrome-headless-shell.exe')).find(fs.existsSync);}
-async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return r&&!r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});}
+async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return r&&!r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});await showEveryday(p);await openMapControls(p);}
 (async()=>{
  const b=await chromium.launch({executablePath:executable()}),report=[];fs.mkdirSync('screenshots/everyday-visible',{recursive:true});
  try{
@@ -13,12 +14,12 @@ async function ready(p){await p.waitForFunction(()=>{const r=document.querySelec
    assert.deepEqual(initial,expected,'Every eligible resource must be represented before opening the list');assert.equal(initial.length,new Set(initial).size);
    assert.equal(await p.locator('.atlas-category[open]').count(),0);assert.equal(await p.locator('.atlas-place-card').count(),0,'Category contents load only when opened');
    assert.equal(await p.locator('.atlas-category').evaluateAll(es=>es.reduce((n,e)=>n+Number(e.dataset.resourceCount),0)),expected.length);assert((await p.locator('#atlas-map-count').innerText()).startsWith(expected.length+' listed resources mapped'));
-   const count=await p.locator('.atlas-cluster').count();if(count){assert(await p.locator('.atlas-cluster').evaluateAll(es=>es.every(e=>e.querySelector('.atlas-cluster-count').textContent===e.dataset.resourceCount+' places'&&e.querySelector('.atlas-cluster-icons svg')&&e.getAttribute('aria-label').includes('Open the list.'))));}
+   const count=await p.locator('.atlas-cluster').count();if(count){assert(await p.locator('.atlas-cluster').evaluateAll(es=>es.every(e=>/^\d+(?: places)?$/.test(e.querySelector('.atlas-cluster-count').textContent)&&Number(e.querySelector('.atlas-cluster-count').textContent.split(' ')[0])===Number(e.dataset.resourceCount)&&e.querySelector('.atlas-cluster-icons svg')&&e.getAttribute('aria-label').startsWith(e.dataset.resourceCount+' nearby places: ')&&e.getAttribute('aria-label').includes('Open the list.'))));}
    if(key==='57026'){
     const bathrooms=p.locator('.atlas-category[data-resource-kind="restroom"]');assert((await bathrooms.locator('summary').first().innerText()).includes('Bathrooms'));
     await bathrooms.locator('summary').first().focus();await p.keyboard.press('Enter');await bathrooms.locator('.atlas-place-summary').first().waitFor();assert.deepEqual((await mappedIds(p)).sort(),initial,'Category expansion must not add or remove map resources');
     await bathrooms.locator('summary').first().click();
-    await p.locator('#atlas-fit-resources').click();assert((await p.locator('#atlas-map-count').innerText()).includes(expected.length+' in this view'));
+    await openMapControls(p);await p.locator('#atlas-fit-resources').click();assert((await p.locator('#atlas-map-count').innerText()).includes(expected.length+' in this view'));
     const group=p.locator('.atlas-cluster').first();if(await group.count()){const ids=JSON.parse(await group.getAttribute('data-resource-ids'));await group.focus();await p.keyboard.press('Enter');assert.equal(await p.locator('.atlas-cluster-places button').count(),ids.length,'First activation lists every place in the group');assert(await p.locator('.atlas-cluster-places button').first().evaluate(el=>el===document.activeElement));assert.deepEqual((await mappedIds(p)).sort(),initial);await p.locator('.leaflet-popup-close-button').click();}
     await p.locator('.atlas-category-summary').first().click();await p.locator('.atlas-category[open] .atlas-place-summary').first().click();await p.locator('.leaflet-popup').waitFor({state:'visible'});
     await p.locator('#atlas-reset').click();await p.locator('#atlas-resource-filters summary').click();assert((await p.locator('[data-resource-group="all"]').innerText()).endsWith('('+expected.length+')'));

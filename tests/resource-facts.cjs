@@ -1,8 +1,9 @@
+const {showEveryday,openMapControls}=require('./story-helpers.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url'),{chromium}=require('playwright'),{stubPublicMap}=require('./map-network.cjs');
 const base=process.env.SITE_URL||'http://127.0.0.1:4177',out='screenshots/resource-facts';
 const labels=['Location','Hours','Services','Costs','Amenities'];
 function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64/chrome-headless-shell.exe')).find(fs.existsSync);}
-async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});}
+async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});await showEveryday(p);await openMapControls(p);}
 async function library(p){const c=p.locator('.atlas-category[data-resource-kind="library"]');await c.locator('> summary').click();const card=c.locator('li[data-resource-id="imls-CA0136-003"] > details');await card.locator('> summary').click();return card;}
 (async()=>{fs.mkdirSync(out,{recursive:true});const b=await chromium.launch({executablePath:executable()}),errors=[];try{
  const c=await b.newContext({viewport:{width:390,height:1000},acceptDownloads:true});await stubPublicMap(c);const p=await c.newPage();p.on('pageerror',e=>errors.push(e.message));

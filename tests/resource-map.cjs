@@ -1,3 +1,4 @@
+const {showEveryday,openMapControls}=require('./story-helpers.cjs');
 const {mappedIds,mappedCount}=require('./map-inventory.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -8,7 +9,7 @@ const {chromium}=require('playwright');
 const {stubPublicMap,isPublicMapRequest}=require('./map-network.cjs');
 const base=process.env.SITE_URL||'http://127.0.0.1:4173';
 function browserPath(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return undefined;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64','chrome-headless-shell.exe')).find(fs.existsSync);}
-async function settled(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return r&&!r.hidden&&!r.hasAttribute('aria-busy')&&document.querySelector('#resource-map').dataset.ready==='true';});}
+async function settled(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return r&&!r.hidden&&!r.hasAttribute('aria-busy')&&document.querySelector('#resource-map').dataset.ready==='true';});await showEveryday(p);await openMapControls(p);}
 const fixture={type:'FeatureCollection',features:[
  {type:'Feature',geometry:{type:'Point',coordinates:[-121.75,38.55]},properties:{shelter_id:1,shelter_name:'<img src=x onerror="window.INJECTED=true"> Test shelter',address_1:'100 Test Street',city:'Davis',shelter_status_code:'OPEN',reporting_period:1793650000000,incident_name:'Test incident'}},
  {type:'Feature',geometry:{type:'Point',coordinates:[-121.75,38.55]},properties:{shelter_id:2,shelter_name:'Closed shelter must not appear',shelter_status_code:'CLOSED'}},
@@ -43,7 +44,7 @@ const fixture={type:'FeatureCollection',features:[
    await page.locator('[data-disaster="tsunami"]').click();assert((await page.locator('.atlas-pin.hospital,.atlas-pin.clinic').count())>0,'Tsunami view includes labelled post-evacuation medical directory points');assert((await page.locator('#atlas-layer-status').innerText()).includes('No tsunami polygons'));
    await page.locator('#phone-city').selectOption('38001',{force:true});await settled(page);assert((await page.locator('#atlas-layer-status').innerText()).includes('CGS saved tsunami'));assert((await page.locator('.atlas-pin.hospital,.atlas-pin.clinic').count())>0,'Tsunami view includes labelled post-evacuation medical directory points');assert((await page.locator('#resource-map path').count())>1);
    const textSpacing=await page.addStyleTag({content:'.resource-atlas * {line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important;}'});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await textSpacing.evaluate(el=>el.remove());
-   const targets=await page.locator('.atlas-controls button, #atlas-reset, .atlas-offline-link').evaluateAll(elements=>elements.map(el=>({w:el.getBoundingClientRect().width,h:el.getBoundingClientRect().height})));assert(targets.every(r=>r.h>=44&&r.w>=44));
+   const targets=await page.locator('.atlas-controls button, #atlas-reset, #story-6 [data-city-download]').evaluateAll(elements=>elements.map(el=>({w:el.getBoundingClientRect().width,h:el.getBoundingClientRect().height})));assert(targets.every(r=>r.h>=44&&r.w>=44));
    assert(await page.locator('#resource-atlas,.atlas-controls,#resource-map-panel').evaluateAll(elements=>elements.every(el=>el.scrollWidth<=el.clientWidth+1&&el.scrollLeft===0)),'Map choices and frame must not clip or scroll sideways');
    if(width===390){await page.emulateMedia({forcedColors:'active'});await page.locator('[data-disaster="flood"]').focus();assert(await page.locator('[data-disaster="flood"]').evaluate(el=>parseFloat(getComputedStyle(el).outlineWidth)>=3));await page.emulateMedia({forcedColors:'none'});}
    await page.locator('#resource-atlas').screenshot({path:`screenshots/resource-map-tsunami-${width}.png`});

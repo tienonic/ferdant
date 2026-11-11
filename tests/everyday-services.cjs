@@ -1,3 +1,4 @@
+const {showEveryday,openMapControls}=require('./story-helpers.cjs');
 const {mappedIds,mappedCount}=require('./map-inventory.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),vm=require('node:vm');
 const {pathToFileURL}=require('node:url'),{chromium}=require('playwright'),{stubPublicMap}=require('./map-network.cjs');
@@ -6,7 +7,7 @@ const manifest=JSON.parse(fs.readFileSync('content/everyday-service-manifest.jso
 const config=JSON.parse(fs.readFileSync('local/index.html','utf8').match(/id="resource-map-data">(.*?)<\/script>/s)[1]);
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 function browserPath(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64','chrome-headless-shell.exe')).find(fs.existsSync);}
-async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});}
+async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});await showEveryday(p);await openMapControls(p);}
 async function water(p){await p.locator('#atlas-resource-filters summary').click();await p.locator('[data-resource-group="water"]').click();}
 (async()=>{
  const ids=new Set(),counts={},osm=[];

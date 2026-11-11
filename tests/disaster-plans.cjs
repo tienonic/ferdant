@@ -1,3 +1,4 @@
+const {showEveryday,openMapControls}=require('./story-helpers.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {pathToFileURL}=require('node:url');
 const {chromium}=require('playwright');
@@ -6,7 +7,7 @@ const {mappedCount}=require('./map-inventory.cjs');
 const base=process.env.SITE_URL||'http://127.0.0.1:4173';
 const data=JSON.parse(fs.readFileSync('local/index.html','utf8').match(/<script type="application\/json" id="resource-map-data">(.*?)<\/script>/s)[1]).disasters;
 function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(x=>x.startsWith('chromium_headless_shell-')).sort().reverse().map(x=>path.join(root,x,'chrome-headless-shell-win64','chrome-headless-shell.exe')).find(fs.existsSync);}
-async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});}
+async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});await showEveryday(p);await openMapControls(p);}
 async function choose(p,id){await p.locator('[data-disaster="'+id+'"]').click();await ready(p);}
 function collection(ids,extra={}){return {type:'FeatureCollection',features:ids.map(id=>({type:'Feature',geometry:{type:'Polygon',coordinates:[[[-121.75,38.55],[-121.74,38.55],[-121.74,38.56],[-121.75,38.56],[-121.75,38.55]]]},properties:{OBJECTID:id,...extra}}))};}
 (async()=>{
@@ -28,9 +29,9 @@ function collection(ids,extra={}){return {type:'FeatureCollection',features:ids.
     assert.equal(await p.locator('#atlas-everyday').getAttribute('aria-pressed'),'false');
     if(plan.id==='heat'){assert.equal(await p.locator('.leaflet-disaster-planning-pane .leaflet-image-layer').count(),1);assert((await p.locator('#atlas-layer-status').innerText()).includes('Forecast valid time'));}
     else if(plan.id==='coastal'){assert.equal(await p.locator('.leaflet-disaster-planning-pane .leaflet-image-layer').count(),1);assert((await p.locator('#atlas-layer-status').innerText()).includes('NOAA planning image'));}
-    else if(plan.id==='earthquake'){assert.equal(await p.locator('.disaster-faults').count(),1);assert((await p.locator('.leaflet-disaster-planning-pane path').count())>0);assert((await p.locator('#atlas-layer-status').innerText()).includes(data.layers.faults.tileDescription));if(!await p.locator('.atlas-legend-disclosure').evaluate(el=>el.open))await p.locator('.atlas-legend-disclosure > summary').click();assert((await p.locator('#atlas-hazard-legend').innerText()).includes('fault lines'));}
+    else if(plan.id==='earthquake'){assert.equal(await p.locator('.disaster-faults').count(),1);assert((await p.locator('.leaflet-disaster-planning-pane path').count())>0);assert((await p.locator('#atlas-layer-status').innerText()).includes(data.layers.faults.tileDescription));await openMapControls(p);if(!await p.locator('.atlas-legend-disclosure').evaluate(el=>el.open))await p.locator('.atlas-legend-disclosure > summary').click();assert((await p.locator('#atlas-hazard-legend').innerText()).includes('fault lines'));}
     else if(plan.id!=='tsunami'){assert((await p.locator('.leaflet-disaster-planning-pane path').count())>0,plan.id);assert.equal(await p.locator('.leaflet-disaster-planning-pane .leaflet-image-layer').count(),0);}
-    assert(await p.locator('#resource-atlas,.atlas-controls,#resource-map-panel').evaluateAll(els=>els.every(el=>el.scrollWidth<=el.clientWidth+1&&el.scrollLeft===0)),plan.id+' must fit without sideways clipping');
+    assert(await p.locator('#resource-atlas,.atlas-controls,#resource-map-panel').evaluateAll(els=>els.every(el=>el.scrollWidth<=el.clientWidth+1&&el.scrollLeft===0)),plan.id+' must fit without sideways clipping: '+JSON.stringify(await p.locator('#resource-atlas,.atlas-controls,#resource-map-panel').evaluateAll(els=>els.map(el=>({id:el.id,classes:el.className,client:el.clientWidth,scroll:el.scrollWidth,left:el.scrollLeft})))));
    }
    await choose(p,'flood');assert.equal(new URL(p.url()).searchParams.get('hazard'),'flood');
    await p.locator('[data-disaster="heat"]').focus();await p.keyboard.press('Space');await ready(p);assert.equal(await p.locator('#resource-atlas').getAttribute('data-layer'),'heat');assert(await p.locator('[data-disaster="heat"]').evaluate(el=>el===document.activeElement));

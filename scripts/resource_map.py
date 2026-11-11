@@ -6,6 +6,7 @@ from pathlib import Path
 from icons import icon
 from physical_services import add_physical_services
 from resource_search import resource_search
+from immersive import story
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -24,6 +25,9 @@ def resource_map():
     data['bookletRoads'] = json.loads((ROOT / 'content/booklet-road-manifest.json').read_text(encoding='utf-8'))
     road_state = json.loads((ROOT / data['bookletRoads']['state']['path'].lstrip('/')).read_text(encoding='utf-8'))
     road_snapshot = json.dumps({'schema': 1, 'edition': data['bookletRoads']['edition'], 'state': road_state, 'counties': {}}, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
+    scores = ROOT / 'content/county-risk-scores.json'
+    if scores.exists():
+        data['countyRiskScores'] = json.loads(scores.read_text(encoding='utf-8'))
     data['hazardRisk'] = json.loads((ROOT / 'content/hazard-risk.json').read_text(encoding='utf-8'))
     payload = json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
     short_labels = {'heat':'Heat', 'cold':'Cold / freeze', 'storms':'Wind / storms',
@@ -49,7 +53,7 @@ def resource_map():
 <p>Sources: <a href="''' + html.escape(faults['ageExplanationSource']) + '''">CGS color key</a> · <a href="''' + html.escape(faults['classificationSource']) + '''">2010 map explanation</a> · <a href="''' + html.escape(faults['impactSource']) + '''">USGS earthquake effects</a> · <a href="''' + html.escape(faults['preparednessSource']) + '''">CDC household safety</a>.</p></details>'''
     return '''<section class="resource-atlas" id="resource-atlas" aria-labelledby="resource-map-title" hidden>
  <header class="atlas-heading"><div><h2 id="resource-map-title">Resource map</h2></div><a class="atlas-offline-link" href="#offline-download">''' + icon('download') + '''<span>Download offline</span></a></header>
-
+''' + story() + '''
  <div id="resource-map-panel" role="region" aria-labelledby="resource-map-title" tabindex="0">
   <div class="atlas-layout"><div class="atlas-map-column"><div class="atlas-map-frame"><div id="resource-map" role="region" aria-label="City resource map"></div><button class="atlas-reset" type="button" id="atlas-reset" aria-label="Return to the full city map">City view</button></div></div>
  <div class="atlas-controls" role="group" aria-label="Resources and disaster plans"><button type="button" id="atlas-everyday" class="atlas-choice" aria-pressed="true" aria-controls="resource-map-panel" aria-label="Everyday resources" style="--hazard-accent:#365d7a"><span class="atlas-choice-symbol">''' + icon('map') + '''</span><span class="atlas-choice-label">Everyday</span><span class="atlas-choice-check" aria-hidden="true">''' + icon('check') + '''</span></button>''' + choices + '''</div>

@@ -255,6 +255,7 @@
    const summary=doc.querySelector('#location-summary');if(summary)summary.textContent='ZIP '+selectedZip.code+' selected. The offline website keeps this map focus.';
    for(const download of doc.querySelectorAll('[data-city-download]'))if(!download.closest('.infographic-download'))download.textContent='Download offline for ZIP '+selectedZip.code;
   }
+  window.FerdantStory?.render(doc,key);
   filter(doc);if(doc===document){syncMap(location);document.dispatchEvent(new CustomEvent('ferdant:location',{detail:{key}}));}return location;
  }
  function filter(doc) {
@@ -500,6 +501,7 @@
     const area=await response.json();if(area.checked!==data.checked||area.county!==location.county)throw Error('Map edition changed');
     doc.querySelector('#city-map-snapshot').textContent=JSON.stringify(area).replace(/</g,'\\u003c');
    }
+   await window.FerdantStory?.embed(doc,key);
    if(select.value!==key||(selectedZip?.code||'')!==zipCode)throw Error('Location changed during export');
    doc.querySelector('h1').textContent=`${zipCode?'Near ZIP '+zipCode:location.name}, California \u2014 offline edition`;
    doc.title=`${zipCode?'ZIP '+zipCode:location.name} \u2014 Ferdant offline`;

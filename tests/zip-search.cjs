@@ -1,9 +1,10 @@
+const {showEveryday,openMapControls}=require('./story-helpers.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url'),{chromium}=require('playwright');
 const {stubPublicMap}=require('./map-network.cjs'),{mappedIds}=require('./map-inventory.cjs');
 const base=process.env.SITE_URL||'http://127.0.0.1:4173',data=JSON.parse(fs.readFileSync('content/california-zip-areas.json','utf8'));
 const places=JSON.parse(fs.readFileSync('content/california-cities.json','utf8'));
 function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64/chrome-headless-shell.exe')).find(fs.existsSync);}
-async function ready(p){await p.waitForFunction(()=>{const root=document.querySelector('#resource-atlas');return root&&!root.hidden&&!root.hasAttribute('aria-busy')&&root.dataset.hazardLoading!=='true';});}
+async function ready(p){await p.waitForFunction(()=>{const root=document.querySelector('#resource-atlas');return root&&!root.hidden&&!root.hasAttribute('aria-busy')&&root.dataset.hazardLoading!=='true';});await showEveryday(p);await openMapControls(p);}
 (async()=>{
  assert.equal(Object.keys(data.areas).length,1808);
  for(const [zip,[lat,lng,county,counties]]of Object.entries(data.areas)){assert(/^\d{5}$/.test(zip));assert(Number.isFinite(lat)&&Number.isFinite(lng));assert.equal(county,counties[0]);assert(counties.every(c=>places.counties[c]));}
@@ -13,7 +14,7 @@ async function ready(p){await p.waitForFunction(()=>{const root=document.querySe
   const c=await browser.newContext({viewport:{width:390,height:1000},acceptDownloads:true});await stubPublicMap(c);const p=await c.newPage();p.on('pageerror',e=>errors.push(e.stack));
   await p.goto(base+'/');const input=p.getByRole('combobox',{name:'City, county or ZIP code'});await input.fill('95616');await input.press('ArrowDown');await input.press('Enter');await p.waitForURL('**/local/?place=county%3A57&zip=95616');await ready(p);
   assert((await p.locator('h1').innerText()).includes('ZIP 95616'));assert.equal(await p.locator('[data-location-kind="zip"]').getAttribute('aria-pressed'),'true');assert.equal(await p.locator('#resource-atlas').getAttribute('data-zip'),'95616');assert((await p.locator('#atlas-map-status').innerText()).includes('5 km'));
-  assert.equal(await p.locator('#phone-city').inputValue(),'county:57');assert((await p.locator('#local-page-intro').innerText()).includes('PDF booklet cover Yolo County'));
+  assert.equal(await p.locator('#phone-city').inputValue(),'county:57');assert((await p.locator('#story-place-note').innerText()).includes('PDF booklet cover Yolo County'));
   const inventories={};for(const code of ['95616','95618','90012','90045','94103','96150']){
    await p.goto(base+'/local/?zip='+code);await ready(p);assert.equal(await p.locator('#resource-atlas').getAttribute('data-zip'),code);const ids=(await mappedIds(p)).sort();assert(ids.length>0,code);inventories[code]=ids;findings.push({zip:code,mapped:ids.length});
    await p.locator('.atlas-category-summary').first().click();await p.locator('.atlas-place-card').first().waitFor({state:'visible'});const labels=await p.locator('#atlas-place-list').textContent();assert(/km.*area center/.test(labels),code+': '+labels.slice(0,1000));assert.equal((await p.evaluate(()=>FerdantZIP.current)).code,code);

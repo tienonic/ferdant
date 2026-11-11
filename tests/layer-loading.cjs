@@ -1,3 +1,4 @@
+const {showEveryday,openMapControls}=require('./story-helpers.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{chromium}=require('playwright');
 const {stubPublicMap}=require('./map-network.cjs');
 const base=process.env.SITE_URL||'http://127.0.0.1:4173';
@@ -5,7 +6,7 @@ const registry=JSON.parse(fs.readFileSync('local/index.html','utf8').match(/id="
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==','base64');
 const feature={type:'FeatureCollection',features:[{type:'Feature',properties:{OBJECTID:1},geometry:{type:'Polygon',coordinates:[[[-121.76,38.54],[-121.73,38.54],[-121.73,38.56],[-121.76,38.56],[-121.76,38.54]]]}}]};
 function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64/chrome-headless-shell.exe')).find(fs.existsSync);}
-async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});}
+async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});await showEveryday(p);await openMapControls(p);}
 async function delayed(route,ms,data){await new Promise(r=>setTimeout(r,ms));try{await route.fulfill(data);}catch{}}
 (async()=>{
  const browser=await chromium.launch({executablePath:executable()}),results=[],errors=[];fs.mkdirSync('screenshots/layer-performance',{recursive:true});

@@ -92,6 +92,8 @@
     "content/booklet-road-manifest.json": "f406e28011c16086d91cf733628328f268a89976f2be3dd35c9492644f398c11",
     "content/california-cities.json": "3c7eed83b6103ba8df4fc2d2bd45cc961fa9bc011bf40d065f2e36279b9fcd86",
     "content/california-zip-areas.json": "954a41a01daddc7e4cfe4ee350bdc9409cd5dc200c5bc9e0adce0b1d641fda56",
+    "content/county-risk-scores-manifest.json": "474ea8518325e109651bd4bf4441309764dc7d3211680166208dd68217a43015",
+    "content/county-risk-scores.json": "a51862f1b34cdf546e1855d389057cb9d807e42c0515b5363bde6afaca95d435",
     "content/directory.py": "b6e9ac2cf636dca5f73cccabe699d63f345b107cf2a19e5a499d3786ee435cf9",
     "content/disaster-source-manifest.json": "269678370101851e075c2d62f21a0cad9c5d3a5b808f61afafda82cb32b24256",
     "content/disasters.py": "2ba13529b610fffa35db0cc75e3e08433181301e157f57328042c13e842b1532",
@@ -136,26 +138,29 @@
     "docs/website-references.md": "c25aa51f2c19d02c177454a4ff417abfa93f2e8b6530d23afc48d3c6848f44ea",
     "docs/zip-map-20261103.md": "14f5875a188292a7e0f104991e002d131fc2609a724cf94ae0acfc8d498771b0",
     "hazard-risk.js": "f17dcd3360644dfbbdf488ac203a337925a3e2c6aecffea4fb6366af2bc610ff",
+    "immersive.js": "69357c630e1c6cc19ef692f7de8fe53dbe639fee3c38f2332b966d824452761b",
     "infographic.js": "f3ab28fe67ecfe4cc3d9434e0e31187b29c6fbd5435a5d18d5c88c034c65faca",
     "integrations/README.md": "bd2afdbdd8e272ec623c479aba0b700bea5b449e872cd6295f163e73506e133a",
     "integrations/shopify.mjs": "06b43fa4f3c823fdb1372918e3ce881d4ec42d384e830697afbb66e08c12cf72",
     "landing.js": "aa6b94d6e7bf7999e257abf34a8b8618b38dceee17f39acdd55dab83ec073454",
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
-    "phone.js": "6d63ba979feb57d87993dc6139940fd5124e7b43e0184861d8bd2e855b713bec",
+    "phone.js": "2aae8f634242678f7d2528ae1c50fc183a5a5c7ffcdf50b71b41b0666c1943fa",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
     "resource-booklet.js": "57e8e2c78345c01b5fda5fe8fc6536e08ab11a3a4deae1b3adffaeac6d467123",
     "resource-facts.js": "7ee2190e759bd0a956bb1014eb239bf8063dc4650bef6a64b1d95a81ec88a1c9",
-    "resource-map.js": "1e5a689f4015e775958c8c4d8c298fff29d079820fc7392e09caf7e7788ef6c3",
+    "resource-map.js": "be56eaf43ce20885c09c117abdb076672b73cef7fe600378db3d402184fb27a3",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
-    "scripts/build.py": "5d5cefe3da3a8181fdd494510c040b21b3adad0818a5819069473174184e9eff",
+    "scripts/build.py": "b482a1db6ca93720eb8e0116e6377d593e95b7cdffb3f9cee5da4f4cffb00205",
     "scripts/check-content.py": "912019aebb7a4ae61dfac2ec6772c1e1a30ffd15d1185bcb4412dc808f27e643",
     "scripts/cost_tool.py": "71f3ff17044114405286e328aabfec51bed9d6536fd357214648a4d48c45af69",
     "scripts/graphics.py": "5fc8aac8d4e418e5f575749505b3d4e679cb98d3afadcb68d231c020f85f1557",
     "scripts/icons.py": "1bd04e25fa9377f22667316bbefaf1eac3a4daa0f52767b41d1a2d4072988aa2",
+    "scripts/immersive.py": "1a27ed93f61dba6179dfa9391290b6c7a60584ddd11f1c3e065c5ee9235ee91f",
     "scripts/import-alert-links.py": "14fa1c157000de895f634327e7b94620830b33694ac0f604e505c168ef950a4a",
+    "scripts/import-county-risk.py": "5783f80ecb0efbae2a0a9e9bd9e990457c5a68e05ff529bf85fd3bb98308c9ad",
     "scripts/import-evacuation-routes.py": "30865e3f3d3e51f5b587618153b1a66b7f1cf7f7296241d908836f1aee497807",
     "scripts/landing.py": "a3d2ce006a675ff2a1e8be0f5a0007cd35ab4dff52d69039a837e5b22748e115",
-    "scripts/offline.py": "33d4ca604e3e66322ce07eaea445810efe99fec51a4e4d33a5afa3a2875cd4df",
+    "scripts/offline.py": "a87acade2b70e2bd54a2923dc7b416030f548094880be8be7fc68af5c6429427",
     "scripts/phone_chart.py": "8f5ccb5ad179b071918af7a8d0a78cc8ba302c74be0ef2fc4260ccaf471ecc46",
     "scripts/physical_services.py": "57961a7a681ca0cb840de47c431d7acf02f9a04c0e9c5aceacfc6c952223da8f",
     "scripts/project-booklet-roads.py": "85a0b0a36265d8d79a4b37329495ac23165beef01d65cae7aeccda39982d5f8c",
@@ -167,14 +172,14 @@
     "scripts/project-visit-facts.py": "b14a84bf56c60402cfd2a7380d147609933739881a720c7abc5d0c25377cd37a",
     "scripts/project-zip-areas.py": "eef4d684142d0e1964667793aca462c116da26d36609b52d50a94d4ac21717a3",
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
-    "scripts/references.py": "b085f3caff1dff3d19fe3b07e9acf01233e2cd154c96b6250d0d42e81afa57dd",
+    "scripts/references.py": "0631fcd4d11c88aa78c75afe2bfb3d277e9ef2419095bd8c2e5463e4feb2e66b",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
-    "scripts/resource_map.py": "152e0b7bf6b68073f4396f8e7a78d966e537efb98cd8b1c919abfd132bd11c81",
+    "scripts/resource_map.py": "5b3bc06fa0e32ed6f40dcd4f5fb6ece4da8c1853a13937efb76afc1ab0d41eaf",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
     "service-resources.js": "fe25c2e8d7a7be507c223a4b97e8e1aac0f9a024d1270f3aa7bff30d8d4dc970",
     "site.js": "9fbad56eb918ca1acb66f9221a712f78ddd3a512358c1ca2f00778b68960a6b7",
-    "styles.css": "2771e1ebf23c3224f47e9741597e319d684371024a1bb33ede4d36c1f6c2a5a4"
+    "styles.css": "33081505ce4df33d4060e6fd9154bfc237b951228e20f3fb7cb7f47973afc536"
   },
   "references": [
     {
@@ -12297,6 +12302,29 @@
       ]
     },
     {
+      "title": "FEMA National Risk Index Technical Documentation — December 2025 / v1.20 — url",
+      "url": "https://www.fema.gov/sites/default/files/documents/fema_national-risk-index_technical-documentation.pdf",
+      "category": "disasters",
+      "uses": [
+        "content / documentation"
+      ],
+      "recordedIn": [
+        "content/county-risk-scores-manifest.json",
+        "docs/local-booklet-selection-20261103.md",
+        "scripts/import-county-risk.py"
+      ],
+      "records": [
+        {
+          "title": "FEMA National Risk Index Technical Documentation — December 2025 / v1.20",
+          "url": "https://www.fema.gov/sites/default/files/documents/fema_national-risk-index_technical-documentation.pdf",
+          "checked": "2026-11-10",
+          "published": "2025-12",
+          "supports": "Hazard scores are national percentiles within the same geography level. EAL is average annual economic loss, including population equivalence; dollar values use 2024 prices.",
+          "retrieval": "FEMA PDF download returned HTTP 403. Readable indexed text from this exact official URL confirmed sections 3.2 and 5.3.2; the full PDF was not downloaded."
+        }
+      ]
+    },
+    {
       "title": "FEMA National Risk Index v1.20 — December 2025",
       "url": "https://www.arcgis.com/home/item.html?id=39485e8035d446a5bff03259508ae355",
       "category": "disasters",
@@ -12305,6 +12333,8 @@
         "content / source"
       ],
       "recordedIn": [
+        "content/county-risk-scores-manifest.json",
+        "content/county-risk-scores.json",
         "content/hazard-risk-manifest.json",
         "content/hazard-risk.json",
         "docs/hazard-risk-ranking-20261103.md",
@@ -12317,6 +12347,34 @@
           "checked": "2026-11-03",
           "published": "2025-12",
           "note": "Relative risk includes expected losses, social vulnerability and community resilience. It is not event probability or a forecast."
+        },
+        {
+          "title": "FEMA National Risk Index county scores — December 2025 / v1.20",
+          "url": "https://www.arcgis.com/home/item.html?id=39485e8035d446a5bff03259508ae355",
+          "checked": "2026-11-10",
+          "published": "2025-12"
+        }
+      ]
+    },
+    {
+      "title": "FEMA notice: Community Disaster Resilience Zones and the National Risk Index — url",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2023-05-26/pdf/2023-11268.pdf",
+      "category": "disasters",
+      "uses": [
+        "content / documentation"
+      ],
+      "recordedIn": [
+        "content/county-risk-scores-manifest.json",
+        "scripts/import-county-risk.py"
+      ],
+      "records": [
+        {
+          "title": "FEMA notice: Community Disaster Resilience Zones and the National Risk Index",
+          "url": "https://www.govinfo.gov/content/pkg/FR-2023-05-26/pdf/2023-11268.pdf",
+          "checked": "2026-11-10",
+          "published": "2023-05-26",
+          "supports": "EAL includes buildings, monetized fatalities and injuries, and agriculture. Hazard-specific and composite risk scores are distinct.",
+          "retrieval": "Official FEMA notice PDF opened and read on govinfo.gov."
         }
       ]
     },
@@ -12917,6 +12975,113 @@
       ]
     },
     {
+      "title": "content / nationalQuery / pages — url",
+      "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=0",
+      "category": "disasters",
+      "uses": [
+        "content / nationalQuery / pages"
+      ],
+      "recordedIn": [
+        "content/county-risk-scores-manifest.json"
+      ],
+      "records": [
+        {
+          "file": "national-query-0000.json",
+          "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=0"
+        }
+      ]
+    },
+    {
+      "title": "content / nationalQuery / pages — url",
+      "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=1000",
+      "category": "disasters",
+      "uses": [
+        "content / nationalQuery / pages"
+      ],
+      "recordedIn": [
+        "content/county-risk-scores-manifest.json"
+      ],
+      "records": [
+        {
+          "file": "national-query-1000.json",
+          "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=1000"
+        }
+      ]
+    },
+    {
+      "title": "content / nationalQuery / pages — url",
+      "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=2000",
+      "category": "disasters",
+      "uses": [
+        "content / nationalQuery / pages"
+      ],
+      "recordedIn": [
+        "content/county-risk-scores-manifest.json"
+      ],
+      "records": [
+        {
+          "file": "national-query-2000.json",
+          "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=2000"
+        }
+      ]
+    },
+    {
+      "title": "content / nationalQuery / pages — url",
+      "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=3000",
+      "category": "disasters",
+      "uses": [
+        "content / nationalQuery / pages"
+      ],
+      "recordedIn": [
+        "content/county-risk-scores-manifest.json"
+      ],
+      "records": [
+        {
+          "file": "national-query-3000.json",
+          "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=1%3D1&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CCFLD_RISKS%2CCWAV_RISKS%2CERQK_RISKS%2CHAIL_RISKS%2CHRCN_RISKS%2CHWAV_RISKS%2CIFLD_RISKS%2CISTM_RISKS%2CLNDS_RISKS%2CLTNG_RISKS%2CSWND_RISKS%2CTRND_RISKS%2CTSUN_RISKS%2CVLCN_RISKS%2CWFIR_RISKS%2CWNTW_RISKS&returnGeometry=false&orderByFields=OBJECTID&resultRecordCount=1000&resultOffset=3000"
+        }
+      ]
+    },
+    {
+      "title": "content / query — requestURL",
+      "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=STATEABBRV%3D%27CA%27&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CAVLN_EALT%2CCFLD_RISKS%2CCFLD_EALT%2CCWAV_RISKS%2CCWAV_EALT%2CERQK_RISKS%2CERQK_EALT%2CHAIL_RISKS%2CHAIL_EALT%2CHRCN_RISKS%2CHRCN_EALT%2CHWAV_RISKS%2CHWAV_EALT%2CIFLD_RISKS%2CIFLD_EALT%2CISTM_RISKS%2CISTM_EALT%2CLNDS_RISKS%2CLNDS_EALT%2CLTNG_RISKS%2CLTNG_EALT%2CSWND_RISKS%2CSWND_EALT%2CTRND_RISKS%2CTRND_EALT%2CTSUN_RISKS%2CTSUN_EALT%2CVLCN_RISKS%2CVLCN_EALT%2CWFIR_RISKS%2CWFIR_EALT%2CWNTW_RISKS%2CWNTW_EALT&returnGeometry=false&orderByFields=STCOFIPS&resultRecordCount=100",
+      "category": "disasters",
+      "uses": [
+        "content / query"
+      ],
+      "recordedIn": [
+        "content/county-risk-scores-manifest.json"
+      ],
+      "records": [
+        {
+          "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query",
+          "requestURL": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=STATEABBRV%3D%27CA%27&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CAVLN_EALT%2CCFLD_RISKS%2CCFLD_EALT%2CCWAV_RISKS%2CCWAV_EALT%2CERQK_RISKS%2CERQK_EALT%2CHAIL_RISKS%2CHAIL_EALT%2CHRCN_RISKS%2CHRCN_EALT%2CHWAV_RISKS%2CHWAV_EALT%2CIFLD_RISKS%2CIFLD_EALT%2CISTM_RISKS%2CISTM_EALT%2CLNDS_RISKS%2CLNDS_EALT%2CLTNG_RISKS%2CLTNG_EALT%2CSWND_RISKS%2CSWND_EALT%2CTRND_RISKS%2CTRND_EALT%2CTSUN_RISKS%2CTSUN_EALT%2CVLCN_RISKS%2CVLCN_EALT%2CWFIR_RISKS%2CWFIR_EALT%2CWNTW_RISKS%2CWNTW_EALT&returnGeometry=false&orderByFields=STCOFIPS&resultRecordCount=100"
+        }
+      ]
+    },
+    {
+      "title": "content / query — url",
+      "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query",
+      "category": "disasters",
+      "uses": [
+        "content / query",
+        "content / nationalQuery"
+      ],
+      "recordedIn": [
+        "content/county-risk-scores-manifest.json"
+      ],
+      "records": [
+        {
+          "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query",
+          "requestURL": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query?f=json&where=STATEABBRV%3D%27CA%27&outFields=COUNTY%2CSTCOFIPS%2CNRI_VER%2CAVLN_RISKS%2CAVLN_EALT%2CCFLD_RISKS%2CCFLD_EALT%2CCWAV_RISKS%2CCWAV_EALT%2CERQK_RISKS%2CERQK_EALT%2CHAIL_RISKS%2CHAIL_EALT%2CHRCN_RISKS%2CHRCN_EALT%2CHWAV_RISKS%2CHWAV_EALT%2CIFLD_RISKS%2CIFLD_EALT%2CISTM_RISKS%2CISTM_EALT%2CLNDS_RISKS%2CLNDS_EALT%2CLTNG_RISKS%2CLTNG_EALT%2CSWND_RISKS%2CSWND_EALT%2CTRND_RISKS%2CTRND_EALT%2CTSUN_RISKS%2CTSUN_EALT%2CVLCN_RISKS%2CVLCN_EALT%2CWFIR_RISKS%2CWFIR_EALT%2CWNTW_RISKS%2CWNTW_EALT&returnGeometry=false&orderByFields=STCOFIPS&resultRecordCount=100"
+        },
+        {
+          "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query",
+          "recordCount": 3232
+        }
+      ]
+    },
+    {
       "title": "content / tractQuery — url",
       "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Census_Tracts/FeatureServer/0/query",
       "category": "disasters",
@@ -12942,6 +13107,7 @@
         "content"
       ],
       "recordedIn": [
+        "content/county-risk-scores-manifest.json",
         "content/hazard-risk-manifest.json",
         "docs/hazard-risk-ranking-20261103.md",
         "scripts/project-hazard-risk.py"
@@ -12958,6 +13124,17 @@
           "countyService": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0",
           "outputSha256": "b043e0e500a4483c1bafae072b07bfe136409a41407406002842766409f80fff",
           "method": "County views use FEMA county ratings. City views use the highest rated overlapping census tract for each hazard component; these are derived screening bands, not official city ratings. Overlap must cover at least 1% of either the city or the tract. Boundaries are generalized. Combined weather plans use the highest available component; unrated components remain unknown. Low is not safe or zero risk; missing and not-applicable ratings are not Low."
+        },
+        {
+          "schema": 1,
+          "checked": "2026-11-10",
+          "release": "December 2025 / v1.20",
+          "countyCount": 58,
+          "countyService": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0",
+          "outputSha256": "a51862f1b34cdf546e1855d389057cb9d807e42c0515b5363bde6afaca95d435",
+          "comparisonMethod": "For each official hazard component, count national county records with a finite nonnegative numeric RISKS score strictly below the selected county score. Exclude equal scores from below; include the selected county and ties in assessed. Exclude missing/null and -9999 scores. Display floor(100 * below / assessed) for a conservative strictly-lower percentage. Keep the original FEMA percentile unchanged and separate.",
+          "method": "Match official COUNTY names to the existing California county index. Site county keys are not FIPS codes. Preserve raw scores and losses without averaging or city allocation.",
+          "combinedPlans": "For cold or storms, show a named official component and its unchanged score/loss, selected from available component scores. Never present the maximum as a FEMA composite for the combined plan."
         }
       ]
     },
@@ -18302,6 +18479,7 @@
       ],
       "recordedIn": [
         "README.md",
+        "immersive.js",
         "scripts/build.py",
         "scripts/offline.py"
       ],
@@ -18733,18 +18911,6 @@
       ],
       "recordedIn": [
         "scripts/resource_map.py"
-      ],
-      "records": []
-    },
-    {
-      "title": "www.fema.gov/sites/default/files/documents/fema_national-risk-index_technical-documentation.pdf",
-      "url": "https://www.fema.gov/sites/default/files/documents/fema_national-risk-index_technical-documentation.pdf",
-      "category": "links",
-      "uses": [
-        "Supporting link recorded in docs/local-booklet-selection-20261103.md; role follows its original context."
-      ],
-      "recordedIn": [
-        "docs/local-booklet-selection-20261103.md"
       ],
       "records": []
     },
