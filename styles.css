@@ -1403,3 +1403,12 @@ button, .button, a.button, .copy-button, .quiet-button, .atlas-choice { box-shad
 .topic-copy strong, .question-list li, .tool-result, .tool-result strong, .guide-step strong, .sources summary, .related > a, #gap-label, .tool-dialog-header h2, .cost-total strong, .infographic-download h2 { font:500 18px/1.45 var(--sans); letter-spacing:0; }
 #resource-map .atlas-cluster { font-family:var(--sans); }
 button, a, input { touch-action:manipulation; }
+
+@view-transition { navigation:auto; }
+.home-flow #city-map, #resource-map { view-transition-name:place-map; }
+::view-transition-group(place-map) { animation-duration:400ms; animation-timing-function:ease-in-out; }
+@media(prefers-reduced-motion:reduce) {
+ @view-transition { navigation:none; }
+ .home-flow #city-map, #resource-map { view-transition-name:none; }
+ ::view-transition-group(*) { animation:none; }
+}

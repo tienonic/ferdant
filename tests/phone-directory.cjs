@@ -25,9 +25,6 @@ module.exports = async function checkPhoneDirectory(page, width) {
   assert(await page.locator('.phone-table a[href="tel:+18002221222"]').isVisible());
   await city.selectOption('57026',{force:true});
   await city.selectOption('county:57',{force:true});
-  await page.locator('[data-location-kind="city"]').click();
-  await page.locator('#city-map [data-city-id="57026"]').click();
-  assert.equal(await city.inputValue(),'57026');
   await city.selectOption('57026',{force:true});
   assert(await page.locator('[data-local-contact="davis-nonemergency"]').isVisible());
   assert(await page.locator('[data-local-contact="yolo-211"]').isVisible());
@@ -72,4 +69,14 @@ module.exports = async function checkPhoneDirectory(page, width) {
   assert(await page.evaluate(()=>localStorage.length===0 && sessionStorage.length===0));
   assert.deepEqual(network,[],'City changes may request only public regional map/service files and street tiles');
  } finally {page.off('request',listener);}
+ // An explicit map choice now opens the canonical local URL. In-place chart
+ // filtering above keeps its separate zero-unexpected-request assertion.
+ await page.locator('[data-location-kind="city"]').click();
+ await page.locator('#city-map [data-city-id="57026"]').click();
+ await page.waitForURL('**/local/?place=57026');
+ await page.waitForFunction(()=>document.querySelector('#resource-map')?.dataset.ready==='true'&&!document.querySelector('#resource-atlas').hasAttribute('aria-busy'));
+ await page.waitForLoadState('networkidle');
+ assert.equal(await page.locator('#phone-city').inputValue(),'57026');
+ assert((await page.locator('#local-page-title').innerText()).includes('Davis'));
+ assert(await page.evaluate(()=>localStorage.length===0&&sessionStorage.length===0));
 };

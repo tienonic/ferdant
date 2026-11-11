@@ -5,6 +5,10 @@
  const payload = JSON.parse(dataNode.textContent), data = payload.directory, places = payload.places;
  const zipIndex=payload.zipAreas?.areas||{};
  function zipArea(value){const code=String(value||'').trim().match(/^(\d{5})(?:-\d{4})?$/)?.[1],row=zipIndex[code];return row?{code,lat:row[0],lng:row[1],county:row[2],counties:row[3],key:'county:'+row[2]}:null;}
+ const chosenKey='ferdant-just-chosen';
+ if(location.protocol!=='file:'&&location.pathname==='/local/'){
+  try{const chosen=sessionStorage.getItem(chosenKey);window.FerdantJustChosen=Boolean(chosen)&&chosen===new URL(location.href).searchParams.get('place');sessionStorage.removeItem(chosenKey);}catch{window.FerdantJustChosen=false;}
+ }
  const requestedZip=location.protocol==='file:'?document.querySelector('meta[name="ferdant-zip"]')?.content:new URL(location.href).searchParams.get('zip');
  let selectedZip=zipArea(requestedZip);
  window.FerdantZIP={lookup:zipArea,get current(){return selectedZip;},sources:payload.zipAreas?.sources||[]};
@@ -206,10 +210,42 @@
  const routing=()=>location.protocol!=='file:' && Boolean(document.querySelector('[data-location-routing], [data-location-page]'));
  function closeSuggestions(){suggestions.hidden=true;mapSearch.setAttribute('aria-expanded','false');mapSearch.removeAttribute('aria-activedescendant');active=-1;}
  function activate(index){active=index;[...suggestions.children].forEach((el,i)=>el.setAttribute('aria-selected',String(i===active)));if(active>=0){mapSearch.setAttribute('aria-activedescendant',suggestions.children[active].id);suggestions.children[active].scrollIntoView({block:'nearest'});}}
- function commitPlace(key){if(key.startsWith('zip:')){commitZip(key.slice(4));return;}closeSuggestions();if(routing()){const query=new URLSearchParams({place:key}),hazard=window.FerdantResourceMap?.active;if(hazard&&hazard!=='everyday')query.set('hazard',hazard);location.assign('/local/?'+query);return;}chooseCity(key);}
+ let travelRun=0,travelBoundary;
+ async function enterPlace(key,query){
+  const run=++travelRun,area=place(key),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function navigate(){if(run!==travelRun)return;try{sessionStorage.setItem(chosenKey,key);}catch{}location.assign('/local/?'+query);}
+  if(reduce||!cityMap||!area){navigate();return;}
+  let bounds=countyLayers.get(area.county)?.getBounds();
+  travelBoundary?.remove();
+  if(cities.has(key)){
+   try{
+    const response=await fetch('/assets/data/city-maps/'+area.county+'.json',{credentials:'omit'});
+    if(response.ok){const saved=await response.json();if(saved.schema===1&&saved.county===area.county&&saved.cities[key]){
+     if(run!==travelRun)return;
+     travelBoundary=L.geoJSON(saved.cities[key],{style:{color:'#244b84',weight:2,fillColor:'#244b84',fillOpacity:.08}}).addTo(cityMap);bounds=travelBoundary.getBounds();
+    }}
+   }catch{/* The overview and local page still work if a boundary is unavailable. */}
+  }else{
+   const layer=countyLayers.get(area.county);layer?.setStyle({color:'#244b84',weight:2,fillColor:'#244b84',fillOpacity:.08});
+  }
+  if(run!==travelRun)return;
+  mapRoot.dataset.travelling='true';mapStatus.textContent='Opening '+area.name+'.';
+  const from=cityMap.getCenter(),fromZoom=cityMap.getZoom(),postal=zipArea(query.get('zip'));
+  const target=postal?L.latLng(postal.lat,postal.lng):bounds?.isValid()?bounds.getCenter():L.latLng(area.lat,area.lng),zoom=postal?12:bounds?.isValid()?Math.min(12,cityMap.getBoundsZoom(bounds,false,L.point(72,72))):9;
+  selectedMarker?.closeTooltip();selectedMarker?.setStyle({fillColor:'#14202b',radius:2,fillOpacity:.65});selectedMarker=markers.get(key);selectedMarker?.setStyle({fillColor:'#244b84',radius:6,fillOpacity:1});selectedMarker?.openTooltip();
+  const began=performance.now();
+  function travel(now){
+   if(run!==travelRun)return;
+   const t=Math.min(1,(now-began)/700),ease=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+   cityMap.setView([from.lat+(target.lat-from.lat)*ease,from.lng+(target.lng-from.lng)*ease],fromZoom+(zoom-fromZoom)*ease,{animate:false});
+   if(t<1)requestAnimationFrame(travel);else{mapRoot.dataset.travelling='false';navigate();}
+  }
+  requestAnimationFrame(travel);
+ }
+ function commitPlace(key){if(key.startsWith('zip:')){commitZip(key.slice(4));return;}closeSuggestions();if(routing()){const query=new URLSearchParams({place:key}),hazard=window.FerdantResourceMap?.active;if(hazard&&hazard!=='everyday')query.set('hazard',hazard);enterPlace(key,query);return;}chooseCity(key);}
  function commitZip(code){
   const area=zipArea(code);if(!area)return;closeSuggestions();
-  if(routing()){const query=new URLSearchParams({place:area.key,zip:area.code}),hazard=window.FerdantResourceMap?.active;if(hazard&&hazard!=='everyday')query.set('hazard',hazard);location.assign('/local/?'+query);return;}
+  if(routing()){const query=new URLSearchParams({place:area.key,zip:area.code}),hazard=window.FerdantResourceMap?.active;if(hazard&&hazard!=='everyday')query.set('hazard',hazard);enterPlace(area.key,query);return;}
   selectedZip=area;select.value=area.key;render(document,area.key);
  }
  function eligibleLocations(query){
@@ -298,7 +334,7 @@
  function chooseCounty(id){
   if(selectionKind!=='county')return;
   const key='county:'+id;clearCountyPreview();
-  if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(key);else chooseCity(key);
+  if(routing())commitPlace(key);else chooseCity(key);
  }
  function syncMap(location) {
   if(!cityMap)return;
@@ -354,7 +390,7 @@
     markers.set(city.id,marker);const label=document.createElement('span');label.textContent=city.name;marker.bindTooltip(label);
     marker.on('add',()=>{const element=marker.getElement();if(element)element.dataset.cityId=city.id;});
     marker.on('mouseover',()=>marker.setStyle({fillColor:'#244b84',fillOpacity:1,radius:5}));marker.on('mouseout',()=>{if(marker!==selectedMarker)marker.setStyle({fillColor:'#14202b',fillOpacity:.65,radius:2});});
-    marker.on('click',()=>{if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(city.id);else chooseCity(city.id);});const element=marker.getElement();if(element)element.dataset.cityId=city.id;
+    marker.on('click',()=>{if(routing())commitPlace(city.id);else chooseCity(city.id);});const element=marker.getElement();if(element)element.dataset.cityId=city.id;
    }
    cityMap.on('zoomend',()=>{for(const marker of markers.values())if(marker!==selectedMarker)marker.setStyle({radius:Math.min(5,2+Math.max(0,cityMap.getZoom()-6)*.65)});});
    if(landingOverview){cityMap.zoomControl.setPosition('topright');cityMap.on('resize',()=>{if(!select.value)syncMap(null);});}

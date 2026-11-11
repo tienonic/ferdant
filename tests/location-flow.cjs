@@ -35,6 +35,13 @@ module.exports=async function checkLocationFlow(page,width){
  assert((await page.locator('#city-search-status').innerText()).includes('Several'));
  await page.locator('[data-location-kind="county"]').click();await localInput.fill('Yolo');await localInput.press('ArrowDown');await localInput.press('Enter');await page.waitForURL('**/local/?place=county%3A57');
  assert((await page.locator('h1').innerText()).includes('Yolo'));
+ await page.goto(base+'/local/?place=57026');await page.locator('.change-location > summary').click();
+ await page.waitForSelector('#city-map[data-ready]');
+ await page.locator('[data-location-kind="county"]').click();
+ await page.locator('#city-map [data-county-id="57"]').click();
+ await page.waitForURL('**/local/?place=county%3A57');
+ assert.equal(await page.locator('#phone-city').inputValue(),'county:57');
+ assert(await page.evaluate(()=>sessionStorage.length===0));
  await page.goto(base+'/local/?place=not-a-place');assert((await page.locator('#local-page-intro').innerText()).includes('not found'));
  assert.equal(await page.locator('#phone-city').inputValue(),'');
  assert(await page.evaluate(()=>localStorage.length===0&&sessionStorage.length===0));
