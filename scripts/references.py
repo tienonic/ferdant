@@ -201,7 +201,6 @@ def compile_references():
                         ('content/hazard-risk-manifest.json', 'disasters'),
                         ('content/disaster-source-manifest.json', 'disasters'),
                         ('assets/fonts/provenance.json', 'assets'),
-                        ('assets/photos/provenance.json', 'assets'),
                         ('assets/favicons/sources.json', 'assets'),
                         ('assets/vendor/leaflet/provenance.json', 'assets'),
                         ('package-lock.json', 'development')]:

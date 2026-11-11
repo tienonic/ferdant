@@ -262,7 +262,7 @@
    stateLibrary.querySelector('.library-heading > p').textContent=state?'California-wide services and support numbers.':stateLibraryIntro;
    if(state){
     if(stateLibrary.parentElement!==stateResourceHost)stateResourceHost.append(stateLibrary);
-    if(reset||changing){closeSuggestions();stateLibrary.querySelector('#tab-california').click();}
+    if(reset||changing)closeSuggestions();
     return;
    }
    if(stateLibrary.parentElement===stateResourceHost)stateLibraryHome.after(stateLibrary);
@@ -282,7 +282,7 @@
  function paintCounty(id){
   const layer=countyLayers.get(id);if(!layer)return;
   const blue=selectionKind==='county'&&(id===hoveredCounty||id===touchedCounty);
-  layer.setStyle(blue?{color:'#195caa',fillColor:'#4289d6',fillOpacity:.65,weight:2.5}:selectionKind==='county'&&layer===selectedCounty?{color:'#126c68',fillColor:'#dcebe7',fillOpacity:.8,weight:2}:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1});
+  layer.setStyle(blue?{color:'#244b84',fillColor:'#244b84',fillOpacity:.16,weight:1.5}:selectionKind==='county'&&layer===selectedCounty?{color:'#244b84',fillColor:'#244b84',fillOpacity:.12,weight:1.5}:{color:'#14202b',fillColor:'#fbfcfa',fillOpacity:1,opacity:.22,weight:.7});
   if(blue)layer.bringToFront();
  }
  function clearCountyPreview(){
@@ -302,13 +302,13 @@
  }
  function syncMap(location) {
   if(!cityMap)return;
-  selectedMarker?.closeTooltip();selectedMarker?.setStyle({radius:3.5,color:'#fff',fillColor:'#244b84',fillOpacity:.5,weight:1});
+  selectedMarker?.closeTooltip();selectedMarker?.setStyle({radius:2,color:'#14202b',fillColor:'#14202b',fillOpacity:.65,weight:0});
   const oldCounty=selectedCounty;
   selectedMarker=location?markers.get(location.id):undefined;
   selectedCounty=location?countyLayers.get(location.county):undefined;
   if(oldCounty)paintCounty(oldCounty.feature.properties.county);
   if(selectedCounty)paintCounty(selectedCounty.feature.properties.county);
-  if(selectedMarker){selectedMarker.setStyle({radius:8,color:'#126c68',fillColor:'#126c68',fillOpacity:1,weight:2});selectedMarker.bringToFront();}
+  if(selectedMarker){selectedMarker.setStyle({radius:6,color:'#244b84',fillColor:'#244b84',fillOpacity:1,weight:2});selectedMarker.bringToFront();}
   mapStatus.textContent=location?`${location.name} selected. ${selectionKind==='county'?'Point to or tap a county to preview it, or search its name.':'Click a city marker or search a city to change it.'}`:selectionKind==='county'?'County mode. Point to or tap a county to preview it, or search its name.':'City mode. Click a city marker or search its name.';
   if(!mapDisclosure || mapDisclosure.open) {
    cityMap.invalidateSize(false);
@@ -333,7 +333,7 @@
    cityMap=L.map('city-map',{scrollWheelZoom:false,minZoom:4,maxZoom:12,zoomSnap:landingOverview?0.1:1,zoomAnimation:false,fadeAnimation:false}).setView([37.2,-120],5);
    cityMap.attributionControl.setPrefix(false);
 
-   const boundaries=L.geoJSON(places.map.geometry,{style:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1},onEachFeature:(feature,layer)=>{
+   const boundaries=L.geoJSON(places.map.geometry,{style:{color:'#14202b',fillColor:'#fbfcfa',fillOpacity:1,opacity:.22,weight:.7},onEachFeature:(feature,layer)=>{
     countyLayers.set(feature.properties.county,layer);
     const id=feature.properties.county;
     layer.on('add',()=>{const element=layer.getElement();if(element){element.dataset.countyId=id;element.addEventListener('pointerdown',event=>{if(event.pointerType==='touch'||event.pointerType==='pen'){lastTouchCounty=id;lastTouchTime=Date.now();}});}});
@@ -350,12 +350,13 @@
    cityMap.on('click',event=>{if(event.originalEvent?.target===cityMap.getContainer())clearCountyPreview();});
    cityMarkers=L.layerGroup().addTo(cityMap);
    for(const city of cities.values()){
-    const marker=L.circleMarker([city.lat,city.lng],{radius:3.5,color:'#fff',fillColor:'#244b84',fillOpacity:.5,weight:1,bubblingMouseEvents:false}).addTo(cityMarkers);
+    const marker=L.circleMarker([city.lat,city.lng],{radius:2,color:'#14202b',fillColor:'#14202b',fillOpacity:.65,weight:0,bubblingMouseEvents:false}).addTo(cityMarkers);
     markers.set(city.id,marker);const label=document.createElement('span');label.textContent=city.name;marker.bindTooltip(label);
     marker.on('add',()=>{const element=marker.getElement();if(element)element.dataset.cityId=city.id;});
+    marker.on('mouseover',()=>marker.setStyle({fillColor:'#244b84',fillOpacity:1,radius:5}));marker.on('mouseout',()=>{if(marker!==selectedMarker)marker.setStyle({fillColor:'#14202b',fillOpacity:.65,radius:2});});
     marker.on('click',()=>{if(document.querySelector('[data-location-routing]')&&location.protocol!=='file:')commitPlace(city.id);else chooseCity(city.id);});const element=marker.getElement();if(element)element.dataset.cityId=city.id;
    }
-   cityMap.on('zoomend',()=>{for(const marker of markers.values())if(marker!==selectedMarker)marker.setStyle({radius:Math.min(7,3.5+Math.max(0,cityMap.getZoom()-6)*.65)});});
+   cityMap.on('zoomend',()=>{for(const marker of markers.values())if(marker!==selectedMarker)marker.setStyle({radius:Math.min(5,2+Math.max(0,cityMap.getZoom()-6)*.65)});});
    if(landingOverview){cityMap.zoomControl.setPosition('topright');cityMap.on('resize',()=>{if(!select.value)syncMap(null);});}
    document.querySelector('#city-map').dataset.ready='true';setSelectionKind(selectionKind);
   }).catch(()=>{mapPromise=undefined;mapStatus.textContent='The map could not load. Location search and phone numbers still work.';});

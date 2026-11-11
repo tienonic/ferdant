@@ -1,6 +1,6 @@
 {
   "downloaded": "2026-11-02",
-  "stylesheet": "https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Public+Sans:wght@400;500;600&display=swap",
+  "stylesheet": "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Geist:wght@100..900&display=swap",
   "files": [
     {
       "file": "newsreader-400-latin.woff2",
@@ -11,12 +11,28 @@
       "bytes": 57268
     },
     {
-      "file": "public-sans-400-latin.woff2",
-      "family": "Public Sans",
+      "file": "geist-variable-latin.woff2",
+      "family": "Geist",
+      "style": "normal",
+      "weight": "100 900",
+      "url": "https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwcGFU.woff2",
+      "downloaded": "2026-11-10",
+      "subset": "latin",
+      "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+      "bytes": 29400,
+      "licenseURL": "https://raw.githubusercontent.com/vercel/geist-font/main/OFL.txt",
+      "license": "SIL Open Font License 1.1"
+    },
+    {
+      "file": "newsreader-400-italic-latin.woff2",
+      "family": "Newsreader",
+      "style": "italic",
       "weight": "400",
-      "url": "https://fonts.gstatic.com/s/publicsans/v21/ijwRs572Xtc6ZYQws9YVwnNGfJ4.woff2",
-      "sha256": "5ed4d31c988e73b258894244f209069ebe77dc7e564861954b21198b6de90d68",
-      "bytes": 26832
+      "url": "https://fonts.gstatic.com/s/newsreader/v26/cY9XfjOCX1hbuyalUrK439vogqCz_goCYw7oRd6JFYYzbA.woff2",
+      "downloaded": "2026-11-10",
+      "subset": "latin",
+      "sha256": "2bf0dbb1a4a052fffcc447bdab56b12049ee804a8a0d1ee04f5e76a6ab89166a",
+      "bytes": 63292
     }
   ]
 }

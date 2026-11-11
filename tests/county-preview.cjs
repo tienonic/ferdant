@@ -4,7 +4,7 @@ const {stubPublicMap}=require('./map-network.cjs');
 const base=process.env.SITE_URL||'http://127.0.0.1:4173';
 function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64','chrome-headless-shell.exe')).find(fs.existsSync);}
 async function mapReady(p){await p.waitForFunction(()=>document.querySelector('#city-map').dataset.ready==='true');}
-async function blue(county){assert.equal(await county.getAttribute('fill'),'#4289d6');}
+async function blue(county){assert.equal(await county.getAttribute('fill'),'#244b84');}
 (async()=>{
  fs.mkdirSync('screenshots/county-preview',{recursive:true});const b=await chromium.launch({executablePath:executable()});
  try{
@@ -12,19 +12,19 @@ async function blue(county){assert.equal(await county.getAttribute('fill'),'#428
   await p.goto(base+'/');await mapReady(p);
   const cityOnly=await p.locator('[data-county-id]').evaluateAll(els=>els.every(el=>getComputedStyle(el).pointerEvents==='none'));
   assert(cityOnly,'County polygons must not receive pointer input in City mode');
-  await p.locator('[data-county-id="57"]').hover({force:true});assert.equal(await p.locator('[data-county-id][fill="#4289d6"]').count(),0);assert(!await p.locator('#county-preview').isVisible());assert((await p.locator('.leaflet-tooltip').allTextContents()).every(text=>!text.endsWith(' County')),'City tooltips remain available; county tooltips do not');
+  await p.locator('[data-county-id="57"]').hover({force:true});assert.equal(await p.locator('[data-county-id][fill="#244b84"]').count(),0);assert(!await p.locator('#county-preview').isVisible());assert((await p.locator('.leaflet-tooltip').allTextContents()).every(text=>!text.endsWith(' County')),'City tooltips remain available; county tooltips do not');
   await p.locator('[data-location-kind="county"]').click();const county=p.locator('[data-county-id="57"]');
   await p.locator('#location-start').scrollIntoViewIfNeeded();await county.hover();await blue(county);await p.screenshot({path:'screenshots/county-preview/desktop-hover.png',clip:await p.locator('#location-start').boundingBox()});
-  await p.mouse.move(1,1);assert.equal(await county.getAttribute('fill'),'#ffffff');
+  await p.mouse.move(1,1);assert.equal(await county.getAttribute('fill'),'#fbfcfa');
   // Every polygon is wired; actual pointer entry/exit is checked above.
-  const coverage=await p.locator('[data-county-id]').evaluateAll(els=>els.map(el=>{el.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));const blue=el.getAttribute('fill')==='#4289d6';el.dispatchEvent(new MouseEvent('mouseout',{bubbles:true}));return {county:el.dataset.countyId,blue,reset:el.getAttribute('fill')==='#ffffff'};}));assert.equal(coverage.length,58);assert(coverage.every(row=>row.blue&&row.reset));
+  const coverage=await p.locator('[data-county-id]').evaluateAll(els=>els.map(el=>{el.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));const blue=el.getAttribute('fill')==='#244b84';el.dispatchEvent(new MouseEvent('mouseout',{bubbles:true}));return {county:el.dataset.countyId,blue,reset:el.getAttribute('fill')==='#fbfcfa'};}));assert.equal(coverage.length,58);assert(coverage.every(row=>row.blue&&row.reset));
   await county.click();await p.waitForURL('**/local/?place=county%3A57');await p.locator('.change-location > summary').click();await mapReady(p);
-  const selected=p.locator('[data-county-id="57"]');await selected.hover();await blue(selected);await p.mouse.move(1,1);assert.equal(await selected.getAttribute('fill'),'#dcebe7');assert.deepEqual(errors,[]);await desktop.close();
+  const selected=p.locator('[data-county-id="57"]');await selected.hover();await blue(selected);await p.mouse.move(1,1);assert.equal(await selected.getAttribute('fill'),'#244b84');assert.deepEqual(errors,[]);await desktop.close();
   const mobile=await b.newContext({viewport:{width:390,height:1000},isMobile:true,hasTouch:true,acceptDownloads:true,reducedMotion:'reduce'});await stubPublicMap(mobile);const m=await mobile.newPage(),mobileErrors=[];m.on('pageerror',e=>mobileErrors.push(e.message));
   await m.goto(base+'/');await mapReady(m);await m.locator('[data-location-kind="county"]').tap();const yolo=m.locator('[data-county-id="57"]'),kern=m.locator('[data-county-id="15"]');
   const initialCountyWidth=(await kern.boundingBox()).width;
   await yolo.tap();await blue(yolo);assert.equal(new URL(m.url()).pathname,'/');assert(await m.locator('#county-preview').isVisible());assert((await m.locator('#county-preview strong').innerText()).includes('Yolo'));
-  await kern.tap();await blue(kern);assert.equal(await yolo.getAttribute('fill'),'#ffffff');assert((await m.locator('#county-preview strong').innerText()).includes('Kern'));assert.equal(await m.locator('[data-county-id][fill="#4289d6"]').count(),1);
+  await kern.tap();await blue(kern);assert.equal(await yolo.getAttribute('fill'),'#fbfcfa');assert((await m.locator('#county-preview strong').innerText()).includes('Kern'));assert.equal(await m.locator('[data-county-id][fill="#244b84"]').count(),1);
   assert(Math.abs((await kern.boundingBox()).width-initialCountyWidth)<2,'Quick county previews must not trigger double-tap zoom');
   await m.locator('#location-start').screenshot({path:'screenshots/county-preview/phone-tap.png'});
   // A touch pan clears the preview and keeps the user on the map.

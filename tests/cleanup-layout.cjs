@@ -26,7 +26,8 @@ async function credits(p){
   assert.equal(await p.locator('[data-location-kind="zip"]').getAttribute('aria-label'),'ZIP code');
   for(const kind of ['county','zip','state','city']){const button=p.locator('[data-location-kind="'+kind+'"]');await button.focus();await p.keyboard.press('Space');assert.equal(await button.getAttribute('aria-pressed'),'true');assert(await button.evaluate(el=>el===document.activeElement&&parseFloat(getComputedStyle(el).outlineWidth)>=2));}
   assert(!/Leaflet/.test(await p.locator('body').innerText()));
-  if(width<=700){assert(await p.locator('#city-map').evaluate(el=>el.offsetHeight>=360));assert(!await p.locator('.home-instructions').evaluate(el=>el.open));assert(await p.evaluate(()=>document.querySelector('.home-instructions').getBoundingClientRect().top>document.querySelector('#city-map').getBoundingClientRect().bottom&&document.querySelector('.welcome-photos').getBoundingClientRect().top>document.querySelector('.home-instructions').getBoundingClientRect().bottom));}
+  assert(await p.locator('#city-map').evaluate(el=>el.getBoundingClientRect().height+.01>=(innerWidth<=700?innerHeight*.55:innerHeight*.70)));
+  assert.equal(await p.locator('.home-instructions,.welcome-photos').count(),0);
   await p.goto(base+'/local/?place=57026');await ready(p);
   const mapRect=await p.locator('#resource-map').boundingBox();assert(mapRect.y<500);assert(mapRect.height>=(width<=700?340:520));
   assert(await p.locator('.atlas-controls').evaluate(el=>el.getBoundingClientRect().top>document.querySelector('#resource-map').getBoundingClientRect().bottom));

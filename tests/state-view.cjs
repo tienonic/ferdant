@@ -12,7 +12,7 @@ function executable(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;
   await p.locator('[data-location-kind="state"]').focus();await p.keyboard.press('Space');
   assert.equal(await p.locator(':focus').getAttribute('data-location-kind'),'state');
   assert(!await p.locator('#city-map').isVisible());assert(!await p.locator('#map-city-form').isVisible());
-  assert(await p.locator('#location-start #california-resources').isVisible());assert(!await p.locator('#communities').isVisible());
+  assert(await p.locator('#location-start #california-resources').isVisible());assert(await p.locator('#communities').isVisible());
   assert.equal(await p.locator('#location-start .state-resource').count(),4);
   assert.equal(await p.locator('.landing-library').count(),1);assert.equal(await p.locator('#phone-data').count(),1);
   assert(await p.locator('[id]').evaluateAll(els=>new Set(els.map(e=>e.id)).size===els.length));
