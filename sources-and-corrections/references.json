@@ -12,8 +12,8 @@
   ],
   "inputSha256": {
     ".github/workflows/check-site.yml": "aa87098bbce67a99c4ea60fa4b9e64d34162fa12b26683348710746bdeabae27",
-    "DESIGN.md": "58151c646439d511c5c1dc7bc2befd85dffa3cd2cc5b029f27ab904e851491f6",
-    "README.md": "6e15f92bb02868432ac8d78d1ff20e8a03684eb28438bab195e86c88d70c4896",
+    "DESIGN.md": "bd07913bfe43d604a6cb7769740c33875e2b942a538de152bdcc61e7c9d7edbd",
+    "README.md": "3328fa04c766d7a2bacaabe5c7be69aa970aa7d6bc8ae35af2ec00a8ab8bbb26",
     "assets/data/booklet-roads/README.md": "c405902549ca25ca22e0f5398c208b9d5f8137df571e8c2d933a8a5d87ad98e7",
     "assets/data/city-maps/BUILDINGS-LICENSE.txt": "1e4162322549351e6ce131d66c3c6c6cb56755db58e0475138e3f41cd94c4b3c",
     "assets/data/city-maps/README.md": "346247e7e378991bcd18e3602eb7ca91b08f38a71aa9f7ac232eab8877cd8bde",
@@ -126,6 +126,7 @@
     "docs/everyday-map-expansion-20261103.md": "fc13e4d07752aebc6b574e2ec96f8da8acafe4867ccb847f48fdec8839c83d1e",
     "docs/everyday-map-visibility-20261103.md": "67525d76045a5de644880025a9acf84c856d017dd5211569f136830c0d4bf4ae",
     "docs/hazard-risk-ranking-20261103.md": "4876122b6030a19599e27e604c22f76ac24f1909d2dfb2834b4ea37effa2b597",
+    "docs/immersive-20261110.md": "72f3d67b442e3ba45f50b9e0c43ab69f5c8e11b81fe05c01ed09870d9f0a3cea",
     "docs/landing-flow-20261103.md": "769d86ba3cf61e0b56467851b0a253ed140261d31d2563d1575b127e1f15d5cc",
     "docs/layer-loading-20261103.md": "c19cd9ed4961bd60fe1e61e9b5e0099c0b6a54281547bfaac16fd1a24db62452",
     "docs/local-booklet-selection-20261103.md": "c29238766765ef8040be5eff3609c940c2b68ac67e02e879bd49858bcfe22466",
@@ -172,7 +173,7 @@
     "scripts/project-visit-facts.py": "b14a84bf56c60402cfd2a7380d147609933739881a720c7abc5d0c25377cd37a",
     "scripts/project-zip-areas.py": "eef4d684142d0e1964667793aca462c116da26d36609b52d50a94d4ac21717a3",
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
-    "scripts/references.py": "0631fcd4d11c88aa78c75afe2bfb3d277e9ef2419095bd8c2e5463e4feb2e66b",
+    "scripts/references.py": "c905f8ea638347a800364b943b537576691a7c39028e63ab3c3e07d68f3a6318",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
     "scripts/resource_map.py": "5b3bc06fa0e32ed6f40dcd4f5fb6ece4da8c1853a13937efb76afc1ab0d41eaf",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
@@ -12310,6 +12311,7 @@
       ],
       "recordedIn": [
         "content/county-risk-scores-manifest.json",
+        "docs/immersive-20261110.md",
         "docs/local-booklet-selection-20261103.md",
         "scripts/import-county-risk.py"
       ],
@@ -12365,6 +12367,7 @@
       ],
       "recordedIn": [
         "content/county-risk-scores-manifest.json",
+        "docs/immersive-20261110.md",
         "scripts/import-county-risk.py"
       ],
       "records": [
@@ -13110,6 +13113,7 @@
         "content/county-risk-scores-manifest.json",
         "content/hazard-risk-manifest.json",
         "docs/hazard-risk-ranking-20261103.md",
+        "docs/immersive-20261110.md",
         "scripts/project-hazard-risk.py"
       ],
       "records": [

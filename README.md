@@ -1,11 +1,12 @@
 # Ferdant website
 
-A porcelain-white and cobalt resource library for the five existing practical-help communities.
-The site includes a one-page directory with five topic sections and four interactive tools, five optional branch hubs, three complete
-money-and-paperwork guides, a searchable library, about/source/privacy pages and a custom 404. Guides lead with a short answer,
-four actions and a useful tool or template; longer explanations and sources expand only when needed.
-The three guides are proposed pilot content, not a record of resolved community cases.
-Dormant Shopify infrastructure is included in the source, with no commerce UI or page-load requests.
+Ferdant starts with a California location map. Choose a place to read its hazards, a county comparison,
+short plans, nearby directory places and downloads while the resource atlas stays in view.
+The static Python build also serves five practical-help communities, three bills-and-paperwork guides,
+a searchable guide library, four local financial tools, About, Sources, Privacy and a custom 404.
+The guides are pilot content, not a record of resolved community cases. Dormant commerce stays disabled.
+
+The current design and data changes are in [Location first, November 10](docs/immersive-20261110.md).
 
 This ad-free revision adds City / County / State views and visible city, county,
 provider and statewide resource labels. See [resource levels and saved versions](docs/resource-levels.md).
@@ -60,6 +61,8 @@ GitHub Pages serves the production build from `main` at https://ferdant.com.
 - `scripts/cost_tool.py`: monthly-cost worksheet opened from the directory in a native expandable workspace.
 - `scripts/icons.py`: original category/tool/action SVGs and local destination-favicon mapping.
 - `assets/favicons/`: destination icons with download provenance and cached-source limits.
+- `scripts/immersive.py`, `immersive.js`: six readable story steps, atlas scenes, cancellable arrival play and static saved-file rendering.
+- `scripts/import-county-risk.py`, `content/county-risk-scores.json`, `content/county-risk-scores-manifest.json`: manually imported FEMA county scores, annual losses, strict national comparisons and receipts. Builds never fetch them.
 - `styles.css`, `site.js`, `assets/`: appearance and small browser-only tools.
 - Generated HTML is checked in for the existing GitHub Pages deployment. Rebuild after editing sources.
 
@@ -77,6 +80,8 @@ npm.cmd run verify:everyday
 npm.cmd run verify:booklet
 npm.cmd run verify:recommendations
 npm.cmd run verify:cleanup
+npm.cmd run verify:immersive
+python tests/references.py
 ```
 
 Keep the local server running for browser checks. They test all 16 pages at 320, 390, 768 and
@@ -115,41 +120,21 @@ hosting and fee/test decisions; this preview does not create a shop or accept pa
 
 ## Design and privacy
 
-Read [DESIGN.md](DESIGN.md) before changing the interface. It records the audience, palette, layout,
-type scale and the decisions made using the user's Professor Glitch reference.
-Porcelain white `#fbfcfa`, cobalt `#244b84`, Newsreader headings and Public Sans reading text.
-Category icons use consistent blue, rust, teal, violet, green and indigo accents alongside labels and distinct shapes.
-Primary directory links and shortcuts have 44px-high targets; phone shortcuts wrap, and keyboard focus has a strong outline.
-The browser suite checks rendered contrast, text spacing, primary targets and one forced-colors view, saving `screenshots/accessibility.json`.
-This is focused verification, not a full accessibility certification.
-The homepage follows the user's Bored.com structure reference: five category panels and one tool panel, with short direct-link rows.
-There are 14 public resources, five communities and four tools. Category corners have no count badges; active search shows actual matching results.
-Search filters the directory locally and clears when a section link is chosen. The layout uses three columns on desktop,
-two on tablets and one on phones. The white/cobalt identity is retained; no reference-site assets or copy are reproduced.
-Category links move within the directory. The three detailed tool entries open the selected tool in a bounded on-page dialog,
-with its scope and sources, instead of scrolling to a stack of forms. Close or Escape returns focus to the launcher.
-The background directory retains its position. Without JavaScript, the same entries lead to the appropriate guide and working instructions.
-Separate guide URLs remain available for optional detail and search discovery.
+Read [DESIGN.md](DESIGN.md) before changing the interface. Its dated November 10 section replaces the older type, photo and homepage guidance. Newsreader supplies the wordmark and large story voice; Geist supplies interface and reading text. Both are self-hosted under the SIL Open Font License. The surface uses paper `#FBFCFA`, ink `#14202B` and cobalt `#244B84`, with quiet lists and hairlines. Map pins retain category colors and distinct icons; official hazard layers retain registry colors.
 
-The four tools are:
+Home has location search and four modes, a large map, two resource lists and support numbers. There is no home headline, stock photography, How it works section or resource tab switcher. The local page keeps one atlas beside six steps: place, hazards, comparison, plan, nearby places and downloads. Source/detail disclosures keep dates and scope. Every plan, layer, legend, planning road, place detail, phone chart and export remains reachable.
 
-- Cost over time: a monthly USD amount and draggable 1–12 month timeline, opened from its directory row.
-- Bill comparison with an opt-in example and a breakdown of the amount still to explain.
-- Cancellation route choices and a record checklist with progress and a next step.
-- A live billing-message builder with safe text output, copying and a clear-notes control.
+A place choice uses about 700ms of map travel before its public URL opens. Supported browsers share the map through a view transition; others navigate normally. One public-place arrival flag is stored in sessionStorage and consumed immediately by the local page. Direct visits do not play. Any wheel, touch, key or pointer input cancels the short arrival sequence. Reduced motion and saved HTML do not play or animate. No other input is stored.
 
-The three detailed tools are shared with their guide pages. The inline cost worksheet is hidden when JavaScript is unavailable. They use no AI service, account or external request.
-The checklist tracks the reader's notes; it cannot verify cancellation, access or a refund.
-Fonts are served locally (about 84 KB total); notices and download provenance are in `assets/fonts/`.
-There are no external font-service or decorative image requests.
+Guide and financial-tool behavior is unchanged. Examples are opt-in, closing a dialog returns focus, and tools never verify a refund, cancellation or entitlement. Notes, bill totals, service filters and recommendation drafts stay in the open page. They are not sent, stored or copied into resource books or offline exports. Clipboard access follows an explicit copy action. Recommendation drafts can be copied or downloaded; nothing is submitted or published.
 
-Search, bill breakdowns, cancellation selections and message notes run in the browser without sending or storing input.
-Template copy uses the clipboard only after a click. No analytics, account system, document upload,
-polling process or scheduler is included. Private plans, conversations and credentials stay outside this repository.
+Keep 44px primary targets, visible cobalt focus, wrapping text and support for forced colors and increased text spacing. Core reading works without JavaScript. The tests exercise focus, source access, actual exports, source failures, private-input exclusion and zero offline HTTP. These checks are not a full accessibility certification.
+
+Font notices and exact download provenance are in `assets/fonts/`. There are no external font-service or decorative-image requests. No account, tracker, geolocation prompt or new frontend library is added.
 
 ## California phone chart and offline copy
 
-The homepage phone-icon disclosure starts closed. Open it for a city-selectable phone chart and local Leaflet map; `/offline/` opens the chooser directly. The official CDTFA attribute snapshot supplies
+The homepage support-number disclosure starts closed below the resource lists. The location map is already visible above it; `/offline/` opens the standalone chooser. The official CDTFA attribute snapshot supplies
 483 incorporated cities and 58 county choices for unlisted/unincorporated communities. Listing a city is distinct
 from checking its agencies: this edition has municipal contacts for 11 cities and alternate referral numbers for
 41 counties. Other selections retain California-wide hotlines and any checked county information, with explicit gaps.
@@ -157,8 +142,7 @@ The chart excludes 911 rows; crisis, referral, non-emergency and utility contact
 
 The registry stores 59 distinct numbers once and references them from 58 contact records. Counties and cities
 reference contact IDs; shared hotlines are not copied per city. The shared place index is about 54 KB, including 483 approximate city points and a generalized 58-county map.
-It contains no addresses or street tiles. The build minifies the data embedded on chart pages; changing a city or service filter
-makes no request, detects no location and saves nothing to browser storage. Publisher dates, check dates and
+It contains no addresses or street tiles. The build minifies the contact data embedded on chart pages. Service filtering makes no request. Online place navigation and maps can load public pages, regional data and existing map services; no location is detected or private input stored. The sole public-place arrival flag is described above. Publisher dates, check dates and
 primary-page versus indexed-excerpt review limits are preserved. Missing numbers are never inferred.
 
 One generated HTML file under `downloads/` replaces per-region exports. With a city selected, an explicit download
@@ -173,7 +157,7 @@ browser for interactive tools. Calls/texts need phone service; website links and
 There are no live dispatch, outage, road-status or shelter feeds. Tool inputs do not persist after closing.
 The tests cover every city/county mapping, jurisdiction changes, filtering, actual personalized/standard downloads,
 disconnected local-file reading/tools, no-JavaScript selected-city rows, private-note exclusion and failure handling.
-Leaflet is served locally. The homepage loads its visible location map immediately; the separate offline chooser loads its map when its disclosure opens. The map uses no external tile or
+Leaflet is served locally. The homepage loads its visible location map immediately; the separate offline chooser loads its map when its disclosure opens. The location chooser uses no external tile or
 geocoding service, account, API key or location permission. Type a city, click its marker, or click a county for
 county-level contacts. The native selector stays available as a keyboard/failure fallback. Points come from
 the largest CDTFA city boundary-piece centroid; county geometry is generalized Census BAS 2026 data. Both are
@@ -201,21 +185,21 @@ npm.cmd run test:commerce
 For future commerce, hosting and merchant-readiness flags require owner review, not just a config edit.
 Keep private/Admin credentials out of browser files and Git. The current GitHub Pages deployment is not approved for e-commerce.
 
-## Service-button preview and preserved version
+## Location flow and preserved versions
 
-The homepage has a California-only autocomplete, offline button and map. Suggestions appear after one
+The homepage has California-only autocomplete and a large map; downloads follow on the local page. Suggestions appear after one
 letter, with keyboard and touch selection. The previous top city/county dropdown is removed. Choosing a
 suggestion or submitting an exact/unique name opens the separate shared `/local/?place=<public ID>` page.
 Its checked resources retain scope, provider, hours and source limits; general guides stay distinct.
 
-A prominent result-page section offers a contact-sheet PNG and the complete offline website. `infographic.js`
+Keep it, the sixth local story step, offers the resource-book PDF, source TXT, risk-summary PNG and complete offline website. `infographic.js`
 builds the SVG preview and high-resolution PNG locally from the canonical public contacts. The PNG contains
 local and statewide numbers, practical notes, source dates and coverage limits, with no private tool inputs.
 The complete HTML file adds the map, four tools and full sources. PNG generation needs scripts;
 selected contact charts in saved HTML remain readable without scripts. The offline template is built from the
 shared resource page, rather than a separate database or copy per city.
 
-Six icon tiles retain the five Reddit communities and phone chart. Optional Change location on the result
+Quiet rows retain the five Reddit communities and phone chart. Optional Change location on the result
 page contains the search/map. In saved files it changes location in place; online page URLs contain the public
 place ID and may be logged by the host, as described in Privacy. Suggestions, image generation and private
 tool inputs stay local. The separate resource/tool search remains removed.
@@ -227,7 +211,7 @@ at `5c93d5e435a8ab59635d81ea97e32099109d6614`. To inspect it without altering cu
 git worktree add --detach ../ferdant-preserved-20261102 preview-before-service-buttons-20261102
 ```
 
-Serve that directory separately for comparison. The commercial demo stays on `website-preview-20261102`. See `DESIGN.md` for the color evidence and its limits.
+Serve that directory separately for comparison. The commercial demo stays on `website-preview-20261102`. See `DESIGN.md` for the current direction and historical references.
 
 The service-list edition immediately before the icon tiles is also preserved at
 `preview-before-icon-tiles-20261102` (`20096f939af6f17a99f7e295739f6680d0d61883`). All saved versions retain their original built files.
@@ -246,7 +230,6 @@ touch selection, separate/invalid resource URLs, actual PNG bytes and dimensions
 private-input exclusion, and map loading that preserves text already being typed.
 
 The current offline copy omits Saved guides, the Local essentials shortcut and the Saved to your device banner.
-Guide links lead to the online pages and need internet. Download actions are consolidated: one standard HTML
-copy on the homepage, one PNG/HTML area on the resource page, and one download on the separate offline chooser.
-Change location is the single result-page location control; tool dialogs use their one Close control. Checked
+Guide links lead to the online pages and need internet. Download actions are consolidated: the PDF/TXT/PNG/HTML actions in Keep it and the separate offline chooser. The home no-JavaScript fallback also links the standard HTML file.
+Change location stays on the atlas, with the existing detailed chooser in the first step; tool dialogs use their one Close control. Checked
 local contacts appear once above the shared statewide support chart, with actual service distinctions preserved.

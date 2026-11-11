@@ -345,7 +345,7 @@ def render_references(output, correction_links=''):
     parts.append('<details class="reference-disclosure reference-section" id="reference-section-about">'
                  '<summary><h2>About these sources & corrections</h2></summary><div class="reference-children">'
                  '<details class="reference-disclosure reference-topic" id="references-dates"><summary><h3>Dates & how to use sources</h3></summary>'
-                 '<div class="reference-content"><p>Compiled November 3, 2026 from the website repository. '
+                 '<div class="reference-content"><p>First compiled November 3, 2026 from the website repository. '
                  'External sources were not rechecked during compilation.</p><p>Publisher dates, source-check dates '
                  'and retrieval dates have different meanings. A recent check does not make an older source newly '
                  'published or establish that a service is open. Missing dates remain explicit.</p>'
