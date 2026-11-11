@@ -141,11 +141,11 @@
     "integrations/shopify.mjs": "06b43fa4f3c823fdb1372918e3ce881d4ec42d384e830697afbb66e08c12cf72",
     "landing.js": "9f5d4b58e93e901e16e6fcee4b187cdb0d5f7d3de467a9d411e03dd2a4c994fc",
     "package-lock.json": "bbc19435fd5d8c962d59d092526439044fb6d43aef8d20a175584a80c0752e63",
-    "phone.js": "012d90d74c5c64501fd875ec98e11f456c461bc17a5f96256c09a8d80512f0fe",
+    "phone.js": "80d2bff41bbdf8ac08999d6b3891cdb2f2a93d7d63e62bf8d7e75c13ec958741",
     "recommendations.js": "a67656afcdcc388c6a1450fedde729f7d648a30ffc121c29b70a1e088357809a",
     "resource-booklet.js": "deba9a30baafe088ecfc4a54e7d405d59da1685d721f6ddde338363b2748afc1",
     "resource-facts.js": "7ee2190e759bd0a956bb1014eb239bf8063dc4650bef6a64b1d95a81ec88a1c9",
-    "resource-map.js": "c95e1c34d788f1203800952fb71dca46a23ca4140d2c77422d4b82a0d4dcb7ca",
+    "resource-map.js": "92a059e305c7fe9ec6d0b253c480180a09bdcc5de66328e30acec9214a1946a4",
     "scripts/audit-disaster-sources.py": "01b2d7ce29709adac54390eea49b2f956dccaf27ca6cc8f22cd1d5a69badeb26",
     "scripts/build.py": "020798efbc2f2d331d91c1c1a3c0d765f1bc1a4b452aada9c0683c6be652bbd0",
     "scripts/check-content.py": "912019aebb7a4ae61dfac2ec6772c1e1a30ffd15d1185bcb4412dc808f27e643",
@@ -156,7 +156,7 @@
     "scripts/import-evacuation-routes.py": "30865e3f3d3e51f5b587618153b1a66b7f1cf7f7296241d908836f1aee497807",
     "scripts/landing.py": "fbc838249681e177417fd2cea72e864cf525813620232fe79d1f8aab6780c1e9",
     "scripts/offline.py": "624aab28cda64902f5ddceb2023e3d7a5ba4eb59b4edfb5085a9b35e5109cb36",
-    "scripts/phone_chart.py": "1e3d5b462ae142a73b4d8cc3cf67821727ee9358c09ba1c0e7806b2782430fb7",
+    "scripts/phone_chart.py": "26e80019f3fe34403acbcb3be63137801aa0decb61cb4881c1e928b056a89f13",
     "scripts/physical_services.py": "57961a7a681ca0cb840de47c431d7acf02f9a04c0e9c5aceacfc6c952223da8f",
     "scripts/project-booklet-roads.py": "85a0b0a36265d8d79a4b37329495ac23165beef01d65cae7aeccda39982d5f8c",
     "scripts/project-building-outlines.py": "c9b573683aa5449a45660ee7d296475f5489dbe7288c43b0f5e7c8fa1f048347",
@@ -169,12 +169,12 @@
     "scripts/recommendations.py": "2d86fb2543d3a1303f921ee08b3396ce91ef8c5ed2319826fa5e6568a3011391",
     "scripts/references.py": "1dbf469380d208caf32e0deffbe6bcb677fa5f322dc3b2786bfcd4647a44805a",
     "scripts/refresh-map-data.py": "37693b1b22f966735a4c01dfb77a2f48ad068a7e795d0b367b6cf82ac1cebdb9",
-    "scripts/resource_map.py": "cfd5c821c27c73b51675f64b61a96646f6b47a988f11c912a520abc7f834edce",
+    "scripts/resource_map.py": "d4b0360e47f82218824a5d87dab9230083de3755499abbe38a0da9e8972aea2d",
     "scripts/resource_search.py": "56232e5552bd336fc3f83ff7091da65919e936f5a35dcdacc4bdff9dc0ca7b0b",
     "scripts/widgets.py": "c108105199f616c2b486dbfc18eb57280904bdbcbc62bcb6038d486a6b9b94a3",
     "service-resources.js": "fe25c2e8d7a7be507c223a4b97e8e1aac0f9a024d1270f3aa7bff30d8d4dc970",
     "site.js": "9fbad56eb918ca1acb66f9221a712f78ddd3a512358c1ca2f00778b68960a6b7",
-    "styles.css": "c5c1e0dee74c6157e2269a394b27b4775c7d66791551e0ea8e78f41c24adb95e"
+    "styles.css": "551418065fadf47336e854469ef099cbd71268439854ce99f25bd7c10fa43554"
   },
   "references": [
     {
@@ -325,7 +325,7 @@
         "assets/data/city-maps/README.md",
         "content/california-cities.json",
         "content/resource-map.json",
-        "phone.js",
+        "scripts/phone_chart.py",
         "scripts/refresh-map-data.py"
       ],
       "records": [
@@ -1380,7 +1380,6 @@
         "content/map-data-manifest.json",
         "content/resource-map.json",
         "content/visit-fact-manifest.json",
-        "resource-map.js",
         "scripts/project-building-outlines.py",
         "scripts/project-everyday-services.py",
         "scripts/project-visit-facts.py",
@@ -18522,19 +18521,6 @@
       "records": []
     },
     {
-      "title": "leafletjs.com",
-      "url": "https://leafletjs.com",
-      "category": "links",
-      "uses": [
-        "Supporting link recorded in phone.js; role follows its original context."
-      ],
-      "recordedIn": [
-        "phone.js",
-        "resource-map.js"
-      ],
-      "records": []
-    },
-    {
       "title": "mailchi.mp/listoscalifornia/listos-california-2024-printed-materials-policy-and-ordering-procedure",
       "url": "https://mailchi.mp/listoscalifornia/listos-california-2024-printed-materials-policy-and-ordering-procedure",
       "category": "links",
@@ -18721,10 +18707,10 @@
       "url": "https://tigerweb.geo.census.gov/",
       "category": "links",
       "uses": [
-        "Supporting link recorded in phone.js; role follows its original context."
+        "Supporting link recorded in scripts/phone_chart.py; role follows its original context."
       ],
       "recordedIn": [
-        "phone.js"
+        "scripts/phone_chart.py"
       ],
       "records": []
     },

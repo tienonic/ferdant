@@ -35,7 +35,7 @@ def city_search(include_state=False):
 
 
 def city_map(include_search=True):
-    return f'''<div class="city-map-workspace" data-enhancement hidden>{city_search() if include_search else ''}<p id="city-map-status" role="status">City mode. Click a city marker or search its name.</p><div id="city-map" role="region" aria-label="California city or county selection map"></div><p class="city-map-note">City markers and county areas are approximate. Choose a city or county, or search a ZIP code for nearby resources. ZIP search uses an area center, not a street address.</p></div>'''
+    return f'''<div class="city-map-workspace" data-enhancement hidden>{city_search() if include_search else ''}<p id="city-map-status" role="status">City mode. Click a city marker or search its name.</p><div id="city-map" role="region" aria-label="California city or county selection map"></div><p class="city-map-credit">Map data: <a href="https://publish.data.ca.gov/dataset/boe-citycounty">CDTFA</a> · <a href="https://tigerweb.geo.census.gov/">U.S. Census Bureau</a></p><p class="city-map-note">City markers and county areas are approximate. Choose a city or county, or search a ZIP code for nearby resources. ZIP search uses an area center, not a street address.</p></div>'''
 
 
 def phone_chart(expanded=False, include_map=True, show_download=True, show_picker=True, shared_only=False):

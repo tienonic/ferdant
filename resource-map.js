@@ -100,7 +100,7 @@
   L.geoJSON(geo,{pane:'evacuation-routes',style:{className:'evacuation-route',color:'#a52b77',weight:4.5,dashArray:'10 6',opacity:1},onEachFeature:(f,layer)=>{
    layer.bindPopup('<strong>'+escape(f.properties.FULLSTREET||'County evacuation road')+'</strong><p>County-designated evacuation planning route. Follow current official instructions; this does not confirm the road is open.</p><a href="'+escape(entry.source)+'">Yolo County route source</a><p>Checked '+escape(entry.checked)+'</p>');
   }}).addTo(routeGroup);
-  routeAttribution='Evacuation planning roads: <a href="'+escape(entry.source)+'">'+escape(entry.publisher)+'</a>';map.attributionControl.addAttribution(routeAttribution);
+  
   routeStatus.textContent=features.length?'Purple dashed lines: county-designated planning roads. Not live closures or an assigned safe route. Checked '+entry.checked+'.':'The county layer has no route segments in this view. Follow current local instructions.';
  }
  function point(key){
@@ -157,11 +157,12 @@
   if(initPromise)return initPromise;
   initPromise=loadLeaflet().then(()=>{
    map=L.map('resource-map',{scrollWheelZoom:false,minZoom:5,maxZoom:19,zoomAnimation:false,fadeAnimation:false});
-   map.attributionControl.addAttribution('Everyday points: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> &middot; <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL</a>');
-   map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
-   map.attributionControl.addAttribution('Boundaries: CDTFA / U.S. Census');
-   map.attributionControl.addAttribution('Buildings: © Microsoft, <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL</a>');
-   if(!offline){const tiles=L.tileLayer(config.tileUrl,{maxZoom:19,keepBuffer:1,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);tiles.on('tileerror',()=>{root.querySelector('#resource-map').dataset.tiles='unavailable';status.textContent='Street tiles unavailable. The city outline, resource pins and list still work.';});}
+   map.attributionControl.setPrefix(false);
+   map.attributionControl.addAttribution('© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> <button type="button" class="atlas-sources-control" aria-controls="atlas-sources">Sources</button>');
+   map.attributionControl.getContainer().querySelector('button').addEventListener('click',()=>{
+    const disclosure=root.querySelector('#atlas-sources');disclosure.open=true;disclosure.querySelector('summary').focus();disclosure.scrollIntoView({block:'start',behavior:'instant'});
+   });
+   if(!offline){const tiles=L.tileLayer(config.tileUrl,{maxZoom:19,keepBuffer:1}).addTo(map);tiles.on('tileerror',()=>{root.querySelector('#resource-map').dataset.tiles='unavailable';status.textContent='Street tiles unavailable. The city outline, resource pins and list still work.';});}
    boundary=L.layerGroup().addTo(map);layerGroup=L.layerGroup().addTo(map);hazardGroup=L.layerGroup().addTo(map);highlight=L.layerGroup().addTo(map);
    map.createPane('disaster-planning');map.getPane('disaster-planning').style.zIndex=390;
    map.createPane('evacuation-routes');map.getPane('evacuation-routes').style.zIndex=450;routeGroup=L.layerGroup().addTo(map);
@@ -334,7 +335,7 @@
   panel.hidden=!plan;panel.innerHTML=plan?'<details class="atlas-plan-details"><summary>Safety steps &amp; evacuation</summary><div>'+disasters.planHTML(active)+'</div></details>':'';
   panel.querySelector('.disaster-steps')?.insertAdjacentHTML('beforebegin',evacuationHTML());
   const sources=root.querySelector('#atlas-hazard-sources');sources.replaceChildren();
-  if(plan){for(const id of plan.layers){const s=disasters.registry.layers[id],p=document.createElement('p'),a=document.createElement('a');a.href=s.source;a.textContent=s.title;p.append(a,document.createTextNode(' · '+(s.published?s.published+' ('+s.dateMeaning+')':'Publisher date varies or is not supplied')+' · Checked '+s.checked+'. '+s.note));sources.append(p);}}
+  if(plan){for(const id of plan.layers){const s=disasters.registry.layers[id],p=document.createElement('p'),a=document.createElement('a');a.href=s.source;a.textContent=s.title;p.append(a,document.createTextNode(' · '+s.publisher+(s.credit?' · '+s.credit:'')+' · '+(s.published?s.published+' ('+s.dateMeaning+')':'Publisher date varies or is not supplied')+' · Checked '+s.checked+'. '+s.note));sources.append(p);}}
  }
  // Print the complete selected safety plan; restore the reader's compact view.
  let printDetails=[];
@@ -375,7 +376,7 @@
    const publishers=active==='tsunami'?['CGS / Cal OES']:plan?plan.layers.map(id=>disasters.registry.layers[id].publisher):[];
    if(hasShelters())publishers.push('FEMA');
    hazardAttribution=publishers.length?'Selected layer: '+[...new Set(publishers)].join(', '):null;
-   if(hazardAttribution)map.attributionControl.addAttribution(hazardAttribution);
+   
   }
   current=staticPlaces();drawPlaces();fit();drawRoutes();
   if(active==='tsunami')root.querySelector('#atlas-layer-status').textContent=shard?((shard.tsunami||[]).length?'CGS saved tsunami planning areas. Follow posted evacuation signs; unshaded land is not certified safe.':'No tsunami polygons in this county dataset. This is not an all-hazards safety assessment.'):'The detailed tsunami layer is not saved or available for this area. Use the official source.';

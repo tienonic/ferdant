@@ -1251,3 +1251,8 @@ input[type=number], #message-builder input, #message-builder select, #message-bu
 .atlas-place-card > .atlas-popup > .resource-scope-badge { display: none; }
 
 .atlas-place-card > .atlas-popup { padding: 8px 6px 12px; }
+
+/* Map data credits stay short; the full license list lives in Sources. */
+#resource-map .leaflet-control-attribution { display: flex; align-items: center; gap: 8px; white-space: nowrap; font: 11px/1.4 var(--sans); padding: 0 6px; }
+.atlas-sources-control { font: inherit; font-size: 12px; min-height: 44px; border: 0; background: transparent; color: var(--cobalt); text-decoration: underline; cursor: pointer; padding: 0 4px; }
+.city-map-credit { font-size: 12px; line-height: 1.5; color: var(--muted); margin: 8px 0; }

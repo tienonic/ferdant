@@ -330,8 +330,8 @@
   if(mapPromise)return mapPromise;
   mapPromise=loadLeaflet().then(()=>{
    cityMap=L.map('city-map',{scrollWheelZoom:false,minZoom:4,maxZoom:12,zoomSnap:landingOverview?0.1:1,zoomAnimation:false,fadeAnimation:false}).setView([37.2,-120],5);
-   cityMap.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
-   cityMap.attributionControl.addAttribution('Map data: <a href="https://publish.data.ca.gov/dataset/boe-citycounty">CDTFA</a> · <a href="https://tigerweb.geo.census.gov/">U.S. Census Bureau</a>');
+   cityMap.attributionControl.setPrefix(false);
+   
    const boundaries=L.geoJSON(places.map.geometry,{style:{color:'#718995',fillColor:'#ffffff',fillOpacity:.75,weight:1},onEachFeature:(feature,layer)=>{
     countyLayers.set(feature.properties.county,layer);
     const id=feature.properties.county;
