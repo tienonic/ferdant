@@ -21,6 +21,7 @@ const tileRequests=url=>url.startsWith(source.service+'/tile/');
   await p.goto(base+'/local/?place=01060');await ready(p);assert.equal(requests.length,0,'No fault requests in everyday view');
   await choose(p,'earthquake');await tiles(p);assert(requests.length>0&&requests.length<=20);
   assert.equal(await p.locator('.disaster-faults').count(),1);assert.equal(await p.locator('path.disaster-faults,.disaster-faults.leaflet-image-layer').count(),0);
+  assert(!await p.locator('.atlas-legend-disclosure').evaluate(el=>el.open));await p.locator('.atlas-legend-disclosure > summary').click();
   const key=await p.locator('#atlas-hazard-legend').innerText();
   assert(key.includes('Moved within about 12,000 years'));assert(!/Holocene|Quaternary/.test(key));
   assert(await p.locator('#atlas-fault-help').isVisible());assert.equal(await p.locator('#atlas-fault-help').evaluate(el=>el.open),false);

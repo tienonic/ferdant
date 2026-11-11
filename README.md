@@ -76,6 +76,7 @@ npm.cmd run verify:risk
 npm.cmd run verify:everyday
 npm.cmd run verify:booklet
 npm.cmd run verify:recommendations
+npm.cmd run verify:cleanup
 ```
 
 Keep the local server running for browser checks. They test all 16 pages at 320, 390, 768 and

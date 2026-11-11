@@ -203,3 +203,37 @@ local contacts appear once above the shared statewide support chart, with actual
 ## Disaster map choices - November 3, 2026
 
 Show all fifteen disaster plans as directly accessible symbol buttons, with Everyday in the same grid. Use original 24-unit line drawings from the existing icon set, muted individual accents and short visible labels; retain full accessible names. Icons are navigation cues, not official warning signs. Keep all choices visible, wrap into rows instead of a scrolling strip, and preserve a 44px minimum tap area. Use one selected checkmark, pressed state, a strong bottom border and a clear focus outline; color alone does not carry state. Each symbol replaces the preceding map layer and opens its concise plan in place. Source facts, currentness rules and offline exclusions stay unchanged. This follows Philip's explicit preference; it does not claim a measured audience or safety outcome.
+
+## Cleanup, November 10
+
+The city card starts with its header and map. Compact plan choices follow the map,
+then guidance and places. The phone map uses 58vh with a 340px minimum; desktop
+maps are at least 520px high. All existing choices stay visible in four phone
+columns or eight desktop columns, with a checkmark, pressed state, bottom border
+and keyboard focus. Selecting a plan brings an offscreen map into view and
+respects reduced motion. Street tiles alone are desaturated. Planning roads use
+thin muted plum dashes with white casing below the pins. Phone legends start
+closed; desktop legends form a compact row. Download offline sits in the desktop
+header and moves below the phone map.
+
+Phone home order is title, one sentence, location search and map, How it works,
+then the two credited family photos. Desktop retains the photos beside the title
+and four steps in a row below location selection. City, County, ZIP and State
+keep their modes and accessible names. City markers start small and grow on zoom.
+The header has wordmark, navigation and a quiet resource suggestion link; phones
+put the suggestion link inside Menu. The resource book uses a location heading,
+one PDF button and a row of secondary downloads. Decorative eyebrows are removed.
+
+Map library names are absent from map credits. A city map always shows linked
+© OpenStreetMap and a Sources button opening Map sources & coverage. That
+disclosure retains data licenses, boundaries, building footprints, planning roads
+and selected hazard agencies. Boundary-only map credits sit below the map. The
+vendor BSD notice and embedded offline license remain intact.
+
+Preserved: the palette, self-hosted fonts, family photos, booklet contents, all
+current plans, data, dates, coverage limits, downloads, offline behavior,
+recommendation privacy, no-script reading, dormant commerce, build modes and tags.
+The source currently contains 14 disaster plans plus Everyday. Drought was
+previously removed at the owner's request; this pass preserves that policy and its
+data checks (see docs/local-booklet-selection-20261103.md). This supersedes the
+older 15-plan wording above and the earlier placement of controls before the map.

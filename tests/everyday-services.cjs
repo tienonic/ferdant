@@ -5,7 +5,7 @@ const base=process.env.SITE_URL||'http://127.0.0.1:4173';
 const manifest=JSON.parse(fs.readFileSync('content/everyday-service-manifest.json','utf8'));
 const config=JSON.parse(fs.readFileSync('local/index.html','utf8').match(/id="resource-map-data">(.*?)<\/script>/s)[1]);
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
-function browserPath(){const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64','chrome-headless-shell.exe')).find(fs.existsSync);}
+function browserPath(){if(process.env.CHROME_PATH)return process.env.CHROME_PATH;if(process.platform!=='win32')return;const root=path.join(process.env.LOCALAPPDATA,'ms-playwright');return fs.readdirSync(root).filter(n=>n.startsWith('chromium_headless_shell-')).sort().reverse().map(n=>path.join(root,n,'chrome-headless-shell-win64','chrome-headless-shell.exe')).find(fs.existsSync);}
 async function ready(p){await p.waitForFunction(()=>{const r=document.querySelector('#resource-atlas');return !r.hidden&&!r.hasAttribute('aria-busy')&&r.dataset.hazardLoading!=='true';});}
 async function water(p){await p.locator('#atlas-resource-filters summary').click();await p.locator('[data-resource-group="water"]').click();}
 (async()=>{
@@ -36,7 +36,8 @@ async function water(p){await p.locator('#atlas-resource-filters summary').click
    await p.setViewportSize({width,height:960});await p.goto(base+'/local/?place=38001');await ready(p);await water(p);
    const pins=p.locator('.atlas-pin');assert((await mappedIds(p)).length>0);assert.equal(await p.locator('.atlas-pin svg[data-icon="resource-water"],.atlas-pin svg[data-icon="resource-restroom"],.atlas-pin svg[data-icon="resource-shower"]').count(),await pins.count());
    assert(await mappedCount(p,'water')>0);assert(await mappedCount(p,'restroom')>0);assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-   assert(await p.locator('.leaflet-control-attribution').innerText().then(t=>t.includes('ODbL')));
+   assert(await p.locator('.leaflet-control-attribution').innerText().then(t=>t.includes('©')&&t.includes('OpenStreetMap')&&!t.includes('Leaflet')));
+   await p.getByRole('button',{name:'Sources',exact:true}).click();assert(await p.locator('#atlas-sources').evaluate(el=>el.open));assert((await p.locator('#atlas-sources').innerText()).includes('ODbL'));
    await p.locator('#atlas-panel-notes > summary').click();await p.locator('#atlas-search-more').click();assert(await p.locator('#resource-search-water').evaluate(e=>e.open));
    await p.locator('#resource-atlas').screenshot({path:'screenshots/everyday/sf-water-'+width+'.png'});
   }
