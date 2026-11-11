@@ -1,4 +1,4 @@
-name: Check Ferdant preview
+name: Check Ferdant site
 
 on:
   push:
@@ -13,6 +13,8 @@ jobs:
   check:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      SITE_MODE: ${{ (github.ref == 'refs/heads/main' || github.base_ref == 'main') && 'production' || 'preview' }}
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-python@v7.1.0
@@ -28,9 +30,9 @@ jobs:
         run: python scripts/check-content.py
       - name: Test dormant Shopify adapter without a store
         run: npm run test:commerce
-      - name: Build preview and check generated files are current
+      - name: Build site and check generated files are current
         run: |
-          python scripts/build.py
+          python scripts/build.py --mode "$SITE_MODE"
           git diff --exit-code
       - name: Prepare browser
         run: npx playwright install --with-deps chromium

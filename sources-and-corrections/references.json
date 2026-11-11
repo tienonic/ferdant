@@ -11,9 +11,9 @@
     "Census geocoding receipts include unsuccessful candidates; a query is not proof that a point was accepted or mapped."
   ],
   "inputSha256": {
-    ".github/workflows/check-site.yml": "23c2c47db6fe7f14dab28667a6d32e200aecf6d5c858b18427267bfad7197491",
+    ".github/workflows/check-site.yml": "aa87098bbce67a99c4ea60fa4b9e64d34162fa12b26683348710746bdeabae27",
     "DESIGN.md": "5c07a65e2ad3aa75afb9f3faf16eb14bce9e376fbca542ff21868deb4a0e84c9",
-    "README.md": "be16fb2c39c9eb00eaf5ad763d9939a2445d889c478f1f812626b7509f2c1aba",
+    "README.md": "16e80b45d5193c0036c98e556477b1ef7001500affe4ee97d9cbe6405997a626",
     "assets/data/booklet-roads/README.md": "c405902549ca25ca22e0f5398c208b9d5f8137df571e8c2d933a8a5d87ad98e7",
     "assets/data/city-maps/BUILDINGS-LICENSE.txt": "1e4162322549351e6ce131d66c3c6c6cb56755db58e0475138e3f41cd94c4b3c",
     "assets/data/city-maps/README.md": "346247e7e378991bcd18e3602eb7ca91b08f38a71aa9f7ac232eab8877cd8bde",
@@ -18411,9 +18411,10 @@
       "url": "https://ferdant.com",
       "category": "links",
       "uses": [
-        "Supporting link recorded in scripts/build.py; role follows its original context."
+        "Supporting link recorded in README.md; role follows its original context."
       ],
       "recordedIn": [
+        "README.md",
         "scripts/build.py",
         "scripts/offline.py"
       ],

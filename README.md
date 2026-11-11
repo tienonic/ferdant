@@ -1,7 +1,7 @@
 # Ferdant website
 
 A porcelain-white and cobalt resource library for the five existing practical-help communities.
-This branch contains an editorial preview: a one-page directory with five topic sections and four interactive tools, five optional branch hubs, three complete
+The site includes a one-page directory with five topic sections and four interactive tools, five optional branch hubs, three complete
 money-and-paperwork guides, a searchable library, about/source/privacy pages and a custom 404. Guides lead with a short answer,
 four actions and a useful tool or template; longer explanations and sources expand only when needed.
 The three guides are proposed pilot content, not a record of resolved community cases.
@@ -29,7 +29,7 @@ python -m http.server 4173 --bind 127.0.0.1
 
 Open **http://127.0.0.1:4173/**. Stop the server with Ctrl+C.
 Preview is the default: all pages have `noindex,follow` and a visible preview notice.
-The deployed main branch remains the maintenance page until a fuller release is approved.
+GitHub Pages serves the production build from `main` at https://ferdant.com.
 
 ## Edit and check
 
@@ -226,12 +226,10 @@ at `5c93d5e435a8ab59635d81ea97e32099109d6614`. To inspect it without altering cu
 git worktree add --detach ../ferdant-preserved-20261102 preview-before-service-buttons-20261102
 ```
 
-Serve that directory separately for comparison. The current preview stays on `website-preview-20261102`;
-public main remains the maintenance page. See `DESIGN.md` for the color evidence and its limits.
+Serve that directory separately for comparison. The commercial demo stays on `website-preview-20261102`. See `DESIGN.md` for the color evidence and its limits.
 
 The service-list edition immediately before the icon tiles is also preserved at
-`preview-before-icon-tiles-20261102` (`20096f939af6f17a99f7e295739f6680d0d61883`). All saved versions
-retain their original built files; the latest preview is on `website-preview-20261102`.
+`preview-before-icon-tiles-20261102` (`20096f939af6f17a99f7e295739f6680d0d61883`). All saved versions retain their original built files.
 
 The icon-grid edition before the location-first flow is preserved at `preview-before-location-flow-20261102`
 (`01b0d9a7b3e07bd307b3a22c7d657f6ca3e643ab`). The top selector is hidden without scripts; statewide numbers

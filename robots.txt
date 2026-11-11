@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-# Preview pages carry noindex; allow crawlers to see it.
+Sitemap: https://ferdant.com/sitemap.xml
