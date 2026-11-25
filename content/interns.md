@@ -177,9 +177,11 @@ The product a testing shop sells is a signed report on a transformer, a circuit 
 = redirect | {{url}}/interns/thanks/
 - name | Name | text
 - email | Email | email
+- davis | Are you a student at UC Davis? | radio: Yes; No
 - phone | Phone (optional) | tel | optional
 - role | What role are you applying for? | select: Choose a role =; Business Development; Acquisitions Analyst; Engineering, Power Equipment; AI Automation; Not sure yet
 - school | School, major and year, or where you work now | text
+- referred | Were you referred by anyone? If so, who? (optional) | text | optional
 - built | What have you built? Describe it, and include a link if there is one | textarea 4
 - resume | A link to your resume or LinkedIn page | text
 - ai | How do you use AI? Your setup, one thing you made with it, and how you checked it | textarea 4
