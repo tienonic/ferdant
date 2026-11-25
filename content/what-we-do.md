@@ -51,8 +51,6 @@ Rising electricity demand, new factories and data centers are the large movement
 
 We are meeting owners, technicians and the people who buy testing and repair work, to choose our first shop. We will take longer rather than buy the wrong one.
 
-!close
-
 Own a shop? Start with a conversation: [For owners](/owners/).
 
 Want to work with us? See [Careers](/careers/).

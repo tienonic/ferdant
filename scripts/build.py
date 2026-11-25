@@ -18,6 +18,8 @@ def site_values():
     c['contact_role_lower'] = c['contact_role'].lower()
     c['city'] = c['place'].split(',')[0]
     c['wordmark'] = c['name'].lower()
+    c['contact_first'] = c['contact_name'].split()[0]
+    c['has_form'] = bool(c.get('form_access_key'))
     return c
 
 
@@ -85,16 +87,59 @@ def apply_button(subject):
     return f'<p class="apply"><a class="button" href="mailto:{email}?subject={quote(subject)}">Email {email}</a><span>{email}</span></p>'
 
 
+def form(button, lines):
+    """A plain HTML form posted to Web3Forms. Lines: '= name | value' for hidden values, '- name | Label | type [| optional]' for fields.
+    Types: text, email, tel, checkbox, textarea <rows>, radio: a; b, select: a; b (an option ending in '=' has an empty value)."""
+    hidden = f'<input type="hidden" name="access_key" value="{e(C["form_access_key"])}">'
+    hidden += '<input type="checkbox" name="botcheck" class="botcheck" style="display:none" tabindex="-1" autocomplete="off">'
+    fields = ''
+    for line in lines:
+        kind, parts = line[:1], [x.strip() for x in line[2:].split('|')]
+        if kind == '=':
+            hidden += f'<input type="hidden" name="{e(parts[0])}" value="{e(parts[1])}">'
+            continue
+        name, label, ftype = parts[:3]
+        required = '' if 'optional' in parts[3:] else ' required'
+        if ftype.startswith('select:'):
+            options = ''
+            for o in (o.strip() for o in ftype[7:].split(';')):
+                label_text, empty = o.removesuffix('=').strip(), o.endswith('=')
+                options += f'<option value="{"" if empty else e(o)}">{e(label_text)}</option>'
+            fields += f'<div class="field"><label for="f-{name}">{e(label)}</label><select id="f-{name}" name="{name}"{required}>{options}</select></div>'
+        elif ftype.startswith('radio:'):
+            options = [o.strip() for o in ftype[6:].split(';')]
+            choices = ''.join(f'<label class="choice"><input type="radio" name="{name}" value="{e(o)}"{required}> {e(o)}</label>' for o in options)
+            fields += f'<fieldset class="field"><legend>{e(label)}</legend>{choices}</fieldset>'
+        elif ftype == 'checkbox':
+            fields += f'<div class="field"><label class="choice"><input type="checkbox" name="{name}" value="Yes"{required}> {e(label)}</label></div>'
+        elif ftype.startswith('textarea'):
+            rows = ftype.split()[1]
+            fields += f'<div class="field"><label for="f-{name}">{e(label)}</label><textarea id="f-{name}" name="{name}" rows="{rows}"{required}></textarea></div>'
+        else:
+            auto = {'name': ' autocomplete="name"', 'email': ' autocomplete="email"', 'tel': ' autocomplete="tel"'}.get(ftype if ftype != 'text' else name, '')
+            fields += f'<div class="field"><label for="f-{name}">{e(label)}</label><input id="f-{name}" name="{name}" type="{ftype}"{auto}{required}></div>'
+    return f'<form class="apply-form" method="POST" action="https://api.web3forms.com/submit">{hidden}{fields}<button class="button" type="submit">{e(button)}</button></form>'
+
+
 def render(body, page):
     """Turn a page body into sections. ## starts a section, ### a subheading; !close starts a section without a heading."""
-    sections = []
+    sections, skipping = [], False
 
     def open_section(heading=None):
         sections.append({'heading': heading, 'body': [], 'aside': [], 'id': None, 'kind': ''})
 
     for block in re.split(r'\n\s*\n', fill(body, page).strip()):
         block = block.strip()
-        if not block:
+        # [form] and [no-form] keep a block, or a whole ## section, only when the application form is or is not configured.
+        condition = re.match(r'\[(form|no-form)\] ', block)
+        if condition:
+            block = block[condition.end():]
+            keep = C['has_form'] == (condition.group(1) == 'form')
+        else:
+            keep = True
+        if block.startswith('## '):
+            skipping = not keep
+        if skipping or not keep or not block:
             continue
         if block.startswith('## '):
             heading, _, anchor = block[3:].strip().partition(' {#')
@@ -122,6 +167,8 @@ def render(body, page):
                 sections[-1]['body'].append(f'<p class="small">{inline(arg)}</p>')
             elif word == 'apply':
                 sections[-1]['body'].append(apply_button(arg))
+            elif word == 'form':
+                sections[-1]['body'].append(form(arg, rest.splitlines()))
             else:
                 raise ValueError(f'{page["source"]}: unknown directive !{word}')
             continue
@@ -173,7 +220,7 @@ def page(p, body):
     """The shared shell: head, photographic hero with header, the page body and the footer."""
     path, title, description = p['url'], p['title'], p['description']
     full_title = title if path == '/' else f'{title} · {C["name"]}'
-    robots = 'noindex,follow' if args.mode == 'preview' or path == '/404.html' else 'index,follow'
+    robots = 'noindex,follow' if args.mode == 'preview' or p.get('noindex') else 'index,follow'
     canonical = C['url'] + path
     social = C['url'] + '/assets/img/social.png'
     schema = [{'@context': 'https://schema.org', '@type': 'WebSite', 'name': C['name'], 'url': C['url'] + '/'},
@@ -181,6 +228,9 @@ def page(p, body):
     image = p.get('image', 'power')
     caption = f'<p class="hero-caption">{e(C["photos"][image])}</p>'
     hero_text = f'<p class="hero-text">{inline(p["hero_text"])}</p>' if p.get('hero_text') else ''
+    if p.get('hero_apply') and C['has_form']:
+        label, href = p['hero_apply'].split(' | ')
+        hero_text += f'<p class="hero-action"><a class="button" href="{href}">{e(label)}</a></p>'
     preview = '<div class="preview-note">Preview · not yet published</div>' if args.mode == 'preview' else ''
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>{e(full_title)}</title><meta name="description" content="{e(description)}"><meta name="robots" content="{robots}"><meta name="theme-color" content="#1f4a33"><link rel="canonical" href="{canonical}"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"><link rel="preload" href="/assets/fonts/newsreader-400-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/styles.css">
@@ -189,7 +239,7 @@ def page(p, body):
 <body><a class="skip" href="#main">Skip to content</a>{preview}
 <header class="hero hero-{p.get("hero", "page")}">{picture(image, "hero-photo", eager=True)}<div class="wrap site-header">{wordmark()}<nav class="desktop-nav" aria-label="Main">{nav_links(path)}</nav><details class="menu"><summary>{MENU_ICON}</summary><nav class="menu-panel" aria-label="Main">{nav_links(path, with_sub=True)}</nav></details></div><div class="wrap hero-copy"><h1>{inline(p["hero_title"])}</h1>{hero_text}</div>{caption}</header>
 <main id="main" tabindex="-1">{body}</main>
-<footer class="site-footer"><div class="wrap footer-inner">{wordmark()}<p>© {e(C["year"])} {e(C["name"])} · {e(C["place"])} · {" · ".join(f'<a href="{u}">{e(l)}</a>' for l, u in C["footer"])}</p></div></footer>
+<footer class="site-footer"><div class="wrap footer-inner">{wordmark()}<p>© {e(C["year"])} {e(C["name"])} · {e(C["place"])} · <span class="footer-links">{" · ".join(f'<a href="{u}">{e(l)}</a>' for l, u in C["footer"])}</span></p></div></footer>
 </body></html>
 '''
 
@@ -253,7 +303,7 @@ if __name__ == '__main__':
         target = ROOT / old.lstrip('/') / 'index.html'
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(redirect(new), encoding='utf-8')
-    urls = sorted(p['url'] for p in pages if p['url'] != '/404.html')
+    urls = sorted(p['url'] for p in pages if not p.get('noindex'))
     (ROOT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{C["url"]}{u}</loc></url>\n' for u in urls) + '</urlset>\n', encoding='utf-8')
     (ROOT / 'robots.txt').write_text('User-agent: *\nAllow: /\n' + (f'Sitemap: {C["url"]}/sitemap.xml\n' if args.mode == 'production' else '# Preview pages carry noindex.\n'), encoding='utf-8')
     if not args.no_images:

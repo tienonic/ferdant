@@ -8,19 +8,29 @@ ROOT = Path(__file__).resolve().parents[1]
 CONFIG = json.loads((ROOT / 'content/site.json').read_text(encoding='utf-8'))
 BANNED = re.compile(r'philip|\bphil\b|gary|china|project 42|investor|ucdavis|fieldworks|aggiebillhelp|community|communities|\bthis\b|\bdecades\b|new company', re.I)
 PHONE = re.compile(r'\(?\b\d{3}\)?[ .-]\d{3}[ .-]\d{4}\b')
-REQUIRED = ['index.html', 'what-we-do/index.html', 'owners/index.html', 'interns/index.html', 'careers/index.html', 'contact/index.html', 'privacy/index.html', '404.html']
-ANCHORS = {'interns/index.html': ['business-development', 'acquisitions-analyst', 'engineering', 'ai-automation']}
-APPLY = {'interns/index.html': 'Internship - Your name'}
+REQUIRED = ['index.html', 'what-we-do/index.html', 'owners/index.html', 'interns/index.html', 'careers/index.html', 'contact/index.html', 'privacy/index.html', 'interns/thanks/index.html', '404.html']
+ANCHORS = {'interns/index.html': ['business-development', 'acquisitions-analyst', 'engineering', 'ai-automation', 'apply']}
+NOINDEX = ['interns/thanks/index.html', '404.html']
+FORM_PAGE = 'interns/index.html'
+FORM_HIDDEN = {'subject': 'Internship application', 'from_name': CONFIG['name'] + ' interns page', 'redirect': CONFIG['url'] + '/interns/thanks/'}
 HEAD = ['title', 'description', 'canonical', 'og:title', 'og:description', 'og:url', 'og:image', 'twitter:card', 'twitter:image']
 
 
 class Page(HTMLParser):
     def __init__(self):
         super().__init__(); self.links, self.head, self.text, self._in = [], {}, [], None
+        self.controls, self.label_for, self.label_depth, self.hidden, self.forms = [], set(), 0, {}, []
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
         if tag == 'title': self._in = 'title'
+        if tag == 'form': self.forms.append(a)
+        if tag in ('label', 'legend'):
+            self.label_depth += 1
+            if a.get('for'): self.label_for.add(a['for'])
+        if tag in ('input', 'textarea', 'select'):
+            if a.get('type') == 'hidden': self.hidden[a.get('name')] = a.get('value', '')
+            elif a.get('name') != 'botcheck': self.controls.append((a.get('name'), a.get('id'), self.label_depth > 0))
         if tag == 'meta' and a.get('content'):
             self.head[a.get('name') or a.get('property') or a.get('http-equiv')] = a['content']
         if tag == 'link' and a.get('rel') == 'canonical':
@@ -34,6 +44,7 @@ class Page(HTMLParser):
 
     def handle_endtag(self, tag):
         self._in = None
+        if tag in ('label', 'legend'): self.label_depth -= 1
 
     def handle_data(self, data):
         if self._in == 'title': self.head['title'] = data
@@ -78,11 +89,21 @@ def main():
                 problems.append(f'{rel}: broken link {url}')
         for anchor in ANCHORS.get(rel, []):
             if f'id="{anchor}"' not in source: problems.append(f'{rel}: no #{anchor}')
-        if rel in APPLY:
-            subjects = [parse_qs(urlsplit(u).query).get('subject', [''])[0] for u in page.links if u.startswith('mailto:') and 'subject=' in u]
-            if subjects != [APPLY[rel]]: problems.append(f'{rel}: apply subjects {subjects}, expected ["{APPLY[rel]}"]')
+        for name, cid, wrapped in page.controls:
+            if not name: problems.append(f'{rel}: a form control has no name')
+            if not wrapped and cid not in page.label_for: problems.append(f'{rel}: control {name} has no label')
+        if rel == FORM_PAGE and CONFIG.get('form_access_key'):
+            if [f.get('action') for f in page.forms] != ['https://api.web3forms.com/submit'] or page.forms[0].get('method', '').upper() != 'POST':
+                problems.append(f'{rel}: expected one form posting to Web3Forms')
+            expected = dict(FORM_HIDDEN, access_key=CONFIG['form_access_key'])
+            if any(page.hidden.get(k) != v for k, v in expected.items()): problems.append(f'{rel}: hidden values {page.hidden} differ from {expected}')
+            if 'name="botcheck"' not in source: problems.append(f'{rel}: no honeypot')
+        elif '<form' in source:
+            problems.append(f'{rel}: has a form but no form_access_key is set')
+        if rel in NOINDEX and 'noindex' not in page.head.get('robots', ''): problems.append(f'{rel}: should be noindex')
         if BANNED.search(source): problems.append(f'{rel}: contains "{BANNED.search(source).group(0)}"')
-        if '<select' in source: problems.append(f'{rel}: has a select element')
+        selects = re.findall(r'<select[^>]*name="([^"]*)"', source)
+        if selects and (rel, selects) != (FORM_PAGE, ['role']): problems.append(f'{rel}: select elements {selects}; only the role field on the interns form may be one')
         if '→' in source or 'class="arrow"' in source: problems.append(f'{rel}: has an arrow')
         if PHONE.search(' '.join(page.text)) or 'tel:' in source: problems.append(f'{rel}: looks like a phone number')
     for p in problems: print(p)

@@ -3,6 +3,7 @@ description: We are currently hiring interns to find independent electrical test
 hero_title: Interns
 image: power
 hero: short
+hero_apply: Apply now | #apply
 ---
 !links
 - Business Development | #business-development
@@ -82,6 +83,8 @@ We would rather leave a role empty than fill it with someone who does not care w
 - Every open conversation answered
 - New calls on the founder's calendar
 
+[form] [Apply](#apply)
+
 ## Acquisitions Analyst Intern {#acquisitions-analyst}
 
 ### About the role
@@ -109,6 +112,8 @@ Nobody has published a complete list of the independent electrical testing and m
 - A sourced list of every shop in Northern California
 - Ten one-page shop profiles
 - Three public purchasing records found and summarized
+
+[form] [Apply](#apply)
 
 ## Engineering Intern, Power Equipment {#engineering}
 
@@ -138,6 +143,8 @@ The product a testing shop sells is a signed report on a transformer, a circuit 
 - Capability sheets for five shops
 - The question list for the December shop visits
 
+[form] [Apply](#apply)
+
 ## AI Automation Intern {#ai-automation}
 
 ### About the role
@@ -165,13 +172,32 @@ The product a testing shop sells is a signed report on a transformer, a circuit 
 - One document pipeline with a measured error rate
 - A short guide the other interns can follow
 
-## How to apply
+[form] [Apply](#apply)
 
-Email [{{contact_email}}](mailto:{{contact_email}}) with the role in the subject line. Send four things:
+[form] ## Apply {#apply}
 
-1. A link to one or two things you built or run
-2. A few lines on how you use AI: your setup, one thing you made with it and how you checked it
-3. A resume or LinkedIn page
-4. Three or four sentences, written without AI, on why you want to help keep electrical equipment in service
+!form Send application
+= subject | Internship application
+= from_name | {{name}} interns page
+= redirect | {{url}}/interns/thanks/
+- name | Name | text
+- email | Email | email
+- phone | Phone (optional) | tel | optional
+- role | What role are you applying for? | select: Choose a role =; Business Development; Acquisitions Analyst; Engineering, Power Equipment; AI Automation; Not sure yet
+- school | School, major and year, or where you work now | text
+- built | What have you built? Describe it, and include a link if there is one | textarea 4
+- resume | A link to your resume or LinkedIn page | text
+- ai | How do you use AI? Your setup, one thing you made with it, and how you checked it | textarea 4
+- impressive | The most impressive thing you have built or done | textarea 3
+- why | Why do you want to help keep electrical equipment in service? Three or four sentences, written without AI | textarea 4
+- hours | Hours a week you can give now, and from December 12 to January 3 | text
+- authorized | Are you authorized to work in the United States? | radio: Yes; No
+- car | I have a car and a driver's licence (needed for Business Development) | checkbox | optional
+
+!small Questions? Write to {{contact_name}} at [{{contact_email}}](mailto:{{contact_email}}).
+
+[no-form] ## How to apply {#apply}
+
+Email [{{contact_email}}](mailto:{{contact_email}}) with the role in the subject line. Send a link to one or two things you built or run; a few lines on how you use AI; a resume or LinkedIn page; and three or four sentences, written without AI, on why you want to help keep electrical equipment in service.
 
 !apply Internship - Your name
