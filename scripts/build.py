@@ -84,8 +84,26 @@ def california():
 def roles(group, pages):
     rows = ''.join(
         f'<li><a href="{p["url"]}"><span class="role-name">{e(p["role"])}</span><span class="role-line">{e(p["description"])}</span>{ARROW}</a></li>'
-        for p in pages if p.get('group') == group)
+        for p in sorted(pages, key=lambda p: int(p.get('order', 0))) if p.get('group') == group)
     return f'<ul class="roles">{rows}</ul>'
+
+
+def chooser(label, items, pages):
+    """'I am [select]' with a line and a button per choice. Without JavaScript the choices show as a list of links."""
+    choices = []
+    for item in items:
+        fields = [f.strip() for f in item.removeprefix('- ').split('|')]
+        if len(fields) == 2:
+            target = next(p for p in pages if p['url'] == f'/careers/{fields[1].lstrip("@")}/')
+            fields = [fields[0], f'{target["role"]}: {target["description"]}', 'See the role', target['url']]
+        choices.append(fields)
+    options = ''.join(f'<option value="{i}" data-line="{e(line)}" data-button="{e(button)}" data-href="{e(href)}">{e(text)}</option>' for i, (text, line, button, href) in enumerate(choices))
+    first = choices[0]
+    links = ''.join(f'<li><span>I am {e(text)}.</span> {e(line)} <a href="{e(href)}">{e(button)}</a></li>' for text, line, button, href in choices)
+    return (f'<div class="chooser"><form class="chooser-form" data-chooser hidden><label class="chooser-label" for="chooser">{e(label)}</label>'
+            f'<p class="chooser-sentence"><span>I am</span> <select id="chooser" name="who">{options}</select></p>'
+            f'<div class="chooser-result" aria-live="polite"><p class="chooser-line">{e(first[1])}</p><a class="button" href="{e(first[3])}">{e(first[2])}</a></div></form>'
+            f'<div class="chooser-list" data-chooser-list><p class="chooser-label">{e(label)}</p><ul>{links}</ul></div></div>')
 
 
 def apply_button(page):
@@ -99,14 +117,16 @@ def render(body, page, pages):
     sections, band = [], None
 
     def open_section(heading=None):
-        sections.append({'heading': heading, 'body': [], 'aside': [], 'band': band})
+        sections.append({'heading': heading, 'body': [], 'aside': [], 'band': band, 'id': None, 'kind': ''})
 
     for block in re.split(r'\n\s*\n', fill(body, page).strip()):
         block = block.strip()
         if not block:
             continue
         if block.startswith('## '):
-            open_section(block[3:].strip()); band = None
+            heading, _, anchor = block[3:].strip().partition(' {#')
+            open_section(heading.strip()); band = None
+            sections[-1]['id'] = anchor.rstrip('}') or None
             continue
         if block.startswith('!'):
             word, _, arg = block[1:].partition(' ')
@@ -117,6 +137,11 @@ def render(body, page, pages):
                 band = arg; continue
             if word == 'close':
                 open_section(); continue
+            if word == 'chooser':
+                open_section(); sections[-1]['kind'] = 'sec-chooser'
+                label, *items = arg.splitlines()
+                sections[-1]['body'].append(chooser(label, items, pages))
+                continue
             if not sections:
                 open_section()
             if word == 'map':
@@ -148,8 +173,9 @@ def section_html(s):
     band = f'<div class="band">{picture(s["band"], "band-photo")}</div>' if s['band'] else ''
     heading = f'<h2>{e(s["heading"])}</h2>' if s['heading'] else ''
     aside = f'<div class="sec-aside">{"".join(s["aside"])}</div>' if s['aside'] else ''
-    cls = 'sec' + (' sec-plain' if not s['heading'] else '') + (' sec-with-aside' if s['aside'] else '')
-    return f'{band}<section class="{cls}"><div class="wrap sec-grid">{heading}<div class="sec-body">{"".join(s["body"])}</div>{aside}</div></section>'
+    cls = ' '.join(filter(None, ['sec', 'sec-plain' if not s['heading'] else '', 'sec-with-aside' if s['aside'] else '', s['kind']]))
+    anchor = f' id="{s["id"]}"' if s['id'] else ''
+    return f'{band}<section class="{cls}"{anchor}><div class="wrap sec-grid">{heading}<div class="sec-body">{"".join(s["body"])}</div>{aside}</div></section>'
 
 
 def nav_links(current):
@@ -178,7 +204,7 @@ def page(p, body):
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>{e(full_title)}</title><meta name="description" content="{e(description)}"><meta name="robots" content="{robots}"><meta name="theme-color" content="#1f4a33"><link rel="canonical" href="{canonical}"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"><link rel="preload" href="/assets/fonts/newsreader-400-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/styles.css">
 <meta property="og:type" content="website"><meta property="og:site_name" content="{e(C["name"])}"><meta property="og:title" content="{e(full_title)}"><meta property="og:description" content="{e(description)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{image}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{e(C["name"])}: {e(C["tagline"])}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{e(full_title)}"><meta name="twitter:description" content="{e(description)}"><meta name="twitter:image" content="{image}">
-<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script></head>
+{'<script src="/site.js" defer></script>' if 'data-chooser' in body else ''}<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script></head>
 <body><a class="skip" href="#main">Skip to content</a>{preview}
 <header class="hero hero-{p.get("hero", "page")}">{picture(p.get("image", "hero"), "hero-photo", eager=True)}<div class="wrap site-header">{wordmark()}<nav class="desktop-nav" aria-label="Main">{nav_links(path)}</nav><details class="menu"><summary>{MENU_ICON}</summary><nav class="menu-panel" aria-label="Main">{nav_links(path)}</nav></details></div><div class="wrap hero-copy">{eyebrow}<h1>{inline(p["hero_title"])}</h1>{hero_text}</div></header>
 <main id="main" tabindex="-1">{body}</main>

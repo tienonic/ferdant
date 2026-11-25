@@ -14,10 +14,8 @@
   "advisor_pay": "Paid by the hour at a rate we agree in the first conversation",
   "year": "2026",
   "nav": [
-    ["Approach", "/approach/"],
-    ["What we look for", "/focus/"],
+    ["What we do", "/what-we-do/"],
     ["For owners", "/owners/"],
-    ["Careers", "/careers/"],
-    ["Contact", "/contact/"]
+    ["Careers", "/careers/"]
   ]
 }

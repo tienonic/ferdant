@@ -4,6 +4,6 @@ Part-time, paid by the hour: {{pay}}, set by your trial. {{intern_hours_cap}}. D
 
 ## How to apply
 
-Email [{{contact_email}}](mailto:{{contact_email}}) with the subject "{{role}} - Your name". Send a link to one or two things you built or run, a few lines on how you use AI in your own work (your setup, one thing you made with it and how you checked it), and a resume or LinkedIn page.
+Email [{{contact_email}}](mailto:{{contact_email}}) with the subject "{{role}} - Your name". Send a link to one or two things you built or run; a few lines on how you use AI in your own work (your setup, one thing you made with it and how you checked it); a resume or LinkedIn page; and three or four sentences on why you want to do this work, in your own words and written without AI.
 
 !apply

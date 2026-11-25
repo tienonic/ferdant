@@ -1,12 +1,12 @@
-title: Technical Advisor, Senior Test Technician
+title: Technical Advisor
 description: Look at shops with us and tell us what you see.
-hero_title: Technical Advisor, Senior Test Technician
+hero_title: Technical Advisor
 hero_text: Look at shops with us and tell us what you see.
-role: Technical Advisor, Senior Test Technician
-group: senior
+role: Technical Advisor
+order: 6
+group: trade
 image: hero
 ---
-
 ## About the role
 
 We want an experienced test technician or shop foreman to look at shops with us and tell us what they see. A few hours a week, paid by the hour. You have spent years in substations and plants and can tell from a test report, a truck and a tool crib whether a crew does careful work.
@@ -14,7 +14,7 @@ We want an experienced test technician or shop foreman to look at shops with us 
 ## What you will do
 
 - Read sample test reports and tell us what is good and what is missing
-- Come on site visits and look at equipment, calibration records and safety practice
+- Come on visits and look at equipment, calibration records and safety practice
 - Tell us what a job should take in hours, people and equipment
 - Help us write the questions we ask owners and technicians
 
@@ -27,7 +27,7 @@ We want an experienced test technician or shop foreman to look at shops with us 
 
 ## Logistics
 
-{{advisor_pay}}. A few hours a week, mostly by telephone and video, with site visits in Northern California.
+{{advisor_pay}}. A few hours a week, mostly by telephone and video, with visits in Northern California.
 
 ## How to apply
 

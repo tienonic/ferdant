@@ -8,10 +8,11 @@ ROOT = Path(__file__).resolve().parents[1]
 CONFIG = json.loads((ROOT / 'content/site.json').read_text(encoding='utf-8'))
 BANNED = re.compile(r'philip|\bphil\b|gary|china|project 42|investor|ucdavis|fieldworks|aggiebillhelp|community|communities', re.I)
 PHONE = re.compile(r'\(?\b\d{3}\)?[ .-]\d{3}[ .-]\d{4}\b|tel:')
-REQUIRED = ['index.html', 'approach/index.html', 'focus/index.html', 'owners/index.html', 'careers/index.html',
-            'careers/outreach-and-scheduling/index.html', 'careers/research-analyst/index.html', 'careers/technical-research/index.html',
-            'careers/ai-operations/index.html', 'careers/operating-partner/index.html', 'careers/technical-advisor/index.html',
+REQUIRED = ['index.html', 'what-we-do/index.html', 'owners/index.html', 'careers/index.html',
+            'careers/business-development/index.html', 'careers/acquisitions-analyst/index.html', 'careers/engineering-intern/index.html',
+            'careers/ai-automation/index.html', 'careers/operating-partner/index.html', 'careers/technical-advisor/index.html',
             'contact/index.html', 'privacy/index.html', '404.html']
+ANCHORS = {'careers/index.html': ['students', 'trade']}
 HEAD = ['title', 'description', 'canonical', 'og:title', 'og:description', 'og:url', 'og:image', 'twitter:card', 'twitter:image']
 
 
@@ -65,6 +66,8 @@ def main():
                 problems.append(f'{rel}: external resource {url}')
             elif url.startswith('/') and not resolves(url):
                 problems.append(f'{rel}: broken link {url}')
+        for anchor in ANCHORS.get(rel, []):
+            if f'id="{anchor}"' not in source: problems.append(f'{rel}: no #{anchor}')
         if BANNED.search(source): problems.append(f'{rel}: contains "{BANNED.search(source).group(0)}"')
         if PHONE.search(' '.join(page.text)) or 'tel:' in source: problems.append(f'{rel}: looks like a phone number')
         if rel.startswith('careers/') and rel.count('/') == 2:

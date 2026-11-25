@@ -1,15 +1,15 @@
-title: Operating Partner, Electrical Testing and Field Service
-description: Help us choose the first business, then lead it.
-hero_title: Operating Partner, Electrical Testing and Field Service
-hero_text: Help us choose the first business, then lead it.
-role: Operating Partner, Electrical Testing and Field Service
-group: senior
+title: Operating Partner
+description: Help us choose the first business, then lead it as its president.
+hero_title: Operating Partner
+hero_text: Help us choose the first business, then lead it as its president.
+role: Operating Partner
+order: 5
+group: trade
 image: hero
 ---
-
 ## About the role
 
-We are looking for a senior person from the electrical testing and field service trade to help us choose our first business and then lead it. Customers and technicians already know you and want to work with you. You have run a shop, a branch or a region, and you know what separates a crew that gets called back from one that does not. This is the most important hire we will make.
+We are looking for a senior person from the electrical testing and field service trade to help us choose our first business and then lead it as its president. Customers and technicians already know you and want to work with you. You have run a shop, a branch or a region, and you know what separates a crew that gets called back from one that does not. This is the most important hire we will make.
 
 ## What you will do
 
@@ -34,7 +34,7 @@ We are looking for a senior person from the electrical testing and field service
 
 ## Logistics
 
-A paid advisory contract to start. When we buy a business, an operating role with pay and ownership tied to its results. Location in California or the West.
+A paid advisory contract to start. When we buy a business, the president's role, with pay and ownership tied to its results. Location in California or the West.
 
 ## How to apply
 

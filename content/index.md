@@ -5,17 +5,17 @@ hero_text: {{name}} is a new company in {{place}}. We are looking for independen
 image: hero
 hero: full
 ---
-## Our approach
+!chooser Who are you?
+- a shop owner or manager | A conversation first, with the founder. | For owners | /owners/
+- a student or recent graduate | Paid part-time roles in Davis, starting with a paid trial. | See the roles | /careers/#students
+- someone who works in the trade | We want to meet senior technicians and operators. | See the roles | /careers/#trade
+- just looking | Here is what we are doing and why. | What we do | /what-we-do/
 
-One owner for decades. The shop keeps its name, its crew and its customers.
+## What we do
 
-→ [Our approach](/approach/)
+We are buying one independent electrical testing and repair shop in California, and then the next. The shop keeps its name, its crew and its customers, and we own it for decades.
 
-## What we look for
-
-Owner-run businesses that test, maintain and repair transformers, switchgear, relays and motors for utilities and plants.
-
-→ [What we look for](/focus/)
+→ [What we do](/what-we-do/)
 
 ## For owners
 
