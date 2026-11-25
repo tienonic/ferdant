@@ -52,13 +52,13 @@ So the equipment already in service has to be tested and repaired, and the shops
 
 ### About the role
 
-{{name}} needs conversations with the owners of independent testing and motor repair shops. Owners are hard to reach. They are in the field, and they ignore form letters. A letter about the owner's own shop, followed by a telephone call and a visit, is how a small buyer gets heard. You write the letters, make the first calls and book the conversations. The founder takes every conversation with an owner.
+{{name}} needs conversations with the owners of independent testing and motor repair shops. Owners are hard to reach. They are in the field, and they ignore form letters. A letter about the owner's own shop, followed by a telephone call and a visit, is how a small buyer gets heard. You research each shop, write the letters and book the conversations. The founder takes every conversation with an owner.
 
 ### What you will do
 
 - Write letters to shop owners, each about that owner's shop, for the founder to sign
 - Deliver letters in person to shops within a day's drive of Davis: Sacramento, Stockton, Modesto and the Bay Area
-- Follow up by telephone and find a time with the owner
+- Telephone a shop to find the right person and a time, when the founder asks for a call
 - Book video calls and shop visits for the founder, then confirm and rebook
 - Write a one-page card before each call: who the owner is, what the shop does, and the one question we need answered
 - Keep the contact record current the same day
@@ -73,7 +73,7 @@ So the equipment already in service has to be tested and repaired, and the shops
 
 ### Your first two weeks
 
-- Your first letters delivered or posted, each followed by a telephone call
+- Your first letters written and ready for the founder to sign
 - Every open conversation answered
 - New calls on the founder's calendar
 
