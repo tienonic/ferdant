@@ -35,13 +35,10 @@ So the equipment already in service has to be tested and repaired, and the shops
 
 ## Who we want
 
-- You have built something with AI on your own time (an agent, a tool, a dataset, a site) and can send the link.
-- You want to know how a transformer is tested, how a motor is rewound and how a shop makes payroll, and you will go and look.
-- You write and speak plainly: three sentences, no filler, on paper or on the telephone.
-- You check. Every fact you hand over has a source, including the ones AI gave you.
-- You finish. A list of 100 shops means 100 sourced rows on the day you said.
-- You have held a job before, any job, and can name a manager who would hire you again.
-- You can give 10 hours a week now, and more from December 12 to January 3.
+- You have ideas, and you can explain and defend them.
+- You have built something with AI on your own time (an agent, a tool, a dataset, a site) and can show it.
+- You are curious how industry works: how equipment is kept running, and how a shop earns its living.
+- You do good work and finish it: complete, on the day you said, with its sources.
 
 We would rather leave a role empty than fill it with someone who does not care whether the shops stay good.
 
