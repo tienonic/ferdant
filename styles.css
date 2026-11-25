@@ -1,0 +1,145 @@
+@font-face{font-family:Newsreader;src:url(/assets/fonts/newsreader-400-latin.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Newsreader;src:url(/assets/fonts/newsreader-400-italic-latin.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:Geist;src:url(/assets/fonts/geist-variable-latin.woff2) format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+
+:root{
+  --paper:#fbfcfa;
+  --ink:#14202b;
+  --muted:#5d666c;
+  --hair:rgba(20,32,43,.14);
+  --pine:#1f4a33;
+  --pine-deep:#163626;
+  --on-pine:#ffffff;
+  --serif:Newsreader,"Iowan Old Style",Georgia,serif;
+  --sans:Geist,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gutter:clamp(20px,5vw,64px);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1rem/1.65 var(--sans);font-feature-settings:"tnum" 0;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:var(--pine);text-decoration-thickness:1px;text-underline-offset:.2em}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--pine);outline-offset:3px}
+.skip{position:absolute;left:12px;top:-60px;z-index:20;background:var(--paper);color:var(--ink);padding:10px 14px}
+.skip:focus{top:12px}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.preview-note{position:fixed;right:12px;bottom:12px;z-index:30;background:var(--ink);color:var(--paper);font-size:12px;padding:4px 8px}
+.wrap{max-width:1240px;margin-inline:auto;padding-inline:max(var(--gutter),env(safe-area-inset-left,0px)) max(var(--gutter),env(safe-area-inset-right,0px))}
+
+/* Hero: the photograph under a pine tint, with the header and title in white over it. */
+.hero{position:relative;isolation:isolate;display:flex;flex-direction:column;color:var(--on-pine);background:var(--pine-deep);min-height:clamp(460px,72svh,640px)}
+.hero-full{min-height:max(560px,min(94svh,900px))}
+.hero-short{min-height:clamp(360px,50svh,460px)}
+.hero-photo,.hero::before,.hero::after{position:absolute;inset:0;z-index:-1}
+.hero-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.08)}
+.hero::before{content:"";z-index:0;background:#2b5c40;mix-blend-mode:multiply;pointer-events:none}
+.hero::after{content:"";z-index:0;background:rgba(10,30,19,.34);pointer-events:none}
+.hero>.wrap{position:relative;z-index:1;width:100%}
+.site-header{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:max(22px,env(safe-area-inset-top,0px));min-height:84px}
+.wordmark{font:400 1.875rem/1 var(--serif);letter-spacing:-.01em;color:inherit;text-decoration:none;padding-block:8px}
+.wordmark span{color:inherit}
+.site-footer .wordmark{color:var(--ink)}
+.site-footer .wordmark span{color:var(--pine)}
+.desktop-nav{display:flex;gap:clamp(18px,2.4vw,34px);font-size:.95rem}
+.desktop-nav a,.menu-panel a{color:inherit;text-decoration:none}
+.desktop-nav a{padding-block:12px;border-bottom:1px solid transparent}
+.desktop-nav a:hover,.desktop-nav a[aria-current]{border-bottom-color:currentColor}
+.hero :focus-visible{outline-color:#fff}
+.hero-copy{margin-top:auto;padding-top:64px;padding-bottom:clamp(48px,9svh,96px);animation:fade .9s ease-out both}
+.hero h1{font:400 clamp(2.5rem,1.4rem + 4.6vw,5rem)/1.04 var(--serif);letter-spacing:-.015em;margin:0;max-width:16ch;text-wrap:balance}
+.hero-page h1,.hero-short h1{font-size:clamp(2.4rem,1.5rem + 3.6vw,4.25rem);max-width:22ch}
+.hero-text{font:400 clamp(1.25rem,1.05rem + .9vw,1.75rem)/1.35 var(--serif);margin:24px 0 0;max-width:36ch;text-wrap:pretty}
+.hero-text a{color:inherit}
+.eyebrow{margin:0 0 14px;font-size:.95rem}
+.eyebrow a{color:inherit}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* Phone menu: a details element, so it works without JavaScript. */
+.menu{display:none}
+.menu summary{list-style:none;cursor:pointer;width:48px;height:48px;display:grid;place-items:center;margin-right:-10px;position:relative;z-index:12}
+.menu summary::-webkit-details-marker{display:none}
+.menu-lines{display:block;width:30px;height:9px;border-block:1px solid currentColor;transition:transform .2s}
+.menu[open] summary{position:fixed;top:max(18px,env(safe-area-inset-top,0px));right:max(calc(var(--gutter) - 10px),env(safe-area-inset-right,0px));margin:0}
+.menu[open] .menu-lines{height:0;border-bottom:0;position:relative}
+.menu[open] .menu-lines::before,.menu[open] .menu-lines::after{content:"";position:absolute;left:0;right:0;top:-1px;border-top:1px solid currentColor}
+.menu[open] .menu-lines{border-top-color:transparent}
+.menu[open] .menu-lines::before{transform:rotate(30deg)}
+.menu[open] .menu-lines::after{transform:rotate(-30deg)}
+.menu-panel{position:fixed;inset:0;z-index:11;background:var(--pine-deep);display:flex;flex-direction:column;justify-content:center;gap:6px;padding:96px var(--gutter) 48px}
+.menu-panel a{font:400 2.25rem/1.2 var(--serif);padding-block:8px}
+.menu-panel a[aria-current]{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em}
+@media (max-width:879px){.desktop-nav{display:none}.menu{display:block}}
+
+/* Sections: heading left, text right on wide screens; hairlines between. */
+main{display:block}
+main:focus{outline:none}
+.sec-grid{padding-block:clamp(44px,6vw,84px);display:grid;gap:18px 48px}
+.sec+.sec .sec-grid{border-top:1px solid var(--hair)}
+.sec:first-child .sec-grid{padding-top:clamp(56px,8vw,112px)}
+.sec:last-child .sec-grid{padding-bottom:clamp(64px,9vw,128px)}
+.sec h2{font:400 clamp(1.85rem,1.4rem + 1.5vw,2.6rem)/1.12 var(--serif);letter-spacing:-.01em;margin:0;text-wrap:balance}
+.sec-body{max-width:40rem;font-size:clamp(1rem,.96rem + .2vw,1.0625rem)}
+.sec-body>:first-child{margin-top:0}
+.sec-body>:last-child{margin-bottom:0}
+.sec-body p{margin:0 0 1.1em}
+.sec-plain .sec-body{font-size:clamp(1.05rem,1rem + .3vw,1.175rem)}
+@media (min-width:880px){
+  .sec-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+  .sec-plain .sec-body{grid-column:2}
+  .sec-with-aside .sec-aside{grid-column:1;grid-row:2}
+  .sec-plain.sec-with-aside .sec-aside{grid-row:1}
+}
+.sec-body ul,.sec-body ol{list-style:none;padding:0;margin:0 0 1.1em}
+.sec-body li{position:relative;padding:12px 0 12px 1.6em;border-top:1px solid var(--hair)}
+.sec-body li:last-child{border-bottom:1px solid var(--hair)}
+.sec-body ul li::before{content:"";position:absolute;left:0;top:1.45em;width:.8em;border-top:1px solid var(--pine)}
+.sec-body ol{counter-reset:step}
+.sec-body ol li{counter-increment:step;padding-left:2em}
+.sec-body ol li::before{content:counter(step);position:absolute;left:0;top:9px;font:400 1.3rem/1.4 var(--serif);color:var(--pine)}
+.more{margin-top:1.4em}
+.more a{font-weight:500;display:inline-flex;align-items:center;gap:.6em;min-height:44px;text-decoration:none;border-bottom:1px solid currentColor;min-height:auto;padding-block:10px 4px}
+.more a:hover{border-bottom-width:2px}
+.arrow{width:1em;height:.65em;flex:none}
+
+/* Careers: each role is one row that links to its page. */
+.sec-body .roles{margin:0}
+.sec-body .roles li{padding:0}
+.sec-body .roles li::before{content:none}
+.roles a{display:grid;grid-template-columns:1fr auto;gap:4px 24px;padding:18px 0;text-decoration:none;color:var(--ink)}
+.role-name{font:400 1.45rem/1.2 var(--serif);color:var(--ink)}
+.role-line{grid-column:1;color:var(--muted)}
+.roles .arrow{grid-column:2;grid-row:1/span 2;align-self:center;color:var(--pine);width:1.25em}
+.roles a:hover .role-name{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em}
+
+/* Apply: the one filled button on a role page, with the address beside it. */
+.apply{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:1.8em}
+.button{display:inline-flex;align-items:center;min-height:48px;padding:0 26px;background:var(--pine);color:var(--on-pine);text-decoration:none;font-weight:500;border-radius:2px}
+.button:hover{background:var(--pine-deep)}
+.apply span{color:var(--muted)}
+
+/* Band: a wide photograph between sections. */
+.band{position:relative;isolation:isolate;background:var(--pine-deep);aspect-ratio:21/8;max-height:560px;width:100%;overflow:hidden}
+.band-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06)}
+.band-photo{position:absolute;inset:0;z-index:-1}
+.band::before{content:"";position:absolute;inset:0;background:#2b5c40;mix-blend-mode:multiply}
+.band::after{content:"";position:absolute;inset:0;background:rgba(10,30,19,.2)}
+@media (max-width:699px){.band{aspect-ratio:4/3}}
+
+/* California: paper, faint county lines, one dot. */
+.map{margin:0;max-width:340px}
+.ca-map{width:100%;height:auto;overflow:visible}
+.ca-edge{fill:none;stroke:var(--ink);stroke-opacity:.55;stroke-width:2.4;vector-effect:non-scaling-stroke}
+.ca-fill{fill:var(--paper)}
+.ca-counties{fill:none;stroke:var(--ink);stroke-opacity:.13;stroke-width:.8;vector-effect:non-scaling-stroke}
+.ca-dot{fill:var(--pine)}
+.ca-label{font:500 15px var(--sans);fill:var(--ink)}
+@media (max-width:879px){.map{max-width:260px;margin-top:12px}}
+
+.site-footer{border-top:1px solid var(--hair)}
+.footer-inner{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 32px;padding-block:28px max(28px,env(safe-area-inset-bottom,0px))}
+.site-footer p{margin:0;color:var(--muted);font-size:.9rem}
+.site-footer p a{color:inherit;display:inline-block;padding-block:12px}
+
+@media (prefers-reduced-motion:reduce){.hero-copy{animation:none}.menu-lines{transition:none}}

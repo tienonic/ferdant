@@ -1,14 +1,6 @@
 * text=auto eol=lf
-
-/assets/vendor/leaflet/*.js text eol=lf
-/assets/vendor/leaflet/*.css text eol=lf
-/assets/vendor/leaflet/LICENSE text eol=lf
-/assets/data/city-maps/*.json text eol=lf
-
-# Preserve the exact bytes used by the public service-directory hashes.
-assets/data/service-maps/*.json text eol=lf
-
-/assets/vendor/jspdf/* text eol=lf
-
-# Retain the pinned upstream license comments byte for byte.
-/assets/vendor/jspdf/jspdf.umd.min.js whitespace=-blank-at-eol
+*.png binary
+*.jpg binary
+*.webp binary
+*.avif binary
+*.woff2 binary
