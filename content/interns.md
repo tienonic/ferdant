@@ -156,6 +156,7 @@ The product a testing shop sells is a signed report on a transformer, a circuit 
 ### You may be a good fit if you
 
 - Use Claude Code, Codex or Cursor every day and have built things with them that you can show
+- Have run many AI agents at once on one discrete task, and can show what they produced
 - Write Python or JavaScript
 - Can explain what you built to someone who does not code
 
