@@ -6,9 +6,7 @@ hero: short
 ---
 ## Why work here
 
-{{name}} is a few people finding and evaluating shops to acquire. Everyone works directly with the founder.
-
-Work handed in on Monday is used on Tuesday: a list of shops becomes letters, a letter becomes a telephone call, a call becomes a visit to a shop.
+{{name}} is a few people finding and evaluating shops to acquire. Everyone works directly with the founder, and work is used the week it is handed in.
 
 ## Open now
 

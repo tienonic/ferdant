@@ -29,7 +29,7 @@ So the equipment already in service has to be tested and repaired, and the shops
 ## Why work here
 
 - You work directly with the founder.
-- Your work is used the same week: your list becomes letters, your letter becomes a call, your call becomes a visit to a shop.
+- Your work is used the week it is handed in.
 - You see working shops from the inside: test trucks, motors being rewound, switchgear on the bench.
 - You are paid for every hour, including the trial.
 
@@ -39,8 +39,6 @@ So the equipment already in service has to be tested and repaired, and the shops
 - You have built something with AI on your own time (an agent, a tool, a dataset, a site) and can show it.
 - You are curious how industry works: how equipment is kept running, and how a shop earns its living.
 - You do good work and finish it: complete, on the day you said, with its sources.
-
-We would rather leave a role empty than fill it with someone who does not care whether the shops stay good.
 
 ## The terms
 

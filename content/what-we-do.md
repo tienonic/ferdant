@@ -23,9 +23,9 @@ A typical job is a weekend shutdown at a plant: a crew tests every breaker and t
 ## How we own
 
 - **Long-term ownership.** {{name}} is not a fund with a date by which it must sell. We hold each shop and reinvest what it earns.
-- **The shop stays the shop.** The name on the truck, the crew and the way the work is done stay.
+- **The shop keeps its name.** The name on the truck, the crew and the way the work is done stay.
 - **Technicians first.** The scarce thing in electrical testing is a certified technician whom a customer trusts to sign the report. We judge a shop by its technicians and by whether customers call them back.
-- **AI for the desk, people for the field.** We run our own office work with AI tools, so money goes to crews, training and test instruments.
+- **A small office.** We run our own office work with AI tools, so money goes to crews, training and test instruments.
 
 ## What we look for
 
@@ -45,11 +45,11 @@ The shop is owner-run, with repeat work from the same customers and a record of 
 
 ## Where we are going
 
-Rising electricity demand, new factories and data centers are the large movements of the next twenty years. {{name}} intends to take part in them as a long-term owner: first electrical testing and repair shops, then other industrial service businesses that utilities and plants depend on.
+Electricity demand is rising, and factories and data centers are being built. {{name}} intends to take part as a long-term owner: first electrical testing and repair shops, then other industrial service businesses that utilities and plants depend on.
 
 ## Where we are today
 
-We are meeting owners, technicians and the people who buy testing and repair work, to choose our first shop. We will take longer rather than buy the wrong one.
+We are meeting owners, technicians and the people who buy testing and repair work, to choose our first shop.
 
 Own a shop? Start with a conversation: [For owners](/owners/).
 
