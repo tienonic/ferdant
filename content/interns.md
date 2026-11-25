@@ -1,51 +1,71 @@
-title: Internships
-description: Four paid part-time roles in Davis, open now.
-hero_title: Internships at {{name}}
-hero_text: Four paid part-time roles in Davis, open now.
+title: Interns
+description: We are currently hiring interns to find independent electrical testing and repair shops, reach their owners and learn how each shop works.
+hero_title: Interns
 image: power
+hero: short
 ---
 !links
-- Business Development Intern | #business-development
-- Acquisitions Analyst Intern | #acquisitions-analyst
-- Engineering Intern, Power Equipment | #engineering
-- AI Automation Intern | #ai-automation
+- Business Development | #business-development
+- Acquisitions Analyst | #acquisitions-analyst
+- Engineering, Power Equipment | #engineering
+- AI Automation | #ai-automation
+
+!lead We are currently hiring interns to find independent electrical testing and repair shops, reach their owners and learn how each shop works.
 
 ## What {{name}} does
 
-We are acquiring one independent electrical testing and repair shop in California, and then the next, for long-term ownership. The shops test and repair the transformers, switchgear, circuit breakers, protective relays and motors that utilities, water districts and plants run on.
+We acquire independent electrical testing and repair shops in California, one at a time, for long-term ownership. The shops test and repair the transformers, switchgear, circuit breakers, protective relays and motors that utilities, water districts and plants run on.
 
 ## Why it matters
 
-Electricity use is rising again, and in 2025 the average wait for a new power transformer was 128 weeks, so the one already in service has to be tested and kept running. Since January 2023 the national maintenance standard, NFPA 70B, requires a written program of testing with records. The shops that do the testing are small and often still run by their founders. {{name}} exists so a good shop outlives its founder.
+- Electricity use in the United States rose about 7% from 2019 to 2024, after a decade of decline.
+- More than half of the distribution transformers in service, about 40 million, are over 33 years old.
+- In 2025 the average wait for a new power transformer was 128 weeks.
+- Since January 2023 the maintenance standard NFPA 70B requires a written testing program with records.
+
+So the equipment already in service has to be tested and repaired, and the shops that do it are small and often still run by their founders. {{name}} acquires those shops so they keep running after the founder retires.
+
+## Why work here
+
+- You work directly with the founder.
+- Your work is used the same week: your list becomes letters, your letter becomes a call, your call becomes a visit to a shop.
+- You see working shops from the inside: test trucks, motors being rewound, switchgear on the bench.
+- You are paid for every hour, including the trial.
 
 ## Who we want
 
-People who care whether a transformer stays in service and whether a good shop stays good. Without that interest, the job is lists and telephone calls. With it, the lists have a purpose. We would rather hire nobody than hire someone who does not understand what {{name}} is doing.
+- You have built something with AI on your own time (an agent, a tool, a dataset, a site) and can send the link.
+- You want to know how a transformer is tested, how a motor is rewound and how a shop makes payroll, and you will go and look.
+- You write and speak plainly: three sentences, no filler, on paper or on the telephone.
+- You check. Every fact you hand over has a source, including the ones AI gave you.
+- You finish. A list of 100 shops means 100 sourced rows on the day you said.
+- You have held a job before, any job, and can name a manager who would hire you again.
+- You can give 10 hours a week now, and more from December 12 to January 3.
 
-We also want people who use AI every day and have built something of their own with it. A project you can link tells us more than a grade.
+We would rather leave a role empty than fill it with someone who does not care whether the shops stay good.
 
 ## The terms
 
-- {{intern_pay}}. {{builder_pay}} for the AI Automation Intern.
-- {{intern_hours_cap}}.
-- Davis students and recent graduates preferred. Most of the work is remote; some is in person in Davis and at shops in Northern California.
-- A paid trial task of about three hours comes first.
-- You must be authorized to work in the United States.
+- {{intern_pay}}. {{builder_pay}} for AI Automation.
+- 10 to 15 hours a week. More from December 12 to January 3.
+- Davis. Mostly remote, some days at shops in Northern California.
+- Starts with a paid three-hour trial.
+- U.S. work authorization required.
 
 ## Business Development Intern {#business-development}
 
 ### About the role
 
-{{name}} needs conversations with the owners of independent testing and motor repair shops. Owners are hard to reach. They are in the field, and they ignore form letters. A letter written by hand about the owner's own shop, followed by a telephone call and a visit, is how a small buyer gets heard. You write the letters, make the calls and book the conversations. The founder takes every conversation with an owner.
+{{name}} needs conversations with the owners of independent testing and motor repair shops. Owners are hard to reach. They are in the field, and they ignore form letters. A letter about the owner's own shop, followed by a telephone call and a visit, is how a small buyer gets heard. You write the letters, make the first calls and book the conversations. The founder takes every conversation with an owner.
 
 ### What you will do
 
-- Write 20 letters a week by hand, each opening with one true fact about the shop: the year it started, a certification it holds, a job it is known for
+- Write letters to shop owners, each about that owner's shop, for the founder to sign
 - Deliver letters in person to shops within a day's drive of Davis: Sacramento, Stockton, Modesto and the Bay Area
-- Telephone each shop seven days after the letter and ask for the owner by name
-- Book video calls of 20 to 30 minutes and shop visits for the founder, then confirm and rebook
+- Follow up by telephone and find a time with the owner
+- Book video calls and shop visits for the founder, then confirm and rebook
 - Write a one-page card before each call: who the owner is, what the shop does, and the one question we need answered
-- Log every letter, call and reply in the contact sheet the same day
+- Keep the contact record current the same day
 
 ### You may be a good fit if you
 
@@ -58,21 +78,20 @@ We also want people who use AI every day and have built something of their own w
 
 ### Your first two weeks
 
-- 25 handwritten letters delivered or posted, each with a telephone follow-up
+- Your first letters delivered or posted, each followed by a telephone call
 - Every open conversation answered
-- Five new calls on the founder's calendar
+- New calls on the founder's calendar
 
 ## Acquisitions Analyst Intern {#acquisitions-analyst}
 
 ### About the role
 
-Nobody has published a complete list of the independent electrical testing and motor repair shops in California. The facts are scattered across public sources: the NETA directory of accredited testing companies, the EASA directory of motor repair shops, the Contractors State License Board, Secretary of State filings, and the bid results and purchase orders that utilities and cities publish. You assemble them into one list. For each shop you find who owns it, when it started, which certifications it holds and who its customers are. The first shop {{name}} buys will come from your list, and every handwritten letter opens with a fact you found.
+Nobody has published a complete list of the independent electrical testing and motor repair shops in California. The facts are scattered across public sources: the NETA directory of accredited testing companies, the EASA directory of motor repair shops, the Contractors State License Board, Secretary of State filings, and the bid results and purchase orders that utilities and cities publish. You assemble them into one list. For each shop you find who owns it, when it started, which certifications it holds and who its customers are. The first shop {{name}} acquires will come from your list.
 
 ### What you will do
 
 - Build the list of independent testing, transformer service and motor repair shops in California from the NETA and EASA directories, licence records and company filings
 - Record for each shop the owner, the year it started, crew size, certifications and named customers, each with a link to its source
-- Find one true fact about each shop that a letter can open with
 - Pull bid results and purchase orders for testing and maintenance work from utilities, cities and water districts
 - File California Public Records Act requests where a record is not posted
 - Flag every shop that is listed for sale, and rank the ten best shops each week
@@ -123,7 +142,7 @@ The product a testing shop sells is a signed report on a transformer, a circuit 
 
 ### About the role
 
-{{name}} runs its desk work with AI agents: finding shops, reading bid documents, pulling facts from filings and drafting. A few people can then cover every shop in California. The tools have to be right, because one invented fact in a letter to an owner ends the conversation. You build the collectors and the checks, and you turn any task we do twice into a tool that runs by itself.
+{{name}} runs its desk work with AI agents: finding shops, reading bid documents, pulling facts from filings and drafting. A few people can then cover every shop in California. The tools have to be right, because we act on what they find. You build the collectors and the checks, and you turn any task we do twice into a tool that runs by itself.
 
 ### What you will do
 

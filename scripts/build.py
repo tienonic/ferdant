@@ -11,13 +11,11 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / 'content'
 IMG = ROOT / 'assets/img'
 e = lambda s: html.escape(str(s), quote=True)
-ARROW = '<svg class="arrow" viewBox="0 0 16 10" aria-hidden="true" focusable="false"><path d="M0 5h14M10 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>'
 
 
 def site_values():
     c = json.loads((CONTENT / 'site.json').read_text(encoding='utf-8'))
     c['contact_role_lower'] = c['contact_role'].lower()
-    c['intern_hours_cap'] = c['intern_hours'][:1].upper() + c['intern_hours'][1:]
     c['city'] = c['place'].split(',')[0]
     c['wordmark'] = c['name'].lower()
     return c
@@ -78,7 +76,7 @@ def california():
 
 
 def links(items):
-    rows = ''.join(f'<li><a href="{e(href)}">{e(label)}{ARROW}</a></li>' for label, href in (i.removeprefix('- ').split(' | ') for i in items))
+    rows = ''.join(f'<li><a href="{e(href)}">{e(label)}</a></li>' for label, href in (i.removeprefix('- ').split(' | ') for i in items))
     return f'<ul class="links">{rows}</ul>'
 
 
@@ -108,6 +106,10 @@ def render(body, page):
             word, _, arg = first.partition(' ')
             if word == 'close':
                 open_section(); continue
+            if word == 'lead':
+                open_section(); sections[-1]['kind'] = 'sec-lead'
+                sections[-1]['body'].append(f'<p class="lead">{inline(arg)}</p>')
+                continue
             if word == 'links':
                 open_section(); sections[-1]['kind'] = 'sec-links'
                 sections[-1]['body'].append(links(rest.splitlines()))
@@ -132,9 +134,8 @@ def render(body, page):
             html_block = '<ul>' + ''.join(f'<li>{inline(l[2:])}</li>' for l in lines) + '</ul>'
         elif all(re.match(r'\d+\. ', l) for l in lines):
             html_block = '<ol>' + ''.join(f'<li>{inline(l.split(". ", 1)[1])}</li>' for l in lines) + '</ol>'
-        elif block.startswith('→ '):
-            m = re.match(r'→ \[(.+?)\]\((.+?)\)$', block)
-            html_block = f'<p class="more"><a href="{e(m.group(2))}">{e(m.group(1))}{ARROW}</a></p>'
+        elif re.fullmatch(r'\[[^\]]+\]\([^)]+\)', block):
+            html_block = f'<p class="go">{inline(block)}</p>'
         else:
             html_block = '<p>' + '<br>'.join(inline(l) for l in lines) + '</p>'
         sections[-1]['body'].append(html_block)
@@ -149,8 +150,16 @@ def section_html(s):
     return f'<section class="{cls}"{anchor}><div class="wrap sec-grid">{heading}<div class="sec-body">{"".join(s["body"])}</div>{aside}</div></section>'
 
 
-def nav_links(current):
-    return ''.join(f'<a href="{u}"{" aria-current=page" if current.startswith(u) else ""}>{e(label)}</a>' for label, u in C['nav'])
+def nav_links(current, with_sub=False):
+    """Header links. A section is current on its own pages and its sub-pages; the phone menu also lists the sub-pages, indented."""
+    out = ''
+    for label, u in C['nav']:
+        sub = C.get('subnav', {}).get(u, [])
+        here = current.startswith(u) or any(current.startswith(s) for _, s in sub)
+        out += f'<a href="{u}"{" aria-current=page" if here else ""}>{e(label)}</a>'
+        if with_sub:
+            out += ''.join(f'<a class="sub" href="{s}"{" aria-current=page" if current.startswith(s) else ""}>{e(l)}</a>' for l, s in sub)
+    return out
 
 
 def wordmark():
@@ -178,9 +187,9 @@ def page(p, body):
 <meta property="og:type" content="website"><meta property="og:site_name" content="{e(C["name"])}"><meta property="og:title" content="{e(full_title)}"><meta property="og:description" content="{e(description)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{social}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{e(C["name"])}: {e(C["tagline"])}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{e(full_title)}"><meta name="twitter:description" content="{e(description)}"><meta name="twitter:image" content="{social}">
 <script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script></head>
 <body><a class="skip" href="#main">Skip to content</a>{preview}
-<header class="hero hero-{p.get("hero", "page")}">{picture(image, "hero-photo", eager=True)}<div class="wrap site-header">{wordmark()}<nav class="desktop-nav" aria-label="Main">{nav_links(path)}</nav><details class="menu"><summary>{MENU_ICON}</summary><nav class="menu-panel" aria-label="Main">{nav_links(path)}</nav></details></div><div class="wrap hero-copy"><h1>{inline(p["hero_title"])}</h1>{hero_text}</div>{caption}</header>
+<header class="hero hero-{p.get("hero", "page")}">{picture(image, "hero-photo", eager=True)}<div class="wrap site-header">{wordmark()}<nav class="desktop-nav" aria-label="Main">{nav_links(path)}</nav><details class="menu"><summary>{MENU_ICON}</summary><nav class="menu-panel" aria-label="Main">{nav_links(path, with_sub=True)}</nav></details></div><div class="wrap hero-copy"><h1>{inline(p["hero_title"])}</h1>{hero_text}</div>{caption}</header>
 <main id="main" tabindex="-1">{body}</main>
-<footer class="site-footer"><div class="wrap footer-inner">{wordmark()}<p>© {e(C["year"])} {e(C["name"])} · {e(C["place"])} · <a href="/contact/">Contact</a> · <a href="/privacy/">Privacy</a></p></div></footer>
+<footer class="site-footer"><div class="wrap footer-inner">{wordmark()}<p>© {e(C["year"])} {e(C["name"])} · {e(C["place"])} · {" · ".join(f'<a href="{u}">{e(l)}</a>' for l, u in C["footer"])}</p></div></footer>
 </body></html>
 '''
 

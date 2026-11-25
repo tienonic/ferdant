@@ -29,7 +29,7 @@ a:hover{text-decoration-thickness:2px}
 .wrap{max-width:1240px;margin-inline:auto;padding-inline:max(var(--gutter),env(safe-area-inset-left,0px)) max(var(--gutter),env(safe-area-inset-right,0px))}
 
 /* Hero: the photograph under a pine tint, with the header and title in white over it. */
-.hero{position:relative;isolation:isolate;display:flex;flex-direction:column;color:var(--on-pine);background:var(--pine-deep);min-height:clamp(460px,72svh,640px)}
+.hero{position:relative;z-index:5;isolation:isolate;display:flex;flex-direction:column;color:var(--on-pine);background:var(--pine-deep);min-height:clamp(460px,72svh,640px)}
 .hero-full{min-height:max(560px,min(94svh,900px))}
 .hero-short{min-height:clamp(360px,50svh,460px)}
 .hero-photo,.hero::before,.hero::after{position:absolute;inset:0;z-index:-1}
@@ -68,6 +68,7 @@ a:hover{text-decoration-thickness:2px}
 .menu[open] .menu-lines::after{transform:rotate(-30deg)}
 .menu-panel{position:fixed;inset:0;z-index:11;background:var(--pine-deep);display:flex;flex-direction:column;justify-content:center;gap:6px;padding:96px var(--gutter) 48px}
 .menu-panel a{font:400 2.25rem/1.2 var(--serif);padding-block:8px}
+.menu-panel a.sub{font-size:1.6rem;padding-left:1.25em}
 .menu-panel a[aria-current]{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em}
 @media (max-width:879px){.desktop-nav{display:none}.menu{display:block}}
 
@@ -98,10 +99,6 @@ main:focus{outline:none}
 .sec-body ol{counter-reset:step}
 .sec-body ol li{counter-increment:step;padding-left:2em}
 .sec-body ol li::before{content:counter(step);position:absolute;left:0;top:9px;font:400 1.3rem/1.4 var(--serif);color:var(--pine)}
-.more{margin-top:1.4em}
-.more a{font-weight:500;display:inline-flex;align-items:center;gap:.6em;min-height:44px;text-decoration:none;border-bottom:1px solid currentColor;padding-block:12px 6px}
-.more a:hover{border-bottom-width:2px}
-.arrow{width:1em;height:.65em;flex:none}
 
 /* Apply: the one filled button on a role page, with the address beside it. */
 .apply{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:1.8em}
@@ -131,12 +128,15 @@ main:focus{outline:none}
 .links{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 40px}
 .sec-body .links li{padding:0;border:0}
 .sec-body .links li::before{content:none}
-.links a{display:inline-flex;align-items:center;gap:.6em;min-height:48px;font:400 clamp(1.25rem,1.1rem + .6vw,1.6rem)/1.2 var(--serif);color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair)}
-.links a .arrow{color:var(--pine)}
-.links a:hover{border-bottom-color:var(--pine)}
-@media (max-width:699px){.links{flex-direction:column}.links a{width:100%;justify-content:space-between}}
+.links a{display:inline-flex;align-items:center;min-height:48px;font:400 clamp(1.25rem,1.1rem + .6vw,1.6rem)/1.2 var(--serif);color:var(--ink);text-decoration:underline;text-decoration-color:var(--pine);text-decoration-thickness:1px;text-underline-offset:.22em}
+.links a:hover{text-decoration-thickness:2px}
+@media (max-width:699px){.links{flex-direction:column;gap:0}}
 .sec-links .sec-grid{padding-block:clamp(32px,5vw,56px)}
 .sec-links+.sec .sec-grid{border-top:1px solid var(--hair)}
 .sec[id]{scroll-margin-top:16px}
 .sec-body h3{font:600 .8rem/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:2.2em 0 .8em}
 .sec-body .small{font-size:.85rem;color:var(--muted)}
+.sec-lead .sec-body{grid-column:1/-1;max-width:none}
+.lead{font:400 clamp(1.6rem,1.25rem + 1.5vw,2.4rem)/1.25 var(--serif);letter-spacing:-.01em;max-width:30ch;margin:0;text-wrap:balance}
+.sec-links+.sec-lead .sec-grid{border-top:0;padding-top:clamp(8px,2.5vw,32px)}
+.go a{display:inline-block;padding-block:11px;font-weight:500}

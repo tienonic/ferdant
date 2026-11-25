@@ -12,9 +12,7 @@ image: power
 
 ## What we will tell you
 
-Who we are, what we are looking for, how we would pay for a shop and what would stay the same.
-
-If your shop is not a fit, we will say so, and we would still be grateful for what you can teach us about testing and repair.
+Who we are, what we are looking for, how we would pay for a shop and what would stay the same. If your shop is not a fit, we will say so.
 
 ## How to reach us
 

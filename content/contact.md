@@ -10,4 +10,4 @@ hero: short
 [{{contact_email}}](mailto:{{contact_email}})
 {{place}}
 
-Shop owners: see [For owners](/owners/). Applicants: see [Internships](/interns/).
+Shop owners: see [For owners](/owners/). Applicants: see [Careers](/careers/).

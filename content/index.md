@@ -1,37 +1,37 @@
 title: {{name}} · {{descriptor}}
-description: {{name}} is a new company in {{place}}. We acquire independent electrical testing and repair shops and hold them for the long term.
+description: {{name}} acquires independent electrical testing and repair shops and holds them for the long term.
 hero_title: {{tagline}}
-hero_text: {{name}} is a new company in {{place}}. We acquire independent electrical testing and repair shops and hold them for the long term.
+hero_text: {{name}} acquires independent electrical testing and repair shops and holds them for the long term.
 image: valley
 hero: full
 ---
 !links
 - Shop owners | /owners/
-- Students and recent graduates | /interns/
-- What {{name}} does | /what-we-do/
+- Careers | /careers/
+- What we do | /what-we-do/
 
 ## What we do
 
-We are buying one independent electrical testing and repair shop in California, and then the next. The shop keeps its name, its crew and its customers under one long-term owner.
+Independent shops test and repair the transformers, switchgear and motors that utilities and plants run on. We acquire one shop at a time, and each keeps its name, its crew and its customers.
 
-→ [What we do](/what-we-do/)
+[What we do](/what-we-do/)
 
 ## For owners
 
-If you have built a testing or repair shop and are thinking about who runs it next, we would like to hear how it works.
+Built a testing or repair shop and thinking about who runs it next? Start with a conversation with the founder.
 
-→ [For owners](/owners/)
+[For owners](/owners/)
 
-## Internships
+## Careers
 
-Four paid part-time roles in Davis, open now.
+We are currently hiring interns in Davis to find independent testing and repair shops, reach their owners and learn how each shop works.
 
-→ [Internships](/interns/)
+[Careers](/careers/)
 
 ## Where we are
 
 !map
 
-Davis sits on the floor of the Sacramento Valley. To the east, the Sierra Nevada snowpack feeds the powerhouses on the Feather, Yuba and American rivers, and the lines cross the valley on their way to the coast.
+Davis, in the Sacramento Valley. Snowmelt from the Sierra Nevada drives the powerhouses on the Feather, Yuba and American rivers, and the lines cross the valley to the coast.
 
-Transformers, switchgear and motors are all around us: a substation at the edge of every town, a pump on every canal, motors in every cannery and rice dryer. Someone has to test each one, repair it and sign the report. We want to own the shops that do.
+Every town here has a substation, every canal a pump, every cannery and rice dryer its motors. Each one has to be tested and repaired by someone.
