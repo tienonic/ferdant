@@ -68,8 +68,7 @@ So the equipment already in service has to be tested and repaired, and the shops
 - Write a clear three-sentence note on the first try, in neat handwriting
 - Can walk into a shop or telephone a stranger and ask for ten minutes
 - Have a car and a driver's licence
-- Keep exact records without being asked
-- Use AI to research a shop before you write, and check every fact against its source
+- Use AI to research a shop before you write
 - Have held a job dealing with customers: sales, service, canvassing or recruiting
 
 ### Your first two weeks
@@ -96,9 +95,9 @@ Nobody has published a complete list of the independent electrical testing and m
 
 ### You may be a good fit if you
 
-- Are careful in a spreadsheet and bothered by a number without a source
+- Are careful in a spreadsheet
 - Enjoy digging through filings and directories until the answer turns up
-- Use AI to pull and structure information, then check it against the original
+- Use AI to pull and structure information
 - Write short, factual summaries
 - Have taken courses in economics, accounting or statistics
 
@@ -129,7 +128,7 @@ The product a testing shop sells is a signed report on a transformer, a circuit 
 
 - Study electrical or mechanical engineering and have taken circuits, machines or power courses
 - Can explain a technical point to someone who is not an engineer
-- Use AI to get through a standard faster, and check it against the text
+- Use AI to get through a standard faster
 - Are comfortable in a lab or a shop
 
 ### Your first two weeks
@@ -158,7 +157,6 @@ The product a testing shop sells is a signed report on a transformer, a circuit 
 
 - Use Claude Code, Codex or Cursor every day and have built things with them that you can show
 - Write Python or JavaScript
-- Measure whether the output is right before you call it done
 - Can explain what you built to someone who does not code
 
 ### Your first two weeks
