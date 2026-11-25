@@ -1,7 +1,7 @@
 title: {{name}} · {{descriptor}}
-description: {{name}} is a new company in {{place}}. We are looking for independent electrical testing and repair shops to own for decades.
+description: {{name}} is a new company in {{place}}. We acquire independent electrical testing and repair shops and hold them for the long term.
 hero_title: {{tagline}}
-hero_text: {{name}} is a new company in {{place}}. We are looking for independent electrical testing and repair shops to own for decades.
+hero_text: {{name}} is a new company in {{place}}. We acquire independent electrical testing and repair shops and hold them for the long term.
 image: valley
 hero: full
 ---
@@ -12,7 +12,7 @@ hero: full
 
 ## What we do
 
-We are buying one independent electrical testing and repair shop in California, and then the next. The shop keeps its name, its crew and its customers, and we own it for decades.
+We are buying one independent electrical testing and repair shop in California, and then the next. The shop keeps its name, its crew and its customers under one long-term owner.
 
 → [What we do](/what-we-do/)
 

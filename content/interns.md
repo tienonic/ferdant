@@ -12,11 +12,11 @@ image: power
 
 ## What {{name}} does
 
-We are buying one independent electrical testing and repair shop in California, and then the next, to own for decades. The shops test and repair the transformers, switchgear, circuit breakers, protective relays and motors that utilities, water districts and plants run on.
+We are acquiring one independent electrical testing and repair shop in California, and then the next, for long-term ownership. The shops test and repair the transformers, switchgear, circuit breakers, protective relays and motors that utilities, water districts and plants run on.
 
 ## Why it matters
 
-A new power transformer ordered in 2025 took 128 weeks on average to arrive, so the one already in service has to be tested and kept running. Since January 2023 the national maintenance standard, NFPA 70B, requires a written program of testing with records. The shops that do the testing are small and often still run by their founders. {{name}} exists so a good shop outlives its founder.
+Electricity use is rising again, and in 2025 the average wait for a new power transformer was 128 weeks, so the one already in service has to be tested and kept running. Since January 2023 the national maintenance standard, NFPA 70B, requires a written program of testing with records. The shops that do the testing are small and often still run by their founders. {{name}} exists so a good shop outlives its founder.
 
 ## Who we want
 
