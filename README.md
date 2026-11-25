@@ -6,8 +6,8 @@ The earlier California guides and map site is kept under the tag `guides-site-20
 
 ## Layout
 
-- `content/site.json`: the company name, descriptor, tagline, place, contact, pay and navigation. Every page, title, meta tag, the footer and the link-preview image read these values.
-- `content/*.md` and `content/careers/*.md`: one file per page. A few header lines (title, description, hero text, photo), then `---`, then the body. `## Heading` starts a section. `{{name}}` and the other keys in `site.json` are filled in at build time.
+- `content/site.json`: the company name, descriptor, tagline, place, contact, pay, navigation, photo captions and the redirects from old addresses. Every page, title, meta tag, the footer and the link-preview image read these values.
+- `content/*.md`: one file per page. A few header lines (title, description, hero text, photo), then `---`, then the body. `## Heading` starts a section and `### Heading` a subheading. `{{name}}` and the other keys in `site.json` are filled in at build time.
 - `scripts/build.py`: writes the HTML pages, `sitemap.xml` and `robots.txt` into the repository root, then renders `assets/img/social.png` and the favicons with `scripts/social.mjs`.
 - `scripts/check-site.py`: checks that every page exists, has its head tags, links only to files that exist, and contains no banned words or phone numbers.
 - `styles.css`: the only stylesheet. There is no JavaScript; the phone menu is a `details` element.

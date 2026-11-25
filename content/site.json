@@ -9,13 +9,25 @@
   "contact_email": "nicholas@ferdant.com",
   "intern_pay": "$20 to $24 an hour",
   "builder_pay": "$24 to $30 an hour",
-  "intern_hours": "10 to 15 hours a week during the quarter, lighter through finals, more over winter break (December 12 to January 3) if you want it",
-  "trial": "a paid trial task of about three hours on real work",
-  "advisor_pay": "Paid by the hour at a rate we agree in the first conversation",
+  "intern_hours": "10 to 15 hours a week during the quarter, lighter through finals, more over winter break (December 12 to January 3)",
   "year": "2026",
   "nav": [
     ["What we do", "/what-we-do/"],
     ["For owners", "/owners/"],
-    ["Careers", "/careers/"]
-  ]
+    ["Internships", "/interns/"]
+  ],
+  "photos": {
+    "valley": "Sutter Buttes, Sacramento Valley",
+    "power": "Englebright Dam, Yuba River"
+  },
+  "social_photo": "valley",
+  "redirects": {
+    "/careers/": "/interns/",
+    "/careers/business-development/": "/interns/#business-development",
+    "/careers/acquisitions-analyst/": "/interns/#acquisitions-analyst",
+    "/careers/engineering-intern/": "/interns/#engineering",
+    "/careers/ai-automation/": "/interns/#ai-automation",
+    "/careers/operating-partner/": "/interns/",
+    "/careers/technical-advisor/": "/interns/"
+  }
 }

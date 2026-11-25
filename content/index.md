@@ -1,15 +1,14 @@
 title: {{name}} · {{descriptor}}
-description: {{name}} is a new company in {{place}}. We are looking for independent electrical testing and repair businesses to own for decades.
+description: {{name}} is a new company in {{place}}. We are looking for independent electrical testing and repair shops to own for decades.
 hero_title: {{tagline}}
-hero_text: {{name}} is a new company in {{place}}. We are looking for independent electrical testing and repair businesses to own for decades.
-image: hero
+hero_text: {{name}} is a new company in {{place}}. We are looking for independent electrical testing and repair shops to own for decades.
+image: valley
 hero: full
 ---
-!chooser Who are you?
-- a shop owner or manager | A conversation first, with the founder. | For owners | /owners/
-- a student or recent graduate | Paid part-time roles in Davis, starting with a paid trial. | See the roles | /careers/#students
-- someone who works in the trade | We want to meet senior technicians and operators. | See the roles | /careers/#trade
-- just looking | Here is what we are doing and why. | What we do | /what-we-do/
+!links
+- Shop owners | /owners/
+- Students and recent graduates | /interns/
+- What {{name}} does | /what-we-do/
 
 ## What we do
 
@@ -23,13 +22,11 @@ If you have built a testing or repair shop and are thinking about who runs it ne
 
 → [For owners](/owners/)
 
-## Careers
+## Internships
 
-We are hiring paid interns in Davis now, and we want to meet senior people from the trade.
+Four paid part-time roles in Davis, open now.
 
-→ [Careers](/careers/)
-
-!band valley
+→ [Internships](/interns/)
 
 ## Where we are
 
@@ -37,4 +34,4 @@ We are hiring paid interns in Davis now, and we want to meet senior people from 
 
 Davis sits on the floor of the Sacramento Valley. To the east, the Sierra Nevada snowpack feeds the powerhouses on the Feather, Yuba and American rivers, and the lines cross the valley on their way to the coast.
 
-The equipment we care about is all around us: a substation at the edge of every town, a pump on every canal, motors in every cannery and rice dryer. Someone has to test it, repair it and sign the report. We want to own the shops that do.
+Transformers, switchgear and motors are all around us: a substation at the edge of every town, a pump on every canal, motors in every cannery and rice dryer. Someone has to test each one, repair it and sign the report. We want to own the shops that do.

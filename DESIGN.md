@@ -8,7 +8,7 @@ The site is the public face of an industrial holding company and its hiring page
 
 ### Hero
 
-Every page opens with a photograph of the Sierra Nevada, the Sacramento Valley or a northern Sierra powerhouse, shown in greyscale under a pine-green tint. The wordmark and navigation sit in white over it, then the page title in large white Newsreader and a short Newsreader statement beneath. The home hero fills most of the first screen; inner pages are shorter. The only motion is a short fade of the hero text, removed under reduced motion.
+Every page opens with a photograph of a named place near Davis, shown in greyscale under a light pine-green tint so the place stays visible, with a soft dark gradient behind the text. The home page shows the Sutter Buttes above a valley orchard; the other pages show Englebright Dam on the Yuba River. A small caption names the place in the bottom corner. The wordmark and navigation sit in white over the photograph, then the page title in large white Newsreader and a short Newsreader statement beneath. The home hero fills most of the first screen; inner pages are shorter. Nothing moves: the text is visible at first paint.
 
 ### Type and colour
 
@@ -22,11 +22,11 @@ The wordmark is lowercase `ferdant.` in Newsreader: white over the hero, ink wit
 | Hairline | Ink at 14% opacity |
 | Accent (links, button, tint) | Pine `#1F4A33` |
 
-Pine is the only accent. Below the hero: paper ground, space and hairlines, square or 2px corners, underlined text links with an arrow. No card grids, pills, shadows or gradients. One filled button per screen, the Apply button on role pages.
+Pine is the only accent. Below the hero: paper ground, space and hairlines, square or 2px corners, underlined text links with an arrow. No card grids, pills, shadows, selects or other gradients. One filled button on the site: the email button under How to apply on the internships page. There is no JavaScript.
 
 ### Sections
 
-On wide screens a section's heading sits in the left column and its text in the right, with a hairline between sections. On phones they stack. Lists are rows divided by hairlines. The careers page lists each role as a row linking to its page.
+On wide screens a section's heading sits in the left column and its text in the right, with a hairline between sections. On phones they stack. Lists are rows divided by hairlines. The home and internships pages start with a row of plain links under the hero. All four internships are on one page, `/interns/`, each with its own anchor, so one link can be posted; the old careers addresses redirect there.
 
 ### California
 
@@ -34,4 +34,4 @@ The home page's "Where we are" and the Contact page show a static California out
 
 ### Checks
 
-Every page must read well from 360 to 430px and 1280 to 1680px wide with no sideways scrolling, keep tap targets at least 44px, and keep text contrast at least 4.5:1. `scripts/check-site.py` covers pages, head tags, links, apply subjects and banned words; screenshots at 390×844 and 1440×900 cover the rest.
+Every page must read well from 360 to 430px and 1280 to 1680px wide with no sideways scrolling, keep tap targets at least 44px, and keep text contrast at least 4.5:1. `scripts/check-site.py` covers pages, redirects, head tags, links, the apply subject, banned words (including the whole word "this") and select elements; screenshots at 390×844 and 1440×900 cover the rest.
