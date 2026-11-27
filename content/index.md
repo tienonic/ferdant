@@ -1,7 +1,7 @@
 title: {{name}} · Electrical testing and repair shops
-description: {{name}} is looking to buy its first independent electrical testing or repair shop in California.
+description: {{name}} is looking to buy its first independent electrical testing or repair shop in the United States.
 hero_title: {{tagline}}
-hero_text: {{name}} is looking to buy its first independent electrical testing or repair shop in California.
+hero_text: {{name}} is looking to buy its first independent shop in the United States.
 image: valley
 hero: full
 ---
