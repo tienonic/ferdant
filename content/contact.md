@@ -1,13 +1,15 @@
 title: Contact
-description: Write to {{contact_name}}, {{contact_role_lower}} of {{name}}, at {{contact_email}}.
+description: Contact {{name}} in {{place}} about a shop or an internship.
 hero_title: Contact
 image: power
 hero: short
 ---
 !map
 
-**{{contact_name}}**, {{contact_role}}
 [{{contact_email}}](mailto:{{contact_email}})
+
 {{place}}
 
-Shop owners: see [For owners](/owners/). Applicants: see [Careers](/careers/).
+[Information for shop owners](/owners/)
+
+[Internships and applications](/interns/)

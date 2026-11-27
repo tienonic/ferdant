@@ -1,17 +1,13 @@
 title: Careers
-description: We are currently hiring interns. Four paid part-time roles in Davis.
+description: Four paid, part-time internships supporting the search for an electrical testing or repair shop.
 hero_title: Careers
 image: power
 hero: short
 ---
-## Why work here
+## Paid internships
 
-{{name}} is a few people finding and evaluating shops to acquire. Everyone works directly with the founder, and work is used the week it is handed in.
+We are currently hiring interns in Davis. The four roles cover shop outreach, acquisitions research, power equipment and AI automation.
 
-## Open now
+[Read the role descriptions and pay ranges](/interns/)
 
-We are currently hiring interns. Four paid part-time roles in Davis: Business Development, Acquisitions Analyst, Engineering (Power Equipment) and AI Automation.
-
-[Interns](/interns/)
-
-[form] [Apply now](/interns/#apply)
+[form] [Apply for an internship](/interns/#apply)

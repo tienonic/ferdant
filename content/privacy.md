@@ -1,11 +1,11 @@
 title: Privacy
-description: The site sets no cookies and runs no analytics or advertising.
+description: How {{name}} handles emails and internship applications.
 hero_title: Privacy
 image: power
 hero: short
 ---
 !close
 
-The site sets no cookies and runs no analytics or advertising. If you write to us, we keep your email so we can reply, and we do not share it.
+The site uses no cookies, analytics or advertising. We keep contact emails so we can reply and keep your correspondence private.
 
-[form] Applications sent through the form on the Interns page are delivered to us by email through Web3Forms, a form service. We keep them to consider your application and do not share them.
+[form] Web3Forms delivers internship applications to us by email. We use the information to review applications and keep it private.

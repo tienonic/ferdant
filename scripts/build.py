@@ -15,10 +15,8 @@ e = lambda s: html.escape(str(s), quote=True)
 
 def site_values():
     c = json.loads((CONTENT / 'site.json').read_text(encoding='utf-8'))
-    c['contact_role_lower'] = c['contact_role'].lower()
     c['city'] = c['place'].split(',')[0]
     c['wordmark'] = c['name'].lower()
-    c['contact_first'] = c['contact_name'].split()[0]
     c['has_form'] = bool(c.get('form_access_key'))
     return c
 
@@ -222,7 +220,7 @@ def page(p, body):
     full_title = title if path == '/' else f'{title} · {C["name"]}'
     robots = 'noindex,follow' if args.mode == 'preview' or p.get('noindex') else 'index,follow'
     canonical = C['url'] + path
-    social = C['url'] + '/assets/img/social.png'
+    social = C['url'] + '/assets/img/social.png?v=2'
     schema = [{'@context': 'https://schema.org', '@type': 'WebSite', 'name': C['name'], 'url': C['url'] + '/'},
               {'@context': 'https://schema.org', '@type': 'WebPage', 'name': full_title, 'description': description, 'url': canonical, 'inLanguage': 'en'}]
     image = p.get('image', 'power')

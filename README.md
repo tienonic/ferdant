@@ -1,6 +1,6 @@
 # ferdant.com
 
-The public site of Ferdant, an industrial holding company in Davis, California. GitHub Pages serves the repository root of `main`; `CNAME` and `.nojekyll` keep it on ferdant.com.
+The public site of Ferdant, a Davis-based search for an independent electrical testing or repair shop. GitHub Pages serves the repository root of `main`; `CNAME` and `.nojekyll` keep it on ferdant.com.
 
 The earlier California guides and map site is kept under the tag `guides-site-20261110`.
 

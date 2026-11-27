@@ -4,7 +4,7 @@ Read this before changing the interface. It replaces the November 10 location-fi
 
 ## November 25: the holding company site
 
-The site is the public face of an industrial holding company and its hiring pages. It keeps the Ferdant manner and borrows one idea: a photographic hero.
+The site describes the search for a first electrical testing or repair shop and lists paid internships. It keeps the Ferdant manner and borrows one idea: a photographic hero.
 
 ### Hero
 

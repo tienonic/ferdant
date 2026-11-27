@@ -1,19 +1,9 @@
-title: For owners
-description: A conversation first. Nothing you tell us goes further.
-hero_title: For owners
-hero_text: A conversation first. Nothing you tell us goes further.
+title: For shop owners
+description: Contact {{name}} about selling an independent electrical testing or repair shop.
+hero_title: For shop owners
+hero_text: If you are considering selling your shop, email [{{contact_email}}](mailto:{{contact_email}}) with its location and the kind of work you do.
 image: power
 ---
-## What the first conversation covers
+## The first conversation
 
-- What your customers come back for
-- Who runs the work day to day, and who would run it if you stepped back
-- What you would want the next owner to keep
-
-## What we will tell you
-
-Who we are, what we are looking for, how we would pay for a shop and what would stay the same. If your shop is not a fit, we will say so.
-
-## How to reach us
-
-Write to {{contact_name}}, {{contact_role_lower}}, at [{{contact_email}}](mailto:{{contact_email}}). A few lines about your shop are enough.
+We ask what your customers hire you for, who runs jobs day to day and what you would want to keep in place after a sale. You can ask about financing, the crew’s role and how long you would like to stay involved.

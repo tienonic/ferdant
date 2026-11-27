@@ -6,7 +6,7 @@ from urllib.parse import unquote, urlsplit, parse_qs
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = json.loads((ROOT / 'content/site.json').read_text(encoding='utf-8'))
-BANNED = re.compile(r'philip|\bphil\b|gary|china|project 42|investor|ucdavis|fieldworks|aggiebillhelp|community|communities|\bthis\b|\bdecades\b|new company', re.I)
+BANNED = re.compile(r'\bfounders?\b|nicholas|melnichenko|philip|\bphil\b|gary|china|project 42|investor|ucdavis|fieldworks|aggiebillhelp|community|communities|\bthis\b|\bdecades\b|new company', re.I)
 PHONE = re.compile(r'\(?\b\d{3}\)?[ .-]\d{3}[ .-]\d{4}\b')
 REQUIRED = ['index.html', 'what-we-do/index.html', 'owners/index.html', 'interns/index.html', 'careers/index.html', 'contact/index.html', 'privacy/index.html', 'interns/thanks/index.html', '404.html']
 ANCHORS = {'interns/index.html': ['business-development', 'acquisitions-analyst', 'engineering', 'ai-automation', 'apply']}
